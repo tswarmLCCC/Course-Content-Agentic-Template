@@ -12,7 +12,7 @@
 ## Registered Courses in Repository
 | Course ID | Course Title | Completed Slices | Active Stage | Directory |
 |---|---|---|---|---|
-| `cosc-2060-data-engineering` | COSC 2060: Modern Data Engineering & AI Infrastructure | Complete 8-Unit Preview (Units 1–8 Readings, Labs, and Starters) | Ready for User Review | [courses/cosc-2060-data-engineering/](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/README.md) |
+| `cosc-2060-data-engineering` | COSC 2060: Modern Data Engineering & AI Infrastructure | Complete 8-Unit Ecosystem (Readings, Labs, Code Starters, Flipped Guides & Recording Scripts) | Ready for User Review | [courses/cosc-2060-data-engineering/](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/README.md) |
 
 ---
 
