@@ -1,0 +1,846 @@
+<div id="dp-wrapper" class="dp-wrapper dp-hdg-txt-h4-dp-primary dp-hdg-txt-h5-dp-primary dp-hdg-txt-h6-dp-primary dp-hdg-brdr-h3-1 dp-hdg-brdr-h5-1 dp-hdg-brdr-h6-1 dp-hdg-i-txt-h5-dp-primary dp-hdg-i-txt-h6-dp-primary dp-hdg-i-txt-h4-dp-primary dp-hdg-d-h4-table-l dp-hdg-d-h5-table-l dp-hdg-d-h6-table-l dp-hdg-i-bg-h2-dp-primary dp-hdg-i-sz-h2-in dp-hdg-i-sz-h3-in dp-hdg-i-sz-h5-in dp-hdg-i-sz-h6-in dp-hdg-i-styl-h2-brdr-b dp-hdg-i-cp-brdr-h2-dp-secondary dp-hdg-i-cp-brdr-h3-dp-secondary dp-hdg-i-cp-brdr-h4-dp-secondary dp-hdg-i-cp-brdr-h5-dp-secondary dp-hdg-i-brdr-h2-4 dp-hdg-i-brdr-h5-4 dp-hdg-i-brdr-h6-4 dp-hdg-i-cp-brdr-h6-dp-secondary dp-hdg-txt-h2-dp-primary dp-hdg-txt-h3-dp-primary dp-hdg-i-styl-h3-brdr-b dp-hdg-i-brdr-h3-2 dp-hdg-b-h2-brdr-b dp-hdg-brdr-h2-1 dp-hdg-cp-brdr-h2-dp-gray dp-hdg-b-h3-brdr-b dp-hdg-cp-brdr-h3-dp-gray dp-hdg-i-bg-h3-dp-primary dp-hdg-i-sz-h4-in dp-hdg-b-h4-brdr-b dp-hdg-cp-brdr-h4-dp-gray dp-hdg-i-styl-h4-brdr-b dp-hdg-i-brdr-h4-4" data-header-class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+    <header class="dp-header dp-badge"></header>
+    <header class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+        <h2 class="dp-heading dp-has-icon"><i class="dp-icon fas fa-robot" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span class="dp-header-title">&nbsp;The Shapes of AI Data: A Companion Guide</span></h2>
+    </header>
+    <div class="dp-column-container container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div style="float: right; width: 35%; min-width: 290px; margin-left: 20px; margin-bottom: 20px;">
+                    <div class="dp-card card dp-shadow-b6 cp-bg-dp-primary" style="margin-bottom: 15px;">
+                        <h4 class="dp-has-icon dp-locked"><i class="dp-icon fas fa-bullseye cp-bg-dp-primary" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span style="color: #ffffff;"><strong>Learning Unit Goals</strong></span></h4>
+                        <div class="card-body">
+                            <ul style="padding-left: 15px; margin-bottom: 0;">
+                                <li>
+                                    <p>Identify the core structural archetypes used across traditional and generative AI.</p>
+                                </li>
+                                <li>
+                                    <p>Transition normalization mindsets into flattened pipeline thinking.</p>
+                                </li>
+                                <li>
+                                    <p>Address standard failure modes like target leakage, outliers, and latency bottlenecks.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="dp-card card dp-shadow-b6 cp-bg-dp-primary">
+                        <h4 class="dp-has-icon dp-locked"><i class="dp-icon fas fa-map-signs cp-bg-dp-primary" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span style="color: #ffffff;"><strong>Guide Index</strong></span></h4>
+                        <div class="card-body" style="font-size: 0.95em;">
+                            <ol style="padding-left: 15px; margin-bottom: 0; line-height: 1.8; color: #ffffff;">
+                                <li><a style="color: #ffffff; text-decoration: underline;" href="#section-1">1. Supervised Learning Matrix</a></li>
+                                <li><a style="color: #ffffff; text-decoration: underline;" href="#section-2">2. Unsupervised Clustering</a></li>
+                                <li><a style="color: #ffffff; text-decoration: underline;" href="#section-3">3. Conversational Interfaces</a></li>
+                                <li><a style="color: #ffffff; text-decoration: underline;" href="#section-4">4. RAG &amp; Vector Databases</a></li>
+                                <li><a style="color: #ffffff; text-decoration: underline;" href="#section-5">5. NLP &amp; Token Sequences</a></li>
+                                <li><a style="color: #ffffff; text-decoration: underline;" href="#section-6">6. Computer Vision Tensors</a></li>
+                                <li><a style="color: #ffffff; text-decoration: underline;" href="#section-7">7. Time-Series Sliding Window</a></li>
+                                <li><a style="color: #ffffff; text-decoration: underline;" href="#section-8">8. Dynamic Graph Structures</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="dp-has-icon"><i class="dp-icon fas fa-drafting-compass" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">The Shapes of AI Data: A Companion Guide for Data Engineers</span></strong></h3>
+                <p>In data science and artificial intelligence, there is no single "data structure." The way you engineer, clean, and format a dataset depends entirely on the downstream AI task.</p>
+                <p>If you are a student coming from a traditional relational database background, you are used to normalization&mdash;splitting data into many tables to avoid redundancy. But AI models cannot read databases with relationships. They require highly structured, aggregated, and flattened shapes.</p>
+                <p>This guide documents the exact structures, purposes, and engineering mechanics of the most common data shapes used in modern AI, along with real-world examples and where to find them.</p>
+                <hr class="dp-hr-color-dp-primary w-100 dp-hr-pill" />
+                <div id="section-1" style="margin-bottom: 40px;">
+                    <h3 class="dp-has-icon"><i class="dp-icon fas fa-table" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span>1. Supervised Learning: Tabular Feature Matrices</span></strong></h3>
+                    <p>Supervised learning is like teaching with an answer key. The model looks at historical examples (the features) and learns to map them to the correct output (the target).</p>
+                    <pre style="background: #f8f9fa; border-width: 1px 1px 1px 4px; border-style: solid; border-color: #dee2e6 #dee2e6 #dee2e6 #004d99; padding: 15px; font-family: monospace; overflow-x: auto; font-size: 0.9em; margin-bottom: 20px;">       Features (Inputs, size D)               Target (Output)
+   [ Feature 1,  Feature 2, ... Feature D ]      [ Label (Y) ]
+Obs 1 [   x1,1    ,    x1,2   , ...   x1,D   ]  -&gt;   [   y1    ]
+Obs 2 [   x2,1    ,    x2,2   , ...   x2,D   ]  -&gt;   [   y2    ]
+Obs N [   xN,1    ,    xN,2   , ...   xN,D   ]  -&gt;   [   yN    ]</pre>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-info-circle" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>The Purpose</span></h4>
+                    <p>A supervised model needs to calculate the mathematical relationship between input variables and a specific outcome. Structuring data into a flat, two-dimensional grid allows the algorithm to loop through rows, run calculations across columns, and compare its predictions against the target column (<i>Y</i>) to minimize prediction error.</p>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-network-wired" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>Where and How It Is Used</span></h4>
+                    <ul>
+                        <li><strong>Where:</strong> Credit scoring, customer churn prediction, medical diagnosis, real-estate valuation, and predictive maintenance.</li>
+                        <li><strong>How:</strong> Machine learning libraries (like Scikit-Learn or XGBoost) read this shape as two separate mathematical structures: an <i>N</i> &times; <i>D</i> matrix of inputs (<i>X</i>) and an <i>N</i> &times; 1 vector of targets (<i>Y</i>).</li>
+                    </ul>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-list-alt" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>10-Row Dataset Example (Customer Churn Prediction)</span></h4>
+                    <p>Here is how a clean, feature-engineered supervised dataset looks before being fed into a binary classification model (where the target <code>has_churned</code> is <code>0</code> for stayed, <code>1</code> for left):</p>
+                    <div class="table-responsive">
+                        <div class="dp-table-scroll">
+                            <table class="table table-bordered table-striped" style="width: 100%; border-collapse: collapse; font-size: 0.9em; text-align: left;">
+                                <thead style="background-color: #f1f1f1;">
+                                    <tr>
+                                        <th style="padding: 8px; border: 1px solid #dddddd;">customer_id (<i>N</i>)</th>
+                                        <th style="padding: 8px; border: 1px solid #dddddd;">days_since_last_purchase (<i>x</i><sub>1</sub>)</th>
+                                        <th style="padding: 8px; border: 1px solid #dddddd;">total_lifetime_spend_usd (<i>x</i><sub>2</sub>)</th>
+                                        <th style="padding: 8px; border: 1px solid #dddddd;">average_session_duration_sec (<i>x</i><sub>3</sub>)</th>
+                                        <th style="padding: 8px; border: 1px solid #dddddd;">is_premium_subscriber (<i>x</i><sub>4</sub>)</th>
+                                        <th style="padding: 8px; border: 1px solid #dddddd;">has_churned (<i>Y</i>)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">C-101</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">3</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">450.50</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1240</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">C-102</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">45</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">50.00</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">120</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">C-103</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">12</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1200.00</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">3200</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">C-104</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">90</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">15.00</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">45</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">C-105</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">2</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">340.25</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">980</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">C-106</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">60</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">110.00</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">310</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">C-107</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">5</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">890.00</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1850</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">C-108</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">21</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">210.50</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">640</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">C-109</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">110</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">45.00</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">C-110</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1500.75</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">4120</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">1</td>
+                                        <td style="padding: 8px; border: 1px solid #dddddd;">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100" style="margin-top: 15px;">
+                        <div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked">​</i></div>
+                        <div class="card-body">
+                            <h4 class="card-title dp-font-oswald" style="margin-top: 0;">Engineering Notes &amp; Design Considerations</h4>
+                            <hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px 0;" />
+                            <ul style="padding-left: 15px; margin-bottom: 0;">
+                                <li><strong>Point-in-Time Joins (AS-OF Joins):</strong> Reconstruct historical states exactly as they appeared on a specific index date to prevent training with future records. DuckDB or Snowflake can perform AS-OF joins to resolve this elegantly.</li>
+                                <li><strong>Target Leakage:</strong> Avoid incorporating post-event indicators (e.g., tickets filed after cancellation) into historical feature sets, preventing models from cheating during optimization.</li>
+                                <li><strong>Pivoting Event Streams:</strong> Transform vertical transactional streams into flattened horizontal aggregations (such as <code>spend_last_30_days</code>) using robust aggregate query windows.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>In the Wild: Where to Find This Data</strong><br />&bull; <em>Kaggle:</em> Telecom Customer Churn Dataset (Excellent for practicing joins, aggregations, and binary target engineering).<br />&bull; <em>UCI Machine Learning Repository:</em> Default of Credit Card Clients Dataset (A classic tabular matrix mapping payment history to defaults).</p>
+                </div>
+                <hr class="dp-hr-color-dp-primary w-100 dp-hr-pill" />
+                <div id="section-2" style="margin-bottom: 40px;">
+                    <h3 class="dp-has-icon"><i class="dp-icon fas fa-chart-pie" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span>2. Unsupervised Learning: Clustering &amp; Dimensionality Reduction</span></strong></h3>
+                    <p>Unsupervised learning is about discovering hidden patterns. There are no historical "correct answers" or target labels. The model is left on its own to group similar data points together based on proximity.</p>
+                    <pre style="background: #f8f9fa; border-width: 1px 1px 1px 4px; border-style: solid; border-color: #dee2e6 #dee2e6 #dee2e6 #004d99; padding: 15px; font-family: monospace; overflow-x: auto; font-size: 0.9em; margin-bottom: 20px;">        Features (Inputs, size D)
+   [ Feature 1,  Feature 2, ... Feature D ]
+Obs 1 [   x1,1    ,    x1,2   , ...   x1,D   ]
+Obs 2 [   x2,1    ,    x2,2   , ...   x2,D   ]
+Obs N [   xN,1    ,    xN,2   , ...   xN,D   ]</pre>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-info-circle" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>The Purpose</span></h4>
+                    <p>Without a target variable, the model groups observations based on mathematical distance in a multi-dimensional space. Points that are close together are grouped into the same cluster.</p>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-network-wired" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>Where and How It Is Used</span></h4>
+                    <ul>
+                        <li><strong>Where:</strong> Customer segmentation, fraud ring detection, anomaly detection, and data compression.</li>
+                        <li><strong>How:</strong> Algorithms like K-Means calculate the straight-line (Euclidean) distance between coordinate points. Because of this, scaling features is critical.</li>
+                    </ul>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-list-alt" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>10-Row Dataset Example (Raw vs. Normalized Features)</span></h4>
+                    <p>This example shows how a data engineer must transform raw customer behavior features so that large-magnitude variables do not mathematically overpower smaller ones. Normalization is achieved using the transformation formula:</p>
+                    <div style="text-align: center; margin: 15px 0;">\[x_{\text{scaled}} = \frac{x - \mu}{\sigma}\]</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p style="text-align: center;">Raw Data (Before Normalization)</p>
+                            <div class="table-responsive">
+                                <div class="dp-table-scroll">
+                                    <table class="table table-bordered table-striped" style="width: 100%; border-collapse: collapse; font-size: 0.85em; text-align: left;">
+                                        <thead style="background-color: #f1f1f1;">
+                                            <tr>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">customer_id</th>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">annual_income (<i>x</i><sub>1</sub>)</th>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">number_of_support_calls (<i>x</i><sub>2</sub>)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-201</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">$45,000</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">1</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-202</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">$120,000</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">2</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-203</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">$30,000</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">8</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-204</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">$85,000</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">3</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-205</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">$150,000</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">1</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-206</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">$40,000</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">7</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-207</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">$95,000</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">2</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-208</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">$60,000</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">4</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-209</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">$25,000</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">9</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-210</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">$110,000</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">3</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <p style="text-align: center;">Normalized Data (After Standard Scaler)</p>
+                            <div class="table-responsive">
+                                <div class="dp-table-scroll">
+                                    <table class="table table-bordered table-striped" style="width: 100%; border-collapse: collapse; font-size: 0.85em; text-align: left;">
+                                        <thead style="background-color: #f1f1f1;">
+                                            <tr>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">customer_id</th>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">scaled_annual_income</th>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">scaled_support_calls</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-201</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-0.76</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-1.13</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-202</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">1.05</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-0.75</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-203</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-1.13</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">1.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-204</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">0.20</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-0.38</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-205</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">1.77</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-1.13</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-206</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-0.88</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">1.13</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-207</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">0.44</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-0.75</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-208</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-0.40</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">0.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-209</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-1.25</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">1.88</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">C-210</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">0.81</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">-0.38</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100" style="margin-top: 15px;">
+                        <div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked">​</i></div>
+                        <div class="card-body">
+                            <h4 class="card-title dp-font-oswald" style="margin-top: 0;">Engineering Notes &amp; Design Considerations</h4>
+                            <hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px 0;" />
+                            <ul style="padding-left: 15px; margin-bottom: 0;">
+                                <li><strong>Outlier Handling:</strong> High-magnitude outliers heavily warp geometric clusters. Preprocessing must clip, scale, or log-transform heavily skewed input features.</li>
+                                <li><strong>Imputing Missing Values:</strong> Distance algorithms fail natively on NULL values. Drop missing rows or apply strict median/mean interpolation pipelines.</li>
+                                <li><strong>The Curse of Dimensionality:</strong> High dimensional counts render Euclidean distances equidistant. Leverage Principal Component Analysis (PCA) to project high-dimensional data maps onto compact vectors.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>In the Wild: Where to Find This Data</strong><br />&bull; <em>Kaggle:</em> Mall Customer Segmentation Dataset (Ideal for K-Means clustering practice using income, age, and spending scores).<br />&bull; <em>UCI Machine Learning Repository:</em> Online Retail Dataset (Transactional dataset used to engineer RFM&mdash;Recency, Frequency, Monetary&mdash;features).</p>
+                </div>
+                <hr class="dp-hr-color-dp-primary w-100 dp-hr-pill" />
+                <div id="section-3" style="margin-bottom: 40px;">
+                    <h3 class="dp-has-icon"><i class="dp-icon fas fa-comments" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span>3. Generative AI &amp; Chatbots: Conversational Interfaces</span></strong></h3>
+                    <p>Generative Large Language Models (LLMs) do not consume tabular data. They are built on sequences of natural language and require structured conversational histories.</p>
+                    <pre style="background: #f8f9fa; border-width: 1px 1px 1px 4px; border-style: solid; border-color: #dee2e6 #dee2e6 #dee2e6 #004d99; padding: 15px; font-family: monospace; overflow-x: auto; font-size: 0.9em; margin-bottom: 20px;">+------------------------------------------------------------+
+| JSON Lines (JSON-L) File                                   |
+|------------------------------------------------------------|
+| Line 1: {"messages": [{"role": "system"...}, {"role"...}]} |
+| Line 2: {"messages": [{"role": "system"...}, {"role"...}]} |
++------------------------------------------------------------+</pre>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-info-circle" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>The Purpose</span></h4>
+                    <p>To train or fine-tune an AI chatbot, you must show the model how conversations flow. The dataset acts as a script, defining who is speaking at each step of the dialogue.</p>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-network-wired" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>Where and How It Is Used</span></h4>
+                    <ul>
+                        <li><strong>Where:</strong> Custom customer support bots, virtual assistants, automated medical intake agents, and code generation assistants.</li>
+                        <li><strong>How:</strong> Training engines ingest files structured in the conversational JSON-L (JSON Lines) format, where each line represents a complete conversation.</li>
+                    </ul>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-code" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>10-Row JSON-L Dataset Example (Support Assistant Fine-tuning)</span></h4>
+                    <p>Below is a complete 10-line JSON-L conversational dataset. Copying this format directly into a <code>.jsonl</code> file allows you to upload it to LLM fine-tuning platforms.</p>
+                    <pre style="background: #f8f9fa; padding: 15px; overflow-x: auto; font-family: monospace; font-size: 0.85em; line-height: 1.4; color: #212529; border: 1px solid #dee2e6;">{"messages": [{"role": "system", "content": "You are a helpful customer support assistant."}, {"role": "user", "content": "How do I return my order?"}, {"role": "assistant", "content": "To return your order, go to your dashboard, click 'My Orders', and select 'Return Item'."}]}
+{"messages": [{"role": "system", "content": "You are a helpful customer support assistant."}, {"role": "user", "content": "Can I get a refund?"}, {"role": "assistant", "content": "Yes, standard refunds are processed within 5-7 business days after your return package is scanned."}]}
+{"messages": [{"role": "system", "content": "You are a helpful customer support assistant."}, {"role": "user", "content": "My order arrived damaged. What should I do?"}, {"role": "assistant", "content": "I am sorry to hear that. Please upload a photo of the damage in the 'Help Center' tab, and we will send a replacement immediately."}]}
+{"messages": [{"role": "system", "content": "You are a helpful customer support assistant."}, {"role": "user", "content": "Do you ship internationally?"}, {"role": "assistant", "content": "Yes, we ship to over 50 countries. Shipping rates and delivery times are calculated at checkout."}]}
+{"messages": [{"role": "system", "content": "You are a helpful customer support assistant."}, {"role": "user", "content": "How can I track my package?"}, {"role": "assistant", "content": "Once your order ships, we send a tracking link via email. You can also view active tracking numbers in your profile dashboard."}]}
+{"messages": [{"role": "system", "content": "You are a helpful customer support assistant."}, {"role": "user", "content": "Can I change my delivery address?"}, {"role": "assistant", "content": "If your order has not shipped yet, you can modify the address in 'My Orders'. If it has already shipped, please contact the courier directly."}]}
+{"messages": [{"role": "system", "content": "You are a helpful customer support assistant."}, {"role": "user", "content": "What forms of payment do you accept?"}, {"role": "assistant", "content": "We accept major credit cards, PayPal, Apple Pay, and Google Pay."}]}
+{"messages": [{"role": "system", "content": "You are a helpful customer support assistant."}, {"role": "user", "content": "I forgot my password. How do I reset it?"}, {"role": "assistant", "content": "Click 'Forgot Password' on the login screen, enter your email address, and we will send you a password reset link."}]}
+{"messages": [{"role": "system", "content": "You are a helpful customer support assistant."}, {"role": "user", "content": "Is my personal data secure?"}, {"role": "assistant", "content": "Yes, we use industry-standard encryption protocols to protect your personal and payment information."}]}
+{"messages": [{"role": "system", "content": "You are a helpful customer support assistant."}, {"role": "user", "content": "How do I delete my account?"}, {"role": "assistant", "content": "To close your account permanently, go to Account Settings, scroll to the bottom, and select 'Delete Account'."}]}</pre>
+                    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100" style="margin-top: 15px;">
+                        <div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked">​</i></div>
+                        <div class="card-body">
+                            <h4 class="card-title dp-font-oswald" style="margin-top: 0;">Engineering Notes &amp; Design Considerations</h4>
+                            <hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px 0;" />
+                            <ul style="padding-left: 15px; margin-bottom: 0;">
+                                <li><strong>Token Budgets &amp; Context Windows:</strong> Ensure lines do not exceed the context length of your downstream model. Track token distribution counts programmatically using utilities like <code>tiktoken</code>.</li>
+                                <li><strong>Separation of Instructions:</strong> System role instructions must remain uniform across your fine-tuning split. Variable configurations confuse the model's core behavioral constraints.</li>
+                                <li><strong>Dynamic Serialization:</strong> Build pipelines to aggregate raw, relational database transactional history rows, order them chronologically by session, and parse them cleanly into sequential JSON objects.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>In the Wild: Where to Find This Data</strong><br />&bull; <em>Hugging Face:</em> <code>HuggingFaceH4/ultrachat_200k</code> (A massive conversational dataset used widely for fine-tuning open-source LLMs).<br />&bull; <em>Hugging Face:</em> <code>lmsys/chatbot_arena_conversations</code> (Real human conversations with various LLMs, showing diverse styles).</p>
+                </div>
+                <hr class="dp-hr-color-dp-primary w-100 dp-hr-pill" />
+                <div id="section-4" style="margin-bottom: 40px;">
+                    <h3 class="dp-has-icon"><i class="dp-icon fas fa-search-plus" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span>4. Retrieval-Augmented Generation (RAG) &amp; Vector Databases</span></strong></h3>
+                    <p>When building automated AI systems that need to reference private company files (like employee handbooks or internal technical manuals), you cannot fit all that text into a single prompt. We use Vector Databases to find and retrieve only the relevant passages.</p>
+                    <pre style="background: #f8f9fa; border-width: 1px 1px 1px 4px; border-style: solid; border-color: #dee2e6 #dee2e6 #dee2e6 #004d99; padding: 15px; font-family: monospace; overflow-x: auto; font-size: 0.9em; margin-bottom: 20px;">+---------------+     +------------------+     +------------------------+     +-------------------------+
+| Raw Document  | --&gt; | Text Chunking    | --&gt; | Embedding Model        | --&gt; | Vector Database Record |
+| (e.g., PDF)   |     | (Split into px)  |     | (Convert to numbers)   |     | [Vector + Metadata]     |
++---------------+     +------------------+     +------------------------+     +-------------------------+</pre>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-info-circle" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>The Purpose</span></h4>
+                    <p>To query written documents mathematically, you must translate words into numbers. An embedding model turns a chunk of text into a high-dimensional vector. Points that are close together in this vector space share similar semantic meanings.</p>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-network-wired" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>Where and How It Is Used</span></h4>
+                    <ul>
+                        <li><strong>Where:</strong> Internal enterprise search engines, AI legal assistants, and technical documentation search.</li>
+                        <li><strong>How:</strong> The data engineer builds an automated pipeline that continuously monitors document folders, splits new PDFs into smaller text chunks, converts those chunks into coordinate vectors, and saves them to a Vector Database.</li>
+                    </ul>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-code" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>10-Row Dataset Example (Vector Database Records)</span></h4>
+                    <p>Here are 10 mock database records for a corporate RAG system. Note how the dimensions of the vector representation are truncated for presentation (real embeddings are typically 1536+ dimensions).</p>
+                    <pre style="background: #f8f9fa; padding: 15px; overflow-x: auto; font-family: monospace; font-size: 0.85em; line-height: 1.4; color: #212529; border: 1px solid #dee2e6;">[
+  {
+    "id": "hr_handbook_chunk_01",
+    "vector": [0.0125, -0.0456, 0.8923, 0.1102, -0.0094],
+    "metadata": {"doc_title": "hr_handbook.pdf", "page": 1, "text_content": "Our standard working hours are 9:00 AM to 5:00 PM, Monday through Friday.", "category": "operations"}
+  },
+  {
+    "id": "hr_handbook_chunk_02",
+    "vector": [0.0118, -0.0412, 0.8541, 0.1341, -0.0102],
+    "metadata": {"doc_title": "hr_handbook.pdf", "page": 2, "text_content": "Full-time employees accrue 15 days of paid time off (PTO) per calendar year.", "category": "benefits"}
+  },
+  {
+    "id": "it_policy_chunk_01",
+    "vector": [-0.1450, 0.2312, 0.1023, -0.9412, 0.0512],
+    "metadata": {"doc_title": "it_security.pdf", "page": 1, "text_content": "Passwords must be at least 12 characters long and changed every 90 days.", "category": "security"}
+  },
+  {
+    "id": "it_policy_chunk_02",
+    "vector": [-0.1390, 0.2240, 0.0980, -0.9201, 0.0498],
+    "metadata": {"doc_title": "it_security.pdf", "page": 4, "text_content": "Do not connect personal devices to the corporate virtual private network (VPN).", "category": "security"}
+  },
+  {
+    "id": "travel_policy_chunk_01",
+    "vector": [0.3121, -0.1145, 0.5120, 0.0211, 0.1456],
+    "metadata": {"doc_title": "travel_guidelines.pdf", "page": 1, "text_content": "Employees will be reimbursed up to $50 per day for travel meals.", "category": "finance"}
+  },
+  {
+    "id": "travel_policy_chunk_02",
+    "vector": [0.3012, -0.1098, 0.5211, 0.0198, 0.1398],
+    "metadata": {"doc_title": "travel_guidelines.pdf", "page": 2, "text_content": "All international business travel must be approved by a department VP.", "category": "finance"}
+  },
+  {
+    "id": "facility_rules_chunk_01",
+    "vector": [0.0891, 0.0412, 0.3124, 0.1890, -0.1121],
+    "metadata": {"doc_title": "office_rules.pdf", "page": 1, "text_content": "Visitor badges must be worn and kept visible at all times within the building.", "category": "operations"}
+  },
+  {
+    "id": "facility_rules_chunk_02",
+    "vector": [0.0812, 0.0498, 0.3012, 0.1745, -0.1098],
+    "metadata": {"doc_title": "office_rules.pdf", "page": 2, "text_content": "Bicycles are not permitted inside the office workspace; use the designated racks outside.", "category": "operations"}
+  },
+  {
+    "id": "health_safety_chunk_01",
+    "vector": [0.1123, -0.3124, 0.4125, 0.2901, -0.0512],
+    "metadata": {"doc_title": "safety_guide.pdf", "page": 1, "text_content": "In the event of a fire alarm, exit the building immediately via the nearest stairwell.", "category": "safety"}
+  },
+  {
+    "id": "health_safety_chunk_02",
+    "vector": [0.1098, -0.3012, 0.4012, 0.2812, -0.0498],
+    "metadata": {"doc_title": "safety_guide.pdf", "page": 3, "text_content": "First aid kits are located in the main kitchen areas on every floor.", "category": "safety"}
+  }
+]</pre>
+                    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100" style="margin-top: 15px;">
+                        <div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked">​</i></div>
+                        <div class="card-body">
+                            <h4 class="card-title dp-font-oswald" style="margin-top: 0;">Engineering Notes &amp; Design Considerations</h4>
+                            <hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px 0;" />
+                            <ul style="padding-left: 15px; margin-bottom: 0;">
+                                <li><strong>Chunking Strategies:</strong> Prevent textual meaning from fracturing by utilizing recursive character splitting with a defined overlapping frame (e.g., chunk size 500 characters, overlap 50 characters).</li>
+                                <li><strong>Parser Pitfalls:</strong> Basic PDF parsers scramble complex documents containing footers or columns. Engineers must use layout-aware OCR extraction engines.</li>
+                                <li><strong>Embedding Model Versioning:</strong> If you transition your downstream model, you must re-index your entire database. Two differing models represent completely incompatible mathematical vector spaces.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>In the Wild: Where to Find This Data</strong><br />&bull; <em>Hugging Face:</em> <code>Cohere/wikipedia-2023-11-embed-multilingual-v3</code> (Pre-computed vector embeddings for Wikipedia pages).<br />&bull; <em>Kaggle:</em> ArXiv Metadata Dataset (Excellent for practicing chunking and embedding generation).</p>
+                </div>
+                <hr class="dp-hr-color-dp-primary w-100 dp-hr-pill" />
+                <div id="section-5" style="margin-bottom: 40px;">
+                    <h3 class="dp-has-icon"><i class="dp-icon fas fa-language" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span>5. Natural Language Processing (NLP) &amp; Text Analysis</span></strong></h3>
+                    <p>Before generative LLMs, classic NLP models were built to extract structural meaning from plain text.</p>
+                    <pre style="background: #f8f9fa; border-width: 1px 1px 1px 4px; border-style: solid; border-color: #dee2e6 #dee2e6 #dee2e6 #004d99; padding: 15px; font-family: monospace; overflow-x: auto; font-size: 0.9em; margin-bottom: 20px;">Text:      "Google  is  hiring  in  Seattle."
+Tokens:    [Google] [is] [hiring] [in] [Seattle] [.]
+Labels:    [B-ORG ] [O ] [O     ] [O ] [B-LOC  ] [O]</pre>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-info-circle" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>The Purpose</span></h4>
+                    <p>Models designed for tasks like Named Entity Recognition (NER) need to map individual words (tokens) to precise categories. Data engineers construct sequence-aligned data structures where tokens and their matching labels correspond directly in sequence.</p>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-network-wired" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>Where and How It Is Used</span></h4>
+                    <ul>
+                        <li><strong>Where:</strong> Automated invoice parsing, sentiment categorization, spam filtering, and redacting personal sensitive information (PII) from files.</li>
+                        <li><strong>How:</strong> Raw text strings are broken down into tokens, and each token is labeled using the standard IOB (Inside, Outside, Beginning) format.</li>
+                    </ul>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-list-alt" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>15-Token Sequence Dataset Example (NER Alignment)</span></h4>
+                    <p>This example shows how a raw sentence is broken down and tokenized for entity recognition. <br /><strong>Raw Input Sentence:</strong> <em>"Alice works at Microsoft in Seattle, Washington today."</em></p>
+                    <pre style="background: #f8f9fa; padding: 15px; overflow-x: auto; font-family: monospace; font-size: 0.85em; line-height: 1.4; color: #212529; border: 1px solid #dee2e6;">[
+  {"token_id": 1,  "token": "Alice",      "label": "B-PER"},
+  {"token_id": 2,  "token": "works",      "label": "O"},
+  {"token_id": 3,  "token": "at",         "label": "O"},
+  {"token_id": 4,  "token": "Microsoft",  "label": "B-ORG"},
+  {"token_id": 5,  "token": "in",         "label": "O"},
+  {"token_id": 6,  "token": "Seattle",    "label": "B-LOC"},
+  {"token_id": 7,  "token": ",",          "label": "O"},
+  {"token_id": 8,  "token": "Washington", "label": "B-LOC"},
+  {"token_id": 9,  "token": "today",      "label": "O"},
+  {"token_id": 10, "token": ".",          "label": "O"}
+]</pre>
+                    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100" style="margin-top: 15px;">
+                        <div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked">​</i></div>
+                        <div class="card-body">
+                            <h4 class="card-title dp-font-oswald" style="margin-top: 0;">Engineering Notes &amp; Design Considerations</h4>
+                            <hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px 0;" />
+                            <ul style="padding-left: 15px; margin-bottom: 0;">
+                                <li><strong>Sub-word Tokenization Label Alignment:</strong> WordPiece tokenizers divide words (e.g., "Microsoft" into <code>["Micro", "##soft"]</code>). Assign the semantic label to the initial chunk, and pass ignoring flags (like <code>-100</code>) for sub-tokens so training calculations ignore them.</li>
+                                <li><strong>Padding and Masking:</strong> Neural networks process text in standardized batch dimensions. Pad short strings with <code>[PAD]</code> tokens, and include a matching binary attention mask vector (<code>1</code> for real data, <code>0</code> for padding).</li>
+                                <li><strong>Out-Of-Vocabulary (OOV) Tokens:</strong> Unregistered text words convert into <code>[UNK]</code> values. Monitor your downstream pipelines for OOV frequency surges over time.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>In the Wild: Where to Find This Data</strong><br />&bull; <em>Hugging Face:</em> <code>conll2003</code> (The classic gold standard benchmark dataset for Named Entity Recognition).<br />&bull; <em>Kaggle:</em> Feedback Prize - Evaluating Student Writing (Excellent for practicing token-level labeling and structural text classification).</p>
+                </div>
+                <hr class="dp-hr-color-dp-primary w-100 dp-hr-pill" />
+                <div id="section-6" style="margin-bottom: 40px;">
+                    <h3 class="dp-has-icon"><i class="dp-icon fas fa-eye" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span>6. Computer Vision: Multidimensional Image Tensors</span></strong></h3>
+                    <p>Computer vision systems translate physical visual patterns into multi-dimensional numerical arrays (tensors).</p>
+                    <pre style="background: #f8f9fa; border-width: 1px 1px 1px 4px; border-style: solid; border-color: #dee2e6 #dee2e6 #dee2e6 #004d99; padding: 15px; font-family: monospace; overflow-x: auto; font-size: 0.9em; margin-bottom: 20px;">Greyscale Image (2D Tensor):      Color Image (3D Tensor - RGB Channels):
+      Width (W)                              Width (W)
+    [  0,  12,  55, ... ]                  [ [255, 0, 0], [12, 43, 22], ... ] 
+H   [ 99, 122, 255, ... ]              H   [ [0, 255, 0], [92, 11, 49], ... ]
+    [ ...               ]                  [ ...                            ]</pre>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-info-circle" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>The Purpose</span></h4>
+                    <p>To a computer, an image is a grid of pixels. Each pixel is represented as a number showing its brightness or color. To train a model to recognize objects in images, we must clean, resize, and convert raw image files into uniform mathematical arrays.</p>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-network-wired" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>Where and How It Is Used</span></h4>
+                    <ul>
+                        <li><strong>Where:</strong> Face ID, self-driving car navigation, medical MRI screening, and automated quality checks on manufacturing lines.</li>
+                        <li><strong>How:</strong> A color image is represented as a 3D tensor of shape (\(\text{Height} \times \text{Width} \times \text{Channels}\)), representing Red, Green, and Blue light values.</li>
+                    </ul>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-th" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>10x10 Greyscale Image Tensor Example</span></h4>
+                    <p>Below is a raw representation of a \(10 \times 10\) pixel image. This matrix represents a simple hand-drawn white diagonal slash on a black background, with pixel intensity values ranging from 0 (pure black) to 255 (pure white).</p>
+                    <pre style="background: #f8f9fa; padding: 15px; overflow-x: auto; font-family: monospace; font-size: 0.85em; line-height: 1.4; color: #212529; border: 1px solid #dee2e6;">[
+  [255,  12,   0,   0,   0,   0,   0,   0,   0,   0],
+  [ 12, 255,  12,   0,   0,   0,   0,   0,   0,   0],
+  [  0,  12, 255,  12,   0,   0,   0,   0,   0,   0],
+  [  0,   0,  12, 255,  12,   0,   0,   0,   0,   0],
+  [  0,   0,   0,  12, 255,  12,   0,   0,   0,   0],
+  [  0,   0,   0,   0,  12, 255,  12,   0,   0,   0],
+  [  0,   0,   0,   0,   0,  12, 255,  12,   0,   0],
+  [  0,   0,   0,   0,   0,   0,  12, 255,  12,   0],
+  [  0,   0,   0,   0,   0,   0,   0,  12, 255,  12],
+  [  0,   0,   0,   0,   0,   0,   0,   0,  12, 255]
+]</pre>
+                    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100" style="margin-top: 15px;">
+                        <div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked">​</i></div>
+                        <div class="card-body">
+                            <h4 class="card-title dp-font-oswald" style="margin-top: 0;">Engineering Notes &amp; Design Considerations</h4>
+                            <hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px 0;" />
+                            <ul style="padding-left: 15px; margin-bottom: 0;">
+                                <li><strong>High Decompression Latency:</strong> Standard compressed images (JPEGs/PNGs) require high decompression times. Package large datasets into high-performance uncompressed containers like TFRecords, LMDB, or HDF5.</li>
+                                <li><strong>Channel Ordering Conventions:</strong> Framework libraries read sequences differently. PyTorch and TensorFlow default to RGB ordering, while legacy OpenCV reads images in BGR format. Scrambled sequences lead to bad training maps.</li>
+                                <li><strong>On-the-Fly Data Augmentation:</strong> Avoid bloated disks by utilizing real-time mathematical distortions (cropping, rotating, resizing) on image vectors inside volatile system memory during training loops.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>In the Wild: Where to Find This Data</strong><br />&bull; <em>Kaggle:</em> MNIST Handwritten Digit Database (The classic entry-point dataset for computer vision, containing \(28 \times 28\) greyscale images).<br />&bull; <em>Kaggle:</em> CIFAR-10 Dataset (60,000 \(32 \times 32\) color images divided across 10 classes).</p>
+                </div>
+                <hr class="dp-hr-color-dp-primary w-100 dp-hr-pill" />
+                <div id="section-7" style="margin-bottom: 40px;">
+                    <h3 class="dp-has-icon"><i class="dp-icon fas fa-clock" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span>7. Time-Series: Sequence Window Tensors</span></strong></h3>
+                    <p>Time-series forecasting models (like LSTMs or Transformer networks) analyze historical sequence patterns to predict future events.</p>
+                    <pre style="background: #f8f9fa; border-width: 1px 1px 1px 4px; border-style: solid; border-color: #dee2e6 #dee2e6 #dee2e6 #004d99; padding: 15px; font-family: monospace; overflow-x: auto; font-size: 0.9em; margin-bottom: 20px;">Sliding Window (Size = 3 timesteps, step = 1):
+
+Window 1: [Day 1, Day 2, Day 3] -&gt; Target: [Day 4]
+Window 2: [Day 2, Day 3, Day 4] -&gt; Target: [Day 5]
+Window 3: [Day 3, Day 4, Day 5] -&gt; Target: [Day 6]</pre>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-info-circle" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>The Purpose</span></h4>
+                    <p>Unlike typical tabular files where each row is treated as completely independent, time-series data requires the model to understand the order of events. We must structure historical data into overlapping, sequential frames (sliding windows).</p>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-network-wired" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>Where and How It Is Used</span></h4>
+                    <ul>
+                        <li><strong>Where:</strong> Stock price prediction, weather forecasting, server memory usage monitoring, and demand forecasting for retail supply chains.</li>
+                        <li><strong>How:</strong> Standard rows of time-stamped log metrics are grouped into 3D tensors with structural dimensions of:</li>
+                    </ul>
+                    <div style="text-align: center; margin: 15px 0;">\[\text{Shape} = (\text{Batch Size}, \text{Timesteps}, \text{Features})\]</div>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-exchange-alt" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>10-Step Dataset Transformation Example</span></h4>
+                    <p>This example demonstrates how a single stream of raw hourly temperature logs is engineered into historical features and targets using a 3-step lookback window to predict the temperature of the next hour.</p>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <p style="text-align: center;">Raw Logs (Input Stream)</p>
+                            <div class="table-responsive">
+                                <div class="dp-table-scroll">
+                                    <table class="table table-bordered table-striped" style="width: 100%; border-collapse: collapse; font-size: 0.85em; text-align: left;">
+                                        <thead style="background-color: #f1f1f1;">
+                                            <tr>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">Timestamp</th>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">Temperature (&deg;C)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Hour 1</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">20.1</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Hour 2</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">20.5</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Hour 3</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">21.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Hour 4</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">21.8</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Hour 5</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">22.4</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Hour 6</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">22.1</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Hour 7</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">21.5</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Hour 8</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">20.8</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Hour 9</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">20.2</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Hour 10</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">19.8</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <p style="text-align: center;">Sliding Window Feature Matrix (For Training)</p>
+                            <div class="table-responsive">
+                                <div class="dp-table-scroll">
+                                    <table class="table table-bordered table-striped" style="width: 100%; border-collapse: collapse; font-size: 0.85em; text-align: left;">
+                                        <thead style="background-color: #f1f1f1;">
+                                            <tr>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">training_row</th>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">input_sequence (<i>x</i><sub>t-2</sub>, <i>x</i><sub>t-1</sub>, <i>x</i><sub>t</sub>)</th>
+                                                <th style="padding: 6px; border: 1px solid #dddddd;">target (<i>y</i><sub>t+1</sub>)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Row 1</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">[20.1, 20.5, 21.0]</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">21.8</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Row 2</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">[20.5, 21.0, 21.8]</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">22.4</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Row 3</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">[21.0, 21.8, 22.4]</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">22.1</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Row 4</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">[21.8, 22.4, 22.1]</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">21.5</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Row 5</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">[22.4, 22.1, 21.5]</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">20.8</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Row 6</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">[22.1, 21.5, 20.8]</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">20.2</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">Row 7</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">[21.5, 20.8, 20.2]</td>
+                                                <td style="padding: 6px; border: 1px solid #dddddd;">19.8</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100" style="margin-top: 15px;">
+                        <div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked">​</i></div>
+                        <div class="card-body">
+                            <h4 class="card-title dp-font-oswald" style="margin-top: 0;">Engineering Notes &amp; Design Considerations</h4>
+                            <hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px 0;" />
+                            <ul style="padding-left: 15px; margin-bottom: 0;">
+                                <li><strong>Irregular Timestamps &amp; Resampling:</strong> Real-world telemetry reports at asymmetric points. Pipelines must actively resample observations into standardized intervals (e.g., hourly grids) using forward-fills or linear interpolation.</li>
+                                <li><strong>Strict Temporal Splitting:</strong> Traditional validation splits leak look-ahead telemetry. Split datasets chronologically (e.g., train on Jan-Aug, test on Sep-Dec) so validation steps mirror live operations.</li>
+                                <li><strong>Multi-Step vs. Single-Step Forecasts:</strong> Plan pipelines for single-step (\(t+1\)) or multi-step projection vectors. Multi-step demands multi-column neural layers or recursive pipelines that inject previous estimates back into the sliding window.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>In the Wild: Where to Find This Data</strong><br />&bull; <em>Kaggle:</em> Store Sales - Time Series Forecasting (A retail sales dataset designed for predicting sales patterns).<br />&bull; <em>Kaggle:</em> Hourly Energy Consumption Dataset (Over a decade of hourly power consumption metrics, great for practicing sliding window generation).</p>
+                </div>
+                <hr class="dp-hr-color-dp-primary w-100 dp-hr-pill" />
+                <div id="section-8" style="margin-bottom: 40px;">
+                    <h3 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span>8. Graph Data: Nodes &amp; Edges</span></strong></h3>
+                    <p>Graph-based AI models analyze complex networks of highly interconnected objects, focusing on the relationships between points.</p>
+                    <pre style="background: #f8f9fa; border-width: 1px 1px 1px 4px; border-style: solid; border-color: #dee2e6 #dee2e6 #dee2e6 #004d99; padding: 15px; font-family: monospace; overflow-x: auto; font-size: 0.9em; margin-bottom: 20px;">      (User 1) -- [Purchased] --&gt; (Product A)
+         |                             |
+     [Friend]                       [Similar]
+         |                             |
+         v                             v
+      (User 2) ------------------&gt; (Product B)</pre>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-info-circle" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>The Purpose</span></h4>
+                    <p>In standard databases, relationships are modeled via slow, intensive join queries. Graph neural networks (GNNs) bypass joins by using specialized matrices that map connections directly, allowing models to process how information flows through a network.</p>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-network-wired" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>Where and How It Is Used</span></h4>
+                    <ul>
+                        <li><strong>Where:</strong> Credit card fraud ring detection, social network recommendations, drug discovery, and logistics route optimization.</li>
+                        <li><strong>How:</strong> Data engineers represent graph data as two separate arrays: Node Features (the attributes of each node) and an Adjacency Matrix (which nodes connect to which).</li>
+                    </ul>
+                    <h4 class="dp-has-icon"><i class="dp-icon fas fa-list" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span>10-Node Network Example</span></h4>
+                    <p>Here is a 10-node social network representing user interaction.</p>
+                    <h5 style="margin-top: 15px;">1. Node Feature Matrix (User Profiles)</h5>
+                    <p>Each row represents a specific node (user) and their associated attributes:</p>
+                    <div class="table-responsive">
+                        <div class="dp-table-scroll">
+                            <table class="table table-bordered table-striped" style="width: 100%; border-collapse: collapse; font-size: 0.85em; text-align: left; margin-bottom: 20px;">
+                                <thead style="background-color: #f1f1f1;">
+                                    <tr>
+                                        <th style="padding: 6px; border: 1px solid #dddddd;">Node ID</th>
+                                        <th style="padding: 6px; border: 1px solid #dddddd;">Age</th>
+                                        <th style="padding: 6px; border: 1px solid #dddddd;">Total Posts</th>
+                                        <th style="padding: 6px; border: 1px solid #dddddd;">Days Active</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">Node 1</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">22</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">15</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">45</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">Node 2</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">34</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">120</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">340</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">Node 3</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">19</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">0</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">12</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">Node 4</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">45</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">45</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">210</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">Node 5</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">28</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">89</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">150</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">Node 6</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">31</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">12</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">80</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">Node 7</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">25</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">234</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">410</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">Node 8</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">50</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">5</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">90</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">Node 9</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">21</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">67</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">110</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">Node 10</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">38</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">150</td>
+                                        <td style="padding: 6px; border: 1px solid #dddddd;">280</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <h5>2. Adjacency Matrix (Network Connections)</h5>
+                    <p>A square \(10 \times 10\) matrix showing active connections between nodes. A value of <code>1</code> indicates an edge exists between the row node and column node; a <code>0</code> indicates no connection.</p>
+                    <pre style="background: #f8f9fa; padding: 15px; overflow-x: auto; font-family: monospace; font-size: 0.85em; line-height: 1.5; color: #212529; border: 1px solid #dee2e6;">     N1  N2  N3  N4  N5  N6  N7  N8  N9  N10
+N1  [ 0,  1,  1,  0,  0,  0,  0,  0,  0,  0 ]  -- Node 1 is connected to N2 and N3
+N2  [ 1,  0,  0,  1,  0,  0,  1,  0,  0,  0 ]  -- Node 2 is connected to N1, N4, and N7
+N3  [ 1,  0,  0,  0,  1,  0,  0,  0,  0,  0 ]  -- Node 3 is connected to N1 and N5
+N4  [ 0,  1,  0,  0,  0,  1,  0,  0,  0,  1 ]  -- Node 4 is connected to N2, N6, and N10
+N5  [ 0,  0,  1,  0,  0,  0,  0,  1,  1,  0 ]  -- Node 5 is connected to N3, N8, and N9
+N6  [ 0,  0,  0,  1,  0,  0,  0,  0,  0,  0 ]  -- Node 6 is connected to N4
+N7  [ 0,  1,  0,  0,  0,  0,  0,  0,  1,  1 ]  -- Node 7 is connected to N2, N9, and N10
+N8  [ 0,  0,  0,  0,  1,  0,  0,  0,  0,  0 ]  -- Node 8 is connected to N5
+N9  [ 0,  0,  0,  0,  1,  0,  1,  0,  0,  0 ]  -- Node 9 is connected to N5 and N7
+N10 [ 0,  0,  0,  1,  0,  0,  1,  0,  0,  0 ]  -- Node 10 is connected to N4 and N7</pre>
+                    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100" style="margin-top: 15px;">
+                        <div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked">​</i></div>
+                        <div class="card-body">
+                            <h4 class="card-title dp-font-oswald" style="margin-top: 0;">Engineering Notes &amp; Design Considerations</h4>
+                            <hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px 0;" />
+                            <ul style="padding-left: 15px; margin-bottom: 0;">
+                                <li><strong>Scaling Memory with Large Networks:</strong> Storing adjacency matrices for millions of users requires trillions of cells. Utilize Sparse Matrices (storing only indexing nodes with active edges) or leverage sub-graph neighborhood aggregation (e.g., GraphSAGE).</li>
+                                <li><strong>Dynamic Graphs over Time:</strong> Networks evolve sequentially. Capture dynamic transactional histories by building temporal window boundaries, preventing target information leakage from future connections.</li>
+                                <li><strong>Edge Feature Engineering:</strong> Connection edges often carry attributes (e.g., transfer sums, transaction dates). Pipelines must structure separate edge maps along with raw node attribute frameworks.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>In the Wild: Where to Find This Data</strong><br />&bull; <em>Stanford Large Network Dataset Collection (SNAP):</em> SNAP Dataset Library (Contains massive social network, communication, and citation graphs).<br />&bull; <em>Open Graph Benchmark (OGB):</em> OGB Datasets (The modern industry-standard benchmark repository for Graph Neural Networks).</p>
+                </div>
+                <hr class="dp-hr-color-dp-primary w-100 dp-hr-pill" />
+                <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100" style="margin-top: 30px;">
+                    <div class="dp-callout-side-emphasis"><i class="fas fa-check-double dp-default-icon dp-locked">​</i></div>
+                    <div class="card-body">
+                        <h4 class="card-title dp-font-oswald" style="margin-top: 0;">Data Engineer's System Architecture Checklist</h4>
+                        <hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px 0;" />
+                        <ul style="list-style-type: none; padding-left: 0; margin-bottom: 0; line-height: 1.8;">
+                            <li><i class="far fa-square" style="margin-right: 8px;"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong>Identity Integrity:</strong> Does every observation have a clean, non-null, immutable primary identifier (such as <code>customer_id</code> or <code>chunk_id</code>)?</li>
+                            <li><i class="far fa-square" style="margin-right: 8px;"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong>Handling Null Values:</strong> Are missing parameters dropped, or are they imputed with calculated averages, zeros, or flag markers? (Missing values will break almost all ML frameworks).</li>
+                            <li><i class="far fa-square" style="margin-right: 8px;"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong>Format Compression:</strong> Is cold analytical data preserved in performance-optimized, columnar parquet formats instead of bloated, uncompressed text files?</li>
+                            <li><i class="far fa-square" style="margin-right: 8px;"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong>Data Lineage:</strong> Can you trace every feature in your final matrix back to the exact system pipeline step and database tables that generated it?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p>&nbsp;</p>
+</div>

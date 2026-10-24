@@ -27,10 +27,13 @@ Instructions for any AI agent or assistant working in this repository. Read this
 Course-Content-Agentic-Template/
 ├── AGENTS.md                  # Master agent rules & lifecycle
 ├── CURRENT.md                 # Single source of truth: Active Course & Active Iteration
+├── .agents/                   # Shared Antigravity Workspace Skills
+│   └── skills/                # canvas-course-builder, slide-deck-generator, syllabus-docx-cloner, intake-scanner
 ├── docs/
-│   └── ADRs/                  # Shared standards (Accessibility, SDD)
+│   ├── ADRs/                  # Shared standards (Accessibility, SDD)
+│   └── playbooks/             # Pedagogical & production playbooks
 ├── specs/
-│   └── _templates/            # Shared templates (spec, plan, tasks)
+│   └── _templates/            # Shared templates (spec, plan, tasks, rubrics, syllabi)
 ├── courses/                   # All individual courses live here
 │   └── <course-id>/           # Dedicated silo for a course
 │       ├── README.md          # Course overview, audience, competencies
@@ -41,7 +44,8 @@ Course-Content-Agentic-Template/
 
 ### Sandboxing Rules for Agents:
 - **Always read `CURRENT.md` first** to determine the `Active Course`.
-- **Never cross boundaries**: When working on `courses/course-A/`, never grep, read, or modify files in `courses/course-B/`.
+- **Never cross course boundaries**: When working on `courses/course-A/`, never grep, read, or modify files in `courses/course-B/`.
+- **Leverage Shared Skills Without Polluting Courses**: Use the workspace automation skills in [`.agents/skills/`](file:///c:/dev/Course-Content-Agentic-Template/.agents/skills/) (such as `canvas-course-builder` for QTI quizzes and DesignPLUS HTML formatting) across any course. Never copy build scripts or Python tools directly into course content directories.
 - If the user asks for changes without specifying a course, prompt them to clarify which course or check `CURRENT.md`.
 
 ---

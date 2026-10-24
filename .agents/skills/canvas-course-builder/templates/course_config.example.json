@@ -1,0 +1,34 @@
+{
+  "course_code": "CMAP 1815",
+  "course_title": "Introduction to Modern SQL",
+  "term": "Fall 2026",
+  "institution": "Laramie County Community College",
+  "domain": "lccc-wy.instructure.com",
+  "credits": "3.0 Credit Hours (Asynchronous Online)",
+  "description": "Comprehensive instruction in relational database querying, schema design, transactional integrity, and performance optimization using modern PostgreSQL 16.",
+  "assignment_groups": [
+    { "key": "labs", "name": "Hands-on SQL Labs", "weight": 40.0 },
+    { "key": "quizzes", "name": "Unit Knowledge Checks & Quizzes", "weight": 20.0 },
+    { "key": "prep", "name": "Asynchronous Preparation & Drills", "weight": 10.0 },
+    { "key": "capstone", "name": "Comprehensive Course Capstone", "weight": 30.0 }
+  ],
+  "learning_outcomes": [
+    "Design, write, and debug SQL queries to retrieve, filter, and sort data from relational tables.",
+    "Group and aggregate data, write modular subqueries, CTEs, and window functions to manipulate result sets.",
+    "Translate real-world business requirements into correct, performant SQL statements.",
+    "Safely execute data manipulation operations (INSERT, UPDATE, DELETE), manage transactions, and stage transformations.",
+    "Design normalized relational schemas (1NF-3NF), write DDL scripts, declare integrity constraints, and create views.",
+    "Profile query performance with EXPLAIN ANALYZE, engineer B-Tree indexes, and defend architectural choices in a comprehensive capstone."
+  ],
+  "grading_scale": "A: 90 - 100% | B: 80 - 89% | C: 70 - 79% | D: 60 - 69% | F: 0 - 59%",
+  "module_taxonomy_sequence": [
+    "1. Unit X Overview: [Topic] (WikiPage, published)",
+    "2. Unit X: Required Readings, Concepts & Video Lectures (WikiPage, published)",
+    "3. Unit X: Asynchronous Preparation & Drills (WikiPage, published)",
+    "4. Unit X: Applied Lab Guide (WikiPage, published)",
+    "5. Unit X Applied Lab Assignment (Assignment, published, 50 pts, .sql upload)",
+    "6. Unit X: Learn with AI — Supplemental Practice Drill (WikiPage, published)",
+    "7. Unit X Knowledge Check: [Topic] (Quizzes::Quiz, published, 30 pts, 3 attempts)",
+    "8. [Instructor Guide] Unit X Teaching Notes & Solutions (WikiPage, unpublished)"
+  ]
+}

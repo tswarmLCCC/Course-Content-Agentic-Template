@@ -1,0 +1,36 @@
+{
+  "course_code": "COSC 2060",
+  "course_title": "Modern Data Engineering & AI Infrastructure",
+  "term": "Fall 2026",
+  "institution": "Laramie County Community College",
+  "domain": "lccc-wy.instructure.com",
+  "credits": "3.0 Credit Hours (Asynchronous Online / Hybrid Active Learning)",
+  "description": "Comprehensive instruction in production data engineering, high-throughput analytical query engines, vector search pipelines, Model Context Protocol (MCP) agent integrations, and resilient pipeline orchestration.",
+  "assignment_groups": [
+    { "key": "labs", "name": "Hands-on Data Engineering Labs", "weight": 40.0 },
+    { "key": "quizzes", "name": "Unit Knowledge Checks & Quizzes", "weight": 20.0 },
+    { "key": "drills", "name": "Asynchronous Preparation & Flipped Drills", "weight": 10.0 },
+    { "key": "capstone", "name": "Comprehensive Capstone Defense", "weight": 30.0 }
+  ],
+  "learning_outcomes": [
+    "Design and optimize high-throughput columnar queries using DuckDB and Polars for fast local data transformation.",
+    "Implement defensive data quality, schema enforcement, and streaming anomaly detection pipelines.",
+    "Process multimodal video and image streams into structured feature stores and vector databases.",
+    "Build semantic search, chunking, and Retrieval-Augmented Generation (RAG) knowledge retrieval pipelines.",
+    "Architect high-concurrency, asynchronous Data-as-a-Service REST APIs with FastAPI and Pydantic validation.",
+    "Implement Model Context Protocol (MCP) servers and deterministic tool execution for autonomous AI agents.",
+    "Orchestrate resilient event-driven pipelines with scheduled DAGs, retry loops, and telemetry alerting.",
+    "Defend an end-to-end data engineering architecture in a live capstone defense addressing cost, latency, and failure modes."
+  ],
+  "grading_scale": "A: 90 - 100% | B: 80 - 89% | C: 70 - 79% | D: 60 - 69% | F: 0 - 59%",
+  "module_taxonomy_sequence": [
+    "1. Unit X Overview: [Topic] (WikiPage, published)",
+    "2. Unit X: Required Readings, Concepts & Video Lectures (WikiPage, published)",
+    "3. Unit X: Asynchronous Preparation & Drills (WikiPage, published)",
+    "4. Unit X: Applied Lab Guide (WikiPage, published)",
+    "5. Unit X Applied Lab Assignment (Assignment, published, 50 pts, .py/.sql upload)",
+    "6. Unit X: Learn with AI — Supplemental Practice Drill (WikiPage, published)",
+    "7. Unit X Knowledge Check: [Topic] (Quizzes::Quiz, published, 20 pts, 3 attempts)",
+    "8. [Instructor Guide] Unit X Teaching Notes & Solutions (WikiPage, unpublished)"
+  ]
+}

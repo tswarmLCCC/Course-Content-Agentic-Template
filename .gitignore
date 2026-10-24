@@ -42,3 +42,7 @@ scratch/
 Thumbs.db
 .idea/
 .vscode/
+
+# Canvas Common Cartridge Build Staging
+_cartridge_build/
+

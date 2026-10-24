@@ -27,10 +27,23 @@ Course-Content-Agentic-Template/
 ├── AGENTS.md                  # Master rules governing AI agent behavior
 ├── CURRENT.md                 # Single source of truth: Active Course & Active Iteration
 │
+├── .agents/                   # Native Antigravity Workspace Skills (Zero Course Pollution)
+│   └── skills/
+│       ├── canvas-course-builder/  # QTI 1.2 quiz builder, DesignPLUS HTML styler, .imscc compiler
+│       ├── slide-deck-generator/   # Programmatic 16:9 WCAG AAA PowerPoint (.pptx) engine
+│       ├── syllabus-docx-cloner/   # Institutional Word (.docx) syllabus cloner
+│       └── course-intake-scanner/  # Drop-zone scanner for raw curriculum intake
+│
 ├── docs/
 │   ├── ADRs/                  # Architectural Decision Records (Universal standards)
 │   │   ├── ADR-001-accessibility.md           # WCAG 2.2 AA non-negotiable
 │   │   └── ADR-002-spec-driven-development.md # Mandatory SDD lifecycle
+│   ├── playbooks/             # Pedagogical & Production Master Playbooks
+│   │   ├── MASTER_COURSE_SETUP_AND_FORMATTING_GUIDE.md # Complete production blueprint
+│   │   ├── COURSE_PRODUCTION_WORKFLOW.md      # End-to-end production pipeline
+│   │   ├── SLIDE_DESIGN_PLAYBOOK.md           # Visual hierarchy & cognitive load rules
+│   │   ├── WHY_WHAT_HOW_PEDAGOGY.md           # 3-phase scaffolding model
+│   │   └── ZERO_COST_INFRASTRUCTURE.md        # Open-source lab standards
 │   └── data_engineering_course_incoming_plan.md # Reference curriculum blueprints
 │
 ├── prompts/                   # Living library of authoring prompts & skill blueprints
@@ -40,7 +53,11 @@ Course-Content-Agentic-Template/
 │   └── _templates/            # Reusable templates for new units & modules
 │       ├── spec_template.md   # EARS syntax requirements template
 │       ├── plan_template.md   # Architectural & instructional design plan
-│       └── tasks_template.md  # Ordered task checklist with verification checks
+│       ├── tasks_template.md  # Ordered task checklist with verification checks
+│       ├── rubrics/           # Capstone defense, course audit, and peer review rubrics
+│       ├── instructional/     # Competency maps, contingency runbooks, guides
+│       ├── syllabi/           # Master Word syllabus template
+│       └── code_labs/         # Standardized code lab template
 │
 ├── courses/                   # Siloed Course Catalog
 │   └── <course-id>/           # E.g. cosc-2060-data-engineering
@@ -109,18 +126,79 @@ Every unit of curriculum (a reading guide, a lab assignment, a quiz bank, an int
 
 ---
 
-## 5. Active Courses in this Workspace
+## 5. Agent Tools & Automation Skills Catalog
+
+This repository includes a portable, modular automation toolchain located under `.agents/skills/`. Because these tools live in `.agents/skills/`, they are automatically discoverable by AI agents working across any course in the workspace without duplicating code into course folders.
+
+| Skill / Tool | Path | Dependencies | Core Capabilities |
+| :--- | :--- | :--- | :--- |
+| **Canvas Course Builder** | [`.agents/skills/canvas-course-builder/`](file:///c:/dev/Course-Content-Agentic-Template/.agents/skills/canvas-course-builder/SKILL.md) | **Zero** (Pure Python 3 standard library) | • Enforces mandatory Canvas WikiPage `<head>` metadata (`identifier`, `editing_roles`, `workflow_state`, `editor_type`) to eliminate sandboxed `<iframe>` attachments and "Download HTML" headers.<br>• Generates native Canvas Front Page (`home-page.html`) with `<meta name="front_page" content="true"/>` and interactive DesignPLUS Module Accordions (`dp-quick-links-panels-accordion-plus`).<br>• Renders DesignPLUS ribbon headers and collapsible accordion panels (`dp-panels-wrapper dp-accordion-plus`) for Unit Overviews.<br>• Compiles QTI 1.2 XML quizzes with comprehensive rationales and packages complete `.imscc` Common Cartridges. |
+| **Slide Deck Generator** | [`.agents/skills/slide-deck-generator/`](file:///c:/dev/Course-Content-Agentic-Template/.agents/skills/slide-deck-generator/SKILL.md) | `python-pptx` | • Programmatically generates 16:9 widescreen PowerPoint (`.pptx`) decks.<br>• Enforces WCAG 2.1 AAA contrast ratios across 5 proven slide archetypes.<br>• Automates 100% speaker notes coverage and contrast audits. |
+| **Syllabus Word Cloner** | [`.agents/skills/syllabus-docx-cloner/`](file:///c:/dev/Course-Content-Agentic-Template/.agents/skills/syllabus-docx-cloner/SKILL.md) | Standard Library (`zipfile`, `re`) | • Clones and updates institutional Word (`.docx`) syllabi preserving 100% style fidelity and Word XML schemas.<br>• Updates course codes, schedules, grading policies, and accreditation text. |
+| **Course Intake Scanner** | [`.agents/skills/course-intake-scanner/`](file:///c:/dev/Course-Content-Agentic-Template/.agents/skills/course-intake-scanner/SKILL.md) | Standard Library | • Scans unstructured assets across drop zones (`raw_syllabi/`, `legacy_decks/`, `transcripts/`).<br>• Scaffolds competency maps and unit outlines. |
+
+### The 8-Item Standard Canvas Module Sequence
+Every weekly unit produced by `canvas-course-builder` follows a battle-tested sequence inside Canvas LMS:
+1. `Unit X Overview: [Topic]` (`WikiPage` - Published) — DesignPLUS banner ribbon, interactive accordions for Objectives, Roadmap, and Contact Hours.
+2. `Unit X: Required Readings & Video Lectures` (`WikiPage` - Published) — Clean standard layout or DesignPLUS multi-ribbon chapters.
+3. `Unit X: Asynchronous Preparation & Drills` (`WikiPage` - Published) — Conceptual focus questions with interactive `<details>/<summary>` self-check answer keys.
+4. `Unit X: Applied Lab Guide` (`WikiPage` - Published) — Scenario instructions, defensive engineering edge cases, and native HTML rubric tables.
+5. `Unit X Applied Lab Assignment` (`Assignment` - Published) — Native 50-pt Canvas Assignment for SpeedGrader file upload or text entry.
+6. `Unit X: Learn with AI — Supplemental Practice Drill` (`WikiPage` - Published) — Socratic AI roleplay scenario, free tool guides, and reflection prompts.
+7. `Unit X Knowledge Check: [Topic]` (`Quizzes::Quiz` - Published) — Native Canvas QTI 1.2 quiz (multiple-choice with full rationales, 3 attempts).
+8. `[Instructor Guide] Unit X Teaching Notes & Solutions` (`WikiPage` - Unpublished) — Hidden from students; contains synchronous agendas and master solution keys.
+
+### Command & Tool Invocation Cheatsheet
+All tools are executable directly via standard Python 3:
+
+```bash
+# 1. Compile Full Course into Canvas Common Cartridge (.imscc)
+python .agents/skills/canvas-course-builder/build_course.py --config courses/cosc-2060-data-engineering/course_config.json --units-dir courses/cosc-2060-data-engineering/units --output courses/cosc-2060-data-engineering/COSC_2060_Complete.imscc
+
+# 2. Compile Markdown Quiz into Canvas QTI 1.2 XML
+python -c "import sys; sys.path.insert(0, '.agents/skills/canvas-course-builder/scripts'); import qti_builder; qs = qti_builder.parse_quiz_md('path/to/quiz.md'); xml = qti_builder.build_qti_xml('quiz_01', 'Unit 1 Quiz', qs); open('output/quiz.xml', 'w').write(xml)"
+
+# 3. Generate 16:9 Widescreen PowerPoint Presentation (.pptx)
+python -c "import sys; sys.path.insert(0, '.agents/skills/slide-deck-generator/scripts'); from slide_engine import SlideEngine; prs = SlideEngine.create_presentation(); SlideEngine.add_title_slide(prs, 'LCCC', 'COSC 2060', 'Unit 01', 'Intro to Modern Data Eng', 'Instructor'); prs.save('unit_01.pptx')"
+
+# 4. Clone and Transform Institutional Word (.docx) Syllabus
+python -c "import sys; sys.path.insert(0, '.agents/skills/syllabus-docx-cloner/scripts'); import docx_syllabus; docx_syllabus.update_syllabus('.agents/skills/syllabus-docx-cloner/templates/LCCC_Master_Syllabus_Template.docx', 'COSC 2060: Modern Data Engineering', 'output/syllabus.docx')"
+
+# 5. Scan Drop Zones for Curriculum Intake
+python .agents/skills/course-intake-scanner/scripts/intake_scanner.py
+```
+
+### Master Pedagogical Playbooks
+Located in [`docs/playbooks/`](file:///c:/dev/Course-Content-Agentic-Template/docs/playbooks/):
+- **[Master Course Setup & Formatting Playbook](file:///c:/dev/Course-Content-Agentic-Template/docs/playbooks/MASTER_COURSE_SETUP_AND_FORMATTING_GUIDE.md)**: Comprehensive reference for DesignPLUS styling, color palettes, and LMS best practices.
+- **[Course Production Workflow](file:///c:/dev/Course-Content-Agentic-Template/docs/playbooks/COURSE_PRODUCTION_WORKFLOW.md)**: End-to-end production pipeline from intake to Canvas deployment.
+- **[Slide Design Playbook](file:///c:/dev/Course-Content-Agentic-Template/docs/playbooks/SLIDE_DESIGN_PLAYBOOK.md)**: Visual hierarchy, contrast, and cognitive load management.
+- **[Why/What/How Pedagogy](file:///c:/dev/Course-Content-Agentic-Template/docs/playbooks/WHY_WHAT_HOW_PEDAGOGY.md)**: 3-phase pedagogical scaffolding architecture.
+- **[Zero-Cost Infrastructure](file:///c:/dev/Course-Content-Agentic-Template/docs/playbooks/ZERO_COST_INFRASTRUCTURE.md)**: Standards for open-source tools and zero-cost student labs.
+
+### Shared Instructional & Rubric Templates
+Located in [`specs/_templates/`](file:///c:/dev/Course-Content-Agentic-Template/specs/_templates/):
+- **Instructional (`specs/_templates/instructional/`)**: [competency_map_template.md](file:///c:/dev/Course-Content-Agentic-Template/specs/_templates/instructional/competency_map_template.md), [instructional_guide_template.md](file:///c:/dev/Course-Content-Agentic-Template/specs/_templates/instructional/instructional_guide_template.md), [demo_contingency_runbook_template.md](file:///c:/dev/Course-Content-Agentic-Template/specs/_templates/instructional/demo_contingency_runbook_template.md)
+- **Rubrics (`specs/_templates/rubrics/`)**: [capstone_defense_rubric_template.md](file:///c:/dev/Course-Content-Agentic-Template/specs/_templates/rubrics/capstone_defense_rubric_template.md), [course_audit_rubric.md](file:///c:/dev/Course-Content-Agentic-Template/specs/_templates/rubrics/course_audit_rubric.md), [peer_review_rubric_template.md](file:///c:/dev/Course-Content-Agentic-Template/specs/_templates/rubrics/peer_review_rubric_template.md)
+- **Code Labs (`specs/_templates/code_labs/`)**: [code_lab_template.py](file:///c:/dev/Course-Content-Agentic-Template/specs/_templates/code_labs/code_lab_template.py)
+- **Syllabi (`specs/_templates/syllabi/`)**: [LCCC_Master_Syllabus_Template.docx](file:///c:/dev/Course-Content-Agentic-Template/specs/_templates/syllabi/LCCC_Master_Syllabus_Template.docx)
+
+---
+
+## 6. Active Courses in this Workspace
 
 | Course ID | Course Code & Title | Units | Active Stage | Directory |
 |---|---|---|---|---|
-| `cosc-2060-data-engineering` | COSC 2060: Modern Data Engineering & AI Infrastructure | 8 Units (16 Wks) | **Complete 8-Unit Preview Generated** (Readings, Labs, Code Deliverables) | [courses/cosc-2060-data-engineering/](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/README.md) |
+| `cosc-2060-data-engineering` | COSC 2060: Modern Data Engineering & AI Infrastructure | 8 Units (16 Wks) | **Production Canvas Cartridge (.imscc) Compiled** (Readings, Labs, 80 QTI Quizzes & Word Syllabus) | [courses/cosc-2060-data-engineering/](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/README.md) |
 
 
 ---
 
-## 6. Living Maintenance Protocol
+## 7. Living Maintenance Protocol
 
 As we work together and discover new patterns, optimizations, or rules:
 - Any new architectural decision is recorded in `docs/ADRs/`.
 - Any reusable authoring prompt is added to `prompts/`.
+- Any workspace-wide automation skill is added to `.agents/skills/`.
 - This `README.md` is updated to reflect changes to the engine, workflows, and catalog.
+
