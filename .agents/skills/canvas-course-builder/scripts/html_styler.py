@@ -147,6 +147,12 @@ def parse_markdown_to_html(md: str) -> str:
             output.append('<hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 1.5rem 0;"/>')
             continue
 
+        if re.match(r"^</?(div|iframe|p|section|article|header|nav|figure|figcaption|table|thead|tbody|tr|th|td|blockquote)\b", trimmed, re.IGNORECASE) or trimmed.startswith("<!--"):
+            if in_list:
+                output.append(flush_list())
+            output.append(trimmed)
+            continue
+
         if trimmed.startswith("<details>"):
             if in_list:
                 output.append(flush_list())

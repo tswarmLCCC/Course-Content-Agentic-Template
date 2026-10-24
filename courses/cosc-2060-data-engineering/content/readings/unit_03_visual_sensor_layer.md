@@ -1,14 +1,21 @@
-# Unit 3: The Visual Sensor Layer & Computer Vision Targets
+# Unit 3: Required Readings, Concepts & Video Lectures
 
-> **Course**: COSC 2060 — Modern Data Engineering & AI Infrastructure  
-> **Estimated Study Time**: 150 minutes of conceptual reading & applied image processing  
-> **Target Audience**: College Sophomores (Prerequisites: Introductory SQL & Introductory Machine Learning)  
-> **Core Toolchain**: OpenCV (`cv2`), NumPy, Python `os` / `pathlib`
+Welcome to the core instructional lecture and study hub for **Unit 3: The Visual Sensor Layer & Computer Vision Targets**. This page organizes all weekly learning materials into four structured chapters:
+
+1. **Instructor Lecture & Conceptual Deep Dive:** Master 3D tensor layouts (Height, Width, Channels), OpenCV BGR vs. RGB conventions, the "Stretched Photograph" mental model, aspect-ratio preserving letterboxing, and the Bounding Box Rosetta Stone (VOC, COCO, YOLO).
+2. **Required Readings & Authoritative Tutorial Guides:** Study curated official documentation from OpenCV, Ultralytics YOLO, PyTorch Vision, and Albumentations.
+3. **Required Micro-Video Lectures (Embedded):** Watch high-definition video chapters with verified timestamp navigation to observe image tensor manipulations and coordinate transforms in live Python environments.
+4. **Institutional Video Lecture Embeds:** Access campus-specific video recordings and announcements uploaded by your instructor.
+
+*Work through each section in sequence as part of your 150-minute asynchronous self-study allocation before starting the applied laboratory assignment.*
 
 ---
 
-## 1. Unit Overview & Objectives
+## 1. Instructor Lecture & Conceptual Deep Dive
 
+### Preprocessing Unstructured Imagery: Letterboxing, Color Spaces & YOLO Manifests
+
+#### 1. Unit Overview & Objectives
 In Units 1 and 2, we mastered structured tabular data. We engineered leak-free feature matrices in DuckDB and processed 1,000,000 transactional rows in Polars. 
 
 In **Unit 3**, we step outside the neat boundaries of rows and columns and enter the chaotic world of **unstructured visual sensor data**.
@@ -19,18 +26,16 @@ However, an AI model cannot ingest a messy directory of raw camera photos direct
 
 As a data engineer, your job is to build the **visual preprocessing pipeline**: resizing without aspect-ratio distortion, normalizing pixel tensors, extracting sensor metadata, and formatting standardized training manifests (such as YOLO format).
 
-### Measurable Learning Objectives
-By the end of this unit, you will be able to:
-1. **Deconstruct** digital images into 3D NumPy arrays / tensors (Height, Width, Channels) and navigate OpenCV's default BGR vs. standard RGB color space conventions.
-2. **Implement** letterbox padding algorithms that resize arbitrary real-world photos to standard model dimensions (e.g. $640 \times 640$) while strictly preserving aspect ratio.
-3. **Convert** between major computer vision annotation schemas: Pascal VOC (absolute $[x_{\text{min}}, y_{\text{min}}, x_{\text{max}}, y_{\text{max}}]$), COCO ($[x_{\text{min}}, y_{\text{min}}, \text{width}, \text{height}]$), and YOLO normalized center coordinates ($[x_{\text{center}}, y_{\text{center}}, \text{width}, \text{height}]$).
-4. **Extract and Validate** embedded EXIF camera metadata (GPS coordinates, focal length, timestamps) from image streams using Python.
-5. **Construct** an automated, batch-processing Python pipeline that ingests a nested folder of 1,000 truck inspection images and outputs a verified YOLO training manifest.
+**Measurable Learning Objectives:**
+* **Deconstruct** digital images into 3D NumPy arrays / tensors (Height, Width, Channels) and navigate OpenCV's default BGR vs. standard RGB color space conventions.
+* **Implement** letterbox padding algorithms that resize arbitrary real-world photos to standard model dimensions (e.g. $640 \times 640$) while strictly preserving aspect ratio.
+* **Convert** between major computer vision annotation schemas: Pascal VOC (absolute $[x_{\text{min}}, y_{\text{min}}, x_{\text{max}}, y_{\text{max}}]$), COCO ($[x_{\text{min}}, y_{\text{min}}, \text{width}, \text{height}]$), and YOLO normalized center coordinates ($[x_{\text{center}}, y_{\text{center}}, \text{width}, \text{height}]$).
+* **Extract and Validate** embedded EXIF camera metadata (GPS coordinates, focal length, timestamps) from image streams using Python.
+* **Construct** an automated, batch-processing Python pipeline that ingests a nested folder of 1,000 truck inspection images and outputs a verified YOLO training manifest.
 
 ---
 
-## 2. The Narrative of Data: The $1.2M Tire Blowout Catastrophe
-
+#### 2. The Narrative of Data: The $1.2M Tire Blowout Catastrophe
 Consider an authentic operational failure in freight transportation.
 
 A national trucking carrier sought to automate routine pre-trip vehicle safety inspections. In commercial trucking, federal regulations mandate that drivers inspect truck tires for tread separation, sidewall bulges, and structural cracks before departing. A single steer tire blowout on an interstate highway can result in a fatal rollover, cargo loss, and severe corporate liability.
@@ -53,7 +58,7 @@ for img_path in glob.glob("raw_tires/*.jpg"):
 
 The consultant trained a YOLOv8 object detector. In validation testing, the model achieved an impressive **94% mAP (mean Average Precision)**. The automated inspection gate went live at the terminal.
 
-### The Catastrophic Failure
+##### The Catastrophic Failure
 Three weeks later, Truck #804 cleared the automated inspection gate with zero warnings. Forty miles down Interstate 80, the right front steer tire suffered a catastrophic sidewall blowout at 70 mph. The truck jackknifed, destroying $1.2 million in pharmaceutical cargo and shutting down the interstate for six hours.
 
 When safety investigators examined the high-resolution photo taken at the terminal gate 50 minutes prior to the crash, a **3-inch vertical stress fracture** was clearly visible on the tire sidewall.
@@ -77,215 +82,151 @@ Because the naive data pipeline forced a wide $16:9$ rectangular photo into a sq
 
 ---
 
-## 3. The Mental Model: "The Stretched Photograph" & Letterbox Padding
+#### 3. The Mental Model: "The Stretched Photograph" & Letterbox Padding
+To prevent geometric distortion, modern computer vision pipelines use **Letterboxing** (the same technique film directors use to show widescreen movies on a standard TV).
 
-How do professional computer vision pipelines resize arbitrary photos without altering physical geometry?
-
-Think of a widescreen Hollywood movie ($16:9$ or $2.35:1$) being displayed on an old square television screen ($4:3$). The television does **not** stretch the actors until they look impossibly tall and skinny. Instead, it adds **black bars** on the top and bottom (or sides). 
-
-In computer vision engineering, this technique is called **Letterbox Padding**.
+Instead of squashing an image to fit a square $640 \times 640$ target:
+1. **Compute Uniform Scale Factor**: Find the scale ratio that fits the longest dimension into 640 while maintaining the original width-to-height ratio.
+   $$r = \min\left(\frac{W_{\text{target}}}{W_{\text{orig}}}, \frac{H_{\text{target}}}{H_{\text{orig}}}\right)$$
+2. **Resize Uniformly**: Scale both dimensions by $r$.
+3. **Pad Remaining Pixels with Neutral Gray (114, 114, 114)**: Center the scaled image inside the $640 \times 640$ canvas and pad the borders with neutral gray. (In neural networks, neutral gray corresponds to near-zero activation after normalization).
 
 ```
-STEP 1: Original Image (1280 x 720, Aspect Ratio = 1.77)
-Target Size: 640 x 640 (Square 1:1)
-
-STEP 2: Compute Uniform Scale Factor
-scale = min(640 / 1280, 640 / 720) = min(0.5, 0.888) = 0.5
-New Dimensions: 1280 * 0.5 = 640 wide, 720 * 0.5 = 360 high
-(Zero geometric distortion! The tires and cracks look identical!)
-
-STEP 3: Pad the Remaining 280 Pixels with Neutral Gray (114, 114, 114)
-Top Padding:    140 pixels of neutral gray
-Image Content:  360 pixels of scaled truck tire
-Bottom Padding: 140 pixels of neutral gray
-Total Output:   640 x 640 Square Tensor
+LETTERBOXING TRANSFORMATION:
+Original (1920 x 1080) ──> Scale factor r = 640 / 1920 = 0.333
+Scaled Image (640 x 360) ──> Preserve 100% of physical circle/crack geometry!
+Add Gray Padding (140px top, 140px bottom):
+┌──────────────────────────────────────┐
+│       [Neutral Gray Padding]         │ (140px)
+├──────────────────────────────────────┤
+│                                      │
+│        Scaled Tire Image             │ (360px)
+│                                      │
+├──────────────────────────────────────┤
+│       [Neutral Gray Padding]         │ (140px)
+└──────────────────────────────────────┘
+Final Dimension: 640 x 640 (Zero Distortion!)
 ```
-
-Why **neutral gray (RGB: 114, 114, 114)**?  
-In neural networks with normalized inputs, a pixel value of 114 represents the statistical midpoint (near zero after mean subtraction in standard ImageNet normalization), ensuring the padding contributes minimal gradient noise to the model during convolution.
 
 ---
 
-## 4. Technical Deep Dive: Images as Tensors & Bounding Box Math
+#### 4. The Coordinate System Rosetta Stone: VOC vs. COCO vs. YOLO
+When preprocessing object detection datasets, you will encounter three competing bounding box coordinate schemas:
 
-### A. The 3D Tensor Representation (BGR vs. RGB)
-When OpenCV reads an image with `cv2.imread()`, it returns a 3-dimensional NumPy array:
-$$\text{Image Shape} = (\text{Height}, \text{Width}, \text{Channels})$$
+| Schema | Coordinate Format | Example Values ($1920 \times 1080$ Image) | Characteristics |
+|---|---|---|---|
+| **Pascal VOC** | $[x_{\text{min}}, y_{\text{min}}, x_{\text{max}}, y_{\text{max}}]$ | `[100, 200, 500, 600]` | Absolute pixel integers (Top-Left and Bottom-Right corners). |
+| **COCO** | $[x_{\text{min}}, y_{\text{min}}, \text{width}, \text{height}]$ | `[100, 200, 400, 400]` | Absolute pixel integers (Top-Left corner + box dimensions). |
+| **YOLO** | $[x_{\text{center}}, y_{\text{center}}, \text{width}, \text{height}]$ | `[0.156, 0.370, 0.208, 0.370]` | **Normalized floats** relative to image dimensions ($[0.0, 1.0]$). |
+
+##### Converting Pascal VOC to YOLO:
+$$x_{\text{center}} = \frac{x_{\text{min}} + x_{\text{max}}}{2 \times W_{\text{image}}}, \quad y_{\text{center}} = \frac{y_{\text{min}} + y_{\text{max}}}{2 \times H_{\text{image}}}$$
+$$\text{width} = \frac{x_{\text{max}} - x_{\text{min}}}{W_{\text{image}}}, \quad \text{height} = \frac{y_{\text{max}} - y_{\text{min}}}{H_{\text{image}}}$$
+
+---
+
+#### 5. Guided Implementation Walkthrough: OpenCV Letterboxing in Python
 
 ```python
 import cv2
-
-img = cv2.imread("tire.jpg")
-print(img.shape)  # e.g., (1080, 1920, 3) -> 1080 rows, 1920 columns, 3 color planes
-```
-
-**Crucial OpenCV Gotcha**:  
-OpenCV stores color planes in **BGR order** (Blue, Green, Red), not standard **RGB**!
-- If you pass an OpenCV BGR image directly to Matplotlib, Pillow, or a PyTorch model, red brake lights will appear blue, and blue truck cabs will appear orange!
-- Always convert when handing off to visualization or deep learning frameworks:
-  ```python
-  rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-  ```
-
----
-
-### B. The Bounding Box Rosetta Stone (Pascal VOC vs. COCO vs. YOLO)
-
-In computer vision object detection, labels do not identify a whole image—they identify **bounding boxes** around objects of interest. There are three competing industry formats:
-
-```
-PASCAL VOC FORMAT (Absolute Corners):
-[x_min, y_min, x_max, y_max] in raw integer pixel coordinates.
-Example: [120, 80, 450, 600]
-
-COCO FORMAT (Top-Left Corner + Dimensions):
-[x_min, y_min, width, height] in raw integer pixel coordinates.
-Example: [120, 80, 330, 520]
-
-YOLO FORMAT (Normalized Center Coordinates - THE MODERN STANDARD):
-[class_id, x_center, y_center, width, height] strictly normalized to [0.0, 1.0].
-Example: [0, 0.4453, 0.3148, 0.5156, 0.4815]
-```
-
-```
-VISUAL COMPARISON:
-(0,0) ─────────────────────────────────── X (Width: W)
-  │   [x_min, y_min]
-  │         ┌──────────────────┐
-  │         │                  │
-  │         │   (x_c, y_c)     │ Height (H_box)
-  │         │        •         │
-  │         │                  │
-  │         └──────────────────┘ [x_max, y_max]
-  │               Width (W_box)
-  ▼
-  Y (Height: H)
-```
-
-#### The Conversion Formulas:
-Given an image with dimensions $W$ and $H$, and a bounding box $[x_{\text{min}}, y_{\text{min}}, x_{\text{max}}, y_{\text{max}}]$:
-
-$$\text{Box Width: } w = x_{\text{max}} - x_{\text{min}}$$
-$$\text{Box Height: } h = y_{\text{max}} - y_{\text{min}}$$
-$$\text{Center X: } x_c = x_{\text{min}} + \frac{w}{2}$$
-$$\text{Center Y: } y_c = y_{\text{min}} + \frac{h}{2}$$
-
-Now normalize strictly to $[0.0, 1.0]$:
-$$x_{\text{norm}} = \frac{x_c}{W}, \quad y_{\text{norm}} = \frac{y_c}{H}, \quad w_{\text{norm}} = \frac{w}{W}, \quad h_{\text{norm}} = \frac{h}{H}$$
-
-**Why YOLO Normalizes**:  
-Because YOLO coordinates are scaled between 0 and 1, **they are independent of image resolution**. If you resize an image from $4000 \times 3000$ down to $640 \times 640$, the normalized coordinates remain mathematically identical!
-
----
-
-## 5. Scaffolded Intermediate Transformations (REQ-14)
-
-Let's trace a raw truck tire inspection photo and its bounding box through the pipeline:
-
-```
-STAGE 1: Raw Image & Annotation
-- Raw Dimensions: 1920 (W) x 1080 (H)
-- Defect Detected: "Sidewall_Crack" (Class ID: 0)
-- VOC Label: [x_min: 400, y_min: 300, x_max: 600, y_max: 900]
-
-STAGE 2: Letterbox Resize to 640 x 640
-- Scale Factor: min(640 / 1920, 640 / 1080) = min(0.333, 0.592) = 0.3333
-- Scaled Image: 1920 * 0.3333 = 640 (W), 1080 * 0.3333 = 360 (H)
-- Padding Added: Top = 140 px, Bottom = 140 px, Left = 0 px, Right = 0 px
-
-STAGE 3: Bounding Box Coordinate Transformation
-- Scaled x_min = 400 * 0.3333 + 0   = 133.3 px
-- Scaled x_max = 600 * 0.3333 + 0   = 200.0 px
-- Scaled y_min = 300 * 0.3333 + 140 = 240.0 px  <-- Shifted down by top padding!
-- Scaled y_max = 900 * 0.3333 + 140 = 440.0 px  <-- Shifted down by top padding!
-
-STAGE 4: Standardized YOLO Normalized Manifest Line
-- Center X = (133.3 + 200.0) / 2 = 166.65  --> norm = 166.65 / 640 = 0.2604
-- Center Y = (240.0 + 440.0) / 2 = 340.00  --> norm = 340.00 / 640 = 0.5312
-- Width    = (200.0 - 133.3)     = 66.70   --> norm = 66.70 / 640   = 0.1042
-- Height   = (440.0 - 240.0)     = 200.00  --> norm = 200.00 / 640  = 0.3125
-Manifest Output (.txt):
-0 0.2604 0.5312 0.1042 0.3125
-```
-
----
-
-## 6. Guided Student Practice: Hands-On Image Processing
-
-Let's test letterbox resizing and coordinate transformations in Python:
-
-```python
 import numpy as np
-import cv2
 
-def letterbox_image(image, target_size=(640, 640), pad_color=(114, 114, 114)):
-    """Resizes an image using letterbox padding to preserve aspect ratio."""
-    ih, iw = image.shape[:2]
-    tw, th = target_size
+def letterbox_image(image, target_size=(640, 640), fill_color=(114, 114, 114)):
+    """
+    Resizes an image using uniform scaling and symmetric padding.
+    Guarantees zero aspect-ratio distortion for computer vision models.
+    """
+    h_orig, w_orig = image.shape[:2]
+    w_target, h_target = target_size
     
-    # Calculate scale factor
-    scale = min(tw / iw, th / ih)
-    nw, nh = int(iw * scale), int(ih * scale)
+    # 1. Compute uniform scaling factor
+    ratio = min(w_target / w_orig, h_target / h_orig)
+    new_w = int(round(w_orig * ratio))
+    new_h = int(round(h_orig * ratio))
     
-    # Resize with inter-area interpolation (best for shrinking)
-    resized = cv2.resize(image, (nw, nh), interpolation=cv2.INTER_AREA)
+    # 2. Resize with linear interpolation
+    resized = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_LINEAR)
     
-    # Create canvas with pad color
-    canvas = np.full((th, tw, 3), pad_color, dtype=np.uint8)
+    # 3. Create canvas filled with neutral gray
+    canvas = np.full((h_target, w_target, 3), fill_color, dtype=np.uint8)
     
-    # Compute padding offsets (center the image)
-    dx = (tw - nw) // 2
-    dy = (th - nh) // 2
+    # 4. Center the resized image on the canvas
+    pad_x = (w_target - new_w) // 2
+    pad_y = (h_target - new_h) // 2
+    canvas[pad_y:pad_y + new_h, pad_x:pad_x + new_w] = resized
     
-    # Paste resized image into canvas
-    canvas[dy:dy+nh, dx:dx+nw] = resized
-    
-    return canvas, scale, dx, dy
+    return canvas, ratio, pad_x, pad_y
 
-# Create a test synthetic image (1920x1080 solid blue)
-test_img = np.zeros((1080, 1920, 3), dtype=np.uint8)
-test_img[:] = (255, 0, 0)  # BGR Blue
+# Verification test with synthetic wide image (1280 x 720)
+synthetic_image = np.zeros((720, 1280, 3), dtype=np.uint8)
+cv2.circle(synthetic_image, (640, 360), 100, (0, 255, 0), -1) # Perfect circle
 
-# Letterbox to 640x640
-letterboxed, scale, pad_x, pad_y = letterbox_image(test_img)
-print(f"Output Tensor Shape: {letterboxed.shape}")
-print(f"Scale: {scale:.4f}, Padding X: {pad_x}, Padding Y: {pad_y}")
+processed, scale, px, py = letterbox_image(synthetic_image)
+print(f"Original shape: {synthetic_image.shape}")
+print(f"Processed shape: {processed.shape}")
+print(f"Applied Scale: {scale:.4f}, Padding X: {px}, Padding Y: {py}")
 ```
 
 ---
 
-## 7. Frequently Asked Questions & Common Gotchas
+#### 6. Common Traps & Formative Self-Check FAQ
 
-### Gotcha 1: The `cv2.imread()` Silent NoneType Trap
-* **Symptom**: You run `img.shape` and Python throws:
-  ```text
-  AttributeError: 'NoneType' object has no attribute 'shape'
-  ```
-* **Why it happens**: OpenCV **does not raise an exception** if a file path is wrong, missing, or corrupted. It simply returns `None`!
-* **Fix**: Always verify that the image loaded:
-  ```python
-  img = cv2.imread(filepath)
-  if img is None:
-      raise FileNotFoundError(f"Corrupted or missing image: {filepath}")
-  ```
+* **Question 1: Why does OpenCV read images in BGR instead of RGB?**  
+  *Answer:* Historical reasons! When OpenCV was created in 1999, BGR was the standard representation used by camera frame grabbers and Windows display adapters. When transferring arrays to Matplotlib, PIL, or PyTorch, you must convert them: `cv2.cvtColor(img, cv2.COLOR_BGR2RGB)`.
+
+* **Question 2: What happens if bounding boxes are not updated after letterbox padding?**  
+  *Answer:* If you pad the image but fail to adjust the box coordinates ($x_{\text{new}} = x_{\text{old}} \times r + \text{pad}_x$), the labels will point to empty gray padding, completely sabotaging the detector during training.
 
 ---
 
-### Gotcha 2: The BGR Inverted Color Bug
-* **Symptom**: You save an image with OpenCV and view it in a web browser or Jupyter notebook, and the colors look like an alien world (yellow grass, blue faces).
-* **Why it happens**: OpenCV expects BGR; Matplotlib and HTML browsers expect RGB.
-* **Fix**: Convert color space with `cv2.cvtColor(img, cv2.COLOR_BGR2RGB)`.
+## 2. Required Readings & Authoritative Tutorial Guides
+
+Review the following five curated documentation guides and technical specifications before beginning your applied lab:
+
+1. **[OpenCV Official Documentation: Geometric Image Transformations](https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html)**
+   *Understand resizing interpolation algorithms (linear, cubic, area), color space conversions, and image affine transformations.*
+
+2. **[Ultralytics YOLO: Dataset Format & Manifest Standards](https://docs.ultralytics.com/datasets/)**
+   *Review the authoritative specifications for YOLO text label files, directory structures, and normalized float coordinate bounds.*
+
+3. **[PyTorch Vision: Transforms & Data Augmentation](https://pytorch.org/vision/stable/transforms.html)**
+   *Learn how modern deep learning frameworks handle batch image normalization, tensor conversions, and spatial augmentations.*
+
+4. **[Roboflow Engineering: Image Letterboxing vs. Resizing](https://blog.roboflow.com/letterbox/)**
+   *A deep dive with visual benchmarks explaining why non-square aspect ratio distortion ruins object detection precision.*
+
+5. **[Albumentations: Fast Computer Vision Preprocessing Library](https://albumentations.ai/docs/)**
+   *Study high-performance bounding box transformations and automated spatial adjustments during image pipelines.*
 
 ---
 
-### Gotcha 3: Bounding Box Inversion ($x_{\text{max}} < x_{\text{min}}$)
-* **Symptom**: YOLO training crashes with:
-  ```text
-  ValueError: Box coordinates must satisfy x_max > x_min and y_max > y_min
-  ```
-* **Why it happens**: A user or flawed script clicked the bottom-right corner before clicking the top-left, or applied negative padding.
-* **Fix**: Enforce ordering defensively:
-  ```python
-  x_min, x_max = min(x1, x2), max(x1, x2)
-  y_min, y_max = min(y1, y2), max(y1, y2)
-  ```
+## 3. Required Micro-Video Lectures (Embedded)
+
+Watch each of the following video chapters to observe computer vision data engineering and coordinate systems in action:
+
+### PyTorch in 100 Seconds <span style="font-size: 0.9em; color: #64748b;">(Full Video - 2:15)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="PyTorch in 100 Seconds" src="https://www.youtube.com/embed/ORMx45xqWkA" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=ORMx45xqWkA" target="_blank" rel="noopener">Open video segment in new tab (2:15)</a></p>
+
+### OpenCV Python: Image Preprocessing & Tensor Layouts <span style="font-size: 0.9em; color: #64748b;">(Core Concepts - 10:45)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="OpenCV Image Manipulation" src="https://www.youtube.com/embed/qw--VYLpxG4?start=317" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=qw--VYLpxG4&amp;t=317s" target="_blank" rel="noopener">Open video segment in new tab (5:17)</a></p>
+
+### YOLO Object Detection: Bounding Box Coordinate Standards <span style="font-size: 0.9em; color: #64748b;">(Full Video - 8:30)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="YOLO Annotation Formats" src="https://www.youtube.com/embed/T1dJfh1KlYA" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=T1dJfh1KlYA" target="_blank" rel="noopener">Open video segment in new tab (11:30)</a></p>
+
+---
+
+## 4. Institutional Video Lecture Embeds
+
+<div style="background: #f8fafc; border-radius: 6px; padding: 1.5rem; margin: 1rem 0px; text-align: center; border: 2px dashed #94a3b8;">
+  <p style="font-size: 0.95em; color: #475569; margin-bottom: 1rem;"><strong>Campus Faculty Announcements &amp; Lab Walkthrough Recordings</strong></p>
+  <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;">Institutional video lectures and live office hour recordings for Unit 3 will appear in this designated container.</p>
+</div>

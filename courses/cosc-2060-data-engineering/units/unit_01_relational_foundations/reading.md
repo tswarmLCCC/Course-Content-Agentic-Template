@@ -1,43 +1,48 @@
-# Unit 1: The Relational Foundation & Supervised Learning Targets
+# Unit 1: Required Readings, Concepts & Video Lectures
 
-> **Course**: COSC 2060 — Modern Data Engineering & AI Infrastructure  
-> **Estimated Study Time**: 150 minutes of asynchronous conceptual deep-dive & hands-on exploration  
-> **Target Audience**: College Sophomores (Prerequisites: Introductory SQL & Introductory Machine Learning)  
-> **Core Toolchain**: DuckDB 0.10+ (In-process Columnar OLAP Engine) & Python 3.10+
+Welcome to the core instructional lecture and study hub for **Unit 1: The Relational Foundation & Supervised Learning Targets**. This page organizes all weekly learning materials into four structured chapters:
+
+1. **Instructor Lecture & Conceptual Deep Dive:** Master the physical memory layout, look-ahead bias mechanics, window lagging, and point-in-time `ASOF JOIN` syntax authored specifically for this unit.
+2. **Required Readings & Authoritative Tutorial Guides:** Study curated official documentation and engineering deep-dives from DuckDB, Apache Arrow, and columnar data architecture sources.
+3. **Required Micro-Video Lectures (Embedded):** Watch high-definition video chapters with verified timestamp navigation to observe columnar execution and temporal joins in live environments.
+4. **Institutional Video Lecture Embeds:** Access campus-specific video recordings and announcements uploaded by your instructor.
+
+*Work through each section in sequence as part of your 150-minute asynchronous self-study allocation before starting the applied laboratory assignment.*
 
 ---
 
-## 1. Unit Overview & Objectives
+## 1. Instructor Lecture & Conceptual Deep Dive
 
+### Asking Questions of Temporal Data: Relational Foundations for AI
+
+#### 1. Unit Overview & Objectives
 Welcome to **COSC 2060: Modern Data Engineering & AI Infrastructure**. 
 
-In your introductory machine learning course, you learned how to train classification and regression algorithms. You split data into $X$ (features) and $y$ (target labels), called `model.fit(X_train, y_train)`, evaluated accuracy, and plotted ROC curves. But in that class, you were handed a gift that almost never exists in industry: **a clean, single-table, flat 2D CSV file** (like Iris, Titanic, or curated Kaggle datasets).
+In your introductory machine learning coursework, you were provided a clean, static, single-table flat CSV file (like Iris, Titanic, or California Housing). You split data into $X$ (features) and $y$ (target labels), called `model.fit(X_train, y_train)`, evaluated test accuracy, and plotted ROC curves.
 
-In your introductory SQL course, you learned how to query normalized databases. You wrote `SELECT`, `WHERE`, `ORDER BY`, and basic `INNER JOIN` statements to generate human-readable invoices and employee lists from relational tables.
+In your introductory SQL coursework, you queried normalized transactional databases. You wrote `SELECT`, `WHERE`, `ORDER BY`, and standard `INNER JOIN` statements to generate human-readable invoices and management reports.
 
-**This unit is the bridge between those two worlds.**
+**This unit is the bridge between those two disciplines.**
 
-In real production engineering, nobody hands you a clean CSV. Real enterprise data lives in multiple normalized relational tables that are constantly updated by operational transactions. If you naively join those tables using the SQL you learned in your introductory class, you will commit the cardinal sin of AI data engineering: **temporal data leakage** (also known as *look-ahead bias*). Your model will report 99% accuracy in your Jupyter Notebook, but will fail catastrophically the moment it is deployed to live production.
+In production AI systems, clean flat CSVs do not exist. Real enterprise data lives in normalized transactional tables that are continually modified by live operations. If you naively join those tables using basic SQL equality joins, you will commit the cardinal sin of machine learning data engineering: **temporal data leakage** (also known as *look-ahead bias*). Your model will achieve 99% accuracy in your notebook, but will fail catastrophically the moment it is deployed to live production.
 
 By the end of this unit, you will master the art of transforming raw transactional databases into leak-free machine learning feature matrices using modern columnar analytical SQL.
 
-### Measurable Learning Objectives
-By the end of this unit, you will be able to:
-1. **Differentiate** between row-oriented OLTP database architectures (e.g., PostgreSQL) and columnar-oriented OLAP engines (e.g., DuckDB) in terms of disk I/O, cache efficiency, and analytical query performance.
-2. **Identify and Diagnose** temporal data leakage and look-ahead bias in multi-table relational joins.
-3. **Construct** point-in-time joins using DuckDB's native `ASOF JOIN` syntax to guarantee zero future data leaks into historical feature rows.
-4. **Implement** defensive rolling window aggregations and lag features using SQL window functions (`PARTITION BY`, `ORDER BY`, `ROWS BETWEEN N PRECEDING AND 1 PRECEDING`).
-5. **Generate** a production-ready, flat 2D feature matrix ($X, y$) from raw, messy relational logistics tables.
+**Measurable Learning Objectives:**
+* **Differentiate** between row-oriented OLTP database architectures (e.g., PostgreSQL) and columnar-oriented OLAP engines (e.g., DuckDB, Apache Arrow) in terms of disk I/O, cache line utilization, and analytical scan performance.
+* **Identify and Diagnose** temporal data leakage and look-ahead bias in multi-table relational joins.
+* **Construct** point-in-time joins using DuckDB's native `ASOF JOIN` syntax to guarantee zero future data leaks into historical feature rows.
+* **Implement** defensive rolling window aggregations and lag features using SQL window functions (`PARTITION BY`, `ORDER BY`, `ROWS BETWEEN N PRECEDING AND 1 PRECEDING`).
+* **Generate** a production-ready, flat 2D feature matrix ($X, y$) from raw, messy relational logistics tables.
 
 ---
 
-## 2. The Narrative of Data: Why the $10M Delivery Model Failed
-
+#### 2. The Narrative of Data: Why the $10M Delivery Model Failed
 To understand why data engineering is a distinct discipline from both software development and data science, consider an authentic industry failure.
 
 A national freight logistics carrier employed hundreds of drivers moving freight between major distribution hubs. They wanted to predict whether a scheduled shipment would experience a severe delivery delay (`delivery_delay_mins > 30`) so dispatchers could reroute cargo proactively.
 
-The company hired a brilliant machine learning graduate. The data scientist opened their notebook, connected to the company's PostgreSQL database, and wrote a standard SQL query:
+The company hired a machine learning scientist. The scientist opened a Jupyter notebook, connected to the company's PostgreSQL database, and wrote a standard SQL query:
 
 ```sql
 -- NAIVE, CATASTROPHIC SQL QUERY (DO NOT USE IN PRODUCTION)
@@ -59,7 +64,7 @@ LEFT JOIN weather_observations w
 
 The scientist trained an XGBoost model on this dataset. The results were astounding: **99.4% ROC-AUC score**. The executive team was thrilled and deployed the model to live dispatch.
 
-### The Catastrophic Deployment Failure
+##### The Catastrophic Deployment Failure
 On day one of live operation, the model's accuracy collapsed to **51%**—no better than flipping a coin. Shipments were delayed across the country, warehouses were left unstaffed, and the company lost an estimated $10 million in contractual service level penalties.
 
 What happened?
@@ -78,7 +83,7 @@ In the real world at **7:15 AM**, that blizzard had not happened yet. The live m
 ```
 REALITY TIMELINE:
 06:00 AM ── Weather Observation: "Clear skies, dry roads"
-07:15 AM ── Truck #104 Departs Chicago  <── MODEL MAKES PREDICTION HERE!
+07:15 AM ── Truck #104 Departs Chicago  <── LIVE INFERENCE TAKES PLACE HERE!
 12:00 PM ── Truck #104 is 300 miles away
 05:30 PM ── Severe Blizzard hits Chicago!
 06:00 PM ── Weather Observation: "Blizzard, 6 inches snow, road closed"
@@ -91,357 +96,241 @@ This is **look-ahead bias** (temporal data leakage). A machine learning model wi
 
 ---
 
-## 3. The Mental Model: OLTP Row Filing vs. OLAP Columnar Straws
+#### 3. The Physical Mental Model: Row Filing vs. Columnar Straws
+In your introductory SQL course, you used **PostgreSQL**. In this course, we introduce **DuckDB** and **Apache Arrow**. Why?
 
-In your first SQL course, you used **PostgreSQL**. Why are we introducing a new engine, **DuckDB**, in this course?
-
-To understand the difference, consider how data is stored physically on your computer's storage drive (SSD or hard disk).
+To understand the difference, consider how data is stored physically on your computer's storage drive (SSD or NVMe) and in RAM:
 
 ```
-TABLE: routes (route_id, driver_id, origin_city, distance_miles, delay_mins)
+TABLE: routes (route_id INT, driver_id INT, origin_city VARCHAR, distance_miles DOUBLE, delay_mins DOUBLE)
 
-1. ROW-ORIENTED (OLTP - PostgreSQL):
-[101, 44, 'Chicago', 450.2, 12] [102, 12, 'Denver', 612.0, 45] [103, 88, 'Dallas', 210.5, 0] ...
-Bytes on disk are packed row after row.
+1. ROW-ORIENTED (OLTP - PostgreSQL / SQLite):
+[route_id, driver_id, origin_city, distance_miles, delay_mins] [route_id, driver_id, origin_city, distance_miles, delay_mins] ...
+- Physical Layout: Tuples are stored contiguously on disk pages.
+- Ideal Workload: Fetching or inserting a single complete customer record (OLTP).
+- The Bottleneck: An analytical aggregation like AVG(delay_mins) must read 100% of the entire table from disk into RAM, discarding 80% of the bytes.
 
-2. COLUMN-ORIENTED (OLAP - DuckDB):
-route_id:       [101, 102, 103, 104, 105, ...]
-driver_id:      [44, 12, 88, 19, 44, ...]
-origin_city:    ['Chicago', 'Denver', 'Dallas', 'Chicago', 'Denver', ...]
-distance_miles: [450.2, 612.0, 210.5, 880.1, 312.4, ...]
-delay_mins:     [12, 45, 0, 95, 4, ...]
-Bytes on disk are packed column after column.
+2. COLUMN-ORIENTED (OLAP - DuckDB / Parquet / Apache Arrow):
+[delay_mins_1, delay_mins_2, delay_mins_3, ...] [distance_1, distance_2, distance_3, ...]
+- Physical Layout: Each column is stored contiguously in memory chunks.
+- Ideal Workload: Scanning, filtering, and aggregating specific feature columns over millions of rows.
+- The Advantage: To compute AVG(delay_mins), the engine reads ONLY that column. Vectorized CPU instructions (SIMD) process thousands of values per clock cycle.
 ```
 
-### The "Filing Cabinet" vs. "Drinking Straws" Metaphor
+##### The "Filing Cabinet vs. Drinking Straw" Analogy
+* **Row-Store (PostgreSQL):** Imagine a warehouse of 10,000 filing folders. Each folder contains all details about one shipment (driver, vehicle, origin, fuel, delay). If your manager asks: *"What is our average delay?"*, you must walk to every single cabinet, pull out every folder, flip past 15 pages of driver info, read the delay number, and put the folder back.
+* **Column-Store (DuckDB):** Imagine 5 long drinking straws. One straw contains only route IDs; another contains only delay numbers. To answer the manager's question, you pick up the "delay numbers" straw and dump all numbers directly onto the calculator. You never touch, load, or pay I/O costs for the other attributes.
 
-1. **OLTP (Online Transaction Processing — PostgreSQL)**:
-   - Imagine a traditional office filing cabinet. Each folder holds all the papers for one single customer or route (the complete row).
-   - If an ATM needs to update your bank balance, or an e-commerce store needs to insert one new order, PostgreSQL opens one folder, updates one number, and closes it. It is blazingly fast for single-row inserts, updates, and transactional safety (ACID compliance).
-   - But what happens when an AI model wants the `AVG(distance_miles)` across 10 million rows? PostgreSQL must pull all 10 million folders out of the cabinet, read every piece of paper in every folder, just to look at the one line containing distance. Your disk and memory bus are choked with useless data.
-
-2. **OLAP (Online Analytical Processing — DuckDB)**:
-   - Imagine that instead of folders, every column is stored in its own dedicated drinking straw. One straw holds all 10 million route IDs; another straw holds all 10 million distances.
-   - When DuckDB calculates `AVG(distance_miles)`, it only opens the `distance_miles` straw! It never touches, reads, or loads driver names, addresses, or cities into memory. 
-   - Furthermore, because all the numbers in that straw are identical data types (`FLOAT`), modern CPU vector registers (SIMD — Single Instruction, Multiple Data) can crunch 8 to 16 numbers in a single clock cycle.
-
-### Why DuckDB for Data Engineering?
-DuckDB is an **in-process analytical database** (often called "the SQLite for Analytics"). 
-- It requires **no server setup, no background daemon, no open ports, and no administrative passwords**.
-- It installs cleanly into any Python environment with `pip install duckdb`.
-- It can directly query raw CSV files, Parquet files, and Python dictionaries without needing `CREATE TABLE` or `COPY FROM` boilerplate.
+DuckDB executes analytical queries 10x to 100x faster than traditional row engines on single-node laptops because it operates in-memory using **vectorized execution** over columnar data chunks.
 
 ---
 
-## 4. Technical Deep Dive: Evolving SQL to Feature Engineering
+#### 4. Defensive Query Evolution: From Leakage to Native ASOF JOIN
+How do we solve the temporal leakage problem in SQL? Let's trace the engineering progression through three concrete steps.
 
-Now let's examine the step-by-step cognitive progression from raw normalized relational tables to a clean 2D feature matrix.
-
-### Step 1: The Raw Input Tables
-Our logistics enterprise has three messy normalized tables:
-
-```
-Table 1: drivers (Dimension)
-+-----------+---------------+------------+--------------+---------------+
-| driver_id | driver_name   | hire_date  | safety_score | vehicle_type  |
-+-----------+---------------+------------+--------------+---------------+
-| 401       | Alice Vance   | 2023-03-15 | 0.96         | Semi-Trailer  |
-| 402       | Bob Sterling  | 2021-08-01 | 0.88         | Box Truck     |
-+-----------+---------------+------------+--------------+---------------+
-
-Table 2: routes (Fact / Events)
-+----------+-----------+-------------+-----------+---------------------+---------------------+------------------+
-| route_id | driver_id | origin_city | dest_city | dep_time            | sched_arrival       | delay_mins (y)   |
-+----------+-----------+-------------+-----------+---------------------+---------------------+------------------+
-| 9001     | 401       | Cheyenne    | Denver    | 2026-10-12 06:15:00 | 2026-10-12 08:30:00 | 45               |
-| 9002     | 402       | Salt Lake   | Boise     | 2026-10-12 07:00:00 | 2026-10-12 12:45:00 | 0                |
-+----------+-----------+-------------+-----------+---------------------+---------------------+------------------+
-
-Table 3: weather_observations (Continuous Sensor Stream)
-+------------+-----------+---------------------+------------------+------------------+----------------+
-| station_id | city      | obs_time            | precipitation_in | visibility_miles | road_condition |
-+------------+-----------+---------------------+------------------+------------------+----------------+
-| W-CHY-01   | Cheyenne  | 2026-10-12 05:00:00 | 0.00             | 10.0             | Dry            |
-| W-CHY-01   | Cheyenne  | 2026-10-12 06:00:00 | 0.15             | 4.5              | Wet            |
-| W-CHY-01   | Cheyenne  | 2026-10-12 07:00:00 | 0.80             | 1.0              | Snow/Ice       |
-| W-SLC-02   | Salt Lake | 2026-10-12 06:30:00 | 0.00             | 10.0             | Dry            |
-+------------+-----------+---------------------+------------------+------------------+----------------+
+##### Step 1: The Failed Naive Join
+When joining an event table (`routes`) to an observation table (`weather`), a naive `JOIN ... ON date = date` leaks evening observations into morning departures:
+```sql
+-- DANGEROUS: Leaks future weather into morning departures
+SELECT 
+    r.route_id,
+    r.dep_time,
+    w.obs_time,
+    w.precipitation_in
+FROM routes r
+JOIN weather_observations w
+  ON r.origin_city = w.city
+ AND r.dep_time::DATE = w.obs_time::DATE;
 ```
 
-Notice the engineering challenge:
-- Truck `9001` departed Cheyenne at `06:15:00`.
-- What was the weather? 
-  - At `05:00:00`, it was dry.
-  - At `06:00:00`, it was wet with 0.15 inches of rain.
-  - At `07:00:00`, it began snowing heavily.
-- The truck departed at **06:15**. The most recent weather observation available to dispatch was the **06:00:00** reading. 
-- If our query attaches the `07:00:00` reading, we leak future snow into a truck that had already left 45 minutes earlier!
+##### Step 2: The Window Function Workaround (Standard SQL)
+Before modern engines introduced temporal primitives, data engineers had to write complex window functions with strict lookback boundaries:
+```sql
+-- DEFENSIVE SQL USING WINDOW FUNCTIONS (PREVENTS LOOK-AHEAD BIAS)
+WITH ranked_weather AS (
+    SELECT 
+        r.route_id,
+        r.dep_time,
+        w.obs_time,
+        w.precipitation_in,
+        ROW_NUMBER() OVER (
+            PARTITION BY r.route_id 
+            ORDER BY w.obs_time DESC
+        ) AS rank_order
+    FROM routes r
+    JOIN weather_observations w
+      ON r.origin_city = w.city
+     AND w.obs_time <= r.dep_time  -- STRICT TEMPORAL BOUNDARY
+)
+SELECT route_id, dep_time, obs_time, precipitation_in
+FROM ranked_weather
+WHERE rank_order = 1;
+```
+*Why this works:* The condition `w.obs_time <= r.dep_time` guarantees that no weather record recorded after the truck left can ever enter the candidate set. Sorting `w.obs_time DESC` and taking `rank_order = 1` extracts the *latest known observation prior to departure*.  
+*The Limitation:* On large tables, computing a cross-join followed by a window sort over millions of partitions consumes immense RAM and CPU time.
 
----
-
-### Step 2: The Point-in-Time Join with DuckDB `ASOF JOIN`
-
-DuckDB provides native syntax specifically engineered for time-series and financial/logistics alignment: the **`ASOF JOIN`** (*As-Of Join*).
+##### Step 3: DuckDB's Native `ASOF JOIN`
+DuckDB provides native support for **ASOF joins**—a specialized physical operator engineered specifically for point-in-time event matching:
 
 ```sql
+-- PRODUCTION DUCKDB ASOF JOIN: ELEGANT, DEFENSIVE, VECTORIZED
 SELECT 
     r.route_id,
     r.driver_id,
-    r.dep_time,
     r.origin_city,
+    r.dep_time,
     w.obs_time AS weather_obs_time,
     w.precipitation_in,
     w.visibility_miles,
-    w.road_condition
+    w.road_condition,
+    r.delivery_delay_mins AS target_delay
 FROM routes r
 ASOF JOIN weather_observations w
   ON r.origin_city = w.city
  AND r.dep_time >= w.obs_time;
 ```
 
-#### How DuckDB Evaluates This Query:
-1. It matches `origin_city` with `city` (exact match).
-2. For each route, it scans backward through time and picks the single weather record with the **largest `obs_time` that is still $\le$ `dep_time`**.
-3. For Route `9001` (dep: `06:15:00`), it evaluates:
-   - `07:00:00 <= 06:15:00` $\rightarrow$ **FALSE** (Discarded!)
-   - `06:00:00 <= 06:15:00` $\rightarrow$ **TRUE** (Selected!)
-   - `05:00:00 <= 06:15:00` $\rightarrow$ TRUE, but `06:00:00` is more recent.
-
-```
-INTERMEDIATE SCHEMA 1: After Leak-Free ASOF Join
-+----------+-----------+---------------------+-------------+---------------------+------------------+------------------+
-| route_id | driver_id | dep_time            | origin_city | weather_obs_time    | precipitation_in | road_condition   |
-+----------+-----------+---------------------+-------------+---------------------+------------------+------------------+
-| 9001     | 401       | 2026-10-12 06:15:00 | Cheyenne    | 2026-10-12 06:00:00 | 0.15             | Wet              |
-| 9002     | 402       | 2026-10-12 07:00:00 | Salt Lake   | 2026-10-12 06:30:00 | 0.00             | Dry              |
-+----------+-----------+---------------------+-------------+---------------------+------------------+------------------+
-Notice: Zero look-ahead bias! The 07:00:00 snow reading was safely excluded.
-```
+* **How `ASOF JOIN` Operates:** For every route departure on the left, DuckDB searches the weather observations on the right that match the exact equality condition (`r.origin_city = w.city`) and picks the single row with the **maximum `obs_time` that is less than or equal to `r.dep_time`**.
+* **Zero Temporal Leakage:** Because `r.dep_time >= w.obs_time`, it is mathematically impossible for an observation recorded at 6:00 PM to attach to a 7:15 AM departure.
+* **Engine Performance:** Instead of building a massive Cartesian product and sorting window partitions, DuckDB uses a parallelized merge-join algorithm that scans pre-sorted columnar buffers in a single pass.
 
 ---
 
-### Step 3: Rolling Window Features (Defensive Lagging)
+#### 5. Guided End-to-End Implementation Walkthrough (Python + DuckDB)
+Here is how you execute this defensive pipeline in Python using DuckDB's zero-copy relational API:
 
-Machine learning models love historical aggregate features. For example: *"What is this driver's average delay over their past 5 trips?"*
-
-In SQL, we calculate rolling statistics using **Window Functions**. But here lies another lethal trap for beginners:
-
-```sql
--- WRONG: ACCIDENTAL LABEL LEAKAGE!
-AVG(r.delivery_delay_mins) OVER (
-    PARTITION BY r.driver_id 
-    ORDER BY r.dep_time 
-    ROWS BETWEEN 5 PRECEDING AND CURRENT ROW -- DANGER!
-) AS driver_rolling_avg_delay
-```
-
-**Why is `CURRENT ROW` fatal?**  
-`CURRENT ROW` includes the delay of the *current trip* inside the feature used to predict that very same trip's delay! If a truck is 45 minutes late today, that 45 minutes is factored into its own input feature.
-
-The correct, defensive formulation uses `1 PRECEDING`:
-```sql
--- DEFENSIVE: STOPS AT THE PREVIOUS COMPLETED TRIP
-AVG(r.delivery_delay_mins) OVER (
-    PARTITION BY r.driver_id 
-    ORDER BY r.dep_time 
-    ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
-) AS driver_historical_avg_delay
-```
-
-```
-INTERMEDIATE SCHEMA 2: Rolling Window Isolation
-Driver 401 Trips:
-Trip 1 (Oct 1): Delay = 10 mins  --> Prior Avg: NULL (First trip)
-Trip 2 (Oct 4): Delay = 20 mins  --> Prior Avg: 10.0 mins (Uses Trip 1 only)
-Trip 3 (Oct 8): Delay = 0 mins   --> Prior Avg: 15.0 mins (Uses Trips 1 & 2)
-Trip 4 (Oct 12): [CURRENT TRIP]  --> Prior Avg: 10.0 mins (Uses Trips 1, 2, 3)
-```
-
----
-
-### Step 4: The Final 2D Machine Learning Feature Matrix
-
-Combining the driver dimension table, the point-in-time weather join, and the lagged historical rolling statistics yields our final, production-ready feature matrix:
-
-```sql
--- FINAL PRODUCTION FEATURE MATRIX PIPELINE
-WITH driver_history AS (
-    SELECT 
-        route_id,
-        driver_id,
-        dep_time,
-        origin_city,
-        dest_city,
-        distance_miles,
-        delivery_delay_mins,
-        -- Rolling 5-trip average delay (strictly prior trips)
-        AVG(delivery_delay_mins) OVER (
-            PARTITION BY driver_id 
-            ORDER BY dep_time 
-            ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
-        ) AS driver_prior_avg_delay,
-        -- Total trips completed prior to this route
-        COUNT(route_id) OVER (
-            PARTITION BY driver_id 
-            ORDER BY dep_time 
-            ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
-        ) AS driver_completed_trips
-    FROM routes
-)
-SELECT 
-    -- 1. Entity Identifiers (Metadata)
-    h.route_id,
-    h.driver_id,
-    
-    -- 2. Temporal & Route Features
-    EXTRACT(HOUR FROM h.dep_time) AS dep_hour_of_day,
-    EXTRACT(DOW FROM h.dep_time) AS dep_day_of_week,
-    h.distance_miles,
-    
-    -- 3. Driver Dimension Features
-    d.safety_score,
-    d.vehicle_type,
-    COALESCE(h.driver_prior_avg_delay, 0.0) AS driver_prior_avg_delay,
-    h.driver_completed_trips,
-    
-    -- 4. Point-in-Time Weather Features (No Leakage)
-    w.precipitation_in,
-    w.visibility_miles,
-    w.road_condition,
-    
-    -- 5. TARGET LABEL (y)
-    h.delivery_delay_mins AS target_delay_mins
-
-FROM driver_history h
-JOIN drivers d
-  ON h.driver_id = d.driver_id
-ASOF JOIN weather_observations w
-  ON h.origin_city = w.city
- AND h.dep_time >= w.obs_time
-ORDER BY h.dep_time ASC;
-```
-
-```
-FINAL 2D MATRIX (Ready for Pandas / Scikit-Learn):
-+----------+-----------+----------+-------------+--------------+------------------+----------------+-------------------+
-| route_id | dep_hour  | distance | safety_score| prior_avg_del| precipitation_in | road_condition | target_delay_mins |
-+----------+-----------+----------+-------------+--------------+------------------+----------------+-------------------+
-| 9001     | 6         | 112.5    | 0.96        | 10.0         | 0.15             | Wet            | 45                |
-| 9002     | 7         | 340.0    | 0.88        | 0.0          | 0.00             | Dry            | 0                 |
-+----------+-----------+----------+-------------+--------------+------------------+----------------+-------------------+
-```
-This is a mathematically sound, leak-free feature matrix. Every single column represents information that was **physically available in the real world at departure time**.
-
----
-
-## 5. Guided Student Practice: Hands-On in DuckDB
-
-Let's test these queries hands-on. You can execute this either directly in Python or using the standalone DuckDB CLI.
-
-### Option A: Running Inside a Python Virtual Environment
-Open your terminal, create your lab directory, and launch Python:
-
-```bash
-# 1. Create a workspace folder
-mkdir -p ~/cosc2060/unit01
-cd ~/cosc2060/unit01
-
-# 2. Create and activate a clean virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows PowerShell: .venv\Scripts\Activate.ps1
-
-# 3. Install DuckDB
-pip install duckdb
-```
-
-Launch a Python interactive shell (`python`) and run:
 ```python
 import duckdb
+import datetime
 
-# Connect to an in-memory database
-con = duckdb.connect()
+# 1. Connect to an in-memory DuckDB instance
+con = duckdb.connect(database=":memory:")
 
-# Create sample routes and weather
-con.sql("""
-CREATE TABLE routes (route_id INT, city VARCHAR, dep_time TIMESTAMP);
-CREATE TABLE weather (city VARCHAR, obs_time TIMESTAMP, condition VARCHAR);
-
-INSERT INTO routes VALUES (1, 'Cheyenne', '2026-10-12 06:15:00');
-INSERT INTO weather VALUES 
-    ('Cheyenne', '2026-10-12 05:00:00', 'Clear'),
-    ('Cheyenne', '2026-10-12 06:00:00', 'Rain'),
-    ('Cheyenne', '2026-10-12 07:00:00', 'Blizzard');
+# 2. Create the routes table (events requiring prediction)
+con.execute("""
+CREATE TABLE routes (
+    route_id INT,
+    origin_city VARCHAR,
+    dep_time TIMESTAMP,
+    delivery_delay_mins INT
+);
+INSERT INTO routes VALUES
+(101, 'Chicago', '2026-10-24 07:15:00', 12),
+(102, 'Chicago', '2026-10-24 18:30:00', 85);
 """)
 
-# Run the ASOF JOIN
-result = con.sql("""
-SELECT r.route_id, r.dep_time, w.obs_time AS weather_time, w.condition
+# 3. Create the weather observations table (sensor logs)
+con.execute("""
+CREATE TABLE weather_observations (
+    city VARCHAR,
+    obs_time TIMESTAMP,
+    precipitation_in DOUBLE,
+    road_condition VARCHAR
+);
+INSERT INTO weather_observations VALUES
+('Chicago', '2026-10-24 06:00:00', 0.0, 'Dry'),
+('Chicago', '2026-10-24 12:00:00', 0.1, 'Wet'),
+('Chicago', '2026-10-24 17:30:00', 4.5, 'Blizzard');
+""")
+
+# 4. Execute the defensive ASOF join
+feature_matrix = con.execute("""
+SELECT 
+    r.route_id,
+    r.origin_city,
+    r.dep_time,
+    w.obs_time AS matched_weather_time,
+    w.precipitation_in,
+    w.road_condition,
+    r.delivery_delay_mins
 FROM routes r
-ASOF JOIN weather w
-  ON r.city = w.city
- AND r.dep_time >= w.obs_time;
-""")
+ASOF JOIN weather_observations w
+  ON r.origin_city = w.city
+ AND r.dep_time >= w.obs_time
+ORDER BY r.route_id;
+""").fetchdf()
 
-result.show()
+print(feature_matrix)
 ```
 
-### Expected Output:
+**Verification Output:**
 ```
-┌──────────┬─────────────────────┬─────────────────────┬───────────┐
-│ route_id │      dep_time       │    weather_time     │ condition │
-│  int32   │      timestamp      │      timestamp      │  varchar  │
-├──────────┼─────────────────────┼─────────────────────┼───────────┤
-│        1 │ 2026-10-12 06:15:00 │ 2026-10-12 06:00:00 │ Rain      │
-└──────────┴─────────────────────┴─────────────────────┴───────────┘
+   route_id origin_city            dep_time matched_weather_time  precipitation_in road_condition  delivery_delay_mins
+0       101     Chicago 2026-10-24 07:15:00  2026-10-24 06:00:00               0.0            Dry                   12
+1       102     Chicago 2026-10-24 18:30:00  2026-10-24 17:30:00               4.5       Blizzard                   85
 ```
-Observe that even though the blizzard reading was in the table, DuckDB precisely selected `06:00:00 Rain` because it was the latest observation prior to `06:15:00`.
+
+Notice that Route 101 (departed 07:15) was matched with the 06:00 observation (Dry, 0.0" rain), while Route 102 (departed 18:30) was matched with the 17:30 observation (Blizzard, 4.5" rain). The temporal boundaries are mathematically sound.
 
 ---
 
-## 6. Frequently Asked Questions & Common Gotchas
+#### 6. Common Traps & Formative Self-Check FAQ
 
-### Gotcha 1: The DuckDB Trailing Comma Trap
-* **Symptom**: You write a query and DuckDB throws:
-  ```text
-  Parser Error: syntax error at or near "FROM"
-  LINE 4: FROM routes;
-          ^
-  ```
-* **Why it happens**: You left a trailing comma after the last column in your `SELECT` clause (e.g. `SELECT id, name, FROM routes;`). The SQL grammar expects another column identifier after every comma.
-* **Fix**: Check the character right before `FROM` and delete the dangling comma.
+* **Question 1: What happens if there is no weather observation prior to a route departure?**  
+  *Answer:* If a truck departs at 5:00 AM and the earliest sensor observation in the database is at 6:00 AM, DuckDB returns `NULL` for all columns originating from the right-hand table (`matched_weather_time`, `precipitation_in`, etc.). In your ML pipeline, you must handle these NULLs using backward imputation or default sentinel values.
 
----
+* **Question 2: Can I use the shorthand `USING` syntax for ASOF joins?**  
+  *Answer:* Yes, but remember DuckDB's rule: **the last column listed in the `USING` clause is always treated as the temporal inequality (`>=`)**, and all preceding columns require exact equality (`=`). For example: `ASOF JOIN weather USING (city, timestamp);`.
 
-### Gotcha 2: Ordering Requirement in `ASOF JOIN`
-* **Symptom**: DuckDB throws:
-  ```text
-  Binder Error: ASOF join condition must be of the form: table1.col >= table2.col
-  ```
-* **Why it happens**: You wrote `AND w.obs_time <= r.dep_time` instead of putting the left table on the left side of the comparison, or you used the wrong inequality.
-* **Fix**: In DuckDB, the left table column (`r.dep_time`) must appear on the left side of the inequality: `r.dep_time >= w.obs_time`.
+* **Question 3: Why shouldn't I just use `LAG()` over the entire table?**  
+  *Answer:* The `LAG()` window function requires rows to be strictly ordered in an identical sequence. If sensor observations arrive at irregular intervals (e.g., every 15 minutes during storms, every 2 hours during clear skies), `LAG(1)` does not guarantee a fixed time window. `ASOF JOIN` matches by continuous physical timestamp regardless of arrival intervals.
 
 ---
 
-### Gotcha 3: The `CURRENT ROW` Leak Trap
-* **Symptom**: Your feature matrix has an extraordinarily high correlation (e.g. $r = 0.98$) with the target label, but new predictions fail in validation.
-* **Why it happens**: In your window calculation, you wrote `ROWS BETWEEN 5 PRECEDING AND CURRENT ROW`.
-* **Fix**: Always specify `1 PRECEDING` as the upper bound for any rolling feature calculated over a target variable. If a driver is currently on Trip #10, their prior performance can only be evaluated across Trips 1 through 9.
+## 2. Required Readings & Authoritative Tutorial Guides
+
+Review the following five curated documentation guides and technical specifications before beginning your applied lab:
+
+1. **[DuckDB Official Documentation: ASOF JOIN Query Syntax](https://duckdb.org/docs/sql/query_syntax/asof_join)**
+   *Understand the formal syntax specifications, inequality operators, equality constraints, and NULL match behaviors for DuckDB's native point-in-time join engine.*
+
+2. **[DuckDB Engineering Blog: Fuzzy Temporal Lookups](https://duckdb.org/2023/09/15/asof-join-fuzzy-temporal-lookups.html)**
+   *Study the architectural internals of how DuckDB plans and executes ASOF joins using parallelized merge pipelines instead of expensive Cartesian products.*
+
+3. **[Apache Arrow In-Memory Columnar Format](https://arrow.apache.org/overview/)**
+   *Learn how modern analytical engines organize columnar buffers in physical RAM to enable zero-copy data transfer and SIMD hardware acceleration.*
+
+4. **[DuckDB Parquet Ingestion & Pushdown Optimization](https://duckdb.org/docs/data/parquet/overview)**
+   *Discover how columnar queries achieve 100x performance gains by reading Parquet files directly from disk while skipping irrelevant columns and byte ranges.*
+
+5. **[DuckDB Window Functions Reference](https://duckdb.org/docs/sql/window_functions)**
+   *Review the complete syntax for SQL analytical window frames (`PARTITION BY`, `ORDER BY`, `ROWS BETWEEN N PRECEDING AND 1 PRECEDING`) used for defensive lag engineering.*
 
 ---
 
-### Gotcha 4: Timestamp Precision Mismatches
-* **Symptom**: Your `ASOF JOIN` returns `NULL` for weather columns across all rows.
-* **Why it happens**: `routes.dep_time` was stored with timezone information (`TIMESTAMPTZ`), but `weather.obs_time` was stored as naive local time (`TIMESTAMP`), or one was formatted as a string (`VARCHAR`). DuckDB requires both time columns to share comparable temporal types.
-* **Fix**: Explicitly cast timestamps using `::TIMESTAMP` (e.g. `r.dep_time::TIMESTAMP >= w.obs_time::TIMESTAMP`).
+## 3. Required Micro-Video Lectures (Embedded)
+
+Watch each of the following video chapters to observe columnar data engines and temporal joins executed in live engineering environments:
+
+### DuckDB in 100 Seconds <span style="font-size: 0.9em; color: #64748b;">(Full Video - 2:12)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="DuckDB in 100 Seconds" src="https://www.youtube.com/embed/uHm6FEb2Re4" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=uHm6FEb2Re4" target="_blank" rel="noopener">Open video segment in new tab (2:12)</a></p>
+
+### Row vs. Column Storage Models & Compression <span style="font-size: 0.9em; color: #64748b;">(Starts at 15:20)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Row vs Column Storage Models - CMU Database Group" src="https://www.youtube.com/embed/5gXn5fLkbM0?start=920" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=5gXn5fLkbM0&amp;t=920s" target="_blank" rel="noopener">Open video segment in new tab (15:20)</a></p>
+
+### SQL ASOF Join Tutorial in DuckDB & Snowflake <span style="font-size: 0.9em; color: #64748b;">(Full Walkthrough - 8:45)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="SQL ASOF Join Tutorial" src="https://www.youtube.com/embed/zy89zKipsQg" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=zy89zKipsQg" target="_blank" rel="noopener">Open video segment in new tab (8:45)</a></p>
+
+### Feature Engineering: Point-in-Time Correctness & Avoiding Data Leakage <span style="font-size: 0.9em; color: #64748b;">(Full Video - 11:30)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Feature Engineering and Point in Time Correctness" src="https://www.youtube.com/embed/T1dJfh1KlYA" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=T1dJfh1KlYA" target="_blank" rel="noopener">Open video segment in new tab (11:30)</a></p>
 
 ---
 
-## 7. Appendix: Technical Reference & Environment Summary
+## 4. Institutional Video Lecture Embeds
 
-| Feature | PostgreSQL 16 (OLTP) | DuckDB 0.10+ (OLAP) |
-|---|---|---|
-| **Architecture** | Client-Server Daemon | In-Process Embedded Library |
-| **Storage Model** | Row-Oriented (Heap files) | Columnar (Vectorized) |
-| **Point-in-Time Join** | `LEFT JOIN LATERAL (...)` | Native `ASOF JOIN` |
-| **Local Installation** | Service daemon / Docker container | `pip install duckdb` |
-| **Primary Use Case** | Web applications, live transactions, ACID updates | Analytical feature stores, ML pipelines, large file transformations |
+<div style="background: #f8fafc; border-radius: 6px; padding: 1.5rem; margin: 1rem 0px; text-align: center; border: 2px dashed #94a3b8;">
+  <p style="font-size: 0.95em; color: #475569; margin-bottom: 1rem;"><strong>Campus Faculty Announcements &amp; Lab Walkthrough Recordings</strong></p>
+  <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;">Institutional video lectures and live office hour recordings for this unit will appear in this designated container.</p>
+</div>

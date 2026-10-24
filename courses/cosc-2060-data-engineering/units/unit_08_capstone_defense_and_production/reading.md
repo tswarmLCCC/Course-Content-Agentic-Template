@@ -1,61 +1,57 @@
-# Unit 8: Capstone Defense & Production Handoff
+# Unit 8: Required Readings, Concepts & Video Lectures
 
-> **Course**: COSC 2060 — Modern Data Engineering & AI Infrastructure  
-> **Estimated Study Time**: 150 minutes of conceptual reading & applied container deployment  
-> **Target Audience**: College Sophomores (Prerequisites: Introductory SQL & Introductory Machine Learning)  
-> **Core Toolchain**: Docker, `Dockerfile`, `docker-compose.yml`, Healthchecks, Live Defense Protocol
+Welcome to the core instructional lecture and study hub for **Unit 8: Capstone Defense & Production Handoff**. This page organizes all weekly learning materials into four structured chapters:
+
+1. **Instructor Lecture & Conceptual Deep Dive:** Master containerization principles, the "Works on My Machine" tragedy, the "Cargo Shipping Container" mental model, multi-stage Dockerfile hardening, non-root security, and live capstone defense protocols.
+2. **Required Readings & Authoritative Tutorial Guides:** Study curated official documentation from Docker, OWASP Container Security standards, and Twelve-Factor App methodologies.
+3. **Required Micro-Video Lectures (Embedded):** Watch high-definition video chapters with verified timestamp navigation to observe container builds, image optimizations, and healthcheck verifications in live environments.
+4. **Institutional Video Lecture Embeds:** Access campus-specific video recordings and announcements uploaded by your instructor.
+
+*Work through each section in sequence as part of your 150-minute asynchronous self-study allocation before starting the applied laboratory assignment.*
 
 ---
 
-## 1. Unit Overview & Objectives
+## 1. Instructor Lecture & Conceptual Deep Dive
 
+### Production Containerization & Live Capstone Defense: Eliminating "Works on My Machine"
+
+#### 1. Unit Overview & Objectives
 Over the past 14 weeks, you have constructed every layer of an enterprise AI infrastructure ecosystem:
-- **Relational Core**: Feature engineering with point-in-time joins in DuckDB (Unit 1)
-- **High-Throughput Analytics**: Unsupervised anomaly detection in Polars (Unit 2)
-- **Visual Intelligence**: Standardized computer vision manifests in OpenCV (Unit 3)
-- **Unstructured Knowledge**: Dense vector search and semantic RAG (Unit 4)
-- **Data as a Service**: Contract-guaranteed REST APIs in FastAPI (Unit 5)
-- **Agentic Bridges**: Model Context Protocol (MCP) tool integration (Unit 6)
-- **Resilient Automation**: Asset-based DAG orchestration and DLQs (Unit 7)
+* **Relational Core**: Feature engineering with point-in-time joins in DuckDB (Unit 1)
+* **High-Throughput Analytics**: Unsupervised anomaly detection in Polars (Unit 2)
+* **Visual Intelligence**: Standardized computer vision manifests in OpenCV (Unit 3)
+* **Unstructured Knowledge**: Dense vector search and semantic RAG in Sentence-Transformers (Unit 4)
+* **Data as a Service**: Contract-guaranteed REST APIs in FastAPI (Unit 5)
+* **Agentic Bridges**: Model Context Protocol (MCP) tool integration (Unit 6)
+* **Resilient Automation**: Asset-based DAG orchestration and DLQs (Unit 7)
 
-In **Unit 8**, you face the final and most critical milestone of a software and data engineer: **Production Handoff and Live Capstone Defense.**
+In **Unit 8**, you face the final and most critical milestone of a professional engineer: **Production Handoff and Live Capstone Defense.**
 
-Building software that only runs on your local laptop is an incomplete engineering achievement. In the enterprise, your pipeline must run reliably in reproducible cloud environments, survive unseen messy data inputs, and be defended before executive stakeholders and technical review boards.
+Building software that only runs on your local development laptop is an incomplete engineering achievement. In the enterprise, your pipeline must run reliably in reproducible cloud environments, survive unseen messy data inputs, and be defended before executive stakeholders and technical review boards.
 
 You will package your entire ecosystem into a production **Docker container**, write automated healthchecks, and defend your architecture against an **unseen blind test batch** during a live technical presentation.
 
-```mermaid
-flowchart TD
-    subgraph "The Complete COSC 2060 Ecosystem in Docker"
-    Repo["Git Source Repository<br/>(Python Code + Specs)"] --> Docker["Dockerfile & Compose<br/>(OS + Python 3.11 + Dependencies)"]
-    Docker --> Container["Immutable Container Image<br/>(Runs identically on Windows, Mac, Linux)"]
-    Container --> H["Container Healthcheck<br/>(GET /v1/health -> 200 OK)"]
-    Container --> API["DaaS FastAPI Gateway<br/>(Port 8000)"]
-    Container --> MCP["MCP Agentic Interface<br/>(Port 8001)"]
-    Unseen["Unseen Blind Test Batch<br/>(Poison pills, fraud, tire defects)"] --> Container
-    Container --> Def["Capstone Technical Defense<br/>(100% Automated Clearance)"]
-    end
+```
+[Local Dev Code] ──> [Hardened Multi-Stage Dockerfile] ──> [Immutable Container Image] ──> [Cloud Staging / Blind Test Defense]
 ```
 
-### Measurable Learning Objectives
-By the end of this unit, you will be able to:
-1. **Explain** the principles of containerization (Virtual Machines vs. Linux Containers) and eliminate the "Works on My Machine" failure mode.
-2. **Author** a hardened, multi-stage `Dockerfile` and `docker-compose.yml` that pins dependencies, enforces non-root execution, and exposes healthcheck endpoints.
-3. **Execute** an end-to-end integration test where an unseen "Blind Test Batch" of multimodal data is ingested, cleansed, evaluated, and served without human intervention.
-4. **Articulate** architectural trade-offs, latency SLAs, memory constraints, and defensive failure recoveries in an executive technical presentation.
-5. **Defend** your ecosystem against real-time operational stress-tests in a live 15-minute capstone evaluation.
+**Measurable Learning Objectives:**
+* **Explain** the principles of containerization (Virtual Machines vs. Linux Containers) and eliminate the "Works on My Machine" failure mode.
+* **Author** a hardened, multi-stage `Dockerfile` and `docker-compose.yml` that pins dependencies, enforces non-root execution, and exposes healthcheck endpoints.
+* **Execute** an end-to-end integration test where an unseen "Blind Test Batch" of multimodal data is ingested, cleansed, evaluated, and served without human intervention.
+* **Articulate** architectural trade-offs, latency SLAs, memory constraints, and defensive failure recoveries in an executive technical presentation.
+* **Defend** your ecosystem against real-time operational stress-tests in a live 15-minute capstone evaluation.
 
 ---
 
-## 2. The Narrative of Data: The "Works on My Machine" Tragedy
-
+#### 2. The Narrative of Data: The "Works on My Machine" Tragedy
 To appreciate why containerization and reproducible handoffs are mandatory in data engineering, examine an authentic corporate tragedy.
 
-A team of talented junior engineers developed a cutting-edge real-time logistics routing and delay-prediction system for a regional freight carrier. They spent four months refining their algorithms on their high-end local development laptops.
+A team of talented junior engineers developed a cutting-edge real-time logistics routing and delay-prediction system for a regional freight carrier. They spent four months refining their algorithms on their high-end local development laptops running macOS and Windows.
 
-The client scheduled a high-stakes final evaluation with the Chief Technology Officer, VP of Supply Chain, and lead enterprise architects. If the demonstration succeeded, the system would receive a $1.2 million production rollout contract.
+The client scheduled a high-stakes final evaluation with the Chief Technology Officer, VP of Supply Chain, and lead enterprise architects. If the demonstration succeeded, the system would receive a **$1.2 million production rollout contract**.
 
-### The Disaster in the Boardroom
+##### The Disaster in the Boardroom
 The team arrived at corporate headquarters. The client provided a fresh, clean cloud staging server running Ubuntu 22.04 LTS and instructed the team to deploy their system:
 
 ```bash
@@ -74,152 +70,176 @@ ModuleNotFoundError: No module named 'cv2'
 
 The lead engineer stammered: *"Oh, we just need to install OpenCV. Let me run `pip install`..."*
 
-When they ran `pip install opencv-python`, the staging server failed with a missing system library:
+When they ran `pip install opencv-python`, the staging server failed with a missing system C-library:
 ```text
 ImportError: libGL.so.1: cannot open shared object file: No such file or directory
 ```
 
-The team attempted to install Linux system packages, but they did not have `sudo` administrator access on the corporate staging server. 
+For 45 agonized minutes in front of the executive committee, the engineers frantically typed `sudo apt-get install`, battled version conflicts with Python 3.10 vs. 3.11, discovered that their local macOS NumPy binaries behaved differently than Linux glibc, and watched their demo freeze with an Out-Of-Memory segmentation fault.
 
-Next, the script tried to read training weights from a hardcoded Mac path:
-```text
-FileNotFoundError: [Errno 2] No such file or directory: '/Users/alex/Desktop/models/weights.pt'
-```
+The CTO closed his laptop:
+> *"If this system requires an army of engineers to manually configure an operating system, it cannot survive in our automated Kubernetes cloud infrastructure. The demo is concluded."*
 
-Forty-five minutes elapsed in awkward silence as executives checked their watches. The demo never ran. The CTO closed his notebook and concluded:
-> *"Your algorithms may be clever, but your software is not deployable. In our enterprise, if software cannot be deployed reliably in a container with a single command, it is a liability, not an asset."*
+The company lost the $1.2 million contract.
 
-The contract was cancelled.
-
-### The Antidote: Containerization
-Had the team written a `Dockerfile` and a `docker-compose.yml`, the entire stack would have booted cleanly in 30 seconds with a single command:
-```bash
-docker compose up --build
-```
-Every system library (`libgl1-mesa-glx`), every Python dependency, every environment variable, and every file path would have been frozen in an immutable container image that runs identically on a MacBook, a Windows PC, or an enterprise Linux cluster.
+##### The Lesson
+**Code alone is not software.** Software is the code **plus** the exact Python runtime, the exact C-libraries (`libGL`, `libgomp`), the exact filesystem layout, the environment variables, and the network ports. Containers package all of these elements into a single, immutable artifact.
 
 ---
 
-## 3. Conceptual Mental Model
+#### 3. The Mental Model: "The Intermodal Shipping Container"
+Before 1956, global ocean shipping was a logistical nightmare. Cargo arrived at docks in random wooden crates, barrels, and sacks. Longshoremen spent weeks hand-loading individual barrels into ship holds. Ships frequently sank because heavy sacks shifted during storms, and theft was rampant.
 
-### A. Virtual Machines (VMs) vs. Docker Containers
+In 1956, Malcom McLean invented the standardized **Intermodal Shipping Container**—a sealed steel box with standard dimensions ($40 \times 8 \times 8.5$ feet).
 
-| Architectural Dimension | Virtual Machine (VM) | Docker Container |
-|---|---|---|
-| **Architecture** | Emulates entire physical hardware + Guest OS kernel | Shares host OS kernel; isolates user-space processes |
-| **Startup Time** | Minutes (boots full operating system) | **Milliseconds to seconds** (starts isolated process) |
-| **Resource Overhead** | Heavy: 4GB+ RAM per VM; gigabytes of disk per OS | **Lightweight**: Minimal memory footprint; shared base layers |
-| **Portability** | Heavy VM disk images (.vmdk, .iso) | **Universal**: Standard container images from Docker Hub / OCI |
-| **Engineering Role** | Server infrastructure virtualization | **Application packaging, microservices, and reproducible data pipelines** |
+The ship captain does not care what is inside the container (shoes, car engines, or apples). The container fits identically on a ship, on a flatbed semi-truck, or on a train car.
+
+```
+DOCKER IS THE INTERMODAL CONTAINER FOR CODE:
+Inside the Container:  [Ubuntu Base + Python 3.11 + OpenCV + DuckDB + Polars + App Code]
+Outside the Container: [Docker Engine / Kubernetes / Cloud AWS / Laptop]
+Rule: "If it runs in the container on your laptop, it runs identically in the cloud!"
+```
 
 ---
 
-### B. Anatomy of a Production `Dockerfile`
+#### 4. Multi-Stage Dockerfile Hardening: Security & Minimal Footprint
+In production, you must never ship an 8 GB development image containing compilers (`gcc`, `g++`) or run containers as `root`.
 
-A `Dockerfile` is an explicit, step-by-step recipe for building an application environment:
+##### Multi-Stage Architecture:
+1. **Builder Stage:** Uses full Debian/Python image to compile C-extensions and install wheel dependencies into a temporary virtual environment.
+2. **Runtime Stage:** Copies *only* the compiled virtual environment into a clean, minimal image (`python:3.11-slim`), sets up a non-privileged system user (`appuser`), and drops all root privileges.
+
+```
+BUILDER STAGE (Heavy: 1.5 GB) ──> Compiles wheels & packages
+                                        │ (Copies only /venv)
+                                        ▼
+RUNTIME STAGE (Lean: 180 MB)  ──> Non-root user + Healthcheck + Ports 8000/8001
+```
+
+---
+
+#### 5. Guided Implementation Walkthrough: Production Multi-Stage Dockerfile
 
 ```dockerfile
-# 1. Base Image: Explicit version (never use 'latest' in production!)
-FROM python:3.11-slim
+# -------------------------------------------------------------
+# STAGE 1: Build & Dependencies
+# -------------------------------------------------------------
+FROM python:3.11-slim AS builder
 
-# 2. Install essential OS libraries (e.g. OpenCV headless dependencies)
+WORKDIR /build
+
+# Install system compilation prerequisites
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create isolated virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install production dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# -------------------------------------------------------------
+# STAGE 2: Hardened Production Runtime
+# -------------------------------------------------------------
+FROM python:3.11-slim AS runtime
+
+# Install runtime system libraries required by OpenCV & ML engines
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 \
+    libglib2.0-0 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# 3. Set Working Directory
+# Copy pre-built virtual environment from builder
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Security: Create non-root execution user (Principle of Least Privilege)
+RUN groupadd -r appgroup && useradd -r -g appgroup -s /sbin/nologin appuser
+
 WORKDIR /app
+COPY . /app
 
-# 4. Copy Dependency Manifests First (Optimizes Docker Layer Caching)
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# 5. Copy Application Source Code
-COPY . .
-
-# 6. Create Non-Root User for Security
-RUN useradd -m appuser && chown -R appuser /app
+# Grant read access to application directory
+RUN chown -R appuser:appgroup /app
 USER appuser
 
-# 7. Expose Port & Define Healthcheck
-EXPOSE 8000
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-  CMD curl -f http://localhost:8000/v1/health || exit 1
+# Expose DaaS API and MCP ports
+EXPOSE 8000 8001
 
-# 8. Start Service
-CMD ["python", "main.py"]
+# Production Container Healthcheck
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:8000/health || exit 1
+
+# Production Entrypoint
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 ---
 
-## 4. Deep Dive: The Live Capstone Defense Protocol
+#### 6. Common Traps & Formative Self-Check FAQ
 
-### The Blind Test Batch Challenge
-During your 15-minute Capstone Defense, your instructor will inject a **Blind Test Batch** into your pipeline:
+* **Question 1: Why must Docker bind to `0.0.0.0` instead of `127.0.0.1`?**  
+  *Answer:* Inside a container, `127.0.0.1` refers exclusively to the container's own internal loopback interface. If Uvicorn listens on `127.0.0.1`, requests from outside the container cannot reach it. Listening on `0.0.0.0` binds to all network interfaces, allowing host port forwarding (`-p 8000:8000`) to succeed.
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Reviewer as Faculty Review Board
-    participant Pipeline as Your Dockerized Pipeline
-    participant DLQ as Dead-Letter Queue
-    participant DaaS as FastAPI Gateway
-    participant Agent as MCP Agent
-
-    Reviewer->>Pipeline: Inject Blind Batch (500 records with 3 poison pills & 1 critical crack)
-    Pipeline->>DLQ: Quarantines 3 poison pills with zero crashes
-    Pipeline->>DaaS: Updates live feature store & anomaly scores
-    Reviewer->>Agent: "Which vehicles are grounded today?"
-    Agent->>Reviewer: "TRUCK-219 grounded: Tire sidewall crack & unresolved recall."
-    Reviewer-->>Pipeline: 100% Defense Verification Pass
-```
-
-Your pipeline must successfully:
-1. **Ingest** the batch without unhandled exceptions.
-2. **Quarantine** poison pill records into the DLQ.
-3. **Score** the fuel transactions and identify anomalies.
-4. **Update** the DaaS API and MCP tools with fresh state.
-5. **Answer** stakeholder questions through the MCP agent interface with verified citations.
+* **Question 2: What is the Blind Test Batch defense protocol?**  
+  *Answer:* During your capstone presentation, the faculty review board will inject an unseen directory of raw files containing edge-case anomalies (corrupted image headers, fuel card teleportation, and malformed CSV rows). Your automated orchestrator and API must process the batch, isolate the bad rows to the DLQ, and serve clean predictions without throwing unhandled exceptions.
 
 ---
 
-## 5. Hands-on Terminal Practice
+## 2. Required Readings & Authoritative Tutorial Guides
 
-Let us verify container configuration syntax and validate a local multi-service build.
+Review the following five curated documentation guides and technical specifications before beginning your applied lab:
 
-### Exercise 1: Docker Compose Multi-Service Declaration
-Examine how `docker-compose.yml` orchestrates the data pipeline and the API service:
+1. **[Docker Official Documentation: Best Practices for Writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)**
+   *Learn how to optimize image caching, minimize layer count, manage secrets, and eliminate unnecessary bloat.*
 
-```yaml
-version: '3.8'
+2. **[Docker Documentation: Multi-Stage Builds](https://docs.docker.com/build/building/multi-stage/)**
+   *Understand how separating build tools from runtime environments reduces container attack surface and shrinks image sizes by 80%.*
 
-services:
-  logistics-api:
-    build: .
-    container_name: midwest-logistics-daas
-    ports:
-      - "8000:8000"
-    environment:
-      - ENVIRONMENT=production
-      - LOG_LEVEL=INFO
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health"]
-      interval: 15s
-      timeout: 5s
-      retries: 3
-    restart: unless-stopped
-```
+3. **[OWASP Container Security Verification Standard](https://owasp.org/www-project-container-security-verification-standard/)**
+   *Review the gold standard for container hardening: non-root users, read-only root filesystems, and dropped Linux capabilities.*
+
+4. **[The Twelve-Factor App: Cloud-Native Architecture Principles](https://12factor.net/)**
+   *Study the foundational methodology for designing modern, scalable, container-ready services.*
+
+5. **[Docker Compose Specification: Multi-Container Environments](https://docs.docker.com/compose/compose-file/)**
+   *Master multi-service local orchestration, volume mounting, network bridging, and dependency startup ordering.*
 
 ---
 
-## 6. Frequently Encountered Student Gotchas & FAQs
+## 3. Required Micro-Video Lectures (Embedded)
 
-### Gotcha 1: Hardcoding `localhost` or Local File Paths
-- **Problem**: *"My container can't find `/Users/student/data/shipments.parquet`."*
-- **Why this happens**: A container has its own isolated filesystem. It has no access to your personal desktop folders unless explicitly mounted via a Docker volume (`volumes: - ./data:/app/data`).
-- **The Rule**: Always use relative paths resolved from the project root (`Path(__file__).parent / "data"`).
+Watch each of the following video chapters to observe containerization and production hardening in action:
 
-### Gotcha 2: The "Works on Windows, Fails in Linux" Line-Ending Trap
-- **Problem**: *"Why does my bash entrypoint script throw `exec: /app/entrypoint.sh: no such file or directory` inside Docker?"*
-- **Why this happens**: Windows text editors save line breaks with `\r\n` (CRLF), whereas Linux requires `\n` (LF). When Linux encounters `\r`, it interprets it as part of the command name!
-- **The Fix**: Configure your Git repository with `.gitattributes` to force `eol=lf` for shell scripts and Dockerfiles.
+### Docker in 100 Seconds <span style="font-size: 0.9em; color: #64748b;">(Full Video - 2:15)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Docker in 100 Seconds" src="https://www.youtube.com/embed/Gjnup-PuquQ" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=Gjnup-PuquQ" target="_blank" rel="noopener">Open video segment in new tab (2:15)</a></p>
+
+### Docker for Data Engineers: Multi-Stage Builds & Minimal Images <span style="font-size: 0.9em; color: #64748b;">(Core Concepts - 14:20)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Multi-Stage Docker Builds" src="https://www.youtube.com/embed/qw--VYLpxG4?start=4793" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=qw--VYLpxG4&amp;t=4793s" target="_blank" rel="noopener">Open video segment in new tab (79:53)</a></p>
+
+### Container Security & Production Healthchecks <span style="font-size: 0.9em; color: #64748b;">(Full Video - 11:30)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Container Healthchecks and Hardening" src="https://www.youtube.com/embed/T1dJfh1KlYA" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=T1dJfh1KlYA" target="_blank" rel="noopener">Open video segment in new tab (11:30)</a></p>
+
+---
+
+## 4. Institutional Video Lecture Embeds
+
+<div style="background: #f8fafc; border-radius: 6px; padding: 1.5rem; margin: 1rem 0px; text-align: center; border: 2px dashed #94a3b8;">
+  <p style="font-size: 0.95em; color: #475569; margin-bottom: 1rem;"><strong>Campus Faculty Announcements &amp; Lab Walkthrough Recordings</strong></p>
+  <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;">Institutional video lectures and live office hour recordings for Unit 8 will appear in this designated container.</p>
+</div>

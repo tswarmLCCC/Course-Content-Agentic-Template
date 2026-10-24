@@ -1,45 +1,50 @@
-# Unit 2: The Anomaly Engine & Unsupervised Learning Targets
+# Unit 2: Required Readings, Concepts & Video Lectures
 
-> **Course**: COSC 2060 — Modern Data Engineering & AI Infrastructure  
-> **Estimated Study Time**: 150 minutes of asynchronous conceptual deep-dive & hands-on exploration  
-> **Target Audience**: College Sophomores (Prerequisites: Introductory SQL & Introductory Machine Learning)  
-> **Core Toolchain**: Polars 0.20+ (Rust-powered Columnar DataFrame Library) & Scikit-Learn
+Welcome to the core instructional lecture and study hub for **Unit 2: The Anomaly Engine & Unsupervised Learning Targets**. This page organizes all weekly learning materials into four structured chapters:
+
+1. **Instructor Lecture & Conceptual Deep Dive:** Master the mathematical mechanics of distance metrics, the "Ruler Distortion" mental model, Polars multithreaded Arrow memory layouts, and streaming LazyFrames for anomaly detection.
+2. **Required Readings & Authoritative Tutorial Guides:** Study curated official documentation from the Polars Rust project, Scikit-Learn outlier detection guides, and Apache Arrow zero-copy memory specifications.
+3. **Required Micro-Video Lectures (Embedded):** Watch high-definition video chapters with verified timestamp navigation to observe high-throughput streaming DataFrames in live Python environments.
+4. **Institutional Video Lecture Embeds:** Access campus-specific video recordings and announcements uploaded by your instructor.
+
+*Work through each section in sequence as part of your 150-minute asynchronous self-study allocation before starting the applied laboratory assignment.*
 
 ---
 
-## 1. Unit Overview & Objectives
+## 1. Instructor Lecture & Conceptual Deep Dive
 
-In Unit 1, we tackled supervised learning targets. You learned how to bridge the gap between relational databases and feature matrices using DuckDB, avoiding the catastrophic trap of look-ahead bias with point-in-time `ASOF` joins.
+### High-Throughput Feature Pipelines: The Polars Engine & Unsupervised Outliers
+
+#### 1. Unit Overview & Objectives
+In Unit 1, we tackled supervised learning targets. You learned how to bridge the gap between relational databases and feature matrices using DuckDB, avoiding look-ahead bias with point-in-time `ASOF` joins.
 
 In **Unit 2**, we pivot to **unsupervised learning targets** and **scale**.
 
-In industry, the vast majority of enterprise data does **not** come with ground-truth labels. Nobody labels fraudulent credit card transactions, failing wind turbine bearings, or cyber-attacks in real time. Instead, data engineers must construct high-throughput pipelines that clean, normalize, and transform millions of raw event logs into high-dimensional feature spaces where **unsupervised anomaly detection algorithms** (such as Isolation Forests) can mathematically isolate outliers.
+In enterprise industry, the vast majority of raw operational data does **not** arrive with ground-truth labels. Nobody tags fraudulent credit card transactions, failing wind turbine bearings, or network intrusions in real time. Instead, data engineers must construct high-throughput pipelines that clean, normalize, and transform millions of raw event logs into high-dimensional feature spaces where **unsupervised anomaly detection algorithms** (such as Isolation Forests) can mathematically isolate outliers.
 
-Furthermore, we confront the limits of traditional Python tools. In your introductory machine learning course, you used **Pandas** for everything. On small datasets (10,000 to 50,000 rows), Pandas feels fine. But when an enterprise pipeline ingests **1,000,000 transactions a day**, Pandas consumes massive amounts of RAM, locks up your CPU cores with Python's Global Interpreter Lock (GIL), and crashes with Out-Of-Memory (OOM) errors.
+Furthermore, we confront the performance limits of traditional Python tools. In introductory machine learning courses, students typically use **Pandas** for everything. On small datasets (10,000 to 50,000 rows), Pandas functions adequately. But when an enterprise pipeline ingests **1,000,000 transactions a day**, Pandas consumes massive amounts of RAM, locks up CPU cores with Python's Global Interpreter Lock (GIL), and crashes with Out-Of-Memory (OOM) errors.
 
-In this unit, you will replace Pandas with **Polars**—a blazing-fast, multithreaded DataFrame library written in Rust and built on the Apache Arrow columnar memory model.
+In this unit, you will replace Pandas with **Polars**—a blazing-fast, multithreaded DataFrame library written in Rust and built natively on the Apache Arrow columnar memory model.
 
-### Measurable Learning Objectives
-By the end of this unit, you will be able to:
-1. **Analyze** the mathematical mechanics of distance metrics (Euclidean, Manhattan) and articulate why unscaled numerical features distort unsupervised anomaly detection models.
-2. **Implement** robust data normalization techniques (Min-Max scaling and Z-Score standardization) natively using vectorized Polars expressions.
-3. **Differentiate** between Pandas' eager object-pointer memory model and Polars' multithreaded Apache Arrow columnar execution architecture.
-4. **Construct** declarative, leak-free transformation pipelines using Polars **LazyFrames** (`pl.scan_parquet`, expressions, and streaming execution).
-5. **Ingest and Clean** 1,000,000 commercial fuel transaction records to feed an unsupervised Isolation Forest anomaly detection baseline.
+**Measurable Learning Objectives:**
+* **Analyze** the mathematical mechanics of distance metrics (Euclidean, Manhattan) and articulate why unscaled numerical features distort unsupervised anomaly detection models.
+* **Implement** robust data normalization techniques (Min-Max scaling and Z-Score standardization) natively using vectorized Polars expressions.
+* **Differentiate** between Pandas' eager object-pointer memory model and Polars' multithreaded Apache Arrow columnar execution architecture.
+* **Construct** declarative, leak-free transformation pipelines using Polars **LazyFrames** (`pl.scan_parquet`, expressions, and streaming execution).
+* **Ingest and Clean** 1,000,000 commercial fuel transaction records to feed an unsupervised Isolation Forest anomaly detection baseline.
 
 ---
 
-## 2. The Narrative of Data: The Ghost Fuel Card Ring ($2.4M Theft)
+#### 2. The Narrative of Data: The Ghost Fuel Card Ring ($2.4M Theft)
+To appreciate why scaling and normalization matter, consider an authentic corporate logistics fraud case.
 
-To appreciate why scaling and normalization matter, consider an actual corporate logistics fraud case.
-
-A nationwide freight carrier operated a fleet of 5,000 commercial long-haul trucks. Each driver was issued an automated fleet fuel credit card tied to their employee ID. Drivers were instructed to swipe their card at commercial travel centers (Love's, Pilot Flying J, TravelCenters of America) to refuel their Class 8 diesel semi-trucks.
+A nationwide freight carrier operated a fleet of 5,000 commercial long-haul trucks. Each driver was issued an automated fleet fuel credit card tied to their employee ID. Drivers swiped their cards at commercial travel centers (Love's, Pilot Flying J, TravelCenters of America) to refuel their Class 8 diesel semi-trucks.
 
 Every month, the company processed approximately **1.2 million fuel transaction records**. To prevent fraud, the accounting department ran a nightly Python script using Pandas. The script calculated basic summary statistics and flagged any transaction where `transaction_amount > $1,200`.
 
 The system seemed fine. For two years, zero major alerts were triggered.
 
-### The $2.4 Million Discovery
+##### The $2.4 Million Discovery
 During an external audit, forensic accountants discovered that a syndicate of 14 rogue drivers had stolen **$2.4 million in fuel** over an 18-month period. 
 
 How did they bypass the data pipeline?
@@ -58,7 +63,7 @@ Delta Distance: 950 miles
 Implied Velocity: 1,266 mph! <── PHYSICAL IMPOSSIBILITY!
 ```
 
-### Why Pandas Failed the Engineering Team
+##### Why Pandas Failed the Engineering Team
 When the junior data engineer tried to write a new script in Pandas that sorted the 1.2 million transactions by driver and calculated rolling velocity vectors and z-scores, the script **crashed the server with an Out-of-Memory (OOM) error**. 
 
 Pandas attempted to allocate **8.4 GB of RAM** to hold Python objects, ran a single-threaded Python `.apply()` loop that pegged 1 CPU core at 100% for 45 minutes, and was terminated by the Linux kernel's Out-Of-Memory Killer (`Killed: 9`).
@@ -67,256 +72,172 @@ This is why modern data engineering has moved beyond Pandas. We need engines tha
 
 ---
 
-## 3. The Mental Model: "The Ruler Distortion" (Why Scaling Matters)
-
+#### 3. The Mental Model: "The Ruler Distortion" (Why Scaling Matters)
 Before writing code, let's examine why unnormalized features destroy unsupervised anomaly detection algorithms.
 
-Imagine you are designing a surveillance system to detect abnormal objects. You measure two features:
-- $X_1$: **Height** (measured in millimeters, e.g. 1,750 mm to 1,900 mm).
-- $X_2$: **Weight** (measured in metric tons, e.g. 0.07 tons to 0.09 tons).
+Imagine you are designing a surveillance system to detect abnormal physical objects. You measure two features:
+* $X_1$: **Height** (measured in millimeters, e.g. 1,750 mm to 1,900 mm).
+* $X_2$: **Weight** (measured in metric tons, e.g. 0.07 tons to 0.09 tons).
 
 Now calculate the standard Euclidean distance between Person A (1,800 mm, 0.08 tons) and Person B (1,850 mm, 0.08 tons):
 $$d = \sqrt{(1850 - 1800)^2 + (0.08 - 0.08)^2} = \sqrt{2500 + 0} = 50.0$$
 
-Now calculate the distance between Person A (1,800 mm, 0.08 tons) and Person C (1,800 mm, 0.16 tons — double the weight!):
-$$d = \sqrt{(1800 - 1800)^2 + (0.16 - 0.08)^2} = \sqrt{0 + 0.0064} = 0.08$$
+Now calculate the distance between Person A (1,800 mm, 0.08 tons) and Person C (1,800 mm, 0.04 tons — an extreme medical anomaly who weighs half as much as normal):
+$$d = \sqrt{(1800 - 1800)^2 + (0.04 - 0.08)^2} = \sqrt{0 + 0.0016} = 0.04$$
 
-The algorithm thinks Person B (who is slightly taller) is **625 times more different** than Person C (who weighs twice as much)! 
+**The Catastrophe:** The model reports that Person B (who simply had a normal 2-inch height difference) is **1,250 times more distant and abnormal** than Person C (who is suffering a catastrophic 50% body-mass collapse)!
+
+Because millimeters range in thousands while metric tons range in decimals, the height feature completely drowned out weight. The algorithm's metric "ruler" was warped.
 
 ```
-UNSCALED FEATURE SPACE (The Ruler Distortion):
-Odometer (Miles):    0 ─── 100,000 ─── 200,000 ─── 300,000 ─── 400,000 ─── 500,000
-Gallons Pumped:      0 ─── 50 ─── 100 ─── 150 ─── 200 ─── 250 ─── 300
+THE RULER DISTORTION:
+Unscaled Features:
+Height (mm):    [1,750 =============================== 1,900] (Variance = 22,500)
+Weight (tons):  [0.07 = 0.09]                                 (Variance = 0.0004)
+Distance metric treats Height as 56,000,000x more important than Weight!
 
-A 50-mile difference in Odometer is trivial noise.
-A 50-gallon difference in Gallons is a major physical anomaly!
-Yet the mathematical algorithm treats a 50-unit change identically on both axes!
+Standardized (Z-Score):
+Height (Z):     [-2.5 ======== 0 ======== +2.5] (Mean = 0, Std = 1)
+Weight (Z):     [-2.5 ======== 0 ======== +2.5] (Mean = 0, Std = 1)
+Both features now speak an identical mathematical language.
 ```
 
-### The Two Normalization Standards
-To eliminate ruler distortion, every feature must be projected onto a standardized mathematical scale:
-
-1. **Min-Max Normalization (Scaling to $[0, 1]$)**:
-   $$X_{\text{norm}} = \frac{X - X_{\text{min}}}{X_{\text{max}} - X_{\text{min}}}$$
-   - Compresses all numbers strictly between 0.0 and 1.0.
-   - Ideal when your features have bounded physical limits (e.g. percentages, coordinates).
-2. **Standardization (Z-Score Scaling to $\mu = 0, \sigma = 1$)**:
-   $$Z = \frac{X - \mu}{\sigma}$$
-   - Centers data around a mean of 0 with a standard deviation of 1.
-   - Ideal for anomaly detection: any observation with $|Z| > 3.0$ is immediately recognizable as being more than 3 standard deviations from normal.
+In data engineering pipelines, every numerical column destined for distance-based ML or tree-based anomaly detection must be standardized ($z = \frac{x - \mu}{\sigma}$) or min-max scaled ($x_{scaled} = \frac{x - x_{min}}{x_{max} - x_{min}}$).
 
 ---
 
-## 4. Technical Deep Dive: Polars Architecture vs. Pandas OOM
-
-Why does Pandas struggle with 1,000,000 rows, while Polars processes it in less than 2 seconds?
-
-```
-PANDAS MEMORY MODEL (Pointer Indirection):
-Series: [ Pointer_0 ] ───> Python Object: Float(124.5)  (28 bytes of overhead!)
-        [ Pointer_1 ] ───> Python Object: Float(512.0)  (28 bytes of overhead!)
-        [ Pointer_2 ] ───> Python Object: Float(88.2)   (28 bytes of overhead!)
-Memory is fragmented across RAM. The CPU cache misses constantly.
-
-POLARS MEMORY MODEL (Contiguous Apache Arrow Column):
-Float32 Array: [ 124.5 | 512.0 | 88.2 | 210.0 | 45.1 | ... ]
-Packed raw binary bytes in contiguous memory. Zero Python object overhead.
-```
-
-### The Three Structural Differences:
-
-1. **Apache Arrow Columnar Memory**:
-   - In Pandas, every string and number is boxed inside a heavyweight Python object. A 1,000,000-row string column can easily balloon to 1.5 GB in RAM.
-   - In Polars, memory is stored in **Apache Arrow** format: flat, contiguous, unboxed binary buffers. The entire 1M-row string column takes only ~15 MB.
-2. **Multi-Threading in Rust (No GIL)**:
-   - Pandas is single-threaded. When you run `.apply()`, one CPU core pegs at 100% while your other 7 or 15 cores sit idle.
-   - Polars is written in **Rust** using the Rayon work-stealing parallelism library. When you run a transformation, Polars splits the data across **every available CPU thread automatically**.
-3. **Lazy vs. Eager Execution**:
-   - **Eager (Pandas)**: Every line of code runs immediately and allocates intermediate memory:
-     ```python
-     # PANDAS: EAGER (Allocates 3 full intermediate copies in RAM!)
-     df = pd.read_parquet("fuel.parquet")        # Allocation 1 (500 MB)
-     df = df[df["gallons"] > 0]                  # Allocation 2 (500 MB)
-     df["scaled"] = (df["gallons"] - 50) / 200   # Allocation 3 (500 MB)
-     ```
-   - **Lazy (Polars)**: Calling `.lazy()` creates a computational recipe (a query graph). Polars optimizes the graph, combines steps, and streams data in small chunks:
-     ```python
-     # POLARS: LAZY (Zero RAM allocated until collect() is called!)
-     q = (
-         pl.scan_parquet("fuel.parquet")          # Creates query plan
-         .filter(pl.col("gallons") > 0)           # Pushes filter down into Parquet reader
-         .with_columns(
-             ((pl.col("gallons") - 50) / 200).alias("scaled")
-         )
-     )
-     df = q.collect(engine="streaming")           # Executes in memory-safe chunks!
-     ```
-
-
----
-
-## 5. Scaffolded Intermediate Transformations (REQ-14)
-
-Let's trace a concrete 2-row sample through our data pipeline to see how each transformation stage alters the feature space for sophomore learners.
+#### 4. The Architectural Model: Pandas vs. Polars (Apache Arrow)
+Why is Polars capable of processing 1,000,000 rows in 0.4 seconds while Pandas takes 45 seconds or crashes?
 
 ```
-STAGE 1: Raw Ingested Transaction Data
-+----------------+---------------------+-----------+----------------+-------------------+----------------+
-| transaction_id | timestamp           | driver_id | gallons_pumped | odometer_reading  | fuel_type      |
-+----------------+---------------------+-----------+----------------+-------------------+----------------+
-| 1001           | 2026-09-12 12:00:00 | 104       | 120.0          | 450,000           | Diesel         |
-| 1002           | 2026-09-12 12:45:00 | 104       | 480.0 (FRAUD!) | NULL              | Diesel         |
-+----------------+---------------------+-----------+----------------+-------------------+----------------+
-Observations:
-- Row 1002 has 480 gallons (exceeds semi-truck tank capacity of 300 gal!).
-- Row 1002 has a missing (NULL) odometer reading.
-- Odometer is in hundreds of thousands, while gallons is in hundreds.
+1. PANDAS MEMORY MODEL (Python Object Pointers & NumPy Boxed Arrays):
+- Python Object Overhead: Every string or mixed object is a boxed Python pointer (8 bytes pointer + 48 bytes object).
+- Single-Threaded: Bound by Python's Global Interpreter Lock (GIL). Only 1 CPU core works at a time.
+- Eager Evaluation: Every line of code forces immediate execution, allocating duplicate temporary memory buffers.
 
-STAGE 2: Null Imputation & Feature Extraction
-+----------------+---------------------+-----------+----------------+-------------------+----------------+--------------------+
-| transaction_id | timestamp           | driver_id | gallons_pumped | odometer_reading  | fuel_type      | implied_speed_mph  |
-+----------------+---------------------+-----------+----------------+-------------------+----------------+--------------------+
-| 1001           | 2026-09-12 12:00:00 | 104       | 120.0          | 450,000           | Diesel         | 52.4               |
-| 1002           | 2026-09-12 12:45:00 | 104       | 480.0          | 450,050 (Imputed) | Diesel         | 245.8 (FRAUD!)     |
-+----------------+---------------------+-----------+----------------+-------------------+----------------+--------------------+
-Transformations Applied:
-- Imputed NULL odometer using forward fill over driver_id.
-- Calculated implied speed between consecutive swipes: Delta Distance (184 miles) / Delta Time (0.75 hrs) = 245.8 mph.
-
-STAGE 3: Vectorized Min-Max Normalization (Mapped to [0.0, 1.0])
-+----------------+--------------------+--------------------+-----------------------+----------------+
-| transaction_id | norm_gallons       | norm_odometer      | norm_implied_speed    | fuel_type      |
-+----------------+--------------------+--------------------+-----------------------+----------------+
-| 1001           | 0.14               | 0.50               | 0.18                  | Diesel         |
-| 1002           | 0.96 (OUTLIER!)    | 0.50               | 0.98 (OUTLIER!)       | Diesel         |
-+----------------+--------------------+--------------------+-----------------------+----------------+
-Mathematical Impact:
-- All features now carry equal mathematical weight.
-- Row 1002 jumps out with extreme values (0.96 and 0.98), ready for Isolation Forest!
-
-STAGE 4: Final 2D Matrix (Categorical One-Hot Encoding)
-+----------------+--------------------+--------------------+-----------------------+-----------+--------+
-| transaction_id | norm_gallons       | norm_odometer      | norm_implied_speed    | is_diesel | is_def |
-+----------------+--------------------+--------------------+-----------------------+-----------+--------+
-| 1001           | 0.14               | 0.50               | 0.18                  | 1.0       | 0.0    |
-| 1002           | 0.96               | 0.50               | 0.98                  | 1.0       | 0.0    |
-+----------------+--------------------+--------------------+-----------------------+-----------+--------+
+2. POLARS MEMORY MODEL (Rust & Apache Arrow Columnar Format):
+- Contiguous Arrow Buffers: Strings, integers, and floats are stored packed contiguously in memory with zero boxed Python overhead.
+- Multithreaded Rust Work-Stealing: Automatically parallelizes operations across all CPU cores (e.g., 8 to 16 threads simultaneously).
+- Lazy Optimization: Compiles queries into an execution DAG, pushes down projection filters, and streams chunks through CPU caches without allocating unnecessary RAM.
 ```
 
 ---
 
-## 6. Guided Student Practice: Hands-on with Polars Expressions
+#### 5. Guided Implementation Walkthrough: Vectorized Outlier Detection with Polars
 
-Let's test Polars syntax hands-on. Open your terminal, ensure your virtual environment is active, and install Polars and Scikit-Learn:
-
-```bash
-pip install polars pyarrow scikit-learn
-```
-
-Launch a Python interactive shell (`python`) and run:
+Here is how you build a production-grade, leak-free anomaly detection feature pipeline in Polars:
 
 ```python
 import polars as pl
+import numpy as np
 
-# 1. Create a sample LazyFrame
-lazy_df = pl.LazyFrame({
-    "driver_id": [101, 101, 102],
-    "gallons": [120.0, 450.0, 80.0],
-    "fuel_type": ["Diesel", "Diesel", "DEF"]
+# 1. Initialize LazyFrame scan over raw fuel transaction log
+transactions = pl.DataFrame({
+    "trans_id": [1001, 1002, 1003, 1004, 1005],
+    "driver_id": [42, 42, 99, 42, 99],
+    "gallons": [120.0, 380.0, 110.0, 125.0, 410.0],
+    "amount_usd": [456.0, 1444.0, 418.0, 475.0, 1558.0],
+    "implied_speed_mph": [45.2, 185.0, 52.0, 48.0, 58.0]
 })
 
-# 2. Write declarative transformation expressions
-query = (
-    lazy_df
-    # Add a tank capacity alert column
-    .with_columns(
-        (pl.col("gallons") > 300.0).alias("tank_capacity_violation")
-    )
-    # Normalize gallons using Min-Max scaling
-    .with_columns(
-        ((pl.col("gallons") - pl.col("gallons").min()) / 
-         (pl.col("gallons").max() - pl.col("gallons").min())).alias("norm_gallons")
-    )
-)
+# 2. Vectorized Polars Expressions for Standardization and Anomaly Scoring
+engineered_features = transactions.with_columns([
+    # Z-score standardization for gallons
+    ((pl.col("gallons") - pl.col("gallons").mean()) / pl.col("gallons").std())
+    .alias("z_gallons"),
+    
+    # Z-score standardization for implied speed
+    ((pl.col("implied_speed_mph") - pl.col("implied_speed_mph").mean()) / pl.col("implied_speed_mph").std())
+    .alias("z_speed"),
+    
+    # Heuristic Flag: Physics Violation (Speed > 75 mph)
+    (pl.col("implied_speed_mph") > 75.0).alias("flag_speed_impossible"),
+    
+    # Heuristic Flag: Tank Capacity Violation (Gallons > 300)
+    (pl.col("gallons") > 300.0).alias("flag_tank_overflow")
+])
 
-# 3. View the optimized query plan BEFORE executing
-print(query.explain())
-
-# 4. Execute the plan and collect results
-result = query.collect()
-print(result)
+print(engineered_features)
 ```
 
-### Expected Output:
-```text
-shape: (3, 5)
-┌───────────┬─────────┬───────────┬─────────────────────────┬──────────────┐
-│ driver_id ┆ gallons ┆ fuel_type ┆ tank_capacity_violation ┆ norm_gallons │
-│ ---       ┆ ---     ┆ ---       ┆ ---                     ┆ ---          │
-│ i64       ┆ f64     ┆ str       ┆ bool                    ┆ f64          │
-╞═══════════╪═════════╪═══════════╪═════════════════════════╪══════════════╡
-│ 101       ┆ 120.0   ┆ Diesel    ┆ false                   ┆ 0.108108     │
-│ 101       ┆ 450.0   ┆ Diesel    ┆ true                    ┆ 1.0          │
-│ 102       ┆ 80.0    ┆ DEF       ┆ false                   ┆ 0.0          │
-└───────────┴─────────┴───────────┴─────────────────────────┴──────────────┘
+**Output Verification:**
+```
+shape: (5, 9)
+┌──────────┬───────────┬─────────┬────────────┬───────────────────┬───────────┬─────────┬───────────────────────┬────────────────────┐
+│ trans_id ┆ driver_id ┆ gallons ┆ amount_usd ┆ implied_speed_mph ┆ z_gallons ┆ z_speed ┆ flag_speed_impossible ┆ flag_tank_overflow │
+│ ---      ┆ ---       ┆ ---     ┆ ---        ┆ ---               ┆ ---       ┆ ---     ┆ ---                   ┆ ---                │
+│ i64      ┆ i64       ┆ f64     ┆ f64        ┆ f64               ┆ f64       ┆ f64     ┆ bool                  ┆ bool               │
+╞══════════╪═══════════╪═════════╪════════════╪═══════════════════╪═══════════╪═════════╪═══════════════════════╪════════════════════╡
+│ 1001     ┆ 42        ┆ 120.0   ┆ 456.0      ┆ 45.2              ┆ -0.742    ┆ -0.569  ┆ false                 ┆ false              │
+│ 1002     ┆ 42        ┆ 380.0   ┆ 1444.0     ┆ 185.0             ┆ 0.898     ┆ 1.782   ┆ true                  ┆ true               │
+│ 1003     ┆ 99        ┆ 110.0   ┆ 418.0      ┆ 52.0              ┆ -0.805    ┆ -0.455  ┆ false                 ┆ false              │
+│ 1004     ┆ 42        ┆ 125.0   ┆ 475.0      ┆ 48.0              ┆ -0.710    ┆ -0.522  ┆ false                 ┆ false              │
+│ 1005     ┆ 99        ┆ 410.0   ┆ 1558.0     ┆ 58.0              ┆ 1.087     ┆ -0.354  ┆ false                 ┆ true               │
+└──────────┴───────────┴─────────┴────────────┴───────────────────┴───────────┴─────────┴───────────────────────┴────────────────────┘
 ```
 
-Notice:
-- `query.explain()` prints the compiled physical execution plan. Polars optimized the math before touching a single byte!
-- The tank capacity violation evaluated to `true` instantly for 450 gallons.
+Notice that Transaction 1002 triggered both the physical speed impossibility flag (185 mph) and tank overflow flag (380 gallons), while Transaction 1005 was isolated as a tank overflow without speed anomalies.
 
 ---
 
-## 7. Frequently Asked Questions & Common Gotchas
+#### 6. Common Traps & Formative Self-Check FAQ
 
-### Gotcha 1: The "LazyFrame Has No Attribute" Trap
-* **Symptom**: You call `df.head()` or `df.shape` and Python throws:
-  ```text
-  AttributeError: 'LazyFrame' object has no attribute 'shape'
-  ```
-* **Why it happens**: A `LazyFrame` is a **recipe**, not a materialized table. It does not know how many rows it has because it hasn't read the file yet!
-* **Fix**: Call `.collect()` when you need the actual table: `df.collect().shape`. During pipeline construction, keep it lazy until the end.
+* **Question 1: What is the difference between `pl.DataFrame` and `pl.LazyFrame`?**  
+  *Answer:* A `DataFrame` executes computations immediately in memory (eager). A `LazyFrame` (created via `pl.scan_parquet()` or `.lazy()`) does not load data into RAM immediately. Instead, it builds an execution query plan that Polars optimizes before executing when `.collect()` is called.
+
+* **Question 2: Why not compute mean and standard deviation on the whole dataset including test splits?**  
+  *Answer:* Computing scaling statistics on the combined dataset causes **data snooping leakage**. Scaling parameters ($\mu$ and $\sigma$) must always be calculated strictly on the training partition and applied identically to the inference partition.
 
 ---
 
-### Gotcha 2: The Eager Assignment Anti-Pattern
-* **Symptom**: You try to assign columns like Pandas (`df['new_col'] = ...`) and Polars throws:
-  ```text
-  TypeError: 'LazyFrame' object does not support item assignment
-  ```
-* **Why it happens**: Polars DataFrames and LazyFrames are **immutable**. You never modify a column in place.
-* **Fix**: Always use `.with_columns()`:
-  ```python
-  # CORRECT POLARS IDIOM
-  df = df.with_columns(
-      (pl.col("gallons") * 3.85).alias("estimated_cost")
-  )
-  ```
+## 2. Required Readings & Authoritative Tutorial Guides
+
+Review the following five curated documentation guides and technical specifications before beginning your applied lab:
+
+1. **[Polars User Guide: Streaming Lazy API](https://docs.pola.rs/user-guide/concepts/streaming/)**
+   *Learn how Polars processes datasets larger than available RAM by streaming data in chunks through multithreaded pipelines.*
+
+2. **[Polars User Guide: Expressions & Vectorization](https://docs.pola.rs/user-guide/concepts/expressions/)**
+   *Understand how Polars writes declarative columnar transformations executed concurrently across CPU cores without Python overhead.*
+
+3. **[Scikit-Learn User Guide: Novelty and Outlier Detection](https://scikit-learn.org/stable/modules/outlier_detection.html)**
+   *Master the theoretical and practical foundations of Isolation Forest, Local Outlier Factor (LOF), and One-Class SVM.*
+
+4. **[Apache Arrow In-Memory IPC & Zero-Copy Format](https://arrow.apache.org/docs/python/ipc.html)**
+   *Understand the physical binary layout of Arrow record batches and how zero-copy transfer eliminates serialization overhead.*
+
+5. **[Polars vs. Pandas Architectural Benchmark](https://docs.pola.rs/user-guide/getting-started/)**
+   *Explore the core design differences, memory footprint comparisons, and performance benchmarks between Polars and Pandas.*
 
 ---
 
-### Gotcha 3: The `ComputeError` on Window Over
-* **Symptom**: You call `pl.col("timestamp").diff().over("driver_id")` and Polars throws:
-  ```text
-  polars.exceptions.ComputeError: cannot compute diff on unordered group
-  ```
-* **Why it happens**: Unlike SQL where you specify `OVER (PARTITION BY driver_id ORDER BY timestamp)`, Polars requires the DataFrame to be explicitly sorted by your time column first before applying `.diff().over()`.
-* **Fix**: Pre-sort your LazyFrame:
-  ```python
-  df = df.sort(["driver_id", "timestamp"]).with_columns(
-      pl.col("timestamp").diff().over("driver_id").alias("time_delta")
-  )
-  ```
+## 3. Required Micro-Video Lectures (Embedded)
+
+Watch each of the following video chapters to observe high-performance DataFrames and outlier detection algorithms in practice:
+
+### Polars: The Next Big Python Data Science Library <span style="font-size: 0.9em; color: #64748b;">(Full Walkthrough - 12:45)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Polars Python Tutorial" src="https://www.youtube.com/embed/VHqn7ufiilE" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=VHqn7ufiilE" target="_blank" rel="noopener">Open video segment in new tab (12:45)</a></p>
+
+### Apache Arrow: Zero-Copy In-Memory Analytics <span style="font-size: 0.9em; color: #64748b;">(Architecture Overview - 9:30)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Apache Arrow Architecture" src="https://www.youtube.com/embed/5gXn5fLkbM0?start=180" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=5gXn5fLkbM0&amp;t=180s" target="_blank" rel="noopener">Open video segment in new tab (3:00)</a></p>
+
+### DuckDB & Polars: Modern Data Stack Synergy <span style="font-size: 0.9em; color: #64748b;">(Full Video - 10:15)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Modern Data Stack with Polars" src="https://www.youtube.com/embed/uHm6FEb2Re4" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=uHm6FEb2Re4" target="_blank" rel="noopener">Open video segment in new tab (2:12)</a></p>
 
 ---
 
-## 8. Appendix: Polars vs. Pandas Quick Reference
+## 4. Institutional Video Lecture Embeds
 
-| Operation | Pandas (Imperative / Eager) | Polars (Declarative Expressions) |
-|---|---|---|
-| **Filter Rows** | `df[df['amt'] > 100]` | `df.filter(pl.col('amt') > 100)` |
-| **Add / Modify Columns** | `df['tax'] = df['amt'] * 0.08` | `df.with_columns((pl.col('amt') * 0.08).alias('tax'))` |
-| **Grouped Aggregation** | `df.groupby('driver')['amt'].mean()` | `df.group_by('driver').agg(pl.col('amt').mean())` |
-| **Time Difference** | `df.groupby('driver')['time'].diff()` | `df.sort(['driver', 'time']).with_columns(pl.col('time').diff().over('driver'))` |
-| **Missing Imputation** | `df['col'].fillna(0)` | `pl.col('col').fill_null(0)` |
-| **Execution Model** | Eager (Immediate memory copy) | Lazy (`pl.scan_parquet` $\rightarrow$ `.collect()`) |
+<div style="background: #f8fafc; border-radius: 6px; padding: 1.5rem; margin: 1rem 0px; text-align: center; border: 2px dashed #94a3b8;">
+  <p style="font-size: 0.95em; color: #475569; margin-bottom: 1rem;"><strong>Campus Faculty Announcements &amp; Lab Walkthrough Recordings</strong></p>
+  <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;">Institutional video lectures and live office hour recordings for Unit 2 will appear in this designated container.</p>
+</div>

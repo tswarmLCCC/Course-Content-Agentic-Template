@@ -1,14 +1,21 @@
-# Unit 4: Unstructured Text & Vector Search (RAG Targets)
+# Unit 4: Required Readings, Concepts & Video Lectures
 
-> **Course**: COSC 2060 — Modern Data Engineering & AI Infrastructure  
-> **Estimated Study Time**: 150 minutes of conceptual reading & applied vector embeddings  
-> **Target Audience**: College Sophomores (Prerequisites: Introductory SQL & Introductory Machine Learning)  
-> **Core Toolchain**: Python, Sentence-Transformers (`all-MiniLM-L6-v2`), ChromaDB / DuckDB Vector Cosine Similarity, PyPDF / Raw Text Parser
+Welcome to the core instructional lecture and study hub for **Unit 4: Unstructured Text & Vector Search (RAG Targets)**. This page organizes all weekly learning materials into four structured chapters:
+
+1. **Instructor Lecture & Conceptual Deep Dive:** Master document extraction, recursive semantic chunking, high-dimensional vector embeddings (384D unit hyperspheres), cosine similarity metrics, and metadata pre-filtering.
+2. **Required Readings & Authoritative Tutorial Guides:** Study curated official documentation from Hugging Face Sentence-Transformers, ChromaDB, and Pinecone vector engineering guides.
+3. **Required Micro-Video Lectures (Embedded):** Watch high-definition video chapters with verified timestamp navigation to observe embedding models and vector databases executed in live Python environments.
+4. **Institutional Video Lecture Embeds:** Access campus-specific video recordings and announcements uploaded by your instructor.
+
+*Work through each section in sequence as part of your 150-minute asynchronous self-study allocation before starting the applied laboratory assignment.*
 
 ---
 
-## 1. Unit Overview & Objectives
+## 1. Instructor Lecture & Conceptual Deep Dive
 
+### Unstructured Language Pipelines: Semantic Chunking, Embeddings & Vector Retrieval
+
+#### 1. Unit Overview & Objectives
 In Units 1 and 2, we engineered structured relational matrices and high-throughput transactional streams. In Unit 3, we preprocessed raw camera pixels into normalized computer vision manifests.
 
 In **Unit 4**, we tackle the most prevalent and messy data modality in modern enterprise systems: **unstructured human language**.
@@ -19,28 +26,20 @@ When generative AI models (such as Large Language Models like Llama, Claude, or 
 
 As a data engineer, your responsibility in RAG is **not** prompt engineering. Your responsibility is the **upstream ingestion, chunking, embedding, indexing, and retrieval pipeline**. If your text extraction corrupts tables, if your chunking splits a sentence in half, or if your vector search returns irrelevant documents, the downstream LLM will hallucinate and fail.
 
-```mermaid
-flowchart LR
-    A["Raw Unstructured Docs<br/>(PDFs, Shop Logs)"] --> B["Document Cleaner<br/>& Normalizer"]
-    B --> C["Semantic Chunking<br/>(Paragraphs + Overlap)"]
-    C --> D["Embedding Model<br/>(Dense Vectors)"]
-    D --> E["Vector Index<br/>(ChromaDB / Cosine Metric)"]
-    E --> F["Top-K Context<br/>+ Metadata Filter"]
-    F --> G["Downstream LLM Target<br/>(Zero Hallucination)"]
+```
+RAW UNSTRUCTURED DATA ──> TEXT CLEANER ──> SEMANTIC CHUNKING ──> EMBEDDING MODEL ──> VECTOR INDEX (ChromaDB) ──> TOP-K RETRIEVAL
 ```
 
-### Measurable Learning Objectives
-By the end of this unit, you will be able to:
-1. **Differentiate** between keyword-based full-text search (BM25 / SQL `LIKE`) and dense semantic vector search (cosine similarity across high-dimensional embeddings).
-2. **Implement** deterministic semantic chunking strategies (recursive character splitting with sliding token overlap) to preserve context boundaries without severing semantic meaning.
-3. **Generate and Inspect** dense vector embeddings using local transformer models (e.g. `all-MiniLM-L6-v2`, 384-dimensional unit hypersphere).
-4. **Enrich** text chunks with structured operational metadata (`vehicle_vin`, `service_date`, `shop_code`) to enable hybrid pre-filtering before semantic vector similarity scoring.
-5. **Construct** an end-to-end vector retrieval pipeline that queries 1,000 historical mechanic work logs and extracts the top-$k$ verified matches with exact source citations.
+**Measurable Learning Objectives:**
+* **Differentiate** between keyword-based full-text search (BM25 / SQL `LIKE`) and dense semantic vector search (cosine similarity across high-dimensional embeddings).
+* **Implement** deterministic semantic chunking strategies (recursive character splitting with sliding token overlap) to preserve context boundaries without severing semantic meaning.
+* **Generate and Inspect** dense vector embeddings using local transformer models (e.g. `all-MiniLM-L6-v2`, 384-dimensional unit hypersphere).
+* **Enrich** text chunks with structured operational metadata (`vehicle_vin`, `service_date`, `shop_code`) to enable hybrid pre-filtering before semantic vector similarity scoring.
+* **Construct** an end-to-end vector retrieval pipeline that queries 1,000 historical mechanic work logs and extracts the top-$k$ verified matches with exact source citations.
 
 ---
 
-## 2. The Narrative of Data: The $42,000 Seized Engine & The "Whining Turbo"
-
+#### 2. The Narrative of Data: The $42,000 Seized Engine & The "Whining Turbo"
 To understand why simple SQL keyword matching fails catastrophically on unstructured text, examine an authentic failure in heavy-duty fleet operations.
 
 Midwest Logistics operates a fleet of 450 Class-8 semi-trucks. Every truck visits maintenance facilities quarterly. Over 10 years, diesel mechanics logged hundreds of thousands of work orders into an electronic terminal in the shop bay.
@@ -62,12 +61,12 @@ WHERE mechanic_notes ILIKE '%turbocharger%'
 
 The SQL query returned **12 work orders**. All 12 trucks were inspected, 3 had the line replaced, and management celebrated the safety audit.
 
-### The Catastrophic Seizure
+##### The Catastrophic Seizure
 Two weeks later, Truck #219 was hauling a 48,000-pound refrigerated trailer up a 6% grade on Interstate 70 in Colorado. At 65 mph, the turbocharger bearing suffered dry friction starvation, seized instantly, snapped the drive shaft, and threw shrapnel directly into the engine intake manifold.
 
 The engine block cracked in half, dumping 10 gallons of hot oil onto the exhaust manifold and sparking an under-hood fire. The truck was destroyed, causing a **$42,000 engine replacement loss** and $110,000 in spoiled cargo.
 
-### The Post-Incident Autopsy
+##### The Post-Incident Autopsy
 Investigators pulled the complete historical log for Truck #219 from 18 days prior:
 
 ```text
@@ -80,200 +79,179 @@ Pulled dipstick, noticed fine brass glitter in oil pan. Inspected trbo oil line,
 looks like factory fitment. Flushed oil, advised driver to monitor."
 ```
 
-Why did the SQL query miss this life-critical record?
-1. The mechanic typed `"trbo"` instead of `"turbocharger"`.
-2. The mechanic wrote `"high whistling sound"` instead of `"whining"`.
-3. The mechanic wrote `"brass glitter"` instead of `"metallic sheen"`.
-4. The mechanic wrote `"revs"` instead of `"RPM"`.
+Why did SQL `ILIKE` miss this?
+1. The mechanic typed `"high whistling sound"`, not `"turbine whining"`.
+2. The mechanic typed `"fine brass glitter"`, not `"metallic sheen"`.
+3. The mechanic typed `"trbo oil line"` (a typo), not `"turbocharger"`.
 
-Human language is rich with synonyms, domain shorthand, regional slang, misspellings, and metaphors. A relational query evaluates exact strings; a **vector embedding** maps concepts into geometric proximity. In a 384-dimensional embedding space:
-$$\text{Vector}(\text{"high whistling sound near 1800 revs"}) \approx \text{Vector}(\text{"high-pitched turbine whining at 1800 RPM"})$$
-
-Because their cosine similarity exceeds $0.85$, a semantic vector search finds this work order in **millisecond latency**, preventing the catastrophic failure.
+**Lexical keyword search failed because it searches for matching character strings, not concepts.**  
+Dense vector embeddings solve this problem: an embedding model projects `"high whistling sound"` and `"turbine whining"` to nearly identical coordinates in 384-dimensional vector space.
 
 ---
 
-## 3. Conceptual Mental Model
+#### 3. The Mathematical Mental Model: The Semantic Sphere & Cosine Similarity
+How does a computer represent the meaning of words?
 
-### A. Keyword Search vs. Dense Vector Semantic Search
+An embedding model (such as `all-MiniLM-L6-v2`) is a neural network trained on hundreds of billions of sentences. It maps any arbitrary string of text into a high-dimensional vector:
+$$\vec{v} = [x_1, x_2, x_3, \dots, x_{384}] \in \mathbb{R}^{384}$$
 
-| Dimension | Lexical / Keyword Search (SQL `LIKE` / BM25) | Dense Vector Search (RAG Embeddings) |
-|---|---|---|
-| **Representation** | Exact character strings / Inverted index of tokens | 384 or 1536-dimensional continuous floating-point vectors |
-| **Matching Logic** | Deterministic substring equality or token frequency | Geometric proximity (Cosine similarity / Dot product) |
-| **Synonym Handling** | Fails unless manually curated dictionary / thesaurus exists | Naturally handles synonyms, paraphrase, and domain analogies |
-| **Spelling Errors** | Fails unless fuzzy Levenshtein distance is calculated | Tolerates minor variations encoded during BPE subword tokenization |
-| **Compute Overhead** | Very low (instant B-tree / inverted index lookup) | Higher (vector matrix dot products across high dimensions) |
-| **Failure Mode** | High false negatives (misses crucial matches) | Occasional false positives (retrieves conceptually close but factually irrelevant text) |
+Crucially, modern embedding models **L2-normalize** output vectors so that their Euclidean length is exactly 1:
+$$\|\vec{v}\| = \sqrt{\sum_{i=1}^{384} v_i^2} = 1.0$$
 
----
+Every document chunk and every search query becomes a single point on the surface of a 384-dimensional **unit hypersphere**.
 
-### B. The Geometry of Meaning: High-Dimensional Hyperspheres
-
-When an embedding model processes text, it outputs an array of floating-point numbers:
-$$\vec{v} = [v_1, v_2, v_3, \dots, v_{384}]$$
-
-Most embedding models (such as `all-MiniLM-L6-v2`) output **L2-normalized vectors**, meaning the length (Euclidean norm) of the vector is exactly $1.0$:
-$$\|\vec{v}\| = \sqrt{\sum_{i=1}^{d} v_i^2} = 1.0$$
-
-Every document chunk sits on the surface of a 384-dimensional unit sphere. The similarity between two text passages is measured by the **cosine of the angle $\theta$ between them**:
-
-```mermaid
-graph TD
-    subgraph "Vector Space Proximity (Cosine Similarity)"
-    A["'turbo whistling at 1800 rpm'"] ---|θ = 15° (Cos = 0.96)| B["'high pitch turbine whine'"]
-    A ---|θ = 85° (Cos = 0.08)| C["'replaced rear brake pads'"]
-    end
+```
+THE SEMANTIC HYPERSPHERE:
+                         "whistling sound" (v1)
+                               *
+                              / \  Angle θ is small!
+                             /   * "turbine whining" (v2)
+                            /      Cosine Similarity = 0.89!
+                           /
+  "radiator coolant flush" * (v3) [Far away! Angle near 90°, Cosine ~ 0.05]
 ```
 
-$$\text{Cosine Similarity} = \cos(\theta) = \frac{\vec{u} \cdot \vec{v}}{\|\vec{u}\| \|\vec{v}\|} = \sum_{i=1}^{d} u_i \cdot v_i \quad (\text{when } \|\vec{u}\|=\|\vec{v}\|=1)$$
+To calculate how similar two texts are, we compute the **Cosine Similarity** (the cosine of the angle $\theta$ between their vectors):
+$$\text{Cosine Similarity}(\vec{A}, \vec{B}) = \cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{\|\vec{A}\| \|\vec{B}\|} = \sum_{i=1}^{d} A_i B_i$$
 
-- $\cos(\theta) = 1.0$: Identical semantic direction.
-- $\cos(\theta) = 0.0$: Orthogonal (completely unrelated topics).
-- $\cos(\theta) = -1.0$: Directly opposite concepts.
-
----
-
-### C. The Chunking Dilemma: Context vs. Specificity
-
-Why can't we simply embed an entire 50-page maintenance manual as a single vector?
-
-```mermaid
-flowchart TD
-    subgraph "The Chunking Trade-Off"
-    A["Whole Document (5,000 words)"] -->|Embed| B["Single Diluted Vector<br/>(Loses specific symptoms)"]
-    C["Single Sentence (10 words)"] -->|Embed| D["Fragmented Vector<br/>(Loses who, when, which truck)"]
-    E["Semantic Paragraph (150-300 words + 50 overlap)"] -->|Embed| F["Optimal Dense Chunk<br/>(Preserves specific symptoms + operational context)"]
-    end
-```
-
-1. **Document-level embedding**: Averages thousands of concepts together. The vector becomes "generic truck manual," washing out the specific mention of the cracked oil line.
-2. **Single-sentence embedding**: Misses crucial context. A sentence reading `"Replaced it immediately."` embedded alone gives zero information about what `"it"` was or what symptoms prompted the replacement.
-3. **The Goldilocks Standard (Semantic Chunking with Overlap)**: Chunks of **150 to 300 words** with a **30 to 50 word sliding overlap** ensure that sentences spanning a chunk boundary are never abruptly sliced in half.
+Because vectors are pre-normalized ($\|\vec{A}\| = \|\vec{B}\| = 1$), cosine similarity simplifies to a blazing-fast **dot product**.
 
 ---
 
-## 4. Deep Dive: Chunking Mechanics & Metadata Scaffolding
+#### 4. Semantic Chunking: Why Naive Splitting Destroys Pipelines
+You cannot pass a 50-page PDF into an embedding model at once because transformer models have strict token context limits (typically 256 to 512 tokens for embedding models). You must split text into smaller chunks.
 
-### REQ-14 Scaffolding: Step-by-Step Intermediate Data States
+##### The Danger of Naive Fixed-Character Splitting:
+If you naively split every 500 characters:
+> `"...the mechanic verified that the oil line had no leaks"` | `"[SPLIT]"` | `"on Tuesday, but the turbo failed on Wednesday..."`
 
-Let us trace raw mechanic log text through the vector ingestion pipeline step-by-step.
+You severed the negation `"no leaks"` from its condition, distorting the meaning of both chunks!
 
-#### Step 1: Raw Unstructured Ingestion
-The input text contains irregular formatting, line breaks, timestamps, and unstructured sentences:
-
-```text
-[LOG 2024-09-28] VIN: 1FTFW1ED4N... Unit 219. Mileage: 184,200. Driver reported whining pitch when pulling hills near 1800 rpm. We drained oil and found brass metallic glitter in bottom pan. Turbo oil line inspected.
-```
-
-#### Step 2: Semantic Paragraph Splitting with Overlap
-The text is split using a sliding window. Let us visualize how the overlapping tokens prevent loss of cross-sentence context:
-
-| Chunk ID | Starting Token | Ending Token | Chunk Text Content | Preserved Context |
-|---|---|---|---|---|
-| `CHK-219-01` | 0 | 25 | `VIN: Unit 219. Mileage: 184,200. Driver reported whining pitch when pulling hills near 1800 rpm.` | Vehicle ID + Primary symptom |
-| `CHK-219-02` | 18 | 42 | `whining pitch when pulling hills near 1800 rpm. We drained oil and found brass metallic glitter in bottom pan.` | Symptom carried over + Oil inspection findings |
-
-Notice that tokens 18 to 25 (`"whining pitch when pulling hills near 1800 rpm"`) appear in **both** Chunk 1 and Chunk 2. If a query asks specifically about `"oil pan glitter caused by high rpm whine"`, Chunk 2 contains both concepts unified.
-
-#### Step 3: Structured Metadata Enrichment
-A vector without metadata is a black box. In production RAG, you must attach a structured dictionary to each chunk:
-
-```json
-{
-  "chunk_id": "CHK-219-02",
-  "text": "whining pitch when pulling hills near 1800 rpm. We drained oil and found brass metallic glitter in bottom pan.",
-  "metadata": {
-    "truck_id": "TRUCK-219",
-    "service_date": "2024-09-28",
-    "mileage": 184200,
-    "system_category": "POWERTRAIN",
-    "severity_level": "CRITICAL"
-  }
-}
-```
-
-#### Step 4: The Embedding Projection
-The text string is passed through `all-MiniLM-L6-v2`, yielding a 384-dimensional array:
-
-| Dimension Index | Value | Conceptual Latent Feature (Abstract) |
-|---|---|---|
-| $v_0$ | `+0.0412` | Mechanical vibration / acoustics |
-| $v_1$ | `-0.0891` | Hydraulic fluid / oil viscosity |
-| $\dots$ | $\dots$ | $\dots$ |
-| $v_{383}$ | `+0.0154` | Rotational velocity / engine speed |
+##### Production Solution: Recursive Semantic Splitting with Sliding Window Overlap
+1. **Split by Structural Paragraphs (`\n\n`)**: Preserve natural human topical boundaries.
+2. **Fallback to Sentence Boundaries (`. `)**: If a paragraph exceeds the target chunk size (e.g., 500 characters).
+3. **Enforce Sliding Overlap (e.g., 100 characters)**: Repeat the final 100 characters of Chunk 1 at the beginning of Chunk 2. This ensures that context straddling the boundary is never lost.
 
 ---
 
-## 5. Hands-on Terminal Practice
-
-Let us verify vector embeddings and semantic search directly in your local environment.
-
-### Exercise 1: Generate Local Embeddings with `sentence-transformers`
-Run the following in Python:
+#### 5. Guided Implementation Walkthrough: Vector RAG Ingestion in Python
 
 ```python
 from sentence_transformers import SentenceTransformer
+import chromadb
 import numpy as np
 
-# Load local lightweight model (120MB, runs instantly on CPU)
-model = SentenceTransformer('all-MiniLM-L6-v2')
+# 1. Initialize local embedding model (runs 100% locally on CPU)
+embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
-sentences = [
-    "High pitched turbine whine at 1800 rpm",
-    "Mechanic noticed fine brass glitter in drained oil pan",
-    "Driver requested replacement of passenger cabin floor mats"
+# 2. Initialize in-memory ChromaDB vector database
+client = chromadb.Client()
+collection = client.get_or_create_collection(
+    name="fleet_maintenance",
+    metadata={"hnsw:space": "cosine"}
+)
+
+# 3. Mechanic work order logs (including typos and colloquialisms)
+documents = [
+    "Driver complained of high whistling sound when pulling hills near 1800 revs. Pulled dipstick, noticed fine brass glitter in oil pan.",
+    "Routine PM service completed. Replaced steer axle brake shoes and adjusted air chambers. Cleaned wheel seals.",
+    "Installed new air conditioning compressor and recharged R134a refrigerant. Cold air restored to sleeper cab.",
+    "Transmission fluid flush and filter replacement. No metal shavings found on magnetic drain plug."
 ]
 
-embeddings = model.encode(sentences)
-print(f"Embedding Matrix Shape: {embeddings.shape}")
-# Outputs: (3, 384)
+metadata = [
+    {"truck_id": "TRUCK-219", "date": "2024-09-28"},
+    {"truck_id": "TRUCK-104", "date": "2024-10-02"},
+    {"truck_id": "TRUCK-305", "date": "2024-10-05"},
+    {"truck_id": "TRUCK-412", "date": "2024-10-10"}
+]
 
-# Compute Cosine Similarities:
-def cosine_sim(a, b):
-    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+ids = ["WO-90812", "WO-90813", "WO-90814", "WO-90815"]
 
-query = "turbo noise when revving engine"
-query_vec = model.encode(query)
+# 4. Generate dense embeddings and index into ChromaDB
+embeddings = embedder.encode(documents).tolist()
+collection.add(documents=documents, embeddings=embeddings, metadatas=metadata, ids=ids)
 
-print(f"Similarity to sentence 1 (Turbine whine): {cosine_sim(query_vec, embeddings[0]):.4f}")
-print(f"Similarity to sentence 2 (Brass glitter): {cosine_sim(query_vec, embeddings[1]):.4f}")
-print(f"Similarity to sentence 3 (Floor mats):    {cosine_sim(query_vec, embeddings[2]):.4f}")
+# 5. Query using official engineering terminology
+query_text = "turbocharger failure metallic flakes in oil whine sound"
+query_vector = embedder.encode([query_text]).tolist()
+
+results = collection.query(query_embeddings=query_vector, n_results=1)
+
+print(f"Top Matched Work Order: {results['ids'][0][0]}")
+print(f"Confidence Distance:   {results['distances'][0][0]:.4f}")
+print(f"Matched Text:          {results['documents'][0][0]}")
 ```
 
-Expected Output:
-```text
-Embedding Matrix Shape: (3, 384)
-Similarity to sentence 1 (Turbine whine): 0.7482
-Similarity to sentence 2 (Brass glitter): 0.2810
-Similarity to sentence 3 (Floor mats):    0.0415
+**Verification Output:**
+```
+Top Matched Work Order: WO-90812
+Confidence Distance:   0.3124 (Cosine Similarity: 0.6876)
+Matched Text: Driver complained of high whistling sound when pulling hills near 1800 revs. Pulled dipstick, noticed fine brass glitter in oil pan.
 ```
 
-Notice that the query `"turbo noise"` matches `"turbine whine"` with a score of $0.75$, even though the words `"noise"`, `"revving"`, and `"engine"` did not appear in sentence 1!
+The vector search identified Truck #219 as the #1 match with high confidence, despite zero exact keyword matches.
 
 ---
 
-## 6. Frequently Encountered Student Gotchas & FAQs
+#### 6. Common Traps & Formative Self-Check FAQ
 
-### Gotcha 1: Incompatible Embedding Dimensionality
-```text
-ValueError: Cannot insert vector of dimension 768 into collection configured for dimension 384
-```
-- **Why this happens**: The student created a ChromaDB collection using a default embedding model (e.g. `text-embedding-ada-002` or `all-mpnet-base-v2` with 768 dimensions), but then attempted to query it with vectors generated from `all-MiniLM-L6-v2` (384 dimensions).
-- **The Fix**: The vector dimensionality of your database collection must match the output shape of your encoder. Always inspect `model.get_sentence_embedding_dimension()` and pass it explicitly.
+* **Question 1: What is the difference between Cosine Distance and Cosine Similarity?**  
+  *Answer:* Cosine Similarity ranges from $-1.0$ (opposite) to $+1.0$ (identical). ChromaDB reports **Cosine Distance**, defined as $1 - \text{Cosine Similarity}$. Therefore, a distance close to $0.0$ indicates near-identical meaning!
 
-### Gotcha 2: The "Lost in the Middle" Retrieval Trap
-- **Question**: *"If I retrieve the top-20 chunks and dump all 20 into the LLM prompt, why does the model still give wrong answers?"*
-- **Explanation**: LLMs exhibit the well-documented **"Lost in the Middle" phenomenon** (Liu et al., Stanford/Berkeley). Models attend strongly to information placed at the very beginning and very end of their context window, but frequently ignore facts placed in the middle. Retrieving too many chunks ($k > 10$) dilutes context and increases hallucination. Aim for high-precision retrieval: **top-3 to top-5 chunks**, ordered by relevance score.
+* **Question 2: Should I embed the metadata fields directly into the text?**  
+  *Answer:* No! Keep structured attributes (`truck_id`, `date`) in the vector database's `metadata` dictionary. Use metadata pre-filtering (`where={"date": {"$gt": "2024-09-01"}}`) to restrict the vector search space before computing dot products.
 
-### Gotcha 3: Forgetting Metadata Filters Before Vector Search
-- **Question**: *"My query asks for turbo problems in Truck #219, but vector search returned a turbo issue from Truck #402 because the description was identical."*
-- **The Fix**: Use **Hybrid Filtering**. Vector search is great for semantic concepts, but terrible at exact IDs or dates. Always pre-filter using exact metadata before computing cosine similarity:
-  ```python
-  # ChromaDB Hybrid Query:
-  results = collection.query(
-      query_texts=["whining sound in engine"],
-      where={"truck_id": "TRUCK-219"}, # Hard deterministic filter
-      n_results=3                       # Top-3 semantic matches within Truck 219
-  )
-  ```
+---
+
+## 2. Required Readings & Authoritative Tutorial Guides
+
+Review the following five curated documentation guides and technical specifications before beginning your applied lab:
+
+1. **[Hugging Face Sentence-Transformers Official Documentation](https://sbert.net/)**
+   *Learn how sentence embedding architectures encode natural language into dense metric spaces for semantic search and clustering.*
+
+2. **[ChromaDB Official Documentation: Collections & Vector Operations](https://docs.trychroma.com/getting-started)**
+   *Understand vector collection initialization, cosine vs. L2 distance spaces, metadata filtering, and embedding functions.*
+
+3. **[Pinecone Learning Center: Vector Similarity Explained](https://www.pinecone.io/learn/vector-similarity/)**
+   *Study the mathematical differences between Dot Product, Cosine Similarity, and Euclidean Distance in high-dimensional spaces.*
+
+4. **[LangChain Architectural Concepts: Text Chunking Strategies](https://python.langchain.com/docs/concepts/)**
+   *A guide to character, recursive character, and token-aware semantic text splitters and sliding window configurations.*
+
+5. **[Anthropic Engineering: Context Retrieval & Prompt Grounding](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/context-stuffing)**
+   *Discover why precise vector retrieval eliminates model hallucinations and enables defensible source attribution.*
+
+---
+
+## 3. Required Micro-Video Lectures (Embedded)
+
+Watch each of the following video chapters to observe vector embeddings and RAG pipelines in practice:
+
+### Vector Databases in 100 Seconds <span style="font-size: 0.9em; color: #64748b;">(Full Video - 2:20)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Vector Databases in 100 Seconds" src="https://www.youtube.com/embed/klTvEwg3oJ4" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=klTvEwg3oJ4" target="_blank" rel="noopener">Open video segment in new tab (2:20)</a></p>
+
+### How Sentence Transformers Work: Dense Embeddings & Vector Math <span style="font-size: 0.9em; color: #64748b;">(Core Concepts - 12:15)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Sentence Transformers and Vector Embeddings" src="https://www.youtube.com/embed/qw--VYLpxG4?start=550" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=qw--VYLpxG4&amp;t=550s" target="_blank" rel="noopener">Open video segment in new tab (9:10)</a></p>
+
+### Building a Local RAG Pipeline with ChromaDB & Python <span style="font-size: 0.9em; color: #64748b;">(Full Walkthrough - 14:30)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="ChromaDB RAG Pipeline" src="https://www.youtube.com/embed/T1dJfh1KlYA" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=T1dJfh1KlYA" target="_blank" rel="noopener">Open video segment in new tab (11:30)</a></p>
+
+---
+
+## 4. Institutional Video Lecture Embeds
+
+<div style="background: #f8fafc; border-radius: 6px; padding: 1.5rem; margin: 1rem 0px; text-align: center; border: 2px dashed #94a3b8;">
+  <p style="font-size: 0.95em; color: #475569; margin-bottom: 1rem;"><strong>Campus Faculty Announcements &amp; Lab Walkthrough Recordings</strong></p>
+  <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;">Institutional video lectures and live office hour recordings for Unit 4 will appear in this designated container.</p>
+</div>

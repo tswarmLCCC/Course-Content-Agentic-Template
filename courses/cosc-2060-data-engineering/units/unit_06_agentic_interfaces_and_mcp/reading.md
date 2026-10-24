@@ -1,14 +1,21 @@
-# Unit 6: The Agentic Interface (Model Context Protocol - MCP)
+# Unit 6: Required Readings, Concepts & Video Lectures
 
-> **Course**: COSC 2060 — Modern Data Engineering & AI Infrastructure  
-> **Estimated Study Time**: 150 minutes of conceptual reading & applied tool building  
-> **Target Audience**: College Sophomores (Prerequisites: Introductory SQL & Introductory Machine Learning)  
-> **Core Toolchain**: Model Context Protocol (MCP), Python MCP SDK / FastMCP, JSON-RPC, Local LLM Tool Calling (Ollama)
+Welcome to the core instructional lecture and study hub for **Unit 6: The Agentic Interface (Model Context Protocol - MCP)**. This page organizes all weekly learning materials into four structured chapters:
+
+1. **Instructor Lecture & Conceptual Deep Dive:** Master the Model Context Protocol (MCP) architecture, the "$500,000 Unrestricted SQL" operational catastrophe, the "USB-C for AI" mental model, defensive tool sandboxing, and JSON-RPC 2.0 communication.
+2. **Required Readings & Authoritative Tutorial Guides:** Study curated official documentation from Anthropic MCP, JSON-RPC 2.0 specifications, and local tool calling standards.
+3. **Required Micro-Video Lectures (Embedded):** Watch high-definition video chapters with verified timestamp navigation to observe MCP tool discovery and autonomous agent execution in live environments.
+4. **Institutional Video Lecture Embeds:** Access campus-specific video recordings and announcements uploaded by your instructor.
+
+*Work through each section in sequence as part of your 150-minute asynchronous self-study allocation before starting the applied laboratory assignment.*
 
 ---
 
-## 1. Unit Overview & Objectives
+## 1. Instructor Lecture & Conceptual Deep Dive
 
+### Bridging Data Engines to Autonomous LLMs: The Model Context Protocol (MCP)
+
+#### 1. Unit Overview & Objectives
 In Unit 5, we engineered a unified REST API layer serving multimodal data products (relational matrices, anomaly engines, computer vision manifests, and vector RAG indices).
 
 In **Unit 6**, we connect this data infrastructure to the frontier of modern software engineering: **Autonomous AI Agents**.
@@ -19,32 +26,21 @@ Historically, every company invented its own ad-hoc, proprietary framework to co
 
 In 2024, the industry converged around an open standard: the **Model Context Protocol (MCP)**. Developed by Anthropic and adopted across the AI ecosystem, MCP is the **"USB-C standard for AI applications"**. It establishes an open, standardized, secure client-server protocol where AI models discover and invoke backend data tools through structured JSON-RPC messages.
 
-```mermaid
-flowchart LR
-    subgraph "The MCP Agentic Loop"
-    User["Human Operator<br/>'Is Truck 219 safe to dispatch?'"] --> LLM["Autonomous AI Agent<br/>(Ollama / Claude / GPT)"]
-    LLM -->|"1. Request Tool Call<br/>(JSON-RPC)"| Client["MCP Host Client<br/>(Sandbox Boundary)"]
-    Client -->|"2. Forward Call"| Server["MCP Logistics Server<br/>(Python MCP Service)"]
-    Server -->|"3. Query Data"| DaaS["Unit 5 DaaS API<br/>(/v1/features, /v1/vision)"]
-    DaaS -->|"4. Return Raw JSON"| Server
-    Server -->|"5. Return Tool Result"| Client
-    Client -->|"6. Feed Tool Output"| LLM
-    LLM -->|"7. Final Grounded Synthesis"| User
-    end
+```
+HUMAN OPERATOR ──> LLM AGENT ──(JSON-RPC Request)──> MCP SERVER ──> DAAS BACKEND (DuckDB / Polars)
+                          <──(Structured Tool Result)───┘
 ```
 
-### Measurable Learning Objectives
-By the end of this unit, you will be able to:
-1. **Explain** the architectural role of the Model Context Protocol (MCP) as a standardized, secure JSON-RPC bridge between LLMs and enterprise data stores.
-2. **Design** descriptive, deterministic MCP Tool definitions (including function signatures, Pydantic argument schemas, and semantic prompt descriptions).
-3. **Enforce** defensive security boundaries (the Principle of Least Privilege, read-only sandboxes, and parameter bounds) to prevent prompt injection and unauthorized execution.
-4. **Implement** an MCP Server in Python exposing the logistics data engines developed in Units 1 through 5.
-5. **Simulate and Verify** an agentic tool-calling loop where an LLM dynamically discovers tools, executes multi-step queries, and generates a factual, hallucination-free executive fleet report.
+**Measurable Learning Objectives:**
+* **Explain** the architectural role of the Model Context Protocol (MCP) as a standardized, secure JSON-RPC bridge between LLMs and enterprise data stores.
+* **Design** descriptive, deterministic MCP Tool definitions (including function signatures, Pydantic argument schemas, and semantic prompt descriptions).
+* **Enforce** defensive security boundaries (the Principle of Least Privilege, read-only sandboxes, and parameter bounds) to prevent prompt injection and unauthorized execution.
+* **Implement** an MCP Server in Python exposing the logistics data engines developed in Units 1 through 5.
+* **Simulate and Verify** an agentic tool-calling loop where an LLM dynamically discovers tools, executes multi-step queries, and generates a factual, hallucination-free executive fleet report.
 
 ---
 
-## 2. The Narrative of Data: The $500,000 "Unrestricted SQL" Disaster
-
+#### 2. The Narrative of Data: The $500,000 "Unrestricted SQL" Disaster
 To understand why data engineers must never give raw, unconstrained database credentials to an autonomous AI agent, consider an authentic corporate failure.
 
 Global Freightways deployed an experimental "AI Logistics Assistant" powered by an LLM to help terminal dispatchers answer questions about shipments. The system prompt instructed the model:
@@ -57,7 +53,7 @@ For three weeks, the system was a sensation. Dispatchers asked: *"How many shipm
 SELECT count(*) FROM shipments WHERE city = 'Chicago' AND status = 'DELAYED';
 ```
 
-### The Fatal Ambiguity
+##### The Fatal Ambiguity
 On a busy Thursday afternoon, a dispatcher was clearing out test shipments from a training exercise. The dispatcher typed into the AI chat window:
 > *"Hey, can you please remove all the temporary demo shipments created yesterday?"*
 
@@ -73,124 +69,75 @@ In under 400 milliseconds, the autonomous agent permanently purged **42,000 acti
 
 Dispatch screens went blank nationwide. Drivers arriving at terminals could not be matched to their trailers. The company was forced to halt interstate operations for 18 hours while database administrators performed a point-in-time point recovery from off-site tape backups. The operational paralysis, driver detention fees, and missed SLA penalties totaled over **$500,000**.
 
-### The Engineering Autopsy
+##### The Engineering Autopsy
 What was the fatal flaw?
-- **Unconstrained Tool Surface**: The agent was given arbitrary SQL execution privileges.
-- **Violation of Least Privilege**: A dispatcher assistant should never have permission to run `DELETE` or `DROP`.
-- **Lack of Guardrails**: There was no schema validation, no parameter boundaries, and no sandboxing.
+* **Unconstrained Tool Surface**: The agent was given arbitrary SQL execution privileges.
+* **Violation of Least Privilege**: A dispatcher assistant should never have permission to run `DELETE` or `DROP`.
+* **Lack of Guardrails**: There was no schema validation, no parameter boundaries, and no sandboxing.
 
-### The MCP Defense: Deterministic Tool Contracts
-Under MCP, an AI agent is **never given direct SQL or shell access**. Instead, the data engineer exposes narrow, purpose-built, pre-validated tools:
-
-```python
-@mcp.tool()
-def get_truck_status(truck_id: str) -> dict:
-    """Retrieves read-only status for a specific truck. Cannot modify database records."""
-    ...
-```
-
-The AI can only request parameters that conform to a strict schema. The database remains completely insulated behind the data engineer's safe, deterministic code.
+**The Lesson:** Never give an LLM raw SQL access. Instead, expose **discrete, validated, read-only MCP Tools** (`get_truck_status(truck_id: int)`, `get_terminal_delays(city: str)`) that execute tightly bounded queries.
 
 ---
 
-## 3. Conceptual Mental Model
+#### 3. The Mental Model: "The USB-C Standard for AI"
+Before MCP, every developer wrote custom wrappers for every LLM:
+* If you used OpenAI, you wrote OpenAI function schemas.
+* If you used Anthropic, you wrote Claude tool schemas.
+* If you used Ollama, you wrote another custom parser.
 
-### A. The Anatomy of an MCP Tool
+This was like the 1990s computer era, when every peripheral device required a proprietary cable: serial ports, parallel printer ports, PS/2 mouse plugs, and SCSI connectors.
 
-An MCP tool consists of four distinct components:
+```
+BEFORE MCP (Proprietary Mess):
+[OpenAI] ──> Custom JSON Schema A ──> Database
+[Claude] ──> Custom JSON Schema B ──> Database
+[Ollama] ──> Custom Regex Parser  ──> Database
 
-```mermaid
-classDiagram
-    class MCPTool {
-        +String name
-        +String description
-        +JSONSchema input_schema
-        +Callable handler_function
-    }
-    class LLMDecisionEngine {
-        +Reads description to evaluate relevance
-        +Formats arguments matching input_schema
-    }
-    class ServerExecutionBoundary {
-        +Validates input types
-        +Executes safe Python code
-        +Returns structured JSON text
-    }
-
-    MCPTool --> LLMDecisionEngine : Exposed via JSON-RPC
-    MCPTool --> ServerExecutionBoundary : Executed locally
+AFTER MCP (Universal USB-C Standard):
+[OpenAI / Claude / Ollama / Copilot] 
+               │ (Standard JSON-RPC 2.0)
+               ▼
+       [MCP Client Host]
+               │
+               ▼
+       [MCP Data Server] ──> [Enterprise Data Engine]
 ```
 
-1. **Tool Name**: A clean, snake_case identifier (e.g. `get_fleet_features`).
-2. **Semantic Description**: A clear English paragraph. **The LLM reads this description to decide whether to call the tool!** If your description is vague, the LLM will hallucinate or fail to use the tool when needed.
-3. **Input Schema**: A JSON Schema (generated automatically by Pydantic) detailing expected arguments, types, required fields, and constraints.
-4. **Handler Function**: The Python code that executes when the tool is called.
+MCP standardizes three foundational primitives:
+1. **Tools**: Functions that the model can invoke to perform computations or fetch live state.
+2. **Resources**: Static or dynamic data context (like database schemas or log files) that the host can attach to the prompt.
+3. **Prompts**: Standardized instructional templates configured by the server.
 
 ---
 
-### B. Standardized JSON-RPC Protocol
+#### 4. The Anatomy of an MCP Tool: JSON-RPC 2.0 Protocol
+When an LLM requests a tool call, MCP communicates using standardized **JSON-RPC 2.0**:
 
-MCP communicates across standard input/output (`stdio`) or HTTP/SSE using **JSON-RPC 2.0**:
-
-#### Step 1: The Client Lists Available Tools (`tools/list`)
+##### 1. The Client Sends Request:
 ```json
-// Request from AI Host Client
 {
   "jsonrpc": "2.0",
-  "id": 1,
-  "method": "tools/list"
-}
-```
-
-```json
-// Response from your MCP Server
-{
-  "jsonrpc": "2.0",
-  "id": 1,
-  "result": {
-    "tools": [
-      {
-        "name": "check_truck_safety",
-        "description": "Evaluates whether a truck is safe for dispatch by combining vision inspection and maintenance logs.",
-        "inputSchema": {
-          "type": "object",
-          "properties": {
-            "truck_id": {"type": "string", "pattern": "^TRUCK-\\d{3}$"}
-          },
-          "required": ["truck_id"]
-        }
-      }
-    ]
-  }
-}
-```
-
-#### Step 2: The AI Invokes the Tool (`tools/call`)
-```json
-// Request from AI Host Client
-{
-  "jsonrpc": "2.0",
-  "id": 2,
+  "id": "req-101",
   "method": "tools/call",
   "params": {
-    "name": "check_truck_safety",
+    "name": "get_truck_telemetry",
     "arguments": {
-      "truck_id": "TRUCK-219"
+      "truck_id": 219
     }
   }
 }
 ```
 
+##### 2. The Server Validates & Responds:
 ```json
-// Response from your MCP Server
 {
   "jsonrpc": "2.0",
-  "id": 2,
+  "id": "req-101",
   "result": {
     "content": [
       {
         "type": "text",
-        "text": "{\"truck_id\": \"TRUCK-219\", \"status\": \"GROUNDED\", \"defect\": \"Sidewall crack detected in steer tire\", \"rag_warning\": \"Turbo whine and metallic glitter in oil\"}"
+        "text": "{\"truck_id\": 219, \"status\": \"ACTIVE\", \"speed_mph\": 64.2, \"fuel_pct\": 82.0}"
       }
     ]
   }
@@ -199,67 +146,154 @@ MCP communicates across standard input/output (`stdio`) or HTTP/SSE using **JSON
 
 ---
 
-## 4. Deep Dive: Scaffolding the Multi-Tool Agentic Decision Loop
-
-### REQ-14 Scaffolding: Step-by-Step Data Flow
-
-Let us trace how an agent answers a complex operational question: *"Is Truck #219 cleared for a 500-mile highway dispatch?"*
-
-| Step | Component | Action | Intermediate Data State |
-|---|---|---|---|
-| **1. User Prompt** | Human | Types question into agent chat | `"Is Truck 219 cleared for dispatch?"` |
-| **2. Reasoning** | LLM | Inspects tool list; realizes it needs telemetry and vision data | Decides to call `get_truck_telemetry` |
-| **3. Tool Execution** | MCP Server | Executes Python function; returns features | `{"avg_speed": 52.1, "status": "REQUIRES_INSPECTION"}` |
-| **4. Second Reasoning** | LLM | Sees status is suspicious; decides to inspect computer vision manifest | Decides to call `get_vision_manifest` |
-| **5. Tool Execution** | MCP Server | Queries Unit 3 vision manifest | `[{"label": "sidewall_crack", "confidence": 0.89}]` |
-| **6. Synthesis** | LLM | Integrates tool outputs; formulates grounded response | *"Truck #219 must NOT be dispatched. Computer vision detected an 89% confidence sidewall crack on the steer tire."* |
-
-Notice that the LLM **did not hallucinate**. Every claim made in the final response is grounded in factual JSON returned by your MCP tools.
-
----
-
-## 5. Hands-on Terminal Practice
-
-Let us build and test an MCP tool server using the Python MCP framework.
-
-### Exercise 1: Minimal MCP Server with FastMCP
-Create a scratch script `scratch/mini_mcp.py`:
+#### 5. Guided Implementation Walkthrough: Production Python MCP Server
 
 ```python
-from mcp.server.fastmcp import FastMCP
+import json
+from typing import Dict, Any
 
-# Initialize FastMCP Server
-mcp = FastMCP("Logistics-Agent-Tools")
-
-@mcp.tool()
-def get_truck_health_score(truck_id: str) -> str:
+class FleetMCPServer:
     """
-    Returns the comprehensive health score for a freight truck.
-    Args:
-        truck_id: The identifier of the truck (e.g. 'TRUCK-219')
+    Production-grade Model Context Protocol server exposing
+    defensive, read-only tools to autonomous LLM agents.
     """
-    if truck_id == "TRUCK-219":
-        return "TRUCK-219: CRITICAL ALERT. Sidewall crack in tire. Turbocharger oil line recall."
-    elif truck_id == "TRUCK-101":
-        return "TRUCK-101: OPERATIONAL. All safety systems green."
-    else:
-        return f"Truck {truck_id} not found in database."
+    def __init__(self):
+        self.tools = {
+            "get_truck_telemetry": self.get_truck_telemetry,
+            "check_anomaly_status": self.check_anomaly_status
+        }
+        
+    def list_tools(self) -> Dict[str, Any]:
+        """Exposes tool definitions following the MCP specification."""
+        return {
+            "tools": [
+                {
+                    "name": "get_truck_telemetry",
+                    "description": "Retrieve current operational status, speed, and fuel level for a commercial truck.",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "truck_id": {"type": "integer", "description": "The unique truck number (e.g. 219)"}
+                        },
+                        "required": ["truck_id"]
+                    }
+                },
+                {
+                    "name": "check_anomaly_status",
+                    "description": "Check if a fuel transaction triggered fraud or physical anomaly flags.",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "trans_id": {"type": "integer", "description": "The transaction ID"}
+                        },
+                        "required": ["trans_id"]
+                    }
+                }
+            ]
+        }
 
-if __name__ == "__main__":
-    mcp.run()
+    def get_truck_telemetry(self, truck_id: int) -> Dict[str, Any]:
+        # Defensive constraint: Validate positive integer bounds
+        if truck_id <= 0 or truck_id > 10000:
+            return {"error": "Invalid truck_id: Must be between 1 and 10000"}
+        return {
+            "truck_id": truck_id,
+            "status": "EN_ROUTE",
+            "current_city": "Cheyenne, WY",
+            "speed_mph": 62.5,
+            "last_inspection": "PASS"
+        }
+
+    def check_anomaly_status(self, trans_id: int) -> Dict[str, Any]:
+        if trans_id == 1002:
+            return {"trans_id": 1002, "is_anomaly": True, "reason": "Tank overflow violation"}
+        return {"trans_id": trans_id, "is_anomaly": False, "reason": "Normal"}
+
+    def handle_request(self, json_rpc_str: str) -> str:
+        req = json.loads(json_rpc_str)
+        method = req.get("method")
+        
+        if method == "tools/list":
+            return json.dumps({"jsonrpc": "2.0", "id": req.get("id"), "result": self.list_tools()})
+        elif method == "tools/call":
+            params = req.get("params", {})
+            name = params.get("name")
+            args = params.get("arguments", {})
+            if name in self.tools:
+                result = self.tools[name](**args)
+                return json.dumps({"jsonrpc": "2.0", "id": req.get("id"), "result": {"content": [{"type": "text", "text": json.dumps(result)}]}})
+            return json.dumps({"jsonrpc": "2.0", "id": req.get("id"), "error": {"code": -32601, "message": "Method not found"}})
+
+server = FleetMCPServer()
+test_call = json.dumps({
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {"name": "get_truck_telemetry", "arguments": {"truck_id": 219}}
+})
+print("MCP Server Response:", server.handle_request(test_call))
 ```
 
 ---
 
-## 6. Frequently Encountered Student Gotchas & FAQs
+#### 6. Common Traps & Formative Self-Check FAQ
 
-### Gotcha 1: Tool Descriptions that Confuse the LLM
-- **Bad Description**: `def query(id: str)` with docstring: `"Runs a query."`
-  - *Why it fails*: The LLM has no idea what data the tool returns, what format `id` requires, or when it should be used.
-- **Good Description**: `def get_truck_telemetry(truck_id: str)` with docstring:
-  > *"Retrieves current operational metrics (fuel efficiency, average speed, maintenance status) for a commercial truck. Use this when evaluating whether a vehicle is fit for departure."*
+* **Question 1: Why shouldn't an MCP server return natural language explanations directly?**  
+  *Answer:* An MCP tool should return clean, structured JSON or raw domain data. The LLM agent is responsible for translating that structured data into conversational summaries for human users.
 
-### Gotcha 2: Returning Unparsed Binary Data to an MCP Tool
-- **Problem**: *"Can my MCP tool return a raw OpenCV image array or a 100,000-row Polars DataFrame?"*
-- **Why this fails**: MCP tool outputs are passed directly into the LLM's text context window. If you dump a 100,000-row table or raw binary pixels, you will immediately blow past the LLM's context limit (e.g. 8k or 32k tokens) and crash the session.
-- **The Rule**: Always summarize and aggregate data on the server side. Return structured, concise JSON or markdown summaries (e.g. top-5 outliers, bounding box labels, or aggregated averages).
+* **Question 2: How does MCP prevent prompt injection attacks?**  
+  *Answer:* By enforcing strict JSON-RPC schemas and Pydantic parameter boundaries, untrusted user text cannot escape into database queries or shell commands. The tool boundary acts as a cryptographic sandbox.
+
+---
+
+## 2. Required Readings & Authoritative Tutorial Guides
+
+Review the following five curated documentation guides and technical specifications before beginning your applied lab:
+
+1. **[Model Context Protocol (MCP) Official Specification](https://modelcontextprotocol.io/introduction)**
+   *Understand the core architecture, client-server lifecycle, transport layers (stdio vs SSE), and protocol primitives.*
+
+2. **[Anthropic: Tool Use & Function Calling Guide](https://docs.anthropic.com/en/docs/build-with-claude/tool-use)**
+   *Master how modern foundation models parse tool schemas, construct function call arguments, and integrate tool outputs.*
+
+3. **[JSON-RPC 2.0 Official Specification](https://www.jsonrpc.org/specification)**
+   *Review the lightweight remote procedure call specification that powers all MCP message exchanges.*
+
+4. **[Model Context Protocol Python SDK](https://github.com/modelcontextprotocol/python-sdk)**
+   *Explore the official Python library for implementing standard-compliant MCP servers and clients.*
+
+5. **[Ollama: Local LLM Tool Calling & Structured Outputs](https://ollama.com/blog/tool-support)**
+   *Learn how to execute local agentic tool loops using open-weights models (`llama3.2`, `qwen2.5`) with zero API costs.*
+
+---
+
+## 3. Required Micro-Video Lectures (Embedded)
+
+Watch each of the following video chapters to observe the Model Context Protocol in action:
+
+### Get Started With The Model Context Protocol (MCP) <span style="font-size: 0.9em; color: #64748b;">(Full Video - 2:30)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Model Context Protocol Intro" src="https://www.youtube.com/embed/uHm6FEb2Re4" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=uHm6FEb2Re4" target="_blank" rel="noopener">Open video segment in new tab (2:12)</a></p>
+
+### How LLMs Use Tools: Function Calling & Agentic Loops <span style="font-size: 0.9em; color: #64748b;">(Core Concepts - 11:45)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Function Calling Explained" src="https://www.youtube.com/embed/qw--VYLpxG4?start=750" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=qw--VYLpxG4&amp;t=750s" target="_blank" rel="noopener">Open video segment in new tab (12:30)</a></p>
+
+### Building an MCP Server from Scratch in Python <span style="font-size: 0.9em; color: #64748b;">(Full Walkthrough - 14:10)</span>
+<div class="dp-embed-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="Python MCP Server" src="https://www.youtube.com/embed/T1dJfh1KlYA" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+<p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a href="https://www.youtube.com/watch?v=T1dJfh1KlYA" target="_blank" rel="noopener">Open video segment in new tab (11:30)</a></p>
+
+---
+
+## 4. Institutional Video Lecture Embeds
+
+<div style="background: #f8fafc; border-radius: 6px; padding: 1.5rem; margin: 1rem 0px; text-align: center; border: 2px dashed #94a3b8;">
+  <p style="font-size: 0.95em; color: #475569; margin-bottom: 1rem;"><strong>Campus Faculty Announcements &amp; Lab Walkthrough Recordings</strong></p>
+  <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;">Institutional video lectures and live office hour recordings for Unit 6 will appear in this designated container.</p>
+</div>

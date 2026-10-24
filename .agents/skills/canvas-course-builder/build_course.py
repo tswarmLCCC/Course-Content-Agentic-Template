@@ -158,6 +158,7 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
     # 5. Generate Front Page (home-page.html) with DesignPLUS Quick-Links Module Accordion
     p_home_id = make_canvas_id("page_home_front")
     p_start_here_id = make_canvas_id("page_start_here")
+    p_orient_syl_id = make_canvas_id("page_orient_syllabus")
 
     mod_links_lis = [
         f'<li style="border-bottom: 1px solid #e2e8f0; background: #ffffff;"><a class="list-group-item list-group-item-action" href="$CANVAS_OBJECT_REFERENCE$/modules/{mod_orient_id}" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.25rem; color: #1e293b; text-decoration: none; font-weight: 600; font-size: 1.05em;"><i class="fas fa-map-marker-alt" style="color: #2563eb;"></i> Getting Started - Course Orientation</a></li>'
@@ -196,7 +197,7 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
   <nav class="dp-link-grid container-fluid dp-link-grid-item-s-rounded dp-link-grid-item-bg-dp-primary dp-link-grid-hover-dp-accent dp-link-grid-icon-s-brdr-r dp-link-grid-icon-brdr-dp-secondary dp-link-grid-icon-brdr-w-2" style="margin: 1.5rem 0;">
     <ul class="row" style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem;">
       <li class="col-sm-12 col-md-4 col-lg-4" style="flex: 1; min-width: 220px;"><a title="Course Overview" href="$WIKI_REFERENCE$/pages/{p_start_here_id}" data-course-type="wikiPages" style="display: block; background: #1e3a8a; color: #ffffff; padding: 0.85rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><i class="fas fa-flag" aria-hidden="true"></i> Start Here: Course Overview</a></li>
-      <li class="col-sm-12 col-md-4 col-lg-4" style="flex: 1; min-width: 220px;"><a title="Syllabus" href="$CANVAS_COURSE_REFERENCE$/assignments/syllabus" data-course-type="navigation" style="display: block; background: #1e3a8a; color: #ffffff; padding: 0.85rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><i class="fas fa-file-alt" aria-hidden="true"></i> Syllabus &amp; Policies</a></li>
+      <li class="col-sm-12 col-md-4 col-lg-4" style="flex: 1; min-width: 220px;"><a title="Syllabus" href="$WIKI_REFERENCE$/pages/{p_orient_syl_id}" data-course-type="wikiPages" style="display: block; background: #1e3a8a; color: #ffffff; padding: 0.85rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><i class="fas fa-file-alt" aria-hidden="true"></i> Syllabus &amp; Policies</a></li>
       <li class="col-sm-12 col-md-4 col-lg-4" style="flex: 1; min-width: 220px;"><a class="dp-has-icon" href="https://lcccwy.sharepoint.com/sites/StudentSuccessResources" target="_blank" rel="noopener" style="display: block; background: #1e3a8a; color: #ffffff; padding: 0.85rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Student Resources</a></li>
     </ul>
   </nav>
@@ -386,11 +387,12 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
             r_title_extracted, r_lead_html, r_sections = parse_markdown_sections(r_raw_md)
 
             if len(r_sections) >= 2:
-                r_page_content = render_ribbon_sections_page_html(
+                r_page_content = render_designplus_html(
                     f"Unit {u_idx:02d}: Required Readings, Concepts & Video Lectures",
                     r_lead_html or "<p>Review all instructional lecture materials and conceptual deep dives below.</p>",
                     r_sections,
-                    r_id
+                    r_id,
+                    header_subtitle="Required Readings, Concepts & Video Lectures"
                 )
             else:
                 r_panels = [("Core Reading & Conceptual Deep Dive", parse_markdown_to_html(r_raw_md))]
