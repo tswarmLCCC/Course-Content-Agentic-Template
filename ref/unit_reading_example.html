@@ -1,0 +1,663 @@
+<div id="dp-wrapper"
+    class="dp-wrapper dp-hdg-i-cp-brdr-h2-dp-primary dp-hdg-txt-h3-dp-primary dp-hdg-txt-h4-dp-primary dp-hdg-txt-h5-dp-primary dp-hdg-i-cp-brdr-h5-dp-primary dp-hdg-b-h2-brdr-b dp-hdg-txt-h6-dp-primary dp-hdg-i-cp-brdr-h6-dp-primary dp-hdg-i-styl-h2-pill dp-hdg-i-styl-h3-pill dp-hdg-cp-brdr-h3-dp-secondary dp-hdg-cp-brdr-h2-dp-secondary dp-hdg-brdr-h2-1 dp-hdg-brdr-h3-1 dp-hdg-brdr-h4-1 dp-hdg-brdr-h5-1 dp-hdg-brdr-h6-1 dp-hdg-i-sz-h2-fill dp-hdg-i-sz-h3-fill dp-hdg-i-sz-h5-fill dp-hdg-i-sz-h6-fill dp-hdg-i-brdr-h5-2 dp-hdg-i-brdr-h6-2 dp-hdg-b-h3-brdr-b dp-hdg-txt-h2-dp-primary dp-hdg-i-brdr-h2-1 dp-hdg-i-brdr-h3-1 dp-hdg-i-sz-h4-fill dp-hdg-i-cp-brdr-h3-dp-primary dp-hdg-i-brdr-h4-1 dp-hdg-i-bg-h2-dp-primary dp-hdg-i-bg-h3-dp-primary dp-hdg-b-h4-brdr-b dp-hdg-d-h4-table-l dp-hdg-i-styl-h4-pill dp-hdg-i-cp-brdr-h4-dp-primary">
+    <header
+        class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary">
+        <h2 class="dp-heading dp-locked"><span class="dp-header-title">Unit 1: Required Readings, Concepts &amp; Video
+                Lectures</span></h2>
+        <p>&nbsp;</p>
+    </header>
+    <div class="dp-content-block">
+        <p><strong>Welcome to the core instructional lecture and study hub for Unit 1: Selection &amp; Relational
+                Fundamentals.</strong> This page organizes all weekly learning materials into four structured chapters:
+        </p>
+        <ol style="padding-left: 1.5rem; margin: 0.75rem 0; line-height: 1.7;">
+            <li><strong>Instructor Lecture &amp; Conceptual Deep Dive:</strong> Master the core concepts, mental models,
+                syntax rules, and guided live exercises authored specifically for this unit.</li>
+            <li><strong>Required Readings &amp; PostgreSQL Tutorial Guides:</strong> Review curated reference guides and
+                official PostgreSQL 16 documentation links.</li>
+            <li><strong>Required Micro-Video Lectures (Embedded):</strong> Watch high-definition video chapters with
+                verified timestamp navigation to observe queries executed in live environments.</li>
+            <li><strong>Institutional Video Lecture Embeds:</strong> Access campus-specific video recordings and
+                announcements uploaded by your instructor.</li>
+        </ol>
+        <p style="margin-top: 0.75rem; margin-bottom: 0; color: #64748b; font-size: 0.95em;"><em>Work through each
+                section in sequence as part of your 150-minute asynchronous self-study allocation before starting the
+                applied laboratory assignment.</em></p>
+    </div>
+    <div
+        class="dp-panels-wrapper dp-accordion-plus dp-panel-color-dp-primary dp-panel-active-color-dp-accent dp-panel-hover-color-dp-accent">
+        <div class="dp-panel-group">
+            <h2 class="dp-panel-heading">1. Instructor Lecture &amp; Conceptual Deep Dive</h2>
+            <div class="dp-panel-content">
+                <h3
+                    style="color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">
+                    Asking Questions of Data: The SELECT Statement</h3>
+                <h4 style="color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.15em;">1. Unit
+                    Overview &amp; Objectives</h4>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">Welcome to your first step in mastering SQL. In this
+                    unit, we move from being passive consumers of data&mdash;people who simply look at reports&mdash;to
+                    active investigators who generate them. You will learn the foundational skill of database
+                    management: retrieving specific information using the SELECT statement.</p>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">This unit is designed to bridge the gap between "having
+                    data" and "having answers." It isn't just about memorizing code; it's about learning a new way to
+                    interact with structured information. By the end of this unit, you will be able to write precision
+                    queries to explore any database table and organize the results into clean, professional reports.</p>
+                <p style="margin: 0.75rem 0; line-height: 1.6;"><strong>Learning Objectives:</strong></p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Conceptualize</strong> the relational database model and
+                        articulate why structured data management is superior to flat-file spreadsheets for performance,
+                        integrity, and scalability.</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Construct</strong> syntactically correct SQL queries
+                        using the foundational pillars: SELECT, FROM, and ORDER BY.</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Apply</strong> the mathematical concept of Projection
+                        (&pi;) to isolate specific columns from tables.</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Construct</strong> calculated expressions and column
+                        aliases using arithmetic operators (<code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">+</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">-</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">*</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">/</code>),
+                        string concatenation (<code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">||</code>),
+                        and the <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">AS</code>
+                        keyword.</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Audit</strong> data integrity and summarize categories
+                        using the DISTINCT keyword (with an understanding of query planner performance overhead).</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Execute</strong> queries within your live PostgreSQL 16
+                        database environment in GitHub Codespaces.</li>
+                </ul>
+                <hr
+                    style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+                <h4 style="color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.15em;">2. The
+                    Narrative of Data: Why We Need SQL</h4>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">Imagine you are managing an omnichannel retail business
+                    with 50,000 customer orders, thousands of products, and hundreds of employees across multiple
+                    facilities. If all of this information were stored in a single, massive spreadsheet, finding a list
+                    of active warehouse staff or identifying our highest-margin products would be a logistical
+                    nightmare. You would have to scroll through tens of thousands of rows, manually ignoring irrelevant
+                    data just to find the columns you need. Spreadsheets often freeze, crash, or introduce accidental
+                    data desynchronization when sorting large files.</p>
+                <p style="margin: 0.75rem 0; line-height: 1.6;"><strong>Relational Databases</strong> solve this by
+                    breaking data into normalized tables that "relate" to one another: <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">employees</code>,
+                    <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">products</code>,
+                    <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">locations</code>,
+                    <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">orders</code>,
+                    and <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">order_lines</code>.
+                    This structure prevents duplicate data entry and ensures high performance regardless of size.
+                    <strong>SQL (Structured Query Language)</strong> is the universal language used to interact with
+                    these tables. Instead of manually scrolling, you send a precise instruction&mdash;a query&mdash;and
+                    the PostgreSQL database engine retrieves the exact dataset in milliseconds.</p>
+                <hr
+                    style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+                <h4 style="color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.15em;">3. The Core
+                    Concept: The "Flashlight" Metaphor</h4>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">To understand how the SELECT statement works, imagine a
+                    massive, pitch-black warehouse (the database) filled with rows of tall filing cabinets (the tables).
+                    Each cabinet has dozens of drawers, and each drawer contains one specific attribute of information
+                    (the columns).</p>
+                <h5 style="color: #334155; margin-top: 1rem; margin-bottom: 0.5rem; font-size: 1.05em;">Projection: Your
+                    Logical Flashlight</h5>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">When you walk into this warehouse with a flashlight, you
+                    don't turn on floodlights to illuminate everything at once&mdash;that would be overwhelming and
+                    wasteful. You only illuminate the specific facts needed for your current task. In relational
+                    algebra, this precision is called <strong>Projection (&pi;)</strong>.</p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>The Flashlight (SELECT):</strong> When you write <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT first_name</code>,
+                        you shine a focused beam of light on one specific column across every row in the cabinet.
+                        Everything else in the table remains in the dark. If you shine the light on <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">first_name</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">last_name</code>,
+                        and <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">salary</code>,
+                        you see those three attributes side-by-side. This is the act of projecting a subset of columns.
+                    </li>
+                    <li style="margin-bottom: 0.35rem;"><strong>The Cabinet (FROM):</strong> You must tell the database
+                        engine which cabinet to open. Writing <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">FROM employees</code>
+                        tells the database exactly where to point your flashlight so you don't waste time searching the
+                        wrong part of the warehouse.</li>
+                </ul>
+                <h5 style="color: #334155; margin-top: 1rem; margin-bottom: 0.5rem; font-size: 1.05em;">The Result Set:
+                    The Temporary View</h5>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">When you execute a SELECT statement, you are
+                    <strong>not</strong> changing the data stored in the database. You are simply creating a temporary
+                    in-memory "view" or <strong>result set</strong> displayed on your screen. The actual data in the
+                    table remains untouched, ready for the next query.</p>
+                <hr
+                    style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+                <h4 style="color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.15em;">4.
+                    Implementation: Mastering the SELECT Statement</h4>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">The SELECT statement is the most frequently used command
+                    in SQL. It is a <strong>declarative</strong> command: you describe the *result* you want, and the
+                    database engine determines the optimal execution plan to retrieve it.</p>
+                <h5 style="color: #334155; margin-top: 1rem; margin-bottom: 0.5rem; font-size: 1.05em;">A. Basic Syntax
+                    and Grammar: The SQL Sentence</h5>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">A standard SQL query is composed of structured clauses:
+                </p>
+                <ol style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>SELECT [Columns]:</strong> Identifies the specific
+                        attributes you want to project (the "What").</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>FROM [Table]:</strong> Identifies the source table where
+                        the data lives (the "Where").</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>ORDER BY [Columns]:</strong> (Optional) Tells the
+                        database how to sort the result set (the "How it looks").</li>
+                </ol>
+                <p style="margin: 0.75rem 0; line-height: 1.6;"><strong>The Golden Rules of SQL Syntax:</strong></p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>The Semicolon (;):</strong> Every SQL command must end
+                        with a semicolon. It is the period at the end of your SQL sentence. Without it, PostgreSQL will
+                        wait indefinitely for you to finish your thought.</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Commas (,):</strong> When projecting multiple columns,
+                        separate them with commas (e.g., <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT first_name, last_name, salary</code>).
+                        <strong>Crucial Rule:</strong> Never put a trailing comma after the last column before the <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">FROM</code>
+                        keyword. If you do, PostgreSQL expects another column and throws a syntax error.</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Whitespace and Keyword Casing:</strong> SQL is
+                        whitespace-insensitive and case-insensitive. However, professional standard practice requires
+                        writing SQL keywords in <strong>ALL CAPS</strong> (<code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">FROM</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">ORDER BY</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">AS</code>)
+                        and beginning each clause on a <strong>new line</strong> for readability.</li>
+                </ul>
+                <h5 style="color: #334155; margin-top: 1rem; margin-bottom: 0.5rem; font-size: 1.05em;">B. Selecting
+                    Data: The Scalpel Approach</h5>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>The Wildcard (<code
+                                style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">*</code>):</strong>
+                        If you want to see every column in a table during initial exploration, use:</li>
+                </ul>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre
+                        style="margin: 0; background: transparent; color: inherit;"><code>SELECT * FROM employees;</code></pre>
+                </div>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">The asterisk acts as a "show all" button. While useful
+                    for exploratory work, avoid using <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT *</code>
+                    in production applications because it retrieves unnecessary data and wastes network bandwidth.</p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Specific Column Projection:</strong> Act like a precise
+                        data surgeon by explicitly naming your columns:</li>
+                </ul>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre style="margin: 0; background: transparent; color: inherit;"><code>SELECT first_name, last_name, title
+  FROM employees;</code></pre>
+                </div>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">This returns a clean, focused result set without
+                    horizontal clutter.</p>
+                <h5 style="color: #334155; margin-top: 1rem; margin-bottom: 0.5rem; font-size: 1.05em;">C. Removing
+                    Redundancy with DISTINCT</h5>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">Often, column values repeat across rows. For example,
+                    selecting the <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">department</code>
+                    column from <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">employees</code>
+                    will return duplicate entries for every employee in each department:</p>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre style="margin: 0; background: transparent; color: inherit;"><code>-- Returns duplicate rows for departments:
+SELECT department FROM employees;
+
+-- Returns only unique department categories:
+SELECT DISTINCT department FROM employees;</code></pre>
+                </div>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">When multiple columns follow <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">DISTINCT</code>,
+                    PostgreSQL evaluates the <strong>unique combination</strong> of all projected columns:</p>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre style="margin: 0; background: transparent; color: inherit;"><code>SELECT DISTINCT department, title 
+FROM employees
+ORDER BY department ASC, title ASC;</code></pre>
+                </div>
+                <div
+                    style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 0.75rem 1.25rem; margin: 1rem 0; border-radius: 0 4px 4px 0; color: #1e3a8a;">
+                    <strong>Performance Caveat on DISTINCT:</strong> When you execute a query with <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">DISTINCT</code>,
+                    PostgreSQL must scan every candidate row and perform a de-duplication pass using an in-memory hash
+                    table or on-disk sort. On tables containing millions of rows, <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">DISTINCT</code>
+                    can introduce significant CPU and I/O latency. Use <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">DISTINCT</code>
+                    intentionally when auditing data or generating category lists, but avoid using it casually to mask
+                    duplicate rows caused by improper join conditions.</div>
+                <h5 style="color: #334155; margin-top: 1rem; margin-bottom: 0.5rem; font-size: 1.05em;">D. Calculated
+                    Expressions &amp; Column Aliasing (AS)</h5>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">SQL is not limited to retrieving static column values;
+                    you can also use it as a powerful calculation engine. You can create virtual columns using scalar
+                    arithmetic operators (<code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">+</code>,
+                    <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">-</code>,
+                    <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">*</code>,
+                    <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">/</code>)
+                    and string concatenation (<code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">||</code>).
+                </p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Mathematical Expressions:</strong> Calculate profit
+                        margins directly from numeric columns in <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">products</code>:
+                    </li>
+                </ul>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre style="margin: 0; background: transparent; color: inherit;"><code>SELECT 
+      product_name, 
+      retail_price, 
+      cost_to_produce,
+      retail_price - cost_to_produce AS estimated_unit_profit
+  FROM products
+  ORDER BY estimated_unit_profit DESC;</code></pre>
+                </div>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Inventory Asset Valuation:</strong> Calculate total
+                        dollar value held in inventory:</li>
+                </ul>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre style="margin: 0; background: transparent; color: inherit;"><code>SELECT 
+      product_name,
+      stock_quantity,
+      retail_price,
+      stock_quantity * retail_price AS total_inventory_value
+  FROM products
+  ORDER BY total_inventory_value DESC;</code></pre>
+                </div>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>String Concatenation (<code
+                                style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">||</code>):</strong>
+                        Merge text columns together:</li>
+                </ul>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre style="margin: 0; background: transparent; color: inherit;"><code>SELECT 
+      first_name || ' ' || last_name AS full_name,
+      department,
+      title
+  FROM employees;</code></pre>
+                </div>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>The AS Keyword for Column Aliasing:</strong> When you
+                        calculate an expression without an alias, PostgreSQL labels the column header as <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">?column?</code>.
+                        Always use the <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">AS</code>
+                        keyword with a descriptive, lowercase <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">snake_case</code>
+                        identifier (such as <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">AS estimated_unit_profit</code>)
+                        to produce clean, professional report headers.</li>
+                </ul>
+                <h5 style="color: #334155; margin-top: 1rem; margin-bottom: 0.5rem; font-size: 1.05em;">E. Organizing
+                    Results with ORDER BY</h5>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">By default, relational database engines return rows in
+                    non-deterministic order. To organize data for human consumption or reporting, you must supply an
+                    <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">ORDER BY</code>
+                    clause:</p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>ASC (Ascending):</strong> The default order (A to Z,
+                        lowest number to highest number).</li>
+                </ul>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre style="margin: 0; background: transparent; color: inherit;"><code>SELECT first_name, last_name, salary
+  FROM employees
+  ORDER BY salary ASC;</code></pre>
+                </div>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>DESC (Descending):</strong> Reverses the sort order (Z
+                        to A, highest number to lowest number). Ideal for finding top earners or highest-priced
+                        products.</li>
+                </ul>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre style="margin: 0; background: transparent; color: inherit;"><code>SELECT product_name, retail_price
+  FROM products
+  ORDER BY retail_price DESC;</code></pre>
+                </div>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Multi-Column Sorting:</strong> Sort by primary category,
+                        then by a secondary tie-breaker:</li>
+                </ul>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre style="margin: 0; background: transparent; color: inherit;"><code>SELECT department, last_name, first_name, salary
+  FROM employees
+  ORDER BY department ASC, salary DESC;</code></pre>
+                </div>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">This groups employees alphabetically by department, and
+                    within each department, ranks them from highest salary to lowest.</p>
+                <hr
+                    style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+                <h4 style="color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.15em;">5. Student
+                    Exercises: Live Practice</h4>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">Connect to your live PostgreSQL 16 environment in GitHub
+                    Codespaces and execute these practice queries:</p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Console vs. GUI Navigation:</strong> In the integrated
+                        terminal, launch <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">psql</code>
+                        to run command-line queries. In the <strong>SQLTools GUI</strong> (cylinder icon in the VS Code
+                        sidebar), expand <strong>CMAP 1815 Local PostgreSQL &rarr; public &rarr; Tables</strong> to
+                        browse table schemas and preview records in an interactive grid.</li>
+                </ul>
+                <ol style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Table Discovery:</strong> In <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">psql</code>,
+                        execute <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">\dt</code>
+                        to list all base tables (<code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">employees</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">locations</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">orders</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">order_lines</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">products</code>).
+                        In SQLTools, expand the <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">Tables</code>
+                        folder to inspect the same entities visually.</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Staff Directory:</strong> Write a query that projects
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">first_name</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">last_name</code>,
+                        and <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">title</code>
+                        from the <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">employees</code>
+                        table, sorted alphabetically by <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">last_name</code>.
+                        Remember your terminating semicolon!</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Department Audit:</strong> Write a query using <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT DISTINCT department</code>
+                        from <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">employees</code>
+                        to find all unique departments in the company, ordered alphabetically from A to Z.</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Product Profit Margins:</strong> Retrieve <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">product_name</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">retail_price</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">cost_to_produce</code>,
+                        and a calculated column <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">retail_price - cost_to_produce</code>
+                        aliased as <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">estimated_unit_profit</code>
+                        from the <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">products</code>
+                        table. Sort descending by profit.</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Multi-Column Sort:</strong> Retrieve <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">department</code>,
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">last_name</code>,
+                        and <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">salary</code>
+                        from <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">employees</code>.
+                        Sort alphabetically by <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">department ASC</code>,
+                        then by <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">salary DESC</code>.
+                    </li>
+                </ol>
+                <hr
+                    style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+                <h4 style="color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.15em;">6. Frequently
+                    Asked Questions &amp; Common Pitfalls</h4>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Q: Why does my query seem frozen after I press
+                            Enter?</strong></li>
+                </ul>
+                <p style="margin: 0.75rem 0; line-height: 1.6;"><strong>A: The "Invisible" Semicolon:</strong> The most
+                    common stumbling block for beginners is forgetting the semicolon. In PostgreSQL, pressing Enter
+                    simply creates a new line in your command buffer (the prompt changes to <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">cmap1815-#</code>).
+                    The database engine is waiting for you to finish your command. Type <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">;</code>
+                    and press Enter to execute.</p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Q: Why do we write SELECT first if PostgreSQL executes
+                            FROM first?</strong></li>
+                </ul>
+                <p style="margin: 0.75rem 0; line-height: 1.6;"><strong>A: Declarative vs. Logical Execution:</strong>
+                    SQL is declarative: you state the desired output columns in <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT</code>,
+                    but the engine must first open the table in <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">FROM</code>
+                    before it can extract and project those attributes.</p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Q: How do I read PostgreSQL error messages without
+                            panic?</strong></li>
+                </ul>
+                <p style="margin: 0.75rem 0; line-height: 1.6;"><strong>A: Follow the Caret (<code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">^</code>)
+                        Pointer:</strong> PostgreSQL error messages are precise and helpful. If you forget a comma or
+                    misspell a keyword, PostgreSQL prints an error message with a caret pointing directly to the
+                    character where parsing failed.</p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Q: Do calculated expressions permanently modify data in
+                            the table?</strong></li>
+                </ul>
+                <p style="margin: 0.75rem 0; line-height: 1.6;"><strong>A: No, expressions are temporary in-memory
+                        projections:</strong> Calculating <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">retail_price - cost_to_produce</code>
+                    produces a dynamic calculated column in your result set. The underlying values in the table on disk
+                    remain unaltered.</p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Q: Why should I avoid <code
+                                style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT *</code>
+                            in production queries?</strong></li>
+                </ul>
+                <p style="margin: 0.75rem 0; line-height: 1.6;"><strong>A: Explicit projection protects
+                        performance:</strong> <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT *</code>
+                    retrieves every column, including large text fields or sensitive data, increasing network payload
+                    size and preventing the query optimizer from using index-only scans. Always name your columns
+                    explicitly.</p>
+                <hr
+                    style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+                <h4 style="color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.15em;">Appendix:
+                    GitHub Codespaces Reference</h4>
+                <p style="margin: 0.75rem 0; line-height: 1.6;">For this course, we use <strong>GitHub
+                        Codespaces</strong> to provide a pre-configured, cloud-hosted Linux workstation running
+                    PostgreSQL 16:</p>
+                <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                    <li style="margin-bottom: 0.35rem;"><strong>Launching:</strong> Open your personal student
+                        repository on GitHub, click <strong>Code &rarr; Codespaces &rarr; Create codespace on
+                            main</strong> (or resume your existing container).</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Connecting via Terminal:</strong> Open the integrated
+                        terminal (<code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">Ctrl + </code>
+                        <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">) and type </code>psql<code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;"> (or </code>psql
+                        -U postgres -d cmap1815`).</li>
+                    <li style="margin-bottom: 0.35rem;"><strong>Active Prompt:</strong> When the prompt displays <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">cmap1815=#</code>,
+                        you are connected and ready to execute queries! Type <code
+                            style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">\q</code>
+                        to exit back to the Linux terminal prompt.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="dp-panel-group">
+            <h2 class="dp-panel-heading">2. Required Readings &amp; PostgreSQL Tutorial Guides</h2>
+            <div class="dp-panel-content">
+                <ul style="padding-left: 1.5rem; line-height: 1.6;">
+                    <li style="margin-bottom: 1rem;"><strong><a href="https://neon.tech/postgresql/tutorial/select"
+                                target="_blank" rel="noopener">PostgreSQL SELECT</a></strong>
+                        <p style="margin-top: 0.25rem; margin-bottom: 0; color: #475569;">Learn how the SELECT statement
+                            retrieves data from relational tables and why specifying columns is superior to SELECT *.
+                        </p>
+                    </li>
+                    <li style="margin-bottom: 1rem;"><strong><a
+                                href="https://neon.tech/postgresql/tutorial/column-alias" target="_blank"
+                                rel="noopener">Column Alias (AS)</a></strong>
+                        <p style="margin-top: 0.25rem; margin-bottom: 0; color: #475569;">Understand how to assign
+                            descriptive temporary names to projected columns and calculated arithmetic expressions.</p>
+                    </li>
+                    <li style="margin-bottom: 1rem;"><strong><a href="https://neon.tech/postgresql/tutorial/order-by"
+                                target="_blank" rel="noopener">ORDER BY Sorting</a></strong>
+                        <p style="margin-top: 0.25rem; margin-bottom: 0; color: #475569;">Master sorting result sets in
+                            ASC and DESC order, handling multiple sort columns, and controlling NULL placement.</p>
+                    </li>
+                    <li style="margin-bottom: 1rem;"><strong><a
+                                href="https://neon.tech/postgresql/tutorial/select-distinct" target="_blank"
+                                rel="noopener">DISTINCT Deduplication</a></strong>
+                        <p style="margin-top: 0.25rem; margin-bottom: 0; color: #475569;">Evaluate multi-column
+                            uniqueness and eliminate duplicate rows from query projections.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="dp-panel-group">
+            <h2 class="dp-panel-heading">3. Required Micro-Video Lectures (Embedded)</h2>
+            <div class="dp-panel-content">
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="margin-bottom: 0.5rem; color: #1e293b;">What is a Relational Database <span
+                            style="font-size: 0.9em; color: #64748b;">(Starts at 5:17)</span></h4>
+                    <div class="dp-embed-wrapper"
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+                        <iframe
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;"
+                            title="What is a Relational Database"
+                            src="https://www.youtube.com/embed/qw--VYLpxG4?start=317" loading="lazy"
+                            allowfullscreen="allowfullscreen"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                    </div>
+                    <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a
+                            href="https://www.youtube.com/watch?v=qw--VYLpxG4&amp;t=317s" target="_blank"
+                            rel="noopener">Open video segment in new tab (5:17)</a></p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="margin-bottom: 0.5rem; color: #1e293b;">What is PostgreSQL <span
+                            style="font-size: 0.9em; color: #64748b;">(Starts at 9:10)</span></h4>
+                    <div class="dp-embed-wrapper"
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+                        <iframe
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;"
+                            title="What is PostgreSQL" src="https://www.youtube.com/embed/qw--VYLpxG4?start=550"
+                            loading="lazy" allowfullscreen="allowfullscreen"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                    </div>
+                    <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a
+                            href="https://www.youtube.com/watch?v=bb-2BVvjTc8" target="_blank" rel="noopener">Open video
+                            segment in new tab (9:10)</a></p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="margin-bottom: 0.5rem; color: #1e293b;">The SELECT Statement &amp; Projection <span
+                            style="font-size: 0.9em; color: #64748b;">(Starts at 72:28)</span></h4>
+                    <div class="dp-embed-wrapper"
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+                        <iframe
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;"
+                            title="The SELECT Statement &amp; Projection"
+                            src="https://www.youtube.com/embed/qw--VYLpxG4?start=4348" loading="lazy"
+                            allowfullscreen="allowfullscreen"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                    </div>
+                    <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a
+                            href="https://www.youtube.com/watch?v=qw--VYLpxG4&amp;t=4348s" target="_blank"
+                            rel="noopener">Open video segment in new tab (72:28)</a></p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="margin-bottom: 0.5rem; color: #1e293b;">Sorting with ORDER BY <span
+                            style="font-size: 0.9em; color: #64748b;">(Starts at 75:18)</span></h4>
+                    <div class="dp-embed-wrapper"
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+                        <iframe
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;"
+                            title="Sorting with ORDER BY" src="https://www.youtube.com/embed/qw--VYLpxG4?start=4518"
+                            loading="lazy" allowfullscreen="allowfullscreen"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                    </div>
+                    <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a
+                            href="https://www.youtube.com/watch?v=qw--VYLpxG4&amp;t=4518s" target="_blank"
+                            rel="noopener">Open video segment in new tab (75:18)</a></p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="margin-bottom: 0.5rem; color: #1e293b;">Deduplication with DISTINCT <span
+                            style="font-size: 0.9em; color: #64748b;">(Starts at 79:53)</span></h4>
+                    <div class="dp-embed-wrapper"
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+                        <iframe
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;"
+                            title="Deduplication with DISTINCT"
+                            src="https://www.youtube.com/embed/qw--VYLpxG4?start=4793" loading="lazy"
+                            allowfullscreen="allowfullscreen"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                    </div>
+                    <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;"><a
+                            href="https://www.youtube.com/watch?v=qw--VYLpxG4&amp;t=4793s" target="_blank"
+                            rel="noopener">Open video segment in new tab (79:53)</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="dp-panel-group">
+            <h2 class="dp-panel-heading">4. Institutional Video Lecture Embeds</h2>
+            <div class="dp-panel-content">
+                <div
+                    style="background: #f8fafc; border-radius: 6px; padding: 1.5rem; margin: 1rem 0px; text-align: center; border: 2px dashed #94a3b8;">
+                    <p style="font-size: 0.85em; color: #64748b; margin-top: 0.25rem;">&nbsp;</p>
+                    <div class="dp-embed-wrapper"
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+                        <iframe
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;"
+                            src="https://www.youtube.com/embed/bb-2BVvjTc8" loading="lazy"
+                            allowfullscreen="allowfullscreen"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                    </div>
+                    <div class="dp-embed-wrapper"
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+                        <iframe
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;"
+                            src="https://www.youtube.com/embed/3mc1Qp4Z5CI" loading="lazy"
+                            allowfullscreen="allowfullscreen"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                    </div>
+                    <div class="dp-embed-wrapper"
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+                        <iframe
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;"
+                            src="https://www.youtube.com/embed/4Ep1QZFYztA" loading="lazy"
+                            allowfullscreen="allowfullscreen"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                    </div>
+                    <div class="dp-embed-wrapper"
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem;">
+                        <iframe
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;"
+                            src="https://www.youtube.com/embed/xaQFd4hitcE" loading="lazy"
+                            allowfullscreen="allowfullscreen"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

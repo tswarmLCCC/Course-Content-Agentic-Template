@@ -1,0 +1,576 @@
+<div id="dp-wrapper" class="dp-wrapper">
+    <h1 style="color: #1e3a8a; margin-top: 0; margin-bottom: 1.25rem;">Unit 1: Applied SQL Lab Guide</h1>
+    <div
+        style="background: #f8fafc; border-left: 4px solid #1e3a8a; padding: 1rem 1.25rem; margin-bottom: 1.75rem; border-radius: 0 4px 4px 0; font-size: 1.05em; line-height: 1.5; color: #334155;">
+        <p>This page contains the hands-on laboratory scenario, database schema specifications, and step-by-step query
+            tasks for <strong>Unit 1</strong>. Complete these queries in PostgreSQL 16, then submit your work using the
+            Canvas Assignment link below.</p>
+    </div>
+    <div style="margin-bottom: 2rem;">
+        <h2
+            style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.4rem; margin-top: 1.75rem; margin-bottom: 1rem;">
+            1. Lecture Walkthroughs &amp; Coding Clinic (Gradual Release: Try First, Then Watch)</h2>
+        <div style="line-height: 1.6; color: #1e293b;">
+            <p style="margin-bottom: 0.75rem;">These follow-along challenges follow the <strong>Gradual Release of
+                    Responsibility</strong> model ("I Do, We Do, You Do"). Attempt each query on your own in your
+                Codespace sandbox before or while watching the instructor video walkthrough, then compare your query
+                logic and formatting against the instructor's demonstration!</p>
+            <div
+                style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                <pre style="margin: 0; background: transparent; color: inherit;"><code>/*
+====================================================================
+CMAP 1815 - Unit 1: Lecture Walkthrough &amp; Coding Clinic
+Follow-Along Practice: Gradual Release ("Try First, Then Watch")
+====================================================================
+
+Pedagogical Purpose:
+These coding clinic challenges follow the "Gradual Release of Responsibility"
+model. Before watching the instructor video walkthrough, attempt each query
+below in your Codespace sandbox. Then watch the recording to compare your
+syntax, observe execution plans, and examine common beginner pitfalls!
+
+Instructions:
+1. Ensure your PostgreSQL connection is active in Codespaces.
+2. Draft your query below each challenge block.
+3. Test execution with Ctrl+Enter (or in psql).
+4. SQL keywords should be UPPERCASE (SELECT, FROM, ORDER BY, AS).
+====================================================================
+*/
+
+-- ==================================================================
+-- CHALLENGE 1: The Clean Contact List
+-- ==================================================================
+-- Write a query against the 'employees' table that retrieves:
+--   1. The employee's first name and last name merged together as 'full_name'
+--   2. Their department
+--   3. Their job title
+-- Format the query so that it sorts alphabetically by department (A to Z),
+-- and within each department, sorts by last name (A to Z).
+
+-- [YOUR QUERY HERE]
+
+
+
+
+-- ==================================================================
+-- CHALLENGE 2: Product Catalog &amp; Profit Margin Preview
+-- ==================================================================
+-- Management wants to review the pricing of all products.
+-- Write a query against the 'products' table that retrieves:
+--   1. The product name
+--   2. The category
+--   3. The cost to produce
+--   4. The retail price
+--   5. A calculated column called 'unit_profit' (retail_price minus cost_to_produce)
+-- Sort the result set so that the most profitable products appear at the top.
+
+-- [YOUR QUERY HERE]
+
+
+
+
+-- ==================================================================
+-- CHALLENGE 3: Geographic Footprint Audit
+-- ==================================================================
+-- Write a query against the 'locations' table to find all unique states
+-- where our company operates facilities.
+-- Ensure the output column is labeled 'operational_state' and is 
+-- sorted in alphabetical order.
+
+-- [YOUR QUERY HERE]
+
+
+
+
+-- ==================================================================
+-- CHALLENGE 4: Salary Budget Simulation
+-- ==================================================================
+-- The leadership team is modeling an 8% cost-of-living adjustment (COLA).
+-- Write a query against the 'employees' table that displays:
+--   1. Last name
+--   2. Current salary (aliased as 'current_base')
+--   3. Simulated salary with an 8% increase (aliased as 'proposed_salary')
+--   4. The exact dollar increase (aliased as 'dollar_adjustment')
+-- Sort from the largest proposed salary to the lowest.
+
+-- [YOUR QUERY HERE]
+
+
+
+
+-- ==================================================================
+-- CHALLENGE 5: Multi-Column DISTINCT Exploration
+-- ==================================================================
+-- Write a query to discover all distinct combinations of 'department' 
+-- and 'title' currently active across the company.
+-- Order the results by department, then by title.
+
+-- [YOUR QUERY HERE]</code></pre>
+            </div>
+        </div>
+    </div>
+    <div style="margin-bottom: 2rem;">
+        <h2
+            style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.4rem; margin-top: 1.75rem; margin-bottom: 1rem;">
+            2. Applied SQL Laboratory Challenges &amp; Starter Script (Graded Submission &mdash; 100 Points)</h2>
+        <div style="line-height: 1.6; color: #1e293b;">
+            <h2
+                style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.4rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">
+                Unit 1 Student Lab Guide: Data Exploration &amp; Orientation</h2>
+            <h3
+                style="color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">
+                Lab Objective</h3>
+            <p style="margin: 0.75rem 0; line-height: 1.6;">In this lab, you will:</p>
+            <ol style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                <li style="margin-bottom: 0.35rem;">Connect to your live PostgreSQL 16 server in <strong>GitHub
+                        Codespaces</strong>.</li>
+                <li style="margin-bottom: 0.35rem;">Query system catalogs to inspect server version, current user, and
+                    database structure.</li>
+                <li style="margin-bottom: 0.35rem;">Write clean, formatted <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT</code>
+                    statements with column projection, aliases, math expressions, string concatenation, <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">DISTINCT</code>,
+                    and multi-column <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">ORDER BY</code>.
+                </li>
+            </ol>
+            <hr
+                style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+            <h3
+                style="color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">
+                Submission Instructions</h3>
+            <ol style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                <li style="margin-bottom: 0.35rem;">Open your personal GitHub Codespace.</li>
+                <li style="margin-bottom: 0.35rem;">In the terminal or editor, write your solutions in a file named
+                    <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">lab1_yourname.sql</code>.
+                </li>
+                <li style="margin-bottom: 0.35rem;">Test every query to ensure it executes without syntax errors!</li>
+                <li style="margin-bottom: 0.35rem;">Check that all keywords are in <strong>UPPERCASE</strong> and
+                    clauses are on new lines.</li>
+                <li style="margin-bottom: 0.35rem;">Commit and push your changes to your repository.</li>
+            </ol>
+            <hr
+                style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+            <h3
+                style="color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">
+                Lab Challenges</h3>
+            <h4 style="color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.15em;">Part 1:
+                Environment &amp; System Catalogs (20 Points)</h4>
+            <ol style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                <li style="margin-bottom: 0.35rem;"><strong>Server Version:</strong> Write a query to display the exact
+                    version of PostgreSQL running on your server.</li>
+                <li style="margin-bottom: 0.35rem;"><strong>Current Session:</strong> Write a query to display your
+                    current active database user and the database name you are connected to.</li>
+                <li style="margin-bottom: 0.35rem;"><strong>Table Discovery:</strong> Query the <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">information_schema.tables</code>
+                    catalog to list all base table names in the <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">public</code>
+                    schema, sorted alphabetically by table name.</li>
+                <li style="margin-bottom: 0.35rem;"><strong>Column Inspector:</strong> Query <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">information_schema.columns</code>
+                    to find all column names and data types for the <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">employees</code>
+                    table, sorted by <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">ordinal_position</code>.
+                </li>
+            </ol>
+            <hr
+                style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+            <h4 style="color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.15em;">Part 2: Precision
+                Projection &amp; Data Exploration (40 Points)</h4>
+            <ol style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                <li style="margin-bottom: 0.35rem;"><strong>Staff Directory:</strong> From the <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">employees</code>
+                    table, retrieve the <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">first_name</code>,
+                    <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">last_name</code>,
+                    and <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">title</code>.
+                    Sort alphabetically by <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">last_name</code>.
+                </li>
+                <li style="margin-bottom: 0.35rem;"><strong>Executive Compensation Roster:</strong> Retrieve the <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">first_name</code>,
+                    <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">last_name</code>,
+                    and <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">salary</code>
+                    of all employees. Sort from highest paid to lowest paid.</li>
+                <li style="margin-bottom: 0.35rem;"><strong>Unique Departments:</strong> Write a query that returns a
+                    list of all distinct departments in the company, sorted alphabetically from A to Z.</li>
+                <li style="margin-bottom: 0.35rem;"><strong>Department-Title Roster:</strong> Find all unique
+                    combinations of <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">department</code>
+                    and <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">title</code>
+                    across the company. Order by department first, then by title.</li>
+            </ol>
+            <hr
+                style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+            <h4 style="color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1.15em;">Part 3:
+                Expressions, Aliases &amp; Mathematical Projections (40 Points)</h4>
+            <ol style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                <li style="margin-bottom: 0.35rem;"><strong>Polished Full Name:</strong> Write a query against <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">employees</code>
+                    that combines <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">first_name</code>
+                    and <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">last_name</code>
+                    into a single column aliased as <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">full_name</code>
+                    using string concatenation (<code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">||</code>),
+                    along with their <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">department</code>.
+                    Sort by <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">department</code>
+                    ascending, then by <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">full_name</code>
+                    ascending.</li>
+                <li style="margin-bottom: 0.35rem;"><strong>Bonus Simulation:</strong> Many employees receive an annual
+                    bonus. Write a query against <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">employees</code>
+                    displaying:</li>
+            </ol>
+            <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                <li style="margin-bottom: 0.35rem;"><code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">last_name</code>
+                </li>
+                <li style="margin-bottom: 0.35rem;"><code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">salary</code>
+                    (aliased as <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">base_salary</code>)
+                </li>
+                <li style="margin-bottom: 0.35rem;"><code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">bonus</code>
+                    (aliased as <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">annual_bonus</code>)
+                </li>
+                <li style="margin-bottom: 0.35rem;">A calculated column adding <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">salary + bonus</code>
+                    aliased as <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">total_compensation</code>.
+                </li>
+            </ul>
+            <p style="margin: 0.75rem 0; line-height: 1.6;">*(Note: For employees with no bonus, what happens? Observe
+                this result for our Unit 2 discussion!)*</p>
+            <ol style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                <li style="margin-bottom: 0.35rem;"><strong>Retail Product Margins:</strong> From the <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">products</code>
+                    table, retrieve:</li>
+            </ol>
+            <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                <li style="margin-bottom: 0.35rem;"><code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">product_name</code>
+                </li>
+                <li style="margin-bottom: 0.35rem;"><code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">retail_price</code>
+                </li>
+                <li style="margin-bottom: 0.35rem;"><code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">cost_to_produce</code>
+                </li>
+                <li style="margin-bottom: 0.35rem;">A calculated column <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">retail_price - cost_to_produce</code>
+                    aliased as <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">estimated_unit_profit</code>.
+                </li>
+            </ul>
+            <p style="margin: 0.75rem 0; line-height: 1.6;">Sort the results so the most profitable products appear
+                first.</p>
+            <ol style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                <li style="margin-bottom: 0.35rem;"><strong>Inventory Value Analysis:</strong> From <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">products</code>,
+                    project:</li>
+            </ol>
+            <ul style="padding-left: 1.5rem; margin: 0.75rem 0;">
+                <li style="margin-bottom: 0.35rem;"><code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">product_name</code>
+                </li>
+                <li style="margin-bottom: 0.35rem;"><code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">stock_quantity</code>
+                </li>
+                <li style="margin-bottom: 0.35rem;"><code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">retail_price</code>
+                </li>
+                <li style="margin-bottom: 0.35rem;">A calculated column <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">stock_quantity * retail_price</code>
+                    aliased as <code
+                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">total_inventory_value</code>.
+                </li>
+            </ul>
+            <p style="margin: 0.75rem 0; line-height: 1.6;">Sort from the highest inventory value to lowest.</p>
+            <div
+                style="margin-top: 1.5rem; background: #f8fafc; border-radius: 6px; padding: 1rem; border: 1px solid #cbd5e1;">
+                <p style="color: #1e3a8a; margin-top: 0; margin-bottom: 0.5rem;"><i class="fas fa-file-code"><span
+                            class="dp-icon-content" style="display: none;">&nbsp;</span></i> Copy-and-Paste Starter
+                    Template (<code>lab1_starter.sql</code>):</p>
+                <p style="color: #475569; font-size: 0.9em; margin-bottom: 0.5rem;">Copy this starter template into a
+                    new file named <code>lab1_yourlastname.sql</code> in your Codespace, or open the template file
+                    already located in your repository under <code>units/unit_01_selection_and_fundamentals/</code>.</p>
+                <div
+                    style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 4px; overflow-x: auto; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;">
+                    <pre style="margin: 0; background: transparent; color: inherit;"><code>/*
+====================================================================
+CMAP 1815: Introduction to Modern SQL
+Unit 1 Applied SQL Lab: Data Exploration &amp; Orientation
+Starter Template File (100 Points Total)
+====================================================================
+Student Name : [YOUR NAME HERE]
+Submission   : lab1_yourlastname.sql
+Due Date     : Friday at 11:59 PM (Midnight MT)
+
+Grading Rubric Summary (100 Points):
+- Query Accuracy &amp; Execution (40 Pts)
+- Formatting &amp; SQL Standards: UPPERCASE keywords, multi-line (20 Pts)
+- Precision Projection &amp; Aliasing: AS snake_case (20 Pts)
+- Sorting &amp; DISTINCT Logic (10 Pts)
+- Environment &amp; System Catalogs (10 Pts)
+====================================================================
+*/
+
+-- ==================================================================
+-- PART 1: ENVIRONMENT &amp; SYSTEM CATALOGS (20 Points)
+-- ==================================================================
+
+-- Challenge 1: Server Version
+-- Write a query to display the exact version of PostgreSQL running on your server.
+-- [YOUR QUERY HERE]
+
+
+
+
+-- Challenge 2: Current Session Metadata
+-- Write a query to display your current active database user and the connected database name.
+-- [YOUR QUERY HERE]
+
+
+
+
+-- Challenge 3: Public Table Discovery
+-- Query information_schema.tables to list all user base table names in the 'public' schema,
+-- sorted alphabetically by table name.
+-- [YOUR QUERY HERE]
+
+
+
+
+-- Challenge 4: Column Inspector for Employees
+-- Query information_schema.columns to display column_name, data_type, and is_nullable
+-- for the 'employees' table, sorted by ordinal_position ASC.
+-- [YOUR QUERY HERE]
+
+
+
+
+-- ==================================================================
+-- PART 2: PRECISION PROJECTION &amp; DATA EXPLORATION (40 Points)
+-- ==================================================================
+
+-- Challenge 5: Staff Directory
+-- From the 'employees' table, retrieve first_name, last_name, and title.
+-- Sort alphabetically by last_name ASC.
+-- [YOUR QUERY HERE]
+
+
+
+
+-- Challenge 6: Executive Compensation Roster
+-- Retrieve first_name, last_name, and salary for all employees.
+-- Sort from highest paid to lowest paid (DESC).
+-- [YOUR QUERY HERE]
+
+
+
+
+-- Challenge 7: Unique Departments
+-- Write a query that returns a list of all distinct departments in the company,
+-- sorted alphabetically from A to Z.
+-- [YOUR QUERY HERE]
+
+
+
+
+-- Challenge 8: Department-Title Roster
+-- Find all unique combinations of department and title across the company.
+-- Order by department ASC, then by title ASC.
+-- [YOUR QUERY HERE]
+
+
+
+
+-- ==================================================================
+-- PART 3: EXPRESSIONS, ALIASES &amp; MATHEMATICAL PROJECTIONS (40 Points)
+-- ==================================================================
+
+-- Challenge 9: Polished Full Name with String Concatenation
+-- Query 'employees' combining first_name and last_name into a single column
+-- aliased as 'full_name' using string concatenation (||), along with their department.
+-- Sort by department ASC, then by full_name ASC.
+-- [YOUR QUERY HERE]
+
+
+
+
+-- Challenge 10: Bonus Simulation
+-- Query 'employees' displaying:
+--   - last_name
+--   - salary AS base_salary
+--   - bonus AS annual_bonus
+--   - salary + bonus AS total_compensation
+-- (Observe what happens for employees with no bonus!)
+-- [YOUR QUERY HERE]
+
+
+
+
+-- Challenge 11: Retail Product Margins
+-- From the 'products' table, retrieve:
+--   - product_name
+--   - retail_price
+--   - cost_to_produce
+--   - calculated column (retail_price - cost_to_produce) aliased as estimated_unit_profit
+-- Sort so the most profitable products appear first (DESC).
+-- [YOUR QUERY HERE]
+
+
+
+
+-- Challenge 12: Total Inventory Value Analysis
+-- From the 'products' table, project:
+--   - product_name
+--   - stock_quantity
+--   - retail_price
+--   - calculated column (stock_quantity * retail_price) aliased as total_inventory_value
+-- Sort from highest inventory value to lowest (DESC).
+-- [YOUR QUERY HERE]</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-bottom: 2rem;">
+        <h2
+            style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.4rem; margin-top: 1.75rem; margin-bottom: 1rem;">
+            3. Grading Rubric &amp; Scoring Criteria (100 Points Total)</h2>
+        <div style="line-height: 1.6; color: #1e293b;">
+            <h2
+                style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.4rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">
+                Unit 1: Lab Evaluation Rubric (100 Points)</h2>
+            <h3
+                style="color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">
+                Overview</h3>
+            <p style="margin: 0.75rem 0; line-height: 1.6;">This rubric is used to evaluate student submissions for the
+                <strong>Unit 1 Practical Lab: Data Exploration &amp; Environment Orientation</strong>.</p>
+            <hr
+                style="border-width: 1px 0px 0px; border-style: solid none none; border-color: #e2e8f0 currentcolor currentcolor; margin: 1.5rem 0px;" />
+            <h3
+                style="color: #1e3a8a; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">
+                Detailed Scoring Criteria</h3>
+            <div style="overflow-x: auto; margin: 1.25rem 0;">
+                <div class="dp-table-scroll">
+                    <table
+                        style="width: 100%; border-collapse: collapse; font-size: 0.95em; border: 1px solid #cbd5e1;">
+                        <thead>
+                            <tr style="background-color: #1e3a8a; color: #ffffff;">
+                                <th style="padding: 10px 14px; border: 1px solid #94a3b8;">Criteria</th>
+                                <th style="padding: 10px 14px; border: 1px solid #94a3b8;">Exemplary (Full Points)</th>
+                                <th style="padding: 10px 14px; border: 1px solid #94a3b8;">Competent (Partial Points)
+                                </th>
+                                <th style="padding: 10px 14px; border: 1px solid #94a3b8;">Developing (Needs Revision)
+                                </th>
+                                <th style="padding: 10px 14px; border: 1px solid #94a3b8;">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f8fafc;">
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>1. Query Accuracy
+                                        &amp; Execution</strong></td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">All required challenge queries
+                                    execute cleanly without syntax errors and produce the exact requested dataset.</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">1&ndash;2 minor logic or
+                                    execution errors (e.g., incorrect sort direction, minor column omission).</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Multiple queries fail to
+                                    execute or return incorrect datasets.</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>40</strong></td>
+                            </tr>
+                            <tr style="background-color: #ffffff;">
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>2. Formatting &amp;
+                                        SQL Style Standards</strong></td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Keywords are strictly
+                                    <strong>UPPERCASE</strong> (<code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT</code>,
+                                    <code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">FROM</code>,
+                                    <code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">ORDER BY</code>,
+                                    <code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">AS</code>).
+                                    Clauses begin on separate lines. No trailing commas.</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Inconsistent keyword casing
+                                    (mixed upper/lower) or cluttered single-line formatting.</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Unformatted code block;
+                                    difficult to read; missing semicolons.</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>20</strong></td>
+                            </tr>
+                            <tr style="background-color: #f8fafc;">
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>3. Precision
+                                        Projection &amp; Aliasing</strong></td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Named columns used exclusively
+                                    (zero unrequested <code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT *</code>).
+                                    Expressions cleanly aliased with meaningful <code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">snake_case</code>
+                                    headers using <code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">AS</code>.
+                                </td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Missing aliases for computed
+                                    expressions (<code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">?column?</code>
+                                    in output) or unnecessary use of <code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT *</code>.
+                                </td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Monolithic <code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">SELECT *</code>
+                                    used throughout; no aliases provided.</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>20</strong></td>
+                            </tr>
+                            <tr style="background-color: #ffffff;">
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>4. Sorting &amp;
+                                        De-duplication Logic</strong></td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Correct application of <code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">DISTINCT</code>
+                                    and multi-level <code
+                                        style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace;">ORDER BY</code>
+                                    sorting (ascending vs. descending).</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Single sort correct, but
+                                    secondary tie-breaker omitted or inverted.</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Incorrect sort ordering;
+                                    failed to de-duplicate unique values.</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>10</strong></td>
+                            </tr>
+                            <tr style="background-color: #f8fafc;">
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>5. Environment &amp;
+                                        System Catalog Questions</strong></td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Accurate answers provided for
+                                    server metadata inspection (PostgreSQL version, current user, table counts).</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Minor omission or
+                                    misunderstanding of system catalog roles.</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Catalog exploration questions
+                                    unanswered or incorrect.</td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>10</strong></td>
+                            </tr>
+                            <tr style="background-color: #ffffff;">
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>Total</strong></td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"></td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"></td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"></td>
+                                <td style="padding: 8px 14px; border: 1px solid #cbd5e1;"><strong>100</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
