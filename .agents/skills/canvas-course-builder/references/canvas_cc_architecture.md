@@ -102,3 +102,69 @@ Canvas imports multiple-choice questions cleanly when formatted under the `cc.mu
 The final `.imscc` file is a standard ZIP archive compressed with `ZIP_DEFLATED`.
 File extensions: `.imscc` (Common Cartridge).
 All XML files inside must pass standard XML parser validation (`xml.etree.ElementTree.parse`).
+
+---
+
+## 7. Mandatory WikiPage `<head>` Contract (Preventing Iframe/Download Bug)
+
+Canvas LMS differentiates between native Rich Content Editor (RCE) WikiPages and static raw file attachments based strictly on the metadata present in the `<head>` of HTML files in `wiki_content/`:
+
+```html
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Page Title</title>
+<meta name="identifier" content="g5fd21cbaf5b555adde1576a3ae2942d"/>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+<meta name="front_page" content="true"/> <!-- ONLY for home-page.html -->
+<meta name="editor_type" content="rce"/>
+</head>
+```
+
+**Required Linked Manifest & Meta Entries:**
+1. In `imsmanifest.xml`:
+   ```xml
+   <resource identifier="g5fd21cbaf5b555adde1576a3ae2942d" type="webcontent" href="wiki_content/page-name.html">
+     <file href="wiki_content/page-name.html"/>
+   </resource>
+   ```
+2. In `course_settings/module_meta.xml`:
+   ```xml
+   <item identifier="g_item_unique_id">
+     <content_type>WikiPage</content_type>
+     <workflow_state>active</workflow_state>
+     <title>Page Title</title>
+     <identifierref>g5fd21cbaf5b555adde1576a3ae2942d</identifierref>
+     <position>1</position>
+     <new_tab>false</new_tab>
+     <indent>0</indent>
+   </item>
+   ```
+**Consequence of Failure:** If `<meta name="identifier">` or `<meta name="editor_type" content="rce"/>` is omitted, Canvas imports the file into the course's "Files" repository, rendering it inside a sandboxed iframe with an unwanted "Download filename.html" button at the top.
+
+---
+
+## 8. Module Title Delimiter Rule (Hyphens vs. Colons)
+
+DesignPLUS includes a client-side JavaScript module accordion component (`dp-quick-links-panels-accordion-plus`) that parses module titles from the course navigation:
+- **Colon Problem:** DesignPLUS uses the colon (`:`) as a delimiter to extract module numbers (e.g. `Unit 01:`). When a title is formatted as `Unit 01: Relational Foundations`, the script strips everything after the colon, leaving only `Unit 01` on the accordion tab.
+- **Hyphen Standard:** Using a hyphen (` - `) avoids this trigger. Titles such as `Unit 01 - Relational Foundations` render in full with zero truncation.
+
+---
+
+## 9. Web Resources & Media Assets (`$IMS-CC-FILEBASE$`)
+
+To bundle course hero banners, logos, and downloadable Word documents:
+1. Place assets inside `web_resources/images/` and `web_resources/syllabi/`.
+2. Register each asset as a `<resource type="webcontent">` in `imsmanifest.xml`:
+   ```xml
+   <resource identifier="res_course_banner" type="webcontent" href="web_resources/images/course_banner.jpg">
+     <file href="web_resources/images/course_banner.jpg"/>
+   </resource>
+   ```
+3. In HTML pages, reference them using Canvas's cartridge substitution token `$IMS-CC-FILEBASE$`:
+   ```html
+   <img src="$IMS-CC-FILEBASE$/images/course_banner.jpg" width="1100" height="220" alt="Course Banner" />
+   ```
+Canvas automatically rewrites `$IMS-CC-FILEBASE$` to the course's secure files URL upon cartridge import.
+

@@ -91,3 +91,4 @@ Every unit of work within an active course follows this cycle:
 Non-negotiables that apply across all courses:
 - **ADR-001 (Accessibility)**: All output (web content, documents, media) must target WCAG 2.2 AA (minimum WCAG 2.1 AA).
 - **ADR-002 (Spec-Driven Development)**: All work must be traceable to an approved spec in `courses/<course-id>/specs/`.
+- **ADR-003 (Canvas Cartridge & DesignPLUS Theme Invariants)**: All Common Cartridge packages must strictly enforce native WikiPage `<head>` metadata, hyphenated module titles (no colons), pure DesignPLUS theme classes (zero clashing inline CSS), and bundled 1100x220 course banners.

@@ -68,6 +68,36 @@ Never dump raw markdown or large `<pre><code>` blocks on student-facing pages:
 3. **Interactive Drills:** Convert `<details><summary>` into styled accordion cards with borders and hover cursor.
 4. **Inline Syntax:** Convert `` `code` `` into `<code style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-weight: 600;">`.
 
+### C. Institutional DesignPLUS Theme Fidelity (ADR-003)
+* **Pure DesignPLUS CSS Classes (Zero Conflicting Inline Styles):**
+  Never hand-code inline background colors, borders, or padding onto DesignPLUS components (`dp-header`, `dp-link-grid`, `dp-module-list`, `dp-panel-group`, `dp-panel-heading`, `dp-panel-content`).
+  - **Banner Ribbons:** Use `<header class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary ...">` without inline background or border overrides. DesignPLUS applies the institutional theme colors (`dp-primary` navy and `dp-secondary` gold) naturally.
+  - **Quick Links:** Use clean `<nav class="dp-link-grid container-fluid dp-link-grid-item-s-rounded dp-link-grid-item-bg-dp-primary ..."><ul class="row"><li class="col-sm-12 col-md-4 col-lg-4"><a ...><i class="fas fa-..."></i> Label</a></li></ul></nav>`. Zero inline styles on `<ul>`, `<li>`, or `<a>` to preserve native flexbox and icon dividers.
+  - **Centered Hero Banner Image:** Every home page (`home-page.html`) must include a centered 1100x220 banner image directly below the banner ribbon:
+    `<div class="dp-banner-image" style="text-align: center; margin: 1rem 0;"><img role="presentation" src="$IMS-CC-FILEBASE$/images/course_banner.jpg" width="1100" height="220" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);" loading="lazy"></div>`.
+  - **Module Accordion List:** Use clean `<div class="dp-module-list dp-module-list-flag-completed dp-module-list-show-locked dp-quick-links-panels-accordion-plus dp-auto-update dp-panel-color-dp-primary dp-panel-active-color-dp-accent dp-panel-hover-color-dp-accent dp-quick-links-all dp-module-list-current-none"><nav class="dp-module-list-item-group"><ul class="fa-ul list-group">...</ul></nav></div>`. Never insert custom header divs or custom inline styles.
+
+### D. Hyphenated Module Titles (No Colons)
+* **Never use a colon (`:`) in unit module titles:**
+  - **Correct:** `Unit 01 - Relational Foundations & Vectorized Ingestion`
+  - **Forbidden:** `Unit 01: Relational Foundations & Vectorized Ingestion`
+  - **Reason:** DesignPLUS's client-side accordion widget splits on colons (`:`) and strips everything after it, causing the accordion to display only `Unit 01` without its title. Hyphens (` - `) preserve the full title.
+
+### E. Mandatory Native WikiPage `<head>` Contract
+* **To prevent Canvas from importing HTML pages as static file downloads in an iframe with a "Download" banner**, every file in `wiki_content/` must contain:
+  ```html
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Page Title</title>
+  <meta name="identifier" content="{page_id}"/>
+  <meta name="editing_roles" content="teachers"/>
+  <meta name="workflow_state" content="active"/>
+  <meta name="front_page" content="true"/> <!-- ONLY on home-page.html -->
+  <meta name="editor_type" content="rce"/>
+  </head>
+  ```
+  Ensure `{page_id}` matches across `imsmanifest.xml` and `course_settings/module_meta.xml`.
+
 ---
 
 ## 4. Native QTI 1.2 Quizzes

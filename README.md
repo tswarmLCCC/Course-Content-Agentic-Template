@@ -37,7 +37,8 @@ Course-Content-Agentic-Template/
 ├── docs/
 │   ├── ADRs/                  # Architectural Decision Records (Universal standards)
 │   │   ├── ADR-001-accessibility.md           # WCAG 2.2 AA non-negotiable
-│   │   └── ADR-002-spec-driven-development.md # Mandatory SDD lifecycle
+│   │   ├── ADR-002-spec-driven-development.md # Mandatory SDD lifecycle
+│   │   └── ADR-003-canvas-designplus-standards.md # Common Cartridge & DesignPLUS theme invariants
 │   ├── playbooks/             # Pedagogical & Production Master Playbooks
 │   │   ├── MASTER_COURSE_SETUP_AND_FORMATTING_GUIDE.md # Complete production blueprint
 │   │   ├── COURSE_PRODUCTION_WORKFLOW.md      # End-to-end production pipeline
