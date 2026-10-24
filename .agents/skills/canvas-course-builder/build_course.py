@@ -132,11 +132,12 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
 
     # Build Native Syllabus HTML
     docx_rel = os.path.relpath(docx_path, builder.web_res_dir).replace(os.sep, "/")
-    syllabus_html = f"""<div class="dp-header dp-basic-bar" style="background: #1e3a8a; color: #ffffff; padding: 1.5rem; border-radius: 6px; margin-bottom: 1.5rem;">
-  <h1 style="margin: 0; color: #ffffff; font-size: 1.8rem;">{html.escape(c_code)}: {html.escape(c_title)}</h1>
-  <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">Institutional Course Syllabus &amp; Policies</p>
+    syllabus_html = f"""<div id="dp-wrapper_1" class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary">
+  <header class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary">
+    <h2 class="dp-heading dp-locked"><span class="dp-header-title">{html.escape(c_code)}: {html.escape(c_title)} Course Syllabus</span></h2>
+  </header>
 </div>
-<div style="background: #eff6ff; border-left: 4px solid #2563eb; padding: 1rem 1.25rem; margin-bottom: 1.5rem; border-radius: 0 4px 4px 0;">
+<div style="background: #eff6ff; border-left: 4px solid #2563eb; padding: 1rem 1.25rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0;">
   <p style="margin: 0; font-weight: 600;">Download Official Word Document Syllabus:</p>
   <p style="margin: 0.25rem 0 0 0;"><a class="instructure_file_link" title="{docx_filename}" href="$IMS-CC-FILEBASE$/{docx_rel}?canvas_=1&amp;canvas_qs_wrap=1" target="_blank" rel="noopener" style="color: #2563eb; font-weight: 600; text-decoration: underline;">&#128196; {docx_filename}</a></p>
 </div>
@@ -152,6 +153,32 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
 
     print(f"  [*] Discovered {len(unit_folders)} unit folders under {units_dir}/")
 
+    # 4b. Copy Course Banner Image & Media Assets
+    course_root = os.path.dirname(os.path.abspath(config_path))
+    images_sources = [
+        os.path.join(course_root, "content", "images"),
+        os.path.join(course_root, "images"),
+        os.path.join(os.getcwd(), "scratch")
+    ]
+    banner_copied = False
+    for img_dir in images_sources:
+        if os.path.exists(img_dir):
+            for img_name in ["course_banner.jpg", "sql_course_banner.jpg"]:
+                src_candidate = os.path.join(img_dir, img_name)
+                if os.path.exists(src_candidate) and not banner_copied:
+                    dst_banner = os.path.join(builder.images_dir, "course_banner.jpg")
+                    with open(src_candidate, "rb") as sf, open(dst_banner, "wb") as df:
+                        df.write(sf.read())
+                    banner_copied = True
+                    print(f"  [+] Bundled course banner: {dst_banner}")
+            if img_dir != os.path.join(os.getcwd(), "scratch"):
+                for root_img, _, img_files in os.walk(img_dir):
+                    for img_file in img_files:
+                        src_img = os.path.join(root_img, img_file)
+                        dst_img = os.path.join(builder.images_dir, img_file)
+                        if not os.path.exists(dst_img):
+                            shutil.copy2(src_img, dst_img)
+
     mod_orient_id = make_canvas_id("module_orientation")
     unit_mod_ids = {u_idx: make_canvas_id(f"mod_unit_{u_idx}") for u_idx in range(1, len(unit_folders) + 1)}
 
@@ -161,15 +188,16 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
     p_orient_syl_id = make_canvas_id("page_orient_syllabus")
 
     mod_links_lis = [
-        f'<li style="border-bottom: 1px solid #e2e8f0; background: #ffffff;"><a class="list-group-item list-group-item-action" href="$CANVAS_OBJECT_REFERENCE$/modules/{mod_orient_id}" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.25rem; color: #1e293b; text-decoration: none; font-weight: 600; font-size: 1.05em;"><i class="fas fa-map-marker-alt" style="color: #2563eb;"></i> Getting Started - Course Orientation</a></li>'
+        f'<li><a class="list-group-item list-group-item-action" href="$CANVAS_OBJECT_REFERENCE$/modules/{mod_orient_id}"><i class="fas fa-map-marker-alt"></i> Getting Started - Course Orientation</a></li>'
     ]
 
     for u_idx, u_folder in enumerate(unit_folders, 1):
         u_title = u_folder.replace("_", " ").title()
         u_title_clean = re.sub(r"^Unit\s*\d+\s*", "", u_title, flags=re.IGNORECASE).strip()
-        u_display_title = f"Unit {u_idx:02d}: {u_title_clean}" if u_title_clean else f"Unit {u_idx:02d}"
+        # Clean title: Use hyphen to prevent DesignPLUS accordion from truncating subtitle
+        u_display_title = f"Unit {u_idx:02d} - {u_title_clean}" if u_title_clean else f"Unit {u_idx:02d}"
         m_id = unit_mod_ids[u_idx]
-        mod_links_lis.append(f'<li style="border-bottom: 1px solid #e2e8f0; background: #ffffff;"><a class="list-group-item list-group-item-action" href="$CANVAS_OBJECT_REFERENCE$/modules/{m_id}" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.25rem; color: #1e293b; text-decoration: none; font-weight: 600; font-size: 1.05em;"><i class="fas fa-map-marker-alt" style="color: #2563eb;"></i> {html.escape(u_display_title)}</a></li>')
+        mod_links_lis.append(f'<li><a class="list-group-item list-group-item-action" href="$CANVAS_OBJECT_REFERENCE$/modules/{m_id}"><i class="fas fa-map-marker-alt"></i> {html.escape(u_display_title)}</a></li>')
 
     mod_links_joined = "\n".join(mod_links_lis)
 
@@ -188,28 +216,25 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
   <div class="dp-action-item dp-action-item-block dp-action-item-note dp-locked" style="display: none;" aria-hidden="true">
     <p><em>Welcome to your Home Page! This page was designed with the guidance of QM Standards: <strong>SRS1.1, SRS7.1, SRS7.2, SRS7.3, SRS7.4</strong>.</em></p>
   </div>
-  <div id="dp-wrapper_1" class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary" style="margin-bottom: 1.5rem;">
-    <header class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary" style="background: #1e3a8a; color: #ffffff; padding: 1.75rem 2rem; border-radius: 6px; border-left: 6px solid #2563eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-      <h1 class="dp-heading" style="margin: 0; color: #ffffff;"><span class="dp-header-pre"><span class="dp-header-pre-1" style="color: #93c5fd; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.25rem;">{html.escape(c_code)}</span></span><span class="dp-header-title" style="color: #ffffff; font-size: 1.9rem; font-weight: 700; line-height: 1.2;">{html.escape(c_title)}</span></h1>
-      <p style="margin: 0.5rem 0 0 0; color: #e2e8f0; font-size: 1.05em; opacity: 0.95;">Institutional Course Hub &amp; Weekly Learning Modules</p>
+  <div id="dp-wrapper_1" class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary" data-header-class="dp-header dp-basic-bar variation-2" data-nav-class="container-fluid dp-link-grid">
+    <header class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary">
+      <h1 class="dp-heading"><span class="dp-header-pre"><span class="dp-header-pre-1">{html.escape(c_code)}</span></span><span class="dp-header-title">{html.escape(c_title)}</span></h1>
     </header>
   </div>
-  <nav class="dp-link-grid container-fluid dp-link-grid-item-s-rounded dp-link-grid-item-bg-dp-primary dp-link-grid-hover-dp-accent dp-link-grid-icon-s-brdr-r dp-link-grid-icon-brdr-dp-secondary dp-link-grid-icon-brdr-w-2" style="margin: 1.5rem 0;">
-    <ul class="row" style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem;">
-      <li class="col-sm-12 col-md-4 col-lg-4" style="flex: 1; min-width: 220px;"><a title="Course Overview" href="$WIKI_REFERENCE$/pages/{p_start_here_id}" data-course-type="wikiPages" style="display: block; background: #1e3a8a; color: #ffffff; padding: 0.85rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><i class="fas fa-flag" aria-hidden="true"></i> Start Here: Course Overview</a></li>
-      <li class="col-sm-12 col-md-4 col-lg-4" style="flex: 1; min-width: 220px;"><a title="Syllabus" href="$WIKI_REFERENCE$/pages/{p_orient_syl_id}" data-course-type="wikiPages" style="display: block; background: #1e3a8a; color: #ffffff; padding: 0.85rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><i class="fas fa-file-alt" aria-hidden="true"></i> Syllabus &amp; Policies</a></li>
-      <li class="col-sm-12 col-md-4 col-lg-4" style="flex: 1; min-width: 220px;"><a class="dp-has-icon" href="https://lcccwy.sharepoint.com/sites/StudentSuccessResources" target="_blank" rel="noopener" style="display: block; background: #1e3a8a; color: #ffffff; padding: 0.85rem 1.25rem; border-radius: 6px; text-decoration: none; font-weight: 600; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Student Resources</a></li>
+  <div class="dp-banner-image" style="text-align: center; margin: 1rem 0;"><img role="presentation" src="$IMS-CC-FILEBASE$/images/course_banner.jpg" alt="{html.escape(c_code)}: {html.escape(c_title)} Course Banner" width="1100" height="220" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);" loading="lazy"></div>
+  <nav class="dp-link-grid container-fluid dp-link-grid-item-s-rounded dp-link-grid-item-bg-dp-primary dp-link-grid-hover-dp-accent dp-link-grid-icon-s-brdr-r dp-link-grid-icon-brdr-dp-secondary dp-link-grid-icon-brdr-w-2">
+    <ul class="row">
+      <li class="col-sm-12 col-md-4 col-lg-4"><a title="Course Overview" href="$WIKI_REFERENCE$/pages/{p_start_here_id}" data-course-type="wikiPages"><i class="fas fa-flag" aria-hidden="true"></i> Start Here: Course Overview</a></li>
+      <li class="col-sm-12 col-md-4 col-lg-4"><a title="Syllabus" href="$CANVAS_COURSE_REFERENCE$/assignments/syllabus" data-course-type="navigation"><i class="fas fa-file-alt" aria-hidden="true"></i> Syllabus &amp; Policies</a></li>
+      <li class="col-sm-12 col-md-4 col-lg-4"><a class="dp-has-icon" href="https://lcccwy.sharepoint.com/sites/StudentSuccessResources" target="_blank" rel="noopener"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Student Resources</a></li>
     </ul>
   </nav>
-  <div class="dp-content-block" style="background: #f8fafc; border-left: 4px solid #1e3a8a; padding: 1.25rem 1.5rem; margin-bottom: 2rem; border-radius: 0 6px 6px 0;">
-    <p style="margin: 0; font-size: 1.05em; line-height: 1.6; color: #334155;"><strong>Welcome to {html.escape(c_code)}: {html.escape(c_title)}!</strong> This asynchronous coursework emphasizes production-grade engineering, verifiable technical implementations, and hands-on laboratory mastery. Select any unit below to access readings, lecture deep dives, preparatory exercises, and lab assignments.</p>
+  <div class="dp-content-block">
+    <p style="text-align: left;"><strong>Welcome to {html.escape(c_code)}: {html.escape(c_title)}! Please review the Course Overview, Syllabus, and Student Resources above to get started.</strong></p>
   </div>
-  <div class="dp-module-list dp-module-list-flag-completed dp-module-list-show-locked dp-quick-links-panels-accordion-plus dp-auto-update dp-panel-color-dp-primary dp-panel-active-color-dp-accent dp-panel-hover-color-dp-accent dp-quick-links-all dp-module-list-current-none" style="margin-top: 2rem;">
-    <div style="background: #f1f5f9; padding: 0.85rem 1.25rem; border-radius: 6px 6px 0 0; border: 1px solid #cbd5e1; border-bottom: none; font-weight: 700; color: #1e3a8a; font-size: 1.1em;">
-      <i class="fas fa-layer-group" style="color: #2563eb; margin-right: 0.5rem;"></i> Course Modules &amp; Weekly Roadmap
-    </div>
+  <div class="dp-module-list dp-module-list-flag-completed dp-module-list-show-locked dp-quick-links-panels-accordion-plus dp-auto-update dp-panel-color-dp-primary dp-panel-active-color-dp-accent dp-panel-hover-color-dp-accent dp-quick-links-all dp-module-list-current-none">
     <nav class="dp-module-list-item-group">
-      <ul class="fa-ul list-group" style="list-style: none; padding: 0; margin: 0; border: 1px solid #cbd5e1; border-radius: 0 0 6px 6px; overflow: hidden;">
+      <ul class="fa-ul list-group">
 {mod_links_joined}
       </ul>
     </nav>
@@ -335,7 +360,7 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
         u_dir = os.path.join(units_dir, u_folder)
         u_title = u_folder.replace("_", " ").title()
         u_title_clean = re.sub(r"^Unit\s*\d+\s*", "", u_title, flags=re.IGNORECASE).strip()
-        u_display_title = f"Unit {u_idx:02d}: {u_title_clean}" if u_title_clean else f"Unit {u_idx:02d}"
+        u_display_title = f"Unit {u_idx:02d} - {u_title_clean}" if u_title_clean else f"Unit {u_idx:02d}"
 
         print(f"  [+] Processing Unit {u_idx:02d}: {u_folder}")
         module_items = []

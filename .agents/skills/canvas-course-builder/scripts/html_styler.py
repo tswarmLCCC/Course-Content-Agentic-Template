@@ -287,25 +287,19 @@ def render_designplus_html(
 ) -> str:
     """
     Renders a DesignPLUS-compliant page with signature top ribbon banner and interactive accordion panels.
-    Uses native Cidi Labs Design Tools selectors (dp-panels-wrapper dp-accordion-plus, dp-panel-group, dp-panel-heading)
-    combined with inline CSS so that:
-    1. In Canvas with DesignPLUS, the institutional accordion JS activates dynamically.
-    2. In all other contexts, executive navy card panels render with zero visual degradation.
+    Strictly adheres to pure Cidi Labs Design Tools selectors matching institutional theme fidelity.
     """
     panels_html = []
     for panel_title, panel_content in accordion_panels:
-        icon_cls = get_icon_for_heading(panel_title)
-        panels_html.append(f"""    <div class="dp-panel-group" style="margin-bottom: 1rem;">
-      <h2 class="dp-panel-heading dp-has-icon dp-locked" style="background: #f8fafc; color: #1e3a8a; padding: 0.85rem 1.25rem; font-weight: 600; font-size: 1.1em; border: 1px solid #cbd5e1; border-radius: 6px 6px 0 0; margin: 0; cursor: pointer;">
-        <i class="{icon_cls}" style="color: #1e3a8a; margin-right: 0.5rem;"></i>&nbsp; {html.escape(panel_title)}
-      </h2>
-      <div class="dp-panel-content" style="padding: 1.25rem 1.5rem; line-height: 1.6; color: #1e293b; border: 1px solid #cbd5e1; border-top: none; border-radius: 0 0 6px 6px; background: #ffffff;">
+        panels_html.append(f"""    <div class="dp-panel-group">
+      <h2 class="dp-panel-heading ">{html.escape(panel_title)}</h2>
+      <div class="dp-panel-content ">
         {panel_content}
       </div>
     </div>""")
 
     body_panels = "\n".join(panels_html)
-    lead_block = f'  <div class="dp-content-block" style="background: #f8fafc; border-left: 4px solid #1e3a8a; padding: 1rem 1.25rem; margin-top: 1.5rem; margin-bottom: 1.75rem; border-radius: 0 4px 4px 0; font-size: 1.05em; line-height: 1.5; color: #334155;">\n    {lead_paragraph}\n  </div>' if lead_paragraph else ""
+    lead_block = f'  <div class="dp-content-block">\n    {lead_paragraph}\n  </div>' if lead_paragraph else ""
 
     return f"""<html>
 <head>
@@ -318,12 +312,10 @@ def render_designplus_html(
 </head>
 <body>
 <div id="dp-wrapper" class="dp-wrapper dp-hdg-i-cp-brdr-h2-dp-primary dp-hdg-txt-h3-dp-primary dp-hdg-txt-h4-dp-primary dp-hdg-txt-h5-dp-primary dp-hdg-i-cp-brdr-h5-dp-primary dp-hdg-b-h2-brdr-b dp-hdg-txt-h6-dp-primary dp-hdg-i-cp-brdr-h6-dp-primary dp-hdg-i-styl-h2-pill dp-hdg-i-styl-h3-pill dp-hdg-cp-brdr-h3-dp-secondary dp-hdg-cp-brdr-h2-dp-secondary dp-hdg-brdr-h2-1 dp-hdg-brdr-h3-1 dp-hdg-brdr-h4-1 dp-hdg-brdr-h5-1 dp-hdg-brdr-h6-1 dp-hdg-i-sz-h2-fill dp-hdg-i-sz-h3-fill dp-hdg-i-sz-h5-fill dp-hdg-i-sz-h6-fill dp-hdg-i-brdr-h5-2 dp-hdg-i-brdr-h6-2 dp-hdg-b-h3-brdr-b dp-hdg-txt-h2-dp-primary dp-hdg-i-brdr-h2-1 dp-hdg-i-brdr-h3-1 dp-hdg-i-sz-h4-fill dp-hdg-i-cp-brdr-h3-dp-primary dp-hdg-i-brdr-h4-1 dp-hdg-i-bg-h2-dp-primary dp-hdg-i-bg-h3-dp-primary dp-hdg-b-h4-brdr-b dp-hdg-d-h4-table-l dp-hdg-i-styl-h4-pill dp-hdg-i-cp-brdr-h4-dp-primary">
-  <div class="dp-header-wrapper" style="margin-bottom: 1.5rem;">
-    <header class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary" style="background: #1e3a8a; color: #ffffff; padding: 1.5rem 1.75rem; border-radius: 6px; border-left: 6px solid #2563eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-      <h2 class="dp-heading dp-locked" style="margin: 0; color: #ffffff; font-size: 1.8rem; font-weight: 700;"><span class="dp-header-title">{html.escape(page_title)}</span></h2>
-      <p style="margin: 0.35rem 0 0 0; color: #e2e8f0; font-size: 1.05em; opacity: 0.95;">{html.escape(header_subtitle)}</p>
-    </header>
-  </div>
+  <header class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary">
+    <h2 class="dp-heading dp-locked"><span class="dp-header-title">{html.escape(page_title)}</span></h2>
+    <p>&nbsp;</p>
+  </header>
 {lead_block}
   <div class="dp-panels-wrapper dp-accordion-plus dp-panel-color-dp-primary dp-panel-active-color-dp-accent dp-panel-hover-color-dp-accent">
 {body_panels}
