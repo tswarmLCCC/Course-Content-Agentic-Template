@@ -8,61 +8,70 @@
 
 ---
 
-## 1. Lecture Walkthroughs & Coding Clinic (Gradual Release: "Try First, Then Watch")
+## 1. Coding Clinic: "I Do, We Do, You Do"
 
-These practice challenges follow the **Gradual Release of Responsibility** model ("I Do, We Do, You Do"). Before watching the instructor walkthrough, attempt each image transformation challenge in your interactive Python environment or notebook. Then watch the recording to compare your letterboxing logic and coordinate math!
+### "I Do" — The Instructor Demonstration: Aspect-Preserving Letterbox Resizing
+In computer vision data pipelines, directly squashing or stretching non-square camera images to fit neural network inputs ($640 \times 640$) warps aspect ratios and corrupts defect geometries. The data engineering standard is **letterbox padding**: uniformly scaling the image to fit inside the target bounding box and padding the remainder with neutral gray (`114`):
 
 ```python
-"""
-====================================================================
-COSC 2060 - Unit 3: Coding Clinic Practice
-Gradual Release: "Try First, Then Watch"
-====================================================================
-Instructions:
-1. Ensure your virtual environment is active with opencv-python installed.
-2. Complete each challenge using NumPy and OpenCV functions.
-3. Compare your code against the instructor walkthrough recording!
-====================================================================
-"""
 import cv2
 import numpy as np
 
-# Create a mock 1920x1080 synthetic image
+# Create a mock 1920x1080 camera frame
 mock_img = np.zeros((1080, 1920, 3), dtype=np.uint8)
 mock_img[:] = (200, 150, 100) # Slate blue in BGR
 
-# ==================================================================
-# CHALLENGE 1: Aspect Ratio Calculation
-# ==================================================================
-# Compute the aspect ratio (width / height) and scale factor to fit
-# inside a 640x640 bounding box without cropping.
-#
-# [YOUR CODE HERE]
+target_size = 640
+h, w = mock_img.shape[:2]
 
+# Compute scale factor and new unpadded dimensions
+scale = min(target_size / w, target_size / h)
+new_w, new_h = int(w * scale), int(h * scale)
 
+# Aspect-preserving resize
+resized = cv2.resize(mock_img, (new_w, new_h), interpolation=cv2.INTER_AREA)
 
+# Assemble neutral gray canvas and calculate centering offsets
+canvas = np.full((target_size, target_size, 3), 114, dtype=np.uint8)
+pad_x = (target_size - new_w) // 2
+pad_y = (target_size - new_h) // 2
+canvas[pad_y:pad_y + new_h, pad_x:pad_x + new_w] = resized
 
-# ==================================================================
-# CHALLENGE 2: Letterbox Padding Offset
-# ==================================================================
-# Given scale = 640 / 1920 = 0.3333, new height = 360,
-# compute the top and bottom padding required to center the image
-# in a 640x640 canvas.
-#
-# [YOUR CODE HERE]
-
-
-
-
-# ==================================================================
-# CHALLENGE 3: VOC to YOLO Coordinate Conversion
-# ==================================================================
-# Convert VOC box [x_min=100, y_min=200, x_max=500, y_max=800]
-# for a 1000x1000 image into normalized YOLO format:
-#   [class_id, x_center_norm, y_center_norm, width_norm, height_norm]
-#
-# [YOUR CODE HERE]
+print(f"Original shape: {mock_img.shape}")
+print(f"Resized image: {resized.shape}, Canvas: {canvas.shape}, Offsets: dx={pad_x}, dy={pad_y}")
 ```
+
+---
+
+### "We Do" — Guided Class Practice: Converting Bounding Boxes to Normalized YOLO Format
+When resizing with letterboxing, object bounding boxes must undergo the exact same transformation: scaling by `scale`, translating by `pad_x` and `pad_y`, and normalizing to $[0.0, 1.0]$:
+
+```python
+# Raw bounding box in Pascal VOC format: [x_min, y_min, x_max, y_max]
+raw_box = [200, 150, 600, 450] # e.g. on 1920x1080 source image
+class_id = 0 # Sidewall_Crack
+
+# 1. Scale and translate into canvas coordinates
+box_x1 = raw_box[0] * scale + pad_x
+box_y1 = raw_box[1] * scale + pad_y
+box_x2 = raw_box[2] * scale + pad_x
+box_y2 = raw_box[3] * scale + pad_y
+
+# 2. Convert to normalized YOLO center format [x_center, y_center, w, h]
+x_center = ((box_x1 + box_x2) / 2.0) / target_size
+y_center = ((box_y1 + box_y2) / 2.0) / target_size
+box_w = (box_x2 - box_x1) / target_size
+box_h = (box_y2 - box_y1) / target_size
+
+yolo_annotation = f"{class_id} {x_center:.6f} {y_center:.6f} {box_w:.6f} {box_h:.6f}"
+print("YOLO Formatted Annotation:")
+print(yolo_annotation)
+```
+
+---
+
+### "You Do" — Independent Application: Connecting to the Fleet Vision Manifest
+Now apply these transformations across hundreds of gate camera inspection images to generate a production YOLO dataset in Section 2 below!
 
 ---
 

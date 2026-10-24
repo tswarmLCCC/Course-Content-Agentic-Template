@@ -60,9 +60,11 @@ Students complete these materials independently before the first live classroom 
     - Pandas: Memory allocated per intermediate transformation (3x to 5x overhead).
     - Polars: Lazy query plan tree optimization (predicate pushdown, projection pruning).
   - Walk through how Polars only loads the required columns into memory.
-- **00:35 – 01:05 | Coding Clinic: "I Do, We Do"**:
-  - **"I Do" (15m)**: Live instructor demonstration building a Polars LazyFrame and printing `lf.explain()` to visualize the optimized query plan.
-  - **"We Do" (15m)**: Class code-along calculating the Haversine geospatial velocity between successive fueling events using Polars window functions.
+- **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
+  - **Presentation Deck**: [Unit 2 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_02_coding_clinic.pptx)
+  - **Interactive Companion**: Open [Unit 2 Transition Notebook: `unit_02_ds_to_engine.ipynb`](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/notebooks/unit_02_ds_to_engine.ipynb)
+  - **"I Do" (15m)**: Inspect Dr. Marcus Vance's data science prototype using Pandas `df.groupby('vehicle_id').apply(...)`. Run the scale test on 600,000 telemetry rows to witness the Python GIL peg a single CPU core and inflate memory.
+  - **"We Do" (15m)**: Live code-along refactoring the pipeline into **Polars LazyFrame expressions** with `.over('vehicle_id')`. Run the quality gate confirming identical anomaly flags and execute the benchmark demonstrating an 18.9x multi-threaded speedup!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Prep**:
   - Verify every student runs `generate_fuel_data.py` on their laptop to ensure they have the 1M-row Parquet file ready for Slot 3.
 

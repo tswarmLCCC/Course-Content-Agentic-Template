@@ -8,26 +8,15 @@
 
 ---
 
-## 1. Lecture Walkthroughs & Coding Clinic (Gradual Release: "Try First, Then Watch")
+## 1. Coding Clinic: "I Do, We Do, You Do"
 
-These practice challenges follow the **Gradual Release of Responsibility** model ("I Do, We Do, You Do"). Before watching the instructor walkthrough, attempt each query in your interactive Python environment or notebook. Then watch the recording to compare your Polars expression logic, examine query plans, and review common beginner pitfalls!
+### "I Do" — The Instructor Demonstration: Declarative Null Imputation & Physical Boundary Flags
+In high-throughput telemetry pipelines, imperative Python `for` loops or pandas `.apply()` calls create massive memory bottlenecks. The data engineering standard is **vectorized Polars expressions**, which compile into parallel Rust execution trees:
 
 ```python
-"""
-====================================================================
-COSC 2060 - Unit 2: Coding Clinic Practice
-Gradual Release: "Try First, Then Watch"
-====================================================================
-Instructions:
-1. Ensure your virtual environment is active with polars installed.
-2. Initialize an in-memory LazyFrame with the clinic records below.
-3. Complete each challenge using declarative Polars expressions.
-4. Compare your syntax against the instructor walkthrough recording!
-====================================================================
-"""
 import polars as pl
 
-# In-memory clinic sample
+# In-memory telemetry LazyFrame
 clinic_data = pl.LazyFrame({
     "driver_id": [101, 101, 102, 102],
     "city": ["Cheyenne", "Denver", "Dallas", "Houston"],
@@ -36,37 +25,40 @@ clinic_data = pl.LazyFrame({
     "odometer": [250000, 250100, 400000, 400240]
 })
 
-# ==================================================================
-# CHALLENGE 1: Declarative Null Imputation
-# ==================================================================
-# Write a Polars expression that imputes missing 'gallons' with the median,
-# and imputes missing 'fuel_type' with the string 'UNKNOWN'.
-#
-# [YOUR EXPRESSION HERE]
+# Declarative expression pipeline:
+# 1. Fill null gallons with median
+# 2. Fill null fuel_type with 'UNKNOWN'
+# 3. Add physical tank overfill flag (> 300 gallons)
+cleaned_lazy = clinic_data.with_columns([
+    pl.col("gallons").fill_null(pl.col("gallons").median()).alias("gallons_imputed"),
+    pl.col("fuel_type").fill_null("UNKNOWN").alias("fuel_type_imputed"),
+    (pl.col("gallons") > 300.0).alias("is_tank_overflow")
+])
 
-
-
-
-# ==================================================================
-# CHALLENGE 2: Physical Tank Violation Flag
-# ==================================================================
-# Add a boolean column 'is_tank_overflow' that evaluates to True
-# if gallons > 300.0, otherwise False.
-#
-# [YOUR EXPRESSION HERE]
-
-
-
-
-# ==================================================================
-# CHALLENGE 3: Vectorized Min-Max Normalization
-# ==================================================================
-# Normalize the 'odometer' column strictly between [0.0, 1.0] using:
-#   (col - col.min()) / (col.max() - col.min())
-# Alias the result as 'norm_odometer'.
-#
-# [YOUR EXPRESSION HERE]
+print("Polars Cleaned Plan Execution:")
+print(cleaned_lazy.collect())
 ```
+
+---
+
+### "We Do" — Guided Class Practice: Vectorized Min-Max Normalization
+Machine learning algorithms like Isolation Forests require numerical features scaled into comparable ranges. We compute min-max scaling declaratively in a single expression pass without loading data into memory:
+
+```python
+# Scale odometer strictly to [0.0, 1.0]
+normalized_lazy = cleaned_lazy.with_columns([
+    ((pl.col("odometer") - pl.col("odometer").min()) / 
+     (pl.col("odometer").max() - pl.col("odometer").min())).alias("norm_odometer")
+])
+
+print("Normalized Telemetry Features:")
+print(normalized_lazy.select(["driver_id", "odometer", "norm_odometer"]).collect())
+```
+
+---
+
+### "You Do" — Independent Application: Connecting to the 1-Million Row Fraud Pipeline
+Now apply these expressions at scale across 1,000,000 real fuel transactions in Section 2 below!
 
 ---
 

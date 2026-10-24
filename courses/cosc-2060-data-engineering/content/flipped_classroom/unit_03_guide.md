@@ -62,9 +62,11 @@ Students complete these materials independently before the first live classroom 
     $$\text{scale} = \min\left(\frac{640}{1920}, \frac{640}{1080}\right) = \min(0.3333, 0.5925) = 0.3333$$
   - Calculate the new dimensions: $W = 640, H = 360$.
   - Calculate vertical padding: $\text{pad\_y} = (640 - 360) / 2 = 140$ pixels.
-- **00:35 – 01:05 | Coding Clinic: "I Do, We Do"**:
-  - **"I Do" (15m)**: Live instructor demonstration using OpenCV to read an image, allocate a constant grey canvas (`np.full(..., 114, dtype=np.uint8)`), and paste the resized image into the center.
-  - **"We Do" (15m)**: Class code-along translating a Pascal VOC bounding box ($[x_1, y_1, x_2, y_2]$) through the letterbox scaling and padding offset.
+- **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
+  - **Presentation Deck**: [Unit 3 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_03_coding_clinic.pptx)
+  - **Interactive Companion**: Open [Unit 3 Transition Notebook: `unit_03_ds_to_engine.ipynb`](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/notebooks/unit_03_ds_to_engine.ipynb)
+  - **"I Do" (15m)**: Inspect Dr. Aris Thorne's computer vision prototype using PIL `Image.open()` and Matplotlib for sequential letterboxing and bounding box plotting. Profile the I/O and object churn on 80 HD camera frames.
+  - **"We Do" (15m)**: Live code-along refactoring into high-speed **OpenCV (`cv2.resize`, `cv2.copyMakeBorder`)** with vectorized bounding box normalization and contiguous $(B, 3, 640, 640)$ float32 tensor assembly at 150 FPS!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
   - Verify students have `opencv-python-headless` and `pillow` installed locally. Preview Slot 3 lab assignments.
 

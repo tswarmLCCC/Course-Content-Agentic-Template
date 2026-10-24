@@ -491,11 +491,15 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
             t_html_file = f"unit-{u_idx:02d}-instructor-guide.html"
             with open(sol_file, "r", encoding="utf-8") as sf:
                 sol_code = sf.read()
-            sol_box = f"<div style='background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;'><pre style='margin: 0; background: transparent; color: inherit;'><code>{html.escape(sol_code.strip())}</code></pre></div>"
-            t_panels = [("Instructor Master Solution Key & Answer Code", sol_box)]
+            if sol_file.endswith((".md", ".markdown")):
+                t_body = parse_markdown_to_html(sol_code)
+                t_panels = [("Instructor Flipped Classroom Guide & Video Walkthrough Scripts", t_body)]
+            else:
+                sol_box = f"<div style='background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; overflow-x: auto; font-family: Consolas, Monaco, monospace; font-size: 0.9em; line-height: 1.5;'><pre style='margin: 0; background: transparent; color: inherit;'><code>{html.escape(sol_code.strip())}</code></pre></div>"
+                t_panels = [("Instructor Master Solution Key & Answer Code", sol_box)]
             t_page_content = render_standard_page_html(
                 f"[Instructor Guide] Unit {u_idx:02d} Teaching Notes & Solutions",
-                "<p><strong>[FOR INSTRUCTORS ONLY — UNPUBLISHED]</strong> Master answer keys and grading solutions.</p>",
+                "<p><strong>[FOR INSTRUCTORS ONLY — UNPUBLISHED]</strong> Flipped classroom walkthrough scripts, pedagogical timing, and master answer keys.</p>",
                 t_panels,
                 t_id,
                 workflow_state="unpublished"

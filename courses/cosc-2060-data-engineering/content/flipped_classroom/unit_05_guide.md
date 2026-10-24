@@ -61,9 +61,11 @@ Students complete these materials independently before the first live classroom 
   - Draw the HTTP request boundary on the board:
     - Raw JSON Payload $\to$ Pydantic Input Validator $\to$ Internal Engine $\to$ Pydantic Output Model.
   - Demonstrate how Pydantic protects backend code from `KeyError` and `TypeError`.
-- **00:35 – 01:05 | Coding Clinic: "I Do, We Do"**:
-  - **"I Do" (15m)**: Live instructor demonstration booting a minimal FastAPI app with Uvicorn and navigating the automatic interactive documentation at `http://localhost:8000/docs`.
-  - **"We Do" (15m)**: Class code-along writing a Pydantic model with regex validation (`pattern=r"^TRUCK-\d{3}$"`) and physical boundary checks (`gt=0.0, le=350.0`).
+- **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
+  - **Presentation Deck**: [Unit 5 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_05_coding_clinic.pptx)
+  - **Interactive Companion**: Open [Unit 5 Transition Notebook: `unit_05_ds_to_engine.ipynb`](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/notebooks/unit_05_ds_to_engine.ipynb)
+  - **"I Do" (15m)**: Inspect Dr. Leo Chen's freight pricing prototype loading a static pickled DataFrame with an unvalidated Python function. Inject negative miles and string weights to observe silent corruptions and unhandled crashes.
+  - **"We Do" (15m)**: Live code-along refactoring into an asynchronous **FastAPI** service with strict **Pydantic v2** `Field(gt=0)` validation. Use `TestClient` to verify sub-3ms responses on valid inputs and automatic HTTP 422 protection against bad data!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
   - Confirm students have `fastapi` and `httpx` installed in Python 3.11. Preview Slot 3 lab challenges.
 

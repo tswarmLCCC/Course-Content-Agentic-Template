@@ -20,8 +20,15 @@ By the end of this unit, you will be able to:
 
 ---
 
-## Weekly Milestones & Deliverables
-- [ ] Read [Unit 08 Required Readings & Concepts](reading.md).
-- [ ] Complete [Unit 08 Asynchronous Preparation & Drills](drills.md).
-- [ ] Submit [Unit 08 Capstone Architecture & Defense](lab_guide.md).
-- [ ] Complete [Unit 08 Knowledge Check](quiz.md) (10 questions, 3 attempts).
+## Weekly Learning Roadmap & Deliverables
+
+Follow the sequential module workflow in Canvas to complete this unit:
+
+1. **Step 1: Required Readings & Reference Architecture**  
+   Review end-to-end data lifecycle architecture, system trade-offs (latency vs cost vs consistency), containerization, and capstone defense expectations in the module reading.
+2. **Step 2: Diagnostic Drills & Syntax Checks**  
+   Complete the asynchronous concept checks, Docker multistage build checks, and latency budget audits before tackling the lab.
+3. **Step 3: Applied Engineering Lab & Starter Code**  
+   Build and test your unified capstone integration script (`lab8_starter.py`) and container definition (`Dockerfile`) adhering to the 100-point rubric, then submit your deliverables to the assignment dropbox.
+4. **Step 4: Knowledge Check & Concept Verification**  
+   Take the untimed 10-question formative assessment in Canvas (up to 3 attempts, highest score kept) to lock in key terminology and mental models.

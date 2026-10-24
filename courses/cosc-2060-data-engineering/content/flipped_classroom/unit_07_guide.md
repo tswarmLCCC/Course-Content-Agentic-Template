@@ -61,9 +61,11 @@ Students complete these materials independently before the first live classroom 
   - Draw a 5-node DAG on the board with two parallel branches.
   - Walk through Kahn's algorithm step-by-step: tracking `in_degree` counts and queueing zero-degree nodes.
   - Introduce a circular dependency (Node A $\to$ Node B $\to$ Node A) and demonstrate how Kahn's algorithm detects the cycle when `len(order) != len(nodes)`.
-- **00:35 – 01:05 | Coding Clinic: "I Do, We Do"**:
-  - **"I Do" (15m)**: Live instructor demonstration implementing exponential backoff with jitter in Python (`base_delay * (2 ** (attempt - 1))`).
-  - **"We Do" (15m)**: Class code-along building a Dead-Letter Queue interceptor that separates clean transactions from negative gallon poison pills.
+- **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
+  - **Presentation Deck**: [Unit 7 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_07_coding_clinic.pptx)
+  - **Interactive Companion**: Open [Unit 7 Transition Notebook: `unit_07_ds_to_engine.ipynb`](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/notebooks/unit_07_ds_to_engine.ipynb)
+  - **"I Do" (15m)**: Inspect Kevin Patel's monolithic linear Jupyter Notebook. Inject an error midway to show how linear cell execution destroys all in-memory state and forces redundant re-running of expensive upstream extracts.
+  - **"We Do" (15m)**: Live code-along refactoring into a **Software-Defined Asset DAG** with in-degree topological sorting. Run the materialization suite to verify failure isolation, node retries, and automatic cache-hits on subsequent runs!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
   - Verify students understand DAG node status transitions (`PENDING`, `RUNNING`, `SUCCESS`, `SKIPPED`, `FAILED`). Preview Slot 3 lab challenges.
 

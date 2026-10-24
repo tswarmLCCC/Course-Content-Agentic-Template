@@ -61,9 +61,11 @@ Students complete these materials independently before the first live classroom 
     - Stage 1 (Builder): Base image + compiler + pip dependencies $\to$ wheel cache.
     - Stage 2 (Runtime): Clean minimal slim image $\to$ copy only installed wheels $\to$ copy app source.
   - Show how image size shrinks from 1.8GB down to 180MB!
-- **00:35 – 01:05 | Coding Clinic: "I Do, We Do"**:
-  - **"I Do" (15m)**: Live instructor demonstration authoring a hardened `Dockerfile` with explicit non-root permissions and healthcheck probe.
-  - **"We Do" (15m)**: Class code-along creating `docker-compose.yml` to boot both the FastAPI DaaS gateway and the MCP tool interface.
+- **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
+  - **Presentation Deck**: [Unit 8 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_08_coding_clinic.pptx)
+  - **Interactive Companion**: Open [Unit 8 Transition Notebook: `unit_08_ds_to_engine.ipynb`](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/notebooks/unit_08_ds_to_engine.ipynb)
+  - **"I Do" (15m)**: Inspect Dr. Anton Weber's capstone prototype with hardcoded local paths and unpinned dependencies ('works on my machine'). Run it on a blind evaluation batch to witness fatal deployment crashes and dirty data poisoning.
+  - **"We Do" (15m)**: Live code-along refactoring into an immutable **Docker container** with a defensive **Pytest** data contract validation suite. Verify 100% test pass on Dead-Letter Queue isolation, fraud alerting, and multimodal grounding!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
   - Verify all students have Docker Desktop or local container runtimes configured. Preview Slot 3 lab challenges.
 

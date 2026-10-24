@@ -61,9 +61,11 @@ Students complete these materials independently before the first live classroom 
   - Contrast raw SQL access with the MCP sandwich:
     - User $\to$ LLM $\to$ JSON-RPC `tools/call` $\to$ MCP Server Firewall $\to$ Python Function $\to$ Read-Only Data Store.
   - Show why the LLM can never execute `DELETE` or `DROP` because those functions do not exist in the tool manifest.
-- **00:35 – 01:05 | Coding Clinic: "I Do, We Do"**:
-  - **"I Do" (15m)**: Live instructor demonstration registering an MCP tool and introspecting its auto-generated JSON Schema using Python `inspect`.
-  - **"We Do" (15m)**: Class code-along writing a defensive parameter sanitizer that rejects malicious SQL fragments using regex (`r"^TRUCK-\d{3}$"`).
+- **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
+  - **Presentation Deck**: [Unit 6 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_06_coding_clinic.pptx)
+  - **Interactive Companion**: Open [Unit 6 Transition Notebook: `unit_06_ds_to_engine.ipynb`](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/notebooks/unit_06_ds_to_engine.ipynb)
+  - **"I Do" (15m)**: Inspect Dr. Samantha Reed's manual prompt formatting script. Demonstrate why autonomous AI agents (Claude, Cursor, custom agents) cannot parse free-form text or interact without an RPC interface.
+  - **"We Do" (15m)**: Live code-along refactoring into a **Model Context Protocol (MCP)** JSON-RPC 2.0 server using `@server.register_tool()`. Simulate an autonomous agent calling `tools/list` and executing `tools/call` at 140,000+ dispatches per second!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
   - Confirm understanding of the JSON-RPC message envelope. Preview Slot 3 lab challenges.
 

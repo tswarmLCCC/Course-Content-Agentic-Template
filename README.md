@@ -148,6 +148,24 @@ Every weekly unit produced by `canvas-course-builder` follows a battle-tested se
 7. `Unit X Knowledge Check: [Topic]` (`Quizzes::Quiz` - Published) — Native Canvas QTI 1.2 quiz (multiple-choice with full rationales, 3 attempts).
 8. `[Instructor Guide] Unit X Teaching Notes & Solutions` (`WikiPage` - Unpublished) — Hidden from students; contains synchronous agendas and master solution keys.
 
+### The 4-Slot Flipped Classroom Model & DS-to-DE Transition Notebook Pattern
+Every 2-week instructional unit balances asynchronous conceptual preparation with rigorous in-class live coding clinics:
+- **Slot 1 (Out-of-Class 1, 75m)**: Asynchronous conceptual preparation — high-rigor reading guide, mental model videos, OER references, and self-check drills with `<details>/<summary>` answer keys.
+- **Slot 2 (In-Class 1, 75m)**: Live Coding Clinic ("I Do, We Do") — real-world incident retrospective, architecture whiteboard sparring, and hands-on execution of the **DS-to-DE Transition Notebook**.
+- **Slot 3 (Out-of-Class 2, 75m)**: Asynchronous lab onboarding — applied scenario briefing, environment setup, and walkthrough video.
+- **Slot 4 (In-Class 2, 75m)**: Active Lab Hacking ("You Do") — live student coding, 1-on-1 bug triage, and terminal-based defensive test harness verification.
+
+#### The 8-Cell Transition Notebook Pattern
+To bridge the cognitive gap between data science prototypes and production data engineering engines, units feature interactive Jupyter notebooks following an 8-cell pedagogical progression:
+1. **Scenario & Persona Framing**: Contextualized as inheriting a naive prototype from a junior data scientist.
+2. **Naive Python Prototype**: Baseline using familiar single-threaded tools (Pandas, Scikit-learn, PIL, unvalidated Pickle).
+3. **The Scaling Ceiling / Bottleneck**: Profiling execution time, peak memory usage, or safety vulnerabilities on realistic workloads.
+4. **The Modern Data Engineering Engine**: Production refactoring utilizing high-performance, memory-mapped, or vectorized engines (DuckDB `ASOF LEFT JOIN`, Polars Lazy Expressions, OpenCV C-contiguous tensors, ChromaDB vector indexing, FastAPI + Pydantic v2 async validation, MCP JSON-RPC 2.0 servers, Asset DAGs, and Dockerized Pytest quality gates).
+5. **Head-to-Head Profiling & Benchmark**: Direct speedup and memory footprint visualization.
+6. **Line-by-Line Architectural Teardown**: Pedagogical breakdown of internal mechanics (vectorization, SIMD, lazy evaluation, zero-copy memory).
+7. **Deterministic Output & Parity Verification**: Strict test assertions verifying mathematical and business logic parity between the naive prototype and engine output.
+8. **Defensive Engineering & Take-Home Challenge**: Edge case injection (dirty schemas, missing keys, high concurrency) challenging students to harden the pipeline.
+
 ### Command & Tool Invocation Cheatsheet
 All tools are executable directly via standard Python 3:
 
@@ -189,7 +207,7 @@ Located in [`specs/_templates/`](file:///c:/dev/Course-Content-Agentic-Template/
 
 | Course ID | Course Code & Title | Units | Active Stage | Directory |
 |---|---|---|---|---|
-| `cosc-2060-data-engineering` | COSC 2060: Modern Data Engineering & AI Infrastructure | 8 Units (16 Wks) | **Production Canvas Cartridge (.imscc) Compiled** (Readings, Labs, 80 QTI Quizzes & Word Syllabus) | [courses/cosc-2060-data-engineering/](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/README.md) |
+| `cosc-2060-data-engineering` | COSC 2060: Modern Data Engineering & AI Infrastructure | 8 Units (16 Wks) | **Production Canvas Cartridge (.imscc) Compiled** (Readings, Labs, 80 QTI Quizzes, 8 DS-to-DE Transition Notebooks, 8 Coding Clinic PPTX Decks & Word Syllabus) | [courses/cosc-2060-data-engineering/](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/README.md) |
 
 
 ---

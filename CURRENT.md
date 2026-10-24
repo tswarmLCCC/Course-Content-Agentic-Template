@@ -4,8 +4,8 @@
 - **Active Course**: `courses/cosc-2060-data-engineering`
 - **Course Title**: COSC 2060: Modern Data Engineering & AI Infrastructure
 - **Course Path**: `courses/cosc-2060-data-engineering/`
-- **Active Iteration**: `specs/004-oer-readings-and-video-architecture` (Completed)
-- **Status**: Complete 8-Unit 4-Chapter OER & Video Architecture Rollout Recompiled into Cartridge with DesignPLUS Accordions & Syllabus Navigation Verified
+- **Active Iteration**: `specs/007-comprehensive-content-and-tech-block-remediation` (Completed & Verified)
+- **Status**: Comprehensive course-wide content and tech block remediation complete. All 8 units audited with authentic student drills, scaffolded lab clinics, clean roadmaps, siloed instructor guides, zero dead URLs, 100% XML valid Common Cartridge rebuild (`COSC_2060_Complete.imscc`), and complete git check-in.
 
 ---
 

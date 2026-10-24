@@ -59,9 +59,11 @@ Students complete these materials independently before the first live classroom 
   - Draw a timeline on the whiteboard with $t_{\text{departure}} = \text{14:00}$.
   - Plot three maintenance events: $E_1$ (10:00), $E_2$ (13:30), $E_3$ (15:45).
   - Walk through student proposals on how to prevent $E_3$ from entering the training row.
-- **00:35 – 01:05 | Coding Clinic: "I Do, We Do"**:
-  - **"I Do" (15m)**: Live instructor demonstration connecting to DuckDB CLI, loading synthetic CSVs, and executing a standard aggregation.
-  - **"We Do" (15m)**: Class code-along constructing the `ROW_NUMBER() OVER (PARTITION BY ... ORDER BY timestamp DESC)` subquery to capture the single most recent state.
+- **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
+  - **Presentation Deck**: [Unit 1 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_01_coding_clinic.pptx)
+  - **Interactive Companion**: Open [Unit 1 Transition Notebook: `unit_01_ds_to_engine.ipynb`](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/notebooks/unit_01_ds_to_engine.ipynb)
+  - **"I Do" (15m)**: Inspect Dr. Elena Rostova's data science prototype (`pd.merge_asof`). Run the scale stress-test against 300,000 records to expose the single-threaded sorting bottleneck and memory bloat.
+  - **"We Do" (15m)**: Live code-along refactoring the logic into native **DuckDB SQL (`ASOF LEFT JOIN`)** on compressed Parquet with projection pushdown. Run the quality gate asserting 100% mathematical parity and execute the benchmark proving the 4.4x speedup!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
   - Verify every student has Python 3.10+ and DuckDB installed locally. Preview Slot 3 lab assignments.
 

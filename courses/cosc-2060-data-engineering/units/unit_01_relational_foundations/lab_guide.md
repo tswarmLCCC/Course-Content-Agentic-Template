@@ -8,98 +8,105 @@
 
 ---
 
-## 1. Lecture Walkthroughs & Coding Clinic (Gradual Release: "Try First, Then Watch")
+## 1. Coding Clinic: "I Do, We Do, You Do"
 
-These practice challenges follow the **Gradual Release of Responsibility** model ("I Do, We Do, You Do"). Before watching the instructor's video walkthrough, attempt each query in your interactive Python environment or DuckDB terminal. Then watch the recording to compare your query logic, examine execution plans, and review common beginner pitfalls!
+### "I Do" — The Instructor Demonstration: Point-in-Time Temporal Alignment (DuckDB ASOF JOIN)
+When joining operational events (such as truck departures) to continuous sensor or weather streams, standard relational `INNER JOIN` or simple timestamp equality will fail because exact timestamps rarely match. Using future observations introduces catastrophic **target leakage**. The professional standard is an **ASOF JOIN**, matching each event strictly to the most recent observation at or before departure:
 
 ```python
-"""
-====================================================================
-COSC 2060 - Unit 1: Coding Clinic Practice
-Gradual Release: "Try First, Then Watch"
-====================================================================
-Instructions:
-1. Launch Python in your terminal and import duckdb.
-2. Initialize an in-memory database with the clinic tables provided below.
-3. Attempt each query challenge independently.
-4. Compare your syntax against the instructor walkthrough video!
-====================================================================
-"""
 import duckdb
 
 con = duckdb.connect()
 
-# Set up sample clinic tables
+# Departures
 con.sql("""
-CREATE TABLE clinic_drivers (
-    driver_id INT, 
-    driver_name VARCHAR, 
-    safety_score DECIMAL(3,2)
+CREATE TABLE departures (
+    route_id INT,
+    city VARCHAR,
+    dep_time TIMESTAMP
 );
-CREATE TABLE clinic_routes (
-    route_id INT, 
-    driver_id INT, 
-    city VARCHAR, 
-    dep_time TIMESTAMP, 
-    delay_mins INT
-);
-CREATE TABLE clinic_weather (
-    city VARCHAR, 
-    obs_time TIMESTAMP, 
-    precip_in DECIMAL(4,2), 
+INSERT INTO departures VALUES 
+    (1, 'Cheyenne', '2026-10-15 06:00:00'),
+    (2, 'Cheyenne', '2026-10-15 14:00:00');
+
+# Weather observations (intermittent weather station logs)
+CREATE TABLE weather_station (
+    city VARCHAR,
+    obs_time TIMESTAMP,
+    precip_in DECIMAL(4,2),
     condition VARCHAR
 );
-
-INSERT INTO clinic_drivers VALUES 
-    (101, 'Marcus Vance', 0.94),
-    (102, 'Elena Rostova', 0.88);
-
-INSERT INTO clinic_routes VALUES 
-    (1, 101, 'Cheyenne', '2026-10-15 06:00:00', 10),
-    (2, 101, 'Cheyenne', '2026-10-15 14:00:00', 25),
-    (3, 102, 'Laramie',  '2026-10-15 09:30:00', 0);
-
-INSERT INTO clinic_weather VALUES 
+INSERT INTO weather_station VALUES
     ('Cheyenne', '2026-10-15 05:00:00', 0.00, 'Clear'),
     ('Cheyenne', '2026-10-15 12:00:00', 0.45, 'Thunderstorm'),
-    ('Cheyenne', '2026-10-15 18:00:00', 1.20, 'Hail'),
-    ('Laramie',  '2026-10-15 08:00:00', 0.05, 'Light Fog');
+    ('Cheyenne', '2026-10-15 18:00:00', 1.20, 'Hail');
 """)
 
-# ==================================================================
-# CHALLENGE 1: The Dimension Filter & Projection
-# ==================================================================
-# Write a query against 'clinic_drivers' that selects driver_name
-# and safety_score for drivers with safety_score >= 0.90,
-# sorted descending by score.
-#
-# [YOUR QUERY HERE]
+# ASOF JOIN: Takes the latest weather strictly <= departure time
+result = con.sql("""
+SELECT 
+    d.route_id,
+    d.city,
+    d.dep_time,
+    w.obs_time AS matched_weather_time,
+    w.condition,
+    w.precip_in
+FROM departures d
+ASOF JOIN weather_station w
+    ON d.city = w.city
+    AND d.dep_time >= w.obs_time
+ORDER BY d.route_id;
+""").df()
 
-
-
-
-# ==================================================================
-# CHALLENGE 2: The First Leak-Free ASOF Join
-# ==================================================================
-# Write an ASOF JOIN between 'clinic_routes' and 'clinic_weather' on city
-# that matches each route to the most recent weather observation 
-# recorded strictly at or before route departure (dep_time >= obs_time).
-# Select route_id, dep_time, obs_time, and condition.
-#
-# [YOUR QUERY HERE]
-
-
-
-
-# ==================================================================
-# CHALLENGE 3: The Rolling Lag (Zero Leakage)
-# ==================================================================
-# Calculate a rolling average delay for driver 101 across prior trips.
-# Ensure that trip 2 (delay 25) DOES NOT include its own delay in its
-# feature calculation! (Use ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING).
-#
-# [YOUR QUERY HERE]
+print("Point-in-Time Matched Features (Zero Leakage):")
+print(result)
 ```
+
+---
+
+### "We Do" — Guided Class Practice: Rolling History Without Target Leakage
+When engineering historical driver features (e.g., rolling average delay), the current trip's outcome must NEVER be included in its own feature calculation. Using `ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING` guarantees that only prior completed trips are considered:
+
+```python
+con.sql("""
+CREATE TABLE trip_logs (
+    driver_id INT,
+    trip_id INT,
+    dep_time TIMESTAMP,
+    delay_mins INT
+);
+INSERT INTO trip_logs VALUES 
+    (101, 1, '2026-10-10 08:00:00', 10),
+    (101, 2, '2026-10-11 08:00:00', 25),
+    (101, 3, '2026-10-12 08:00:00', 0),
+    (101, 4, '2026-10-13 08:00:00', 45);
+""")
+
+rolling_features = con.sql("""
+SELECT 
+    driver_id,
+    trip_id,
+    dep_time,
+    delay_mins AS current_trip_delay,
+    COALESCE(
+        AVG(delay_mins) OVER (
+            PARTITION BY driver_id 
+            ORDER BY dep_time 
+            ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
+        ), 0.0
+    ) AS prior_5trip_avg_delay
+FROM trip_logs
+ORDER BY driver_id, dep_time;
+""").df()
+
+print("Leak-Free Rolling Features:")
+print(rolling_features)
+```
+
+---
+
+### "You Do" — Independent Application: Connecting to the Feature Matrix Builder
+Now apply these core patterns to build the complete, multi-table production feature matrix in Section 2 below!
 
 ---
 

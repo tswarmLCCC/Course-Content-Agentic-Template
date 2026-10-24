@@ -63,9 +63,11 @@ Students complete these materials independently before the first live classroom 
     - $\vec{v}$: `"high-pitched turbine whine"` ($\theta = 15^\circ$, $\cos\theta = 0.96$)
     - $\vec{w}$: `"replaced windshield wiper blade"` ($\theta = 88^\circ$, $\cos\theta = 0.03$)
   - Demonstrate why dot product equals cosine similarity when vector lengths are normalized to $1.0$.
-- **00:35 – 01:05 | Coding Clinic: "I Do, We Do"**:
-  - **"I Do" (15m)**: Live instructor demonstration encoding a list of sentences with `all-MiniLM-L6-v2` and inspecting the resulting `(N, 384)` NumPy array.
-  - **"We Do" (15m)**: Class code-along calculating pairwise cosine similarity matrices using pure NumPy matrix multiplication (`np.dot(vecs, query_vec.T)`).
+- **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
+  - **Presentation Deck**: [Unit 4 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_04_coding_clinic.pptx)
+  - **Interactive Companion**: Open [Unit 4 Transition Notebook: `unit_04_ds_to_engine.ipynb`](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/notebooks/unit_04_ds_to_engine.ipynb)
+  - **"I Do" (15m)**: Inspect Dr. Maya Lin's maintenance search prototype using Scikit-Learn `TfidfVectorizer` and cosine similarity. Demonstrate the catastrophic lexical mismatch where searching 'coolant leak' gives score 0.00 to an overheating ticket.
+  - **"We Do" (15m)**: Live code-along refactoring into **ChromaDB** with dense neural embeddings and metadata filtering. Run the semantic recall assertion proving the synonym ticket surfaces as Rank #1 while enforcing the `zone='rockies'` constraint!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
   - Confirm all students have downloaded the 120MB MiniLM weights locally. Preview Slot 3 lab challenges.
 
