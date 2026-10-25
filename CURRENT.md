@@ -5,8 +5,8 @@
 - **Active Target**: `modules/agentic-ai-introduction`
 - **Target Title**: Introduction to Agentic AI & Autonomous Tools
 - **Target Path**: `modules/agentic-ai-introduction/`
-- **Active Iteration**: `specs/001-agentic-foundations-and-patterns` (Stage 4: Completed & Verified)
-- **Status**: Unit 01 fully authored, tested, and compiled into `Agentic_AI_Introduction_Modules_Import.imscc`. All 19 EARS requirements verified PASS.
+- **Active Iteration**: `specs/002-open-source-ollama-agent-project` (Stage 2: Plan Complete / Awaiting User Confirmation)
+- **Status**: Researched and designed comprehensive open-source architecture for the Ollama + Python multi-agent self-correcting blog pipeline (replacing Google ADK with pure Python, Pydantic constrained decoding, ReAct tool execution, and local web UI). Spec and Plan checked in.
 
 ---
 
