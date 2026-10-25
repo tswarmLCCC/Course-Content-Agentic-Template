@@ -100,8 +100,9 @@ You will implement the complete multi-agent pipeline adhering to the following s
 
 ---
 
-## 3. Starter Code Instructions
+## 3. Starter Code & Extension Project Instructions
 
+### Core Lab Starter Script (Zero Dependencies)
 A self-contained starter script has been provided in your repository at:  
 `starter_blog_agents.py` (located in this unit's lab starter folder).
 
@@ -109,6 +110,24 @@ To verify the starter script in your terminal:
 ```bash
 python units/unit_01_agentic_foundations/starter_blog_agents.py
 ```
+
+### Advanced Extension: Dual-Backend Project (Google Gemini + Local Ollama + Web Dashboard)
+For students and developers wanting to run the multi-agent pipeline with live LLM backends and an interactive visual UI (the open-source equivalent to the Google ADK Web UI):
+- Explore the complete codebase under: `projects/dual-agentic-blog/`
+- **Run with Local Ollama (100% Free & Private)**:
+  ```bash
+  python -m app.main --provider ollama --model llama3.1:8b --topic "Modern Vector Search & RAG"
+  ```
+- **Run with Google Gemini (Cloud Track)**:
+  ```bash
+  set GEMINI_API_KEY="your-api-key"
+  python -m app.main --provider google --model gemini-1.5-flash --topic "Modern Vector Search & RAG"
+  ```
+- **Launch Local Web Dashboard**:
+  ```bash
+  python -m app.main --web --port 8000
+  ```
+  Open `http://localhost:8000` to inspect live agent thought traces, visual DAG execution nodes, and side-by-side revision diffs!
 
 ---
 
