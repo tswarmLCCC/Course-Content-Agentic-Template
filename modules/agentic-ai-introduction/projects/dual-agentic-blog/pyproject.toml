@@ -1,0 +1,28 @@
+[project]
+name = "dual-agentic-blog"
+version = "0.1.0"
+description = "Dual-Backend Multi-Agent Self-Correcting Blog Writer (Google Gemini + Local Ollama)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.0",
+    "rich>=13.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    "httpx>=0.24.0",
+    "ollama>=0.4.0",
+    "google-genai>=0.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
