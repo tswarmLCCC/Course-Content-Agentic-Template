@@ -510,6 +510,33 @@ def compile_course(
             builder.add_wiki_page(lg_id, lg_html_file, f"Unit {u_idx:02d}: Applied Lab Guide", lg_page_content)
             module_items.append({"type": "WikiPage", "title": f"Unit {u_idx:02d}: Applied Lab Guide", "ref": lg_id, "indent": 1, "state": "active"})
 
+        # Item 4b: Open-Source Lab & Project Walkthrough (WikiPage)
+        os_file = find_file(u_dir, ["open_source", "ollama", "local_agent"])
+        if os_file:
+            os_id = make_canvas_id(f"page_u{u_idx}_open_source")
+            os_html_file = f"unit-{u_idx:02d}-open-source-lab.html"
+            with open(os_file, "r", encoding="utf-8") as of_src:
+                os_raw_md = of_src.read()
+            os_title_extracted, os_lead_html, os_sections = parse_markdown_sections(os_raw_md)
+            if len(os_sections) >= 2:
+                os_page_content = render_designplus_html(
+                    f"Unit {u_idx:02d}: Open-Source Lab — Local Multi-Agent Pipeline with Ollama & Python",
+                    os_lead_html or "<p>Hands-on guide to building and running the multi-agent blog writer locally with Ollama and Python.</p>",
+                    os_sections,
+                    os_id,
+                    header_subtitle="Local LLMs, Pydantic Schemas & Visual Dashboard"
+                )
+            else:
+                os_panels = [("Open-Source Local Lab Guide", parse_markdown_to_html(os_raw_md))]
+                os_page_content = render_standard_page_html(
+                    f"Unit {u_idx:02d}: Open-Source Lab — Local Multi-Agent Pipeline with Ollama & Python",
+                    "<p>Hands-on guide to building and running the multi-agent blog writer locally with Ollama and Python.</p>",
+                    os_panels,
+                    os_id
+                )
+            builder.add_wiki_page(os_id, os_html_file, f"Unit {u_idx:02d}: Open-Source Lab — Local Multi-Agent Pipeline with Ollama & Python", os_page_content)
+            module_items.append({"type": "WikiPage", "title": f"Unit {u_idx:02d}: Open-Source Lab — Local Multi-Agent Pipeline with Ollama & Python", "ref": os_id, "indent": 1, "state": "active"})
+
         # Item 5: Native Canvas Assignment (Assignment)
         assign_id = make_canvas_id(f"assignment_u{u_idx}")
         assign_title = f"Unit {u_idx:02d} Applied Lab Assignment"
