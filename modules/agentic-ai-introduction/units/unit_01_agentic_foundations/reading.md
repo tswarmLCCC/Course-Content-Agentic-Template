@@ -15,14 +15,12 @@ All weekly instructional materials are organized into four core pedagogical chap
 
 Watch this video lecture hosted by **Smitha Kolan** on Google Cloud Tech before proceeding through the text chapters below. It provides a visual, practical mental model of autonomous agent loops and introduces the self-correcting multi-agent blog writer you will construct in this week's applied lab.
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin: 1.5rem 0;">
-  <iframe 
-    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
-    src="https://www.youtube-nocookie.com/embed/Zqno_vux6d8" 
-    title="AI agents explained: Build your first agent in 8 minutes — Smitha Kolan (Google Cloud Tech)" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen>
-  </iframe>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; margin: 1.5rem 0;">
+  <iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; border: 0px none currentcolor;" title="AI agents explained: Build your first agent in 8 minutes — Smitha Kolan (Google Cloud Tech)" src="https://www.youtube.com/embed/Zqno_vux6d8" loading="lazy" allowfullscreen="allowfullscreen" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+</div>
+
+<div style="margin: 0.5rem 0 1.5rem 0; font-size: 0.95em;">
+  <em>Video not displaying in Canvas? <a href="https://www.youtube.com/watch?v=Zqno_vux6d8" target="_blank" rel="noopener noreferrer">Watch directly on YouTube: AI agents explained — Build your first agent in 8 minutes</a></em>
 </div>
 
 ### Video Chapters & Verified Navigation:
