@@ -17,29 +17,26 @@
 - Undergraduate CS/IT/Data Science students and open-source developers seeking to build production-grade agentic architectures locally without proprietary cloud vendor lock-in (Google Cloud, OpenAI, Anthropic), API fees, or external cloud latency.
 
 ### Problem Statement
-- In her tutorial, Smitha Kolan demonstrates an elegant multi-agent architecture (Planner $\to$ Writer $\to$ Validator self-correcting loop with visual tracing). However, the original project relies on Google's proprietary **Agent Development Kit (`google-adk`)**, **Gemini API keys**, and **Vertex AI / Cloud Run** infrastructure.
-- Students and developers lack a **100% open-source, local-first equivalent** that runs completely on their own machines using **Python** and **Ollama**, featuring:
-  1. Transparent multi-agent coordination.
-  2. Native structured outputs via Pydantic JSON schemas.
-  3. True ReAct tool execution (function calling).
-  4. An open-source local visual trace interface equivalent to the ADK Web UI.
+- In her tutorial, Smitha Kolan demonstrates an elegant multi-agent architecture (Planner $\to$ Writer $\to$ Validator self-correcting loop with visual tracing) using Google's **Agent Development Kit (`google-adk`)**, **Gemini 1.5**, and **Vertex AI**.
+- Students and developers want to explore **both** deployment paradigms:
+  1. **The Google Cloud Track**: Running directly on Google Gemini models (Gemini 1.5 Flash / Pro) as demonstrated in the original tutorial.
+  2. **The Local Open-Source Track**: Running the identical multi-agent state machine 100% locally on consumer hardware via **Ollama** (`llama3.1`, `qwen2.5`, `llama3.2`) with zero API costs and full data privacy.
+- They need a clean, dual-backend Python architecture that supports **both Google Gemini and local Ollama** under a unified contract, complete with terminal and web trace visualization.
 
 ### One Job
-- Deliver a comprehensive, reproducible, open-source Python project plan and codebase that runs the self-correcting multi-agent blog writer entirely on local Ollama models (`llama3.1:8b`, `qwen2.5:7b`, or `llama3.2:3b`), complete with terminal trace visualization, an interactive local web dashboard, and defensive runaway loop guards.
+- Deliver a comprehensive, reproducible, dual-backend Python project plan and codebase that runs the self-correcting multi-agent blog writer seamlessly across **both Google Gemini (cloud)** and **Ollama (local open-source)** using a unified command-line and web interface (`--provider google` vs. `--provider ollama`), complete with terminal trace visualization, an interactive local web dashboard, and defensive runaway loop guards.
 
 ---
 
 ## 2. Requirements (EARS Syntax)
 
-### Component 1: Local Model Runtime & Hardware Adaptation
+### Component 1: Dual Model Runtime & Provider Strategy
 - **Always (Ubiquitous)**:
-  - `REQ-01`: The system **shall** interface with local models via the official `ollama` Python library communicating with `http://localhost:11434`.
-  - `REQ-02`: The system **shall** support model selection with verified parameter profiles for:
-    - `llama3.1:8b` (Recommended default: robust instruction-following & tool calling).
-    - `qwen2.5:7b` / `qwen2.5:14b` (High-reasoning alternative: exceptional structured JSON adherence).
-    - `llama3.2:3b` / `qwen2.5:3b` (Low-resource tier: runs on 8GB RAM laptops).
-- **If-Then (Graceful Offline Fallback)**:
-  - `REQ-03`: **If** an active Ollama instance is not detected on `localhost:11434`, **then** the system **shall** surface a clear diagnostic error with startup instructions (`ollama run llama3.1`) and provide an optional simulated/mock mode (`--mock`) for offline testing.
+  - `REQ-01`: The system **shall** support a pluggable `LLMProvider` abstraction allowing users to switch between Google Gemini and Local Ollama via `--provider [google|ollama|mock]`.
+  - `REQ-01b`: **Where** `--provider google` is active, the system **shall** interface with Google Gemini (e.g. `gemini-1.5-flash`, `gemini-1.5-pro`) using the official Google Gen AI SDK (`google-genai` / `google-adk`), validating against standard Pydantic response schemas.
+  - `REQ-02`: **Where** `--provider ollama` is active, the system **shall** interface with local models via the official `ollama` Python library communicating with `http://localhost:11434`, supporting verified profiles for `llama3.1:8b`, `qwen2.5:7b`, and `llama3.2:3b`.
+- **If-Then (Graceful Offline & Key Validation Fallback)**:
+  - `REQ-03`: **If** `--provider google` is selected but `GEMINI_API_KEY` is missing, or **if** `--provider ollama` is selected but `localhost:11434` is unreachable, **then** the system **shall** surface clear diagnostic remediation steps and offer a simulated offline mock mode (`--provider mock`).
 
 ### Component 2: Agent Architecture & Structured Contracts
 - **Always (Ubiquitous)**:

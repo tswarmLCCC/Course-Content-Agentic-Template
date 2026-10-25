@@ -7,21 +7,29 @@
 
 ---
 
-## 1. Executive Summary & Google ADK vs. Open-Source Comparison
+## 1. Executive Summary: Dual-Track Architecture (Google Cloud + Local Ollama)
 
 In her Google Cloud Tech lecture, Smitha Kolan demonstrates a self-correcting multi-agent blog writer using Google's **Agent Development Kit (`google-adk`)**, **Gemini 1.5**, and the **ADK Web UI**.
 
-Our open-source Python architecture replaces every proprietary Google Cloud component with a transparent, local-first equivalent running on **Ollama** and **pure Python**:
+Rather than discarding the Google Cloud implementation, this architecture establishes a **Unified Dual-Backend Ecosystem** that preserves and supports **both** paradigms:
 
-| Capability / Layer | Google Cloud Tech Video Implementation | Open-Source Ollama + Python Plan |
+1. **Google Cloud Track (Production & Cloud Lab)**: Direct integration with **Google Gemini 1.5** (Flash / Pro) via `google-genai` and Google ADK conventions, preserving 100% fidelity with the lecture video and Google Codelab.
+2. **Local Open-Source Track (Zero-Cost & Private Lab)**: Direct integration with **Ollama** (`localhost:11434`) running open-weight models (`llama3.1:8b`, `qwen2.5:7b`, `llama3.2:3b`), enabling students and developers to run the exact same agent system locally without API keys, cloud bills, or network latency.
+3. **Mock Simulation Track (Offline & CI Testing)**: A deterministic client running realistic agent traces for instant local testing without GPUs or network dependencies.
+
+### Dual-Backend Comparative Architecture:
+
+| Capability / Layer | Google Cloud Track (Smitha Kolan Video) | Local Open-Source Track (Ollama) |
 | :--- | :--- | :--- |
-| **Model Runtime** | Google Vertex AI / Gemini 1.5 Pro | **Ollama** (`localhost:11434`) running `llama3.1:8b` or `qwen2.5:7b` |
-| **Agent Framework** | `google-adk` (Agent Development Kit) | **Pure Python + Pydantic + `ollama` SDK** (zero framework lock-in) |
-| **Structured Output** | Gemini Schema Definition | **Ollama Constrained Decoding** (`format=Schema.model_json_schema()`) |
-| **Tool Execution** | Google ADK Tool Bindings | **Ollama Native Function Calling** (`tools=[callable_fns]`) |
-| **Evaluation Loop** | `google-adk.LoopAgent` | **Deterministic Python Evaluator-Optimizer State Machine** |
-| **Visual Tracing** | Google ADK Web UI | **Rich Terminal Console + Standalone FastHTML/FastAPI Dashboard** |
-| **Cost & Privacy** | Cloud API metering, external data transit | **$0.00 cost, 100% offline, zero data egress** |
+| **Model Engine** | Google Gemini 1.5 Flash / Pro (`google-genai`) | Ollama (`llama3.1:8b`, `qwen2.5:7b`, `llama3.2:3b`) |
+| **Provider Flag** | `--provider google` (requires `GEMINI_API_KEY`) | `--provider ollama` (connects to `localhost:11434`) |
+| **Structured Output** | Gemini Pydantic Response Schema | Ollama Native Constrained Decoding (`format=Schema`) |
+| **Tool Execution** | Google ADK / Gemini Function Calling | Ollama Python Function Calling (`tools=[...]`) |
+| **Evaluation Loop** | Evaluator-Optimizer state machine (`google-adk`) | Evaluator-Optimizer state machine (Python coordinator) |
+| **Observability** | Google ADK Web UI & Rich Terminal Trace | Standalone Local Web Dashboard & Rich Terminal Trace |
+| **Deployment Use Case**| Enterprise cloud workflows & high-throughput labs | Local dev, privacy-sensitive data, offline learning |
+
+Both backends share the **exact same Pydantic contracts**, the **exact same agent state machine**, and the **exact same UI layer**, allowing users to benchmark Google Gemini against open-source models side-by-side with a single flag switch!
 
 ---
 
@@ -229,9 +237,14 @@ ollama-multiagent-blog/
 ├── pyproject.toml             # Dependencies (ollama, pydantic, rich, fastapi, uvicorn)
 ├── app/
 │   ├── __init__.py
-│   ├── config.py              # Model selection, Ollama endpoint, max_iterations
+│   ├── config.py              # Model selection, provider flag, Ollama endpoint, API keys
 │   ├── schemas.py             # Pydantic data contracts (BlogPlan, ValidationReport)
-│   ├── client.py              # Ollama client wrapper & MockOllamaClient fallback
+│   ├── providers/
+│   │   ├── __init__.py
+│   │   ├── base.py            # BaseLLMProvider abstract interface
+│   │   ├── google_provider.py # Google Gemini 1.5 Flash/Pro provider (google-genai / google-adk)
+│   │   ├── ollama_provider.py # Ollama local provider (llama3.1, qwen2.5, llama3.2)
+│   │   └── mock_provider.py   # Deterministic simulation provider for offline/CI
 │   ├── tools.py               # ReAct tool definitions (word count, reading level, search)
 │   ├── agents/
 │   │   ├── __init__.py
