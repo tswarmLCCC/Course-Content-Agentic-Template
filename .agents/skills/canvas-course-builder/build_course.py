@@ -78,18 +78,33 @@ def find_file(directory: str, patterns: List[str]) -> Optional[str]:
     return None
 
 
-def compile_course(config_path: str, units_dir: str, output_imscc: str, build_dir: Optional[str] = None):
+def compile_course(
+    config_path: str,
+    units_dir: str,
+    output_imscc: str,
+    build_dir: Optional[str] = None,
+    modular: bool = False,
+    units_filter: Optional[List[str]] = None
+):
     print("=" * 70)
     print("Portable Canvas Course Cartridge Compiler (DesignPLUS & Native WikiPages)")
     print("=" * 70)
 
     config = load_config(config_path)
-    c_code = config.get("course_code", "COURSE 1010")
-    c_title = config.get("course_title", "Sample Course")
+    c_code = config.get("course_code", config.get("module_code", "COURSE 1010"))
+    c_title = config.get("course_title", config.get("module_title", "Sample Course"))
     institution = config.get("institution", "Laramie County Community College")
-    print(f"Target Course: {c_code} - {c_title}")
-    print(f"Units Folder:  {units_dir}")
-    print(f"Output File:   {output_imscc}\n")
+
+    if modular:
+        print("[MODE: MODULAR IMPORT / STANDALONE MODULE BUNDLE]")
+        print("  - Preserves host course settings upon Canvas import.")
+        print("  - Omits course home page, course syllabus, and orientation module.")
+    else:
+        print("[MODE: FULL COURSE REFRESH]")
+
+    print(f"Target:       {c_code} - {c_title}")
+    print(f"Units Folder: {units_dir}")
+    print(f"Output File:  {output_imscc}\n")
 
     builder = CanvasCourseBuilder(config, output_imscc, build_dir=build_dir)
     builder.prepare_directories()
@@ -100,39 +115,40 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
     quizzes_gid = group_map.get("quizzes", list(group_map.values())[0])
 
     # 2. Core Settings
-    builder.build_core_settings()
+    builder.build_core_settings(is_modular=modular)
 
-    # 3. Native Syllabus Page & Word Document
-    syllabus_md_file = find_file(os.path.dirname(config_path), ["syllabus\\.md"])
-    syllabus_body = "<p>Welcome to modern online coursework.</p>"
-    if syllabus_md_file:
-        with open(syllabus_md_file, "r", encoding="utf-8") as sf:
-            syllabus_body = parse_markdown_to_html(sf.read())
+    # 3. Native Syllabus Page & Word Document (Full Course Mode Only)
+    if not modular:
+        syllabus_md_file = find_file(os.path.dirname(config_path), ["syllabus\\.md"])
+        syllabus_body = "<p>Welcome to modern online coursework.</p>"
+        if syllabus_md_file:
+            with open(syllabus_md_file, "r", encoding="utf-8") as sf:
+                syllabus_body = parse_markdown_to_html(sf.read())
 
-    # Build Word Syllabus .docx
-    docx_filename = f"{c_code.replace(' ', '_')}_Master_Syllabus.docx"
-    docx_path = os.path.join(builder.syllabi_dir, docx_filename)
-    try:
-        breakdown = [f"{g.get('name', 'Assignment')}: {g.get('weight', 0)}%" for g in config.get("assignment_groups", [])]
-        create_syllabus_docx(
-            output_path=docx_path,
-            course_code=c_code,
-            course_title=c_title,
-            term_str=config.get("term", "Fall 2026"),
-            institution=institution,
-            credits_str=config.get("credits", "3.0 Credit Hours"),
-            description=config.get("description", ""),
-            outcomes=config.get("learning_outcomes", []),
-            grading_breakdown=breakdown,
-            grading_scale=config.get("grading_scale", "A: 90 - 100% | B: 80 - 89% | C: 70 - 79% | D: 60 - 69% | F: 0 - 59%")
-        )
-        print(f"  [+] Generated Master Syllabus (.docx): {docx_filename}")
-    except Exception as e:
-        print(f"  [!] Note: docx syllabus generation skipped: {e}")
+        # Build Word Syllabus .docx
+        docx_filename = f"{c_code.replace(' ', '_')}_Master_Syllabus.docx"
+        docx_path = os.path.join(builder.syllabi_dir, docx_filename)
+        try:
+            breakdown = [f"{g.get('name', 'Assignment')}: {g.get('weight', 0)}%" for g in config.get("assignment_groups", [])]
+            create_syllabus_docx(
+                output_path=docx_path,
+                course_code=c_code,
+                course_title=c_title,
+                term_str=config.get("term", "Fall 2026"),
+                institution=institution,
+                credits_str=config.get("credits", "3.0 Credit Hours"),
+                description=config.get("description", ""),
+                outcomes=config.get("learning_outcomes", []),
+                grading_breakdown=breakdown,
+                grading_scale=config.get("grading_scale", "A: 90 - 100% | B: 80 - 89% | C: 70 - 79% | D: 60 - 69% | F: 0 - 59%")
+            )
+            print(f"  [+] Generated Master Syllabus (.docx): {docx_filename}")
+        except Exception as e:
+            print(f"  [!] Note: docx syllabus generation skipped: {e}")
 
-    # Build Native Syllabus HTML
-    docx_rel = os.path.relpath(docx_path, builder.web_res_dir).replace(os.sep, "/")
-    syllabus_html = f"""<div id="dp-wrapper_1" class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary">
+        # Build Native Syllabus HTML
+        docx_rel = os.path.relpath(docx_path, builder.web_res_dir).replace(os.sep, "/")
+        syllabus_html = f"""<div id="dp-wrapper_1" class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary">
   <header class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary">
     <h2 class="dp-heading dp-locked"><span class="dp-header-title">{html.escape(c_code)}: {html.escape(c_title)} Course Syllabus</span></h2>
   </header>
@@ -143,13 +159,30 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
 </div>
 {syllabus_body}
 """
-    with open(os.path.join(builder.settings_dir, "syllabus.html"), "w", encoding="utf-8") as f:
-        f.write(syllabus_html)
+        with open(os.path.join(builder.settings_dir, "syllabus.html"), "w", encoding="utf-8") as f:
+            f.write(syllabus_html)
+    else:
+        print("  [*] Modular Mode: Skipped Institutional Syllabus generation.")
 
     # 4. Discover Weekly Units & Pre-generate Module IDs
     unit_folders = []
     if os.path.exists(units_dir):
-        unit_folders = [f for f in sorted(os.listdir(units_dir)) if os.path.isdir(os.path.join(units_dir, f))]
+        raw_folders = [f for f in sorted(os.listdir(units_dir)) if os.path.isdir(os.path.join(units_dir, f))]
+        if units_filter:
+            for f in raw_folders:
+                for u_pat in units_filter:
+                    u_pat = u_pat.strip()
+                    if not u_pat:
+                        continue
+                    m = re.search(r"\bunit[_-]?0*(\d+)", f, re.IGNORECASE)
+                    if m and m.group(1) == u_pat.lstrip("0"):
+                        unit_folders.append(f)
+                        break
+                    elif u_pat.lower() in f.lower():
+                        unit_folders.append(f)
+                        break
+        else:
+            unit_folders = raw_folders
 
     print(f"  [*] Discovered {len(unit_folders)} unit folders under {units_dir}/")
 
@@ -182,26 +215,27 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
     mod_orient_id = make_canvas_id("module_orientation")
     unit_mod_ids = {u_idx: make_canvas_id(f"mod_unit_{u_idx}") for u_idx in range(1, len(unit_folders) + 1)}
 
-    # 5. Generate Front Page (home-page.html) with DesignPLUS Quick-Links Module Accordion
-    p_home_id = make_canvas_id("page_home_front")
-    p_start_here_id = make_canvas_id("page_start_here")
-    p_orient_syl_id = make_canvas_id("page_orient_syllabus")
+    if not modular:
+        # 5. Generate Front Page (home-page.html) with DesignPLUS Quick-Links Module Accordion
+        p_home_id = make_canvas_id("page_home_front")
+        p_start_here_id = make_canvas_id("page_start_here")
+        p_orient_syl_id = make_canvas_id("page_orient_syllabus")
 
-    mod_links_lis = [
-        f'<li><a class="list-group-item list-group-item-action" href="$CANVAS_OBJECT_REFERENCE$/modules/{mod_orient_id}"><i class="fas fa-map-marker-alt"></i> Getting Started - Course Orientation</a></li>'
-    ]
+        mod_links_lis = [
+            f'<li><a class="list-group-item list-group-item-action" href="$CANVAS_OBJECT_REFERENCE$/modules/{mod_orient_id}"><i class="fas fa-map-marker-alt"></i> Getting Started - Course Orientation</a></li>'
+        ]
 
-    for u_idx, u_folder in enumerate(unit_folders, 1):
-        u_title = u_folder.replace("_", " ").title()
-        u_title_clean = re.sub(r"^Unit\s*\d+\s*", "", u_title, flags=re.IGNORECASE).strip()
-        # Clean title: Use hyphen to prevent DesignPLUS accordion from truncating subtitle
-        u_display_title = f"Unit {u_idx:02d} - {u_title_clean}" if u_title_clean else f"Unit {u_idx:02d}"
-        m_id = unit_mod_ids[u_idx]
-        mod_links_lis.append(f'<li><a class="list-group-item list-group-item-action" href="$CANVAS_OBJECT_REFERENCE$/modules/{m_id}"><i class="fas fa-map-marker-alt"></i> {html.escape(u_display_title)}</a></li>')
+        for u_idx, u_folder in enumerate(unit_folders, 1):
+            u_title = u_folder.replace("_", " ").title()
+            u_title_clean = re.sub(r"^Unit\s*\d+\s*", "", u_title, flags=re.IGNORECASE).strip()
+            # Clean title: Use hyphen to prevent DesignPLUS accordion from truncating subtitle
+            u_display_title = f"Unit {u_idx:02d} - {u_title_clean}" if u_title_clean else f"Unit {u_idx:02d}"
+            m_id = unit_mod_ids[u_idx]
+            mod_links_lis.append(f'<li><a class="list-group-item list-group-item-action" href="$CANVAS_OBJECT_REFERENCE$/modules/{m_id}"><i class="fas fa-map-marker-alt"></i> {html.escape(u_display_title)}</a></li>')
 
-    mod_links_joined = "\n".join(mod_links_lis)
+        mod_links_joined = "\n".join(mod_links_lis)
 
-    home_html = f"""<html>
+        home_html = f"""<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>Home Page</title>
@@ -242,91 +276,91 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
 </div>
 </body>
 </html>"""
-    builder.add_wiki_page(p_home_id, "home-page.html", "Home Page", home_html, is_front_page=True)
-    print("  [+] Generated Native Canvas Front Page (home-page.html) with DesignPLUS Quick-Links Module Accordion")
+        builder.add_wiki_page(p_home_id, "home-page.html", "Home Page", home_html, is_front_page=True)
+        print("  [+] Generated Native Canvas Front Page (home-page.html) with DesignPLUS Quick-Links Module Accordion")
 
-    # 6. Generate Orientation Module ("Getting Started - Course Orientation")
-    orient_items = []
+        # 6. Generate Orientation Module ("Getting Started - Course Orientation")
+        orient_items = []
 
-    # Page: Start Here: Course Overview & Orientation
-    start_here_panels = [
-        ("How to Navigate this Course",
-         """<ul>
+        # Page: Start Here: Course Overview & Orientation
+        start_here_panels = [
+            ("How to Navigate this Course",
+             """<ul>
   <li><strong>Home Page:</strong> Displays your central course dashboard with the interactive module accordion and quick navigation links.</li>
   <li><strong>Modules:</strong> The primary roadmap where all units, readings, labs, and assessments are organized in chronological order.</li>
   <li><strong>Syllabus:</strong> Access the institutional course policies, contact hour budgets, and download your official Word (.docx) syllabus.</li>
   <li><strong>Grades &amp; SpeedGrader:</strong> View real-time evaluation rubrics, automated check-in results, and detailed instructor feedback.</li>
 </ul>"""),
-        ("Required Resources (Zero-Cost Educational Model)",
-         """<p>This course follows a strict <strong>Zero-Cost / Open-Educational Resource (OER)</strong> philosophy. You are NOT required to purchase proprietary textbooks:</p>
+            ("Required Resources (Zero-Cost Educational Model)",
+             """<p>This course follows a strict <strong>Zero-Cost / Open-Educational Resource (OER)</strong> philosophy. You are NOT required to purchase proprietary textbooks:</p>
 <ul>
   <li><strong>Cloud &amp; Local Runtimes:</strong> Python 3.10+, DuckDB CLI, Polars, Docker, and GitHub Codespaces.</li>
   <li><strong>Authoritative Documentation:</strong> Official engineering specifications and open-access industry guides.</li>
   <li><strong>Embedded Micro-Lectures:</strong> Verified video walk-throughs embedded directly inside each module.</li>
 </ul>"""),
-        ("Hands-on Technical Labs & Submission Workflow",
-         """<p>Each weekly module culminates in a hands-on applied laboratory assignment:</p>
+            ("Hands-on Technical Labs & Submission Workflow",
+             """<p>Each weekly module culminates in a hands-on applied laboratory assignment:</p>
 <ol>
   <li><strong>Read the Lab Guide:</strong> Review scenario constraints, architecture diagrams, and rubric expectations.</li>
   <li><strong>Implement &amp; Test Locally:</strong> Write and verify your code in your terminal or cloud sandbox.</li>
   <li><strong>Submit to Canvas:</strong> Upload your completed code files (.py, .sql, .parquet) or project repository links for grading.</li>
 </ol>"""),
-        ("Communication Expectations & Support",
-         """<p>We are dedicated to your technical growth and success. For questions and technical assistance:</p>
+            ("Communication Expectations & Support",
+             """<p>We are dedicated to your technical growth and success. For questions and technical assistance:</p>
 <ul>
   <li><strong>Canvas Inbox:</strong> Recommended for personal questions, grade reviews, and direct 1-on-1 communication.</li>
   <li><strong>Unit Discussion Boards:</strong> Recommended for debugging shared syntax hurdles, architecture trade-offs, and conceptual sparring.</li>
   <li><strong>Instructor Office Hours:</strong> Virtual open-door lab sessions are hosted weekly via Microsoft Teams / Zoom.</li>
 </ul>""")
-    ]
-    start_here_html = render_designplus_html(
-        "Start Here: Course Overview & Orientation",
-        f"<p>Welcome to <strong>{c_code}: {c_title}</strong>. Please review the navigation rules, open-access resources, and technical lab workflow below before beginning Unit 01.</p>",
-        start_here_panels,
-        p_start_here_id,
-        header_subtitle="Institutional Course Overview & Getting Started Guide"
-    )
-    builder.add_wiki_page(p_start_here_id, "start-here.html", "Start Here: Course Overview & Orientation", start_here_html)
-    orient_items.append({"type": "WikiPage", "title": "Start Here: Course Overview & Orientation", "ref": p_start_here_id, "indent": 0, "state": "active"})
+        ]
+        start_here_html = render_designplus_html(
+            "Start Here: Course Overview & Orientation",
+            f"<p>Welcome to <strong>{c_code}: {c_title}</strong>. Please review the navigation rules, open-access resources, and technical lab workflow below before beginning Unit 01.</p>",
+            start_here_panels,
+            p_start_here_id,
+            header_subtitle="Institutional Course Overview & Getting Started Guide"
+        )
+        builder.add_wiki_page(p_start_here_id, "start-here.html", "Start Here: Course Overview & Orientation", start_here_html)
+        orient_items.append({"type": "WikiPage", "title": "Start Here: Course Overview & Orientation", "ref": p_start_here_id, "indent": 0, "state": "active"})
 
-    # Page: Orientation - Learn with AI Guidelines
-    p_orient_ai_id = make_canvas_id("page_orient_learn_with_ai")
-    orient_ai_panels = [
-        ("The AI Pair Programmer Philosophy",
-         """<p>In this course, Artificial Intelligence is treated as an interactive technical co-pilot, code reviewer, and Socratic sparring partner—<strong>not a shortcut to bypass critical engineering reasoning</strong>.</p>
+        # Page: Orientation - Learn with AI Guidelines
+        p_orient_ai_id = make_canvas_id("page_orient_learn_with_ai")
+        orient_ai_panels = [
+            ("The AI Pair Programmer Philosophy",
+             """<p>In this course, Artificial Intelligence is treated as an interactive technical co-pilot, code reviewer, and Socratic sparring partner—<strong>not a shortcut to bypass critical engineering reasoning</strong>.</p>
 <p>Blindly copying and pasting unverified AI code into production pipelines causes silent data corruption, security breaches, and catastrophic performance degradation. In this course, you will practice <strong>Active Socratic Learning with AI</strong>: assigning AI models specialized reviewer roles to challenge your architecture and uncover edge cases.</p>"""),
-        ("The Big Four 100% Free AI Platforms",
-         """<p>Every AI exercise in this course is designed for <strong>100% free web chat tiers</strong>. You do NOT need paid subscriptions or private API keys:</p>
+            ("The Big Four 100% Free AI Platforms",
+             """<p>Every AI exercise in this course is designed for <strong>100% free web chat tiers</strong>. You do NOT need paid subscriptions or private API keys:</p>
 <ul>
   <li><strong>ChatGPT Free:</strong> <a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com</a> (GPT-4o-mini / Free tier).</li>
   <li><strong>Claude Free:</strong> <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> (Anthropic Claude 3.5 Sonnet / Haiku web interface).</li>
   <li><strong>Google Gemini Free:</strong> <a href="https://gemini.google.com" target="_blank" rel="noopener">gemini.google.com</a> (Free with any Google account).</li>
   <li><strong>Microsoft Copilot Free:</strong> <a href="https://copilot.microsoft.com" target="_blank" rel="noopener">copilot.microsoft.com</a> (Free web chat).</li>
 </ul>"""),
-        ("The Golden Rule: Verification Protocol",
-         """<p>Never submit AI-generated code without empirical proof of correctness! The foundational rule of this course:</p>
+            ("The Golden Rule: Verification Protocol",
+             """<p>Never submit AI-generated code without empirical proof of correctness! The foundational rule of this course:</p>
 <div style="background: #eff6ff; border-left: 4px solid #2563eb; padding: 1rem 1.25rem; margin: 1rem 0; border-radius: 0 4px 4px 0;">
   <strong>Empirical Verification Mandate:</strong> Every single query, Python transform, schema migration, or pipeline script must be executed and verified against a live local or cloud container environment prior to Canvas submission.
 </div>""")
-    ]
-    orient_ai_html = render_designplus_html(
-        "Orientation: Learn with AI — Course Guidelines & Free Tools",
-        "<p>Guidelines on using conversational AI co-pilots effectively and ethically as an engineering student.</p>",
-        orient_ai_panels,
-        p_orient_ai_id,
-        header_subtitle="AI Co-pilot Guidelines & Ethical Use Standards"
-    )
-    builder.add_wiki_page(p_orient_ai_id, "orientation-learn-with-ai.html", "Orientation: Learn with AI — Course Guidelines & Free Tools", orient_ai_html)
-    orient_items.append({"type": "WikiPage", "title": "Orientation: Learn with AI — Course Guidelines & Free Tools", "ref": p_orient_ai_id, "indent": 1, "state": "active"})
+        ]
+        orient_ai_html = render_designplus_html(
+            "Orientation: Learn with AI — Course Guidelines & Free Tools",
+            "<p>Guidelines on using conversational AI co-pilots effectively and ethically as an engineering student.</p>",
+            orient_ai_panels,
+            p_orient_ai_id,
+            header_subtitle="AI Co-pilot Guidelines & Ethical Use Standards"
+        )
+        builder.add_wiki_page(p_orient_ai_id, "orientation-learn-with-ai.html", "Orientation: Learn with AI — Course Guidelines & Free Tools", orient_ai_html)
+        orient_items.append({"type": "WikiPage", "title": "Orientation: Learn with AI — Course Guidelines & Free Tools", "ref": p_orient_ai_id, "indent": 1, "state": "active"})
 
-    # Page: Course Syllabus & Policies Page
-    p_orient_syl_id = make_canvas_id("page_orient_syllabus")
-    orient_syl_panels = [
-        ("Institutional Master Syllabus (.docx)",
-         f"""<p>Review the full institutional syllabus including course outcomes, ADA compliance, and grading scale:</p>
+        # Page: Course Syllabus & Policies Page
+        p_orient_syl_id = make_canvas_id("page_orient_syllabus")
+        orient_syl_panels = [
+            ("Institutional Master Syllabus (.docx)",
+             f"""<p>Review the full institutional syllabus including course outcomes, ADA compliance, and grading scale:</p>
 <p><a class="instructure_file_link" title="{docx_filename}" href="$IMS-CC-FILEBASE$/{docx_rel}?canvas_=1&amp;canvas_qs_wrap=1" target="_blank" rel="noopener" style="color: #2563eb; font-weight: 600; text-decoration: underline;">&#128196; Download {docx_filename}</a></p>"""),
-        ("Gradebook Weights & Evaluation Criteria",
-         """<table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1; font-size: 0.95em;">
+            ("Gradebook Weights & Evaluation Criteria",
+             """<table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1; font-size: 0.95em;">
   <thead>
     <tr style="background: #1e3a8a; color: #ffffff;">
       <th style="padding: 10px 14px; text-align: left; border: 1px solid #94a3b8;">Evaluation Category</th>
@@ -340,20 +374,22 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
     <tr style="background: #f8fafc;"><td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Comprehensive Course Capstone</td><td style="padding: 8px 14px; border: 1px solid #cbd5e1; text-align: center; font-weight: 600;">30%</td></tr>
   </tbody>
 </table>""")
-    ]
-    orient_syl_html = render_designplus_html(
-        "Course Syllabus & Institutional Policies",
-        "<p>Review institutional course expectations, contact hours, and grading policies.</p>",
-        orient_syl_panels,
-        p_orient_syl_id,
-        header_subtitle="Policies, Grading Scale & Master Document Download"
-    )
-    builder.add_wiki_page(p_orient_syl_id, "course-orientation-and-syllabus.html", "Course Syllabus & Institutional Policies", orient_syl_html)
-    orient_items.append({"type": "WikiPage", "title": "Course Syllabus & Institutional Policies", "ref": p_orient_syl_id, "indent": 1, "state": "active"})
+        ]
+        orient_syl_html = render_designplus_html(
+            "Course Syllabus & Institutional Policies",
+            "<p>Review institutional course expectations, contact hours, and grading policies.</p>",
+            orient_syl_panels,
+            p_orient_syl_id,
+            header_subtitle="Policies, Grading Scale & Master Document Download"
+        )
+        builder.add_wiki_page(p_orient_syl_id, "course-orientation-and-syllabus.html", "Course Syllabus & Institutional Policies", orient_syl_html)
+        orient_items.append({"type": "WikiPage", "title": "Course Syllabus & Institutional Policies", "ref": p_orient_syl_id, "indent": 1, "state": "active"})
 
-    # Register Orientation Module
-    builder.add_module(mod_orient_id, "Getting Started - Course Orientation", orient_items)
-    print("  [+] Generated Getting Started - Course Orientation Module (3 Native Pages)")
+        # Register Orientation Module
+        builder.add_module(mod_orient_id, "Getting Started - Course Orientation", orient_items)
+        print("  [+] Generated Getting Started - Course Orientation Module (3 Native Pages)")
+    else:
+        print("  [*] Modular Mode: Skipped Home Page and Course Orientation Module.")
 
     # 7. Process Weekly Units
     for u_idx, u_folder in enumerate(unit_folders, 1):
@@ -495,6 +531,23 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
         builder.build_assignment(assign_id, assign_title, labs_gid, assign_desc, points=50.0, allowed_ext="py,sql,parquet,csv,txt,pdf")
         module_items.append({"type": "Assignment", "title": assign_title, "ref": assign_id, "indent": 1, "state": "active"})
 
+        # Item 5b: Learn with AI — Supplemental Practice Drill (WikiPage)
+        ai_file = find_file(u_dir, ["learn_with_ai", "ai_drill", "supplemental.*ai"])
+        if ai_file:
+            ai_id = make_canvas_id(f"page_u{u_idx}_learn_with_ai")
+            ai_html_file = f"unit-{u_idx:02d}-learn-with-ai.html"
+            with open(ai_file, "r", encoding="utf-8") as af:
+                ai_body = parse_markdown_to_html(af.read())
+            ai_panels = [("Socratic AI Co-pilot Scenario & Practice Prompts", ai_body)]
+            ai_page_content = render_standard_page_html(
+                f"Unit {u_idx:02d}: Learn with AI — Supplemental Practice Drill",
+                "<p>Interactive roleplay scenario, free AI tools guide, and Socratic sparring prompt.</p>",
+                ai_panels,
+                ai_id
+            )
+            builder.add_wiki_page(ai_id, ai_html_file, f"Unit {u_idx:02d}: Learn with AI — Supplemental Practice Drill", ai_page_content)
+            module_items.append({"type": "WikiPage", "title": f"Unit {u_idx:02d}: Learn with AI — Supplemental Practice Drill", "ref": ai_id, "indent": 1, "state": "active"})
+
         # Item 6: Knowledge Check (Quiz) via QTI 1.2
         quiz_file = find_file(u_dir, ["quiz.*\\.md$", "^quiz\\.md$"])
         if quiz_file:
@@ -554,23 +607,43 @@ def compile_course(config_path: str, units_dir: str, output_imscc: str, build_di
 
 def main():
     parser = argparse.ArgumentParser(description="Compile Canvas Common Cartridge (.imscc) with DesignPLUS formatting and QTI quizzes.")
-    parser.add_argument("--config", default="course_config.json", help="Path to course configuration JSON file.")
+    parser.add_argument("--config", default="course_config.json", help="Path to course or module configuration JSON file.")
     parser.add_argument("--units-dir", default="units", help="Directory containing unit subdirectories.")
-    parser.add_argument("--output", default="", help="Path for output .imscc file (defaults to [code]_Complete.imscc).")
+    parser.add_argument("--output", default="", help="Path for output .imscc file.")
     parser.add_argument("--build-dir", default=None, help="Temporary staging build directory.")
+    parser.add_argument("--modular", action="store_true", help="Compile as a standalone module / modular import package (omits front page, syllabus, and orientation module so it can cleanly drop into an existing course).")
+    parser.add_argument("--units", default="", help="Optional comma-separated list of unit numbers or folder names to include (e.g. '1,2,3' or 'unit_01').")
 
     args = parser.parse_args()
+
+    units_filter = [u.strip() for u in args.units.split(",") if u.strip()] if args.units else None
 
     output_imscc = args.output
     if not output_imscc:
         try:
             cfg = load_config(args.config)
-            c_code = cfg.get("course_code", "Course").replace(" ", "_")
-            output_imscc = f"{c_code}_Complete.imscc"
+            name_stem = cfg.get("module_code", cfg.get("course_code", "Module")).replace(" ", "_")
+            if args.modular:
+                output_imscc = f"{name_stem}_Modules_Import.imscc"
+            else:
+                output_imscc = f"{name_stem}_Complete.imscc"
         except Exception:
-            output_imscc = "Canvas_Course_Package.imscc"
+            output_imscc = "Modules_Import.imscc" if args.modular else "Canvas_Course_Package.imscc"
+    elif args.modular:
+        # Guarantee naming convention includes descriptive term if not already in filename
+        lowered = output_imscc.lower()
+        if not any(k in lowered for k in ["modules_import", "standalone_module", "module_import", "modular"]):
+            base, ext = os.path.splitext(output_imscc)
+            output_imscc = f"{base}_Modules_Import{ext or '.imscc'}"
 
-    compile_course(args.config, args.units_dir, output_imscc, build_dir=args.build_dir)
+    compile_course(
+        args.config,
+        args.units_dir,
+        output_imscc,
+        build_dir=args.build_dir,
+        modular=args.modular,
+        units_filter=units_filter
+    )
 
 
 if __name__ == "__main__":

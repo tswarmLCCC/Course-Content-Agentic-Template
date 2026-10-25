@@ -60,11 +60,17 @@ Course-Content-Agentic-Template/
 │       ├── syllabi/           # Master Word syllabus template
 │       └── code_labs/         # Standardized code lab template
 │
-├── courses/                   # Siloed Course Catalog
+├── courses/                   # Siloed Full-Semester Course Catalog
 │   └── <course-id>/           # E.g. cosc-2060-data-engineering
 │       ├── README.md          # Course overview, terminal competencies, schedule
 │       ├── specs/             # Unit-specific specs (001-unit1-reading, etc.)
 │       └── content/           # Generated deliverables (Markdown readings, Canvas HTML, labs)
+│
+├── modules/                   # Standalone Module Bundles & Modular Imports
+│   └── <module-id>/           # E.g. agentic-ai-introduction
+│       ├── README.md          # Module overview, audience, target competencies
+│       ├── specs/             # Module-specific specs (001-xxx, etc.)
+│       └── units/             # 1-3 modular unit packages (readings, clinics, drills, labs)
 │
 └── ref/                       # Reference slide decks, PDFs, and gold-standard examples
 ```
@@ -73,12 +79,16 @@ Course-Content-Agentic-Template/
 
 ## 3. How to Use This System (Instructor Workflow)
 
-### A. Starting or Switching an Active Course
-To prevent the AI from confusing different subjects, all work is sandboxed through **[CURRENT.md](file:///c:/dev/Course-Content-Agentic-Template/CURRENT.md)**:
+### A. Target Modes & Monorepo Sandboxing
+This engine supports two distinct target modes:
+1. **Full Course Mode (`courses/<course-id>/`)**: Authoring complete semester-length courses. Packages the Canvas Front Page (`home-page.html`), Course Orientation module, Institutional Syllabus (`syllabus.html` and `.docx`), and all weekly units into `<Course_Code>_Complete.imscc`.
+2. **Modular Import Mode (`modules/<module-id>/`)**: Authoring standalone 1–3 module packages designed to drop cleanly into any existing course without altering the host course's front page, syllabus, or orientation settings. Output is saved to `modules/<module-id>/<Name>_Modules_Import.imscc`.
+
+To prevent the AI from confusing different subjects or modes, all work is sandboxed through **[CURRENT.md](file:///c:/dev/Course-Content-Agentic-Template/CURRENT.md)**:
 1. Open `CURRENT.md`.
-2. Set `Active Course: courses/<course-id>`.
+2. Set `Active Target: courses/<course-id>` or `modules/<module-id>`.
 3. Set `Active Iteration: specs/<NNN-feature-name>`.
-4. When you interact with the agent, it will strictly read and write inside that course directory.
+4. The agent strictly restricts all read, grep, write, and command operations to that specific directory.
 
 ### B. The 4-Stage Authoring Cycle
 
@@ -173,6 +183,9 @@ All tools are executable directly via standard Python 3:
 ```bash
 # 1. Compile Full Course into Canvas Common Cartridge (.imscc)
 python .agents/skills/canvas-course-builder/build_course.py --config courses/cosc-2060-data-engineering/course_config.json --units-dir courses/cosc-2060-data-engineering/units --output courses/cosc-2060-data-engineering/COSC_2060_Complete.imscc
+
+# 1b. Compile Standalone Module Bundle / Modular Import (.imscc)
+python .agents/skills/canvas-course-builder/build_course.py --modular --config modules/agentic-ai-introduction/module_config.json --units-dir modules/agentic-ai-introduction/units --output modules/agentic-ai-introduction/Agentic_AI_Introduction_Modules_Import.imscc
 
 # 2. Compile Markdown Quiz into Canvas QTI 1.2 XML
 python -c "import sys; sys.path.insert(0, '.agents/skills/canvas-course-builder/scripts'); import qti_builder; qs = qti_builder.parse_quiz_md('path/to/quiz.md'); xml = qti_builder.build_qti_xml('quiz_01', 'Unit 1 Quiz', qs); open('output/quiz.xml', 'w').write(xml)"

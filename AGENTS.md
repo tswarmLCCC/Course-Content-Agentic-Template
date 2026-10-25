@@ -12,8 +12,8 @@ Instructions for any AI agent or assistant working in this repository. Read this
 4. **Project Memory in Markdown**: The repository's markdown files are the project's permanent memory. Do not rely on ephemeral LLM chat history. Any requirement change, architectural decision, or plan update must be recorded directly in the project files.
 5. **Strict Scope Boundaries**: Honor the "Out of Scope" section in the spec and plan. If something seems missing or useful, ask the user first—never silently add unrequested features.
 6. **Check Before Checking Off**: Every task in `tasks.md` must have a verifiable check. Never mark a task complete without executing and demonstrating its verification.
-7. **Monorepo Course Sandboxing**: This repository holds multiple independent courses in `courses/<course-id>/`. The agent **must always check `CURRENT.md`** for the active course and strictly restrict search, read, and write operations to that specific course directory during course work.
-8. **Living Documentation Maintenance**: Maintain the master [README.md](file:///c:/dev/Course-Content-Agentic-Template/README.md) as a living document. Whenever new workflows, conventions, prompt patterns, or courses are established or updated, immediately update `README.md` to reflect them.
+7. **Monorepo Sandboxing (Courses & Modules)**: This repository holds both full semester courses in `courses/<course-id>/` and standalone modular imports in `modules/<module-id>/`. The agent **must always check `CURRENT.md`** for the active target and strictly restrict search, read, and write operations to that specific silo directory during authoring.
+8. **Living Documentation Maintenance**: Maintain the master [README.md](file:///c:/dev/Course-Content-Agentic-Template/README.md) as a living document. Whenever new workflows, conventions, prompt patterns, courses, or modules are established or updated, immediately update `README.md` to reflect them.
 9. **Idea Validation & Research Partner**: Actively research, stress-test, and validate architectural choices, technology selections, and curriculum sequencing before building. Do not merely construct what is proposed; evaluate pedagogical trade-offs (cognitive load on college sophomores, industry relevance, dependency ordering) and offer informed technical recommendations.
 10. **Interactive Pop-up Modals for Choices**: When presenting multiple choices, trade-offs, or decisions to the user, always use the interactive `ask_question` tool so the user can easily click their choice directly in the UI.
 
@@ -21,12 +21,12 @@ Instructions for any AI agent or assistant working in this repository. Read this
 
 ---
 
-## 2. Monorepo Structure & Course Sandboxing
+## 2. Monorepo Structure & Sandboxing
 
 ```
 Course-Content-Agentic-Template/
 ├── AGENTS.md                  # Master agent rules & lifecycle
-├── CURRENT.md                 # Single source of truth: Active Course & Active Iteration
+├── CURRENT.md                 # Single source of truth: Active Target & Active Iteration
 ├── .agents/                   # Shared Antigravity Workspace Skills
 │   └── skills/                # canvas-course-builder, slide-deck-generator, syllabus-docx-cloner, intake-scanner
 ├── docs/
@@ -34,19 +34,33 @@ Course-Content-Agentic-Template/
 │   └── playbooks/             # Pedagogical & production playbooks
 ├── specs/
 │   └── _templates/            # Shared templates (spec, plan, tasks, rubrics, syllabi)
-├── courses/                   # All individual courses live here
-│   └── <course-id>/           # Dedicated silo for a course
+├── courses/                   # Full Semester Course Silos
+│   └── <course-id>/           # E.g. cosc-2060-data-engineering
 │       ├── README.md          # Course overview, audience, competencies
 │       ├── specs/             # Course-specific specs (001-xxx, 002-xxx)
-│       └── content/           # Generated deliverables (HTML, Canvas pages, exercises)
+│       ├── units/             # Weekly unit packages (readings, labs, quizzes)
+│       └── <code_Complete.imscc> # Full course export
+├── modules/                   # Standalone Module Bundles & Modular Imports
+│   └── <module-id>/           # E.g. agentic-ai-introduction
+│       ├── README.md          # Module overview, audience, target competencies
+│       ├── specs/             # Module-specific specs (001-xxx, etc.)
+│       ├── units/             # 1-3 modular unit packages
+│       └── <name_Modules_Import.imscc> # Modular cartridge for dropping into any host course
 └── ref/                       # Reference materials and raw source documents
 ```
 
-### Sandboxing Rules for Agents:
-- **Always read `CURRENT.md` first** to determine the `Active Course`.
-- **Never cross course boundaries**: When working on `courses/course-A/`, never grep, read, or modify files in `courses/course-B/`.
-- **Leverage Shared Skills Without Polluting Courses**: Use the workspace automation skills in [`.agents/skills/`](file:///c:/dev/Course-Content-Agentic-Template/.agents/skills/) (such as `canvas-course-builder` for QTI quizzes and DesignPLUS HTML formatting) across any course. Never copy build scripts or Python tools directly into course content directories.
-- If the user asks for changes without specifying a course, prompt them to clarify which course or check `CURRENT.md`.
+### Sandboxing & Target Modes:
+1. **Full Course Mode (`courses/<course-id>/`)**:
+   - Compiles a complete Canvas course shell including Front Page (`home-page.html`), Course Orientation module, Institutional Syllabus (`syllabus.html` & `.docx`), and all weekly units.
+   - Output: `<Course_Code>_Complete.imscc` placed in the course directory.
+2. **Modular Import Mode (`modules/<module-id>/`)**:
+   - Compiles standalone 1–3 module packages intended to drop cleanly into any existing course without altering the host course's front page, syllabus, or orientation settings.
+   - Cartridge naming standard: Must include a descriptive name with `_Modules_Import.imscc` or `_Standalone_Module.imscc`.
+   - Output: Placed directly in the module directory (`modules/<module-id>/`).
+3. **Sandboxing Invariant**:
+   - **Always read `CURRENT.md` first** to determine the `Active Target`.
+   - **Never cross boundaries**: When working on `courses/course-A/` or `modules/module-B/`, never grep, read, or modify files outside that silo.
+   - Use shared skills in [`.agents/skills/`](file:///c:/dev/Course-Content-Agentic-Template/.agents/skills/) without copying scripts into course or module folders.
 
 ---
 

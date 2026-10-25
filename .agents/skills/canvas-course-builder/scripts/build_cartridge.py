@@ -85,7 +85,7 @@ class CanvasCourseBuilder:
             f.write(xml_str)
         return group_map
 
-    def build_core_settings(self):
+    def build_core_settings(self, is_modular: bool = False):
         """Generates context.xml, canvas_export.txt, files_meta.xml, and course_settings.xml."""
         c_code = self.config.get("course_code", "COURSE 1010")
         c_title = self.config.get("course_title", "Sample Course")
@@ -114,13 +114,14 @@ class CanvasCourseBuilder:
 </fileMeta>
 """)
 
+        default_view_tag = "<default_view>modules</default_view>" if is_modular else "<default_view>wiki</default_view>"
         with open(os.path.join(self.settings_dir, "course_settings.xml"), "w", encoding="utf-8") as f:
             f.write(f"""<?xml version="1.0" encoding="UTF-8"?>
 <course identifier="{self.course_id}" xmlns="http://canvas.instructure.com/xsd/cccv1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://canvas.instructure.com/xsd/cccv1p0 https://canvas.instructure.com/xsd/cccv1p0.xsd">
   <title>{html.escape(c_code)}: {html.escape(c_title)}</title>
   <course_code>{html.escape(c_code)}</course_code>
   <is_public>false</is_public>
-  <default_view>wiki</default_view>
+  {default_view_tag}
   <license>private</license>
   <grading_standard_enabled>true</grading_standard_enabled>
 </course>
@@ -316,10 +317,11 @@ class CanvasCourseBuilder:
         resources_xml = []
         
         # 1. Primary Canvas Native Course Settings & Sentinel Resource (CRITICAL for Canvas native import)
-        resources_xml.append(f"""    <resource identifier="{self.course_id}_syllabus" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="course_settings/syllabus.html" intendeduse="syllabus">
+        if os.path.exists(os.path.join(self.settings_dir, "syllabus.html")):
+            resources_xml.append(f"""    <resource identifier="{self.course_id}_syllabus" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="course_settings/syllabus.html" intendeduse="syllabus">
       <file href="course_settings/syllabus.html"/>
-    </resource>
-    <resource identifier="{self.course_id}" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="course_settings/canvas_export.txt">
+    </resource>""")
+        resources_xml.append(f"""    <resource identifier="{self.course_id}" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="course_settings/canvas_export.txt">
       <file href="course_settings/course_settings.xml"/>
       <file href="course_settings/module_meta.xml"/>
       <file href="course_settings/assignment_groups.xml"/>

@@ -1,0 +1,20 @@
+{
+  "module_code": "Agentic AI",
+  "module_title": "Introduction to Agentic AI & Autonomous Tools",
+  "course_code": "Agentic AI",
+  "course_title": "Introduction to Agentic AI & Autonomous Tools",
+  "institution": "Laramie County Community College",
+  "domain": "lccc-wy.instructure.com",
+  "description": "Foundational instruction in agentic architecture: tool calling, ReAct loops, planning, Model Context Protocol (MCP), and human-in-the-loop autonomous execution.",
+  "assignment_groups": [
+    { "key": "labs", "name": "Hands-on Agentic AI Labs", "weight": 50.0 },
+    { "key": "quizzes", "name": "Agentic AI Knowledge Checks", "weight": 30.0 },
+    { "key": "drills", "name": "Formative Architecture Drills", "weight": 20.0 }
+  ],
+  "learning_outcomes": [
+    "Differentiate between single-turn prompt-response LLM interactions and multi-turn autonomous agent loops.",
+    "Implement schema-validated JSON tool definitions and handle tool-call responses in Python.",
+    "Trace and debug ReAct (Reason + Act) loop execution, stopping conditions, and error recovery.",
+    "Evaluate security boundaries, prompt injection risks, and deterministic constraints for autonomous agent actions."
+  ]
+}
