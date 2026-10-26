@@ -2,11 +2,11 @@
 
 ## Active Workspace Target
 - **Active Target Type**: `Modular Import Bundle`
-- **Active Target**: `modules/agentic-ai-introduction`
-- **Target Title**: Introduction to Agentic AI & Autonomous Tools
-- **Target Path**: `modules/agentic-ai-introduction/`
-- **Active Iteration**: `specs/002-open-source-ollama-agent-project` (Stage 4: Completed & Verified)
-- **Status**: Dual-backend multi-agent blog pipeline (Google Gemini + Local Ollama) fully built, tested with pytest, and verified in `modules/agentic-ai-introduction/projects/dual-agentic-blog/`. All 14 EARS requirements PASS.
+- **Active Target**: `modules/agentic-software-engineering`
+- **Target Title**: Agentic Software Engineering & The New SDLC
+- **Target Path**: `modules/agentic-software-engineering/`
+- **Active Iteration**: `specs/001-module-specification-and-scaffold` (Stage 4: Completed & Verified)
+- **Status**: 3-Unit In-Depth Modular Bundle established. Unit 01 (Vibe Coding vs. Agentic SDLC & The 10/90 Harness Rule) fully authored with all 8 Canvas items, starter SDD harness, and automated test suite. Canvas Common Cartridge (`Agentic_Software_Engineering_Modules_Import.imscc`) compiled cleanly with 0 errors. All 14 EARS requirements PASS.
 
 ---
 
@@ -21,6 +21,7 @@
 | Module ID | Module Title | Completed Slices | Active Stage | Directory |
 |---|---|---|---|---|
 | `agentic-ai-introduction` | Introduction to Agentic AI & Autonomous Tools | Unit 01 (Foundations & Canvas Cartridge) + Dual-Backend Agentic Blog Project (Google Gemini + Ollama + Web UI) | Production Ready for Canvas Import & Local Lab Execution | [modules/agentic-ai-introduction/](file:///c:/dev/Course-Content-Agentic-Template/modules/agentic-ai-introduction/README.md) |
+| `agentic-software-engineering` | Agentic Software Engineering & The New SDLC | Initial Scaffolding & 3-Unit In-Depth Architecture (Harness Engineering, Spec-Driven SDLC, FastMCP & Verification) | Stage 1: Specification & Design | [modules/agentic-software-engineering/](file:///c:/dev/Course-Content-Agentic-Template/modules/agentic-software-engineering/README.md) |
 
 ---
 

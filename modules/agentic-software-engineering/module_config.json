@@ -1,0 +1,21 @@
+{
+  "module_code": "AENG 2100",
+  "module_title": "Agentic Software Engineering & The New SDLC",
+  "course_code": "AENG 2100",
+  "course_title": "Agentic Software Engineering & The New SDLC",
+  "institution": "Laramie County Community College",
+  "domain": "lccc-wy.instructure.com",
+  "description": "A high-rigor, hands-on exploration of the AI-transformed Software Development Life Cycle (SDLC). Students transcend casual 'vibe coding' to engineer deterministic agent harnesses, enforce specification-driven development (SDD), design Model Context Protocol (FastMCP) tool servers, manage context token economics, and orchestrate automated test-driven multi-agent pipelines.",
+  "assignment_groups": [
+    { "key": "labs", "name": "Applied Agentic Engineering Labs", "weight": 50.0 },
+    { "key": "quizzes", "name": "SDLC Architecture Knowledge Checks", "weight": 30.0 },
+    { "key": "drills", "name": "Formative Context & Harness Drills", "weight": 20.0 }
+  ],
+  "learning_outcomes": [
+    "Differentiate casual vibe coding from disciplined agentic engineering using Google's 10/90 Harness Rule.",
+    "Formulate machine-actionable specifications using EARS syntax and repository rule governance (AGENTS.md).",
+    "Engineer Model Context Protocol (FastMCP) tool servers with Pydantic contracts and sandbox execution.",
+    "Architect progressive disclosure skill registries to eliminate context pollution and optimize token economics.",
+    "Implement closed-loop, test-driven self-healing agent pipelines with automated regression verification."
+  ]
+}

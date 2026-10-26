@@ -217,11 +217,18 @@ Located in [`specs/_templates/`](file:///c:/dev/Course-Content-Agentic-Template/
 
 ---
 
-## 6. Active Courses in this Workspace
+## 6. Active Courses & Modular Bundles in this Workspace
 
+### Full Semester Courses (`courses/`)
 | Course ID | Course Code & Title | Units | Active Stage | Directory |
 |---|---|---|---|---|
 | `cosc-2060-data-engineering` | COSC 2060: Modern Data Engineering & AI Infrastructure | 8 Units (16 Wks) | **Production Canvas Cartridge (.imscc) Compiled** (Readings, Labs, 80 QTI Quizzes, 8 DS-to-DE Transition Notebooks, 8 Coding Clinic PPTX Decks & Word Syllabus) | [courses/cosc-2060-data-engineering/](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/README.md) |
+
+### Standalone Modular Bundles (`modules/`)
+| Module ID | Module Title | Units | Active Stage | Directory |
+|---|---|---|---|---|
+| `agentic-ai-introduction` | Introduction to Agentic AI & Autonomous Tools | 1 Unit + Capstone Project | **Production Ready** (Unit 01 Canvas Cartridge + Dual-Backend Gemini/Ollama Blog Pipeline Project) | [modules/agentic-ai-introduction/](file:///c:/dev/Course-Content-Agentic-Template/modules/agentic-ai-introduction/README.md) |
+| `agentic-software-engineering` | Agentic Software Engineering & The New SDLC | 3 Units | **Stage 1: Specification & Design** (The 10/90 Harness, Spec-Driven Development, Context Engineering, FastMCP & Multi-Agent CI/CD) | [modules/agentic-software-engineering/](file:///c:/dev/Course-Content-Agentic-Template/modules/agentic-software-engineering/README.md) |
 
 
 ---
