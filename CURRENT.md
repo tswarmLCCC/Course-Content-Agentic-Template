@@ -2,11 +2,11 @@
 
 ## Active Workspace Target
 - **Active Target Type**: `Modular Import Bundle`
-- **Active Target**: `modules/agentic-software-engineering`
-- **Target Title**: Agentic Software Engineering & The New SDLC
-- **Target Path**: `modules/agentic-software-engineering/`
+- **Active Target**: `modules/aiml-1010-generative-ai-update`
+- **Target Title**: AIML 1010: Generative AI & Agentic Curriculum Update
+- **Target Path**: `modules/aiml-1010-generative-ai-update/`
 - **Active Iteration**: `specs/001-module-specification-and-scaffold` (Stage 4: Completed & Verified)
-- **Status**: 3-Unit In-Depth Modular Bundle established. Unit 01 (Vibe Coding vs. Agentic SDLC & The 10/90 Harness Rule) fully authored with all 8 Canvas items, starter SDD harness, and automated test suite. Canvas Common Cartridge (`Agentic_Software_Engineering_Modules_Import.imscc`) compiled cleanly with 0 errors. All 14 EARS requirements PASS.
+- **Status**: Production-ready 9-unit modular Canvas Common Cartridge (`AIML_1010_Generative_AI_Update_Modules_Import.imscc`, 28.6 MB) compiled with 0 XML errors. Includes all 9 notes-pages slide PDFs, 9 audited QTI 1.2 quizzes, 9 DesignPLUS reading pages, 9 native assignments with rubrics, and 9 imsdt_xmlv1p1 discussion topics. 100% PASS on all 14 EARS requirements.
 
 ---
 
@@ -20,8 +20,9 @@
 ### Standalone Module Bundles & Modular Imports (`modules/`)
 | Module ID | Module Title | Completed Slices | Active Stage | Directory |
 |---|---|---|---|---|
+| `aiml-1010-generative-ai-update` | AIML 1010: Generative AI & Agentic Curriculum Update | Ingestion of 9 modular units (Agentic AI, Prompt Eng I & II, Transformers, Diffusion, Pre-Training, Fine-Tuning, Prototyping, Alignment) into modular Canvas cartridge | Production Ready (Stage 4 Completed & Verified) | [modules/aiml-1010-generative-ai-update/](file:///c:/dev/Course-Content-Agentic-Template/modules/aiml-1010-generative-ai-update/README.md) |
 | `agentic-ai-introduction` | Introduction to Agentic AI & Autonomous Tools | Unit 01 (Foundations & Canvas Cartridge) + Dual-Backend Agentic Blog Project (Google Gemini + Ollama + Web UI) | Production Ready for Canvas Import & Local Lab Execution | [modules/agentic-ai-introduction/](file:///c:/dev/Course-Content-Agentic-Template/modules/agentic-ai-introduction/README.md) |
-| `agentic-software-engineering` | Agentic Software Engineering & The New SDLC | Initial Scaffolding & 3-Unit In-Depth Architecture (Harness Engineering, Spec-Driven SDLC, FastMCP & Verification) | Stage 1: Specification & Design | [modules/agentic-software-engineering/](file:///c:/dev/Course-Content-Agentic-Template/modules/agentic-software-engineering/README.md) |
+| `agentic-software-engineering` | Agentic Software Engineering & The New SDLC | Initial Scaffolding & 3-Unit In-Depth Architecture (Harness Engineering, Spec-Driven SDLC, FastMCP & Verification) | Stage 4: Completed & Verified | [modules/agentic-software-engineering/](file:///c:/dev/Course-Content-Agentic-Template/modules/agentic-software-engineering/README.md) |
 
 ---
 

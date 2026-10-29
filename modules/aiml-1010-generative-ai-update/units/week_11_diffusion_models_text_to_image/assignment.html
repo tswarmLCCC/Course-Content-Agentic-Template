@@ -1,0 +1,67 @@
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1e293b; max-width: 900px; margin: 0 auto; padding: 1.5rem;">
+<div style="background: #f8fafc; border-left: 4px solid #1e3a8a; padding: 1rem 1.25rem; margin-bottom: 1.5rem; border-radius: 4px;">
+<h2 style="color: #1e3a8a; margin-top: 0; font-size: 1.5rem;">Week 11 Applied Lab: Cross-Modal Generative AI &amp; Image Synthesis</h2>
+<p style="margin-bottom: 0;"><strong>Assignment Objective:</strong> Investigate and compare the mathematical and operational mechanics of generative diffusion models across image synthesis, inpainting, and cross-modality transformations.</p>
+</div>
+
+<h3 style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem;">Laboratory Instructions & Tasks</h3>
+<h4>Step 1: Modality Selection</h4>
+<p>Select two distinct generative modality processes: (A) Text-to-Image Synthesis vs. (B) Inpainting / Outpainting image reconstruction.</p>
+<h4>Step 2: Empirical Parameter Investigation</h4>
+<p>Using an interactive environment (e.g., Hugging Face Spaces, Automatic1111, or OpenVINO notebooks), run generation experiments systematically varying: (1) Sampling Steps (10 vs 30 vs 50), (2) Classifier-Free Guidance (CFG scale 3.0 vs 7.5 vs 15.0), and (3) Random Seeds.</p>
+<h4>Step 3: Comparative Analysis &amp; Inpainting Evaluation</h4>
+<p>Analyze the trade-offs: how does step count affect high-frequency image details vs. latency? In the inpainting experiment, evaluate how seamless the latent boundary blends with masked image regions.</p>
+<h4>Step 4: Formal Research Report</h4>
+<p>Produce a formal comparative laboratory report with annotated visual comparisons, parameter grids, discussion of VAE latent compression, and ethical considerations surrounding synthetic imagery.</p>
+
+<h3 style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 2rem;">Submission Guidelines</h3>
+<ul>
+<li><strong>Submission Types:</strong> Online text entry or file upload.</li>
+<li><strong>Allowed File Extensions:</strong> <code>pdf,docx</code></li>
+<li><strong>Due Date:</strong> Sunday at 11:59 PM (Midnight) Mountain Time.</li>
+<li><strong>Total Points:</strong> 50.0 pts</li>
+</ul>
+
+<h3 style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 2rem;">Grading Rubric</h3>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1; margin-top: 1rem;">
+<thead>
+<tr style="background: #1e3a8a; color: #ffffff;">
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: left; width: 25%;">Criterion</th>
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: left; width: 45%;">Description</th>
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; width: 15%;">Points</th>
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center; width: 15%;">Standard</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background: #ffffff;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Technical Execution</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">All required steps, workflows, prompts, and tool interactions are fully implemented without omissions.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">20.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #f8fafc;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Analytical Rigor & Depth</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">Evaluations, reflections, and comparative analyses demonstrate deep technical comprehension grounded in unit concepts.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">15.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #ffffff;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Adherence to Constraints</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">Output schemas, file formats, word counts, and formatting constraints are strictly respected.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">10.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #f8fafc;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Clarity & Presentation</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">Clear documentation, professional layout, complete citations, and reproducible code/prompts.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">5.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #e2e8f0; font-weight: bold;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;" colspan="2">Total Possible Points</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right;">50.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">100%</td>
+</tr>
+</tbody>
+</table>
+</div>

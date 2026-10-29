@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Reading - Diffusion Models and Text-to-Image Generation</title>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+<meta name="editor_type" content="rce"/>
+</head>
+<body>
+<div id="dp-wrapper" class="dp-wrapper dp-hdg-txt-h4-dp-primary dp-hdg-txt-h5-dp-primary dp-hdg-txt-h6-dp-primary dp-hdg-brdr-h3-1 dp-hdg-brdr-h5-1 dp-hdg-brdr-h6-1 dp-hdg-i-txt-h5-dp-primary dp-hdg-i-txt-h6-dp-primary dp-hdg-i-txt-h4-dp-primary dp-hdg-d-h4-table-l dp-hdg-d-h5-table-l dp-hdg-d-h6-table-l dp-hdg-i-bg-h2-dp-primary dp-hdg-i-sz-h2-in dp-hdg-i-sz-h3-in dp-hdg-i-sz-h5-in dp-hdg-i-sz-h6-in dp-hdg-i-styl-h2-brdr-b dp-hdg-i-cp-brdr-h2-dp-secondary dp-hdg-i-cp-brdr-h3-dp-secondary dp-hdg-i-cp-brdr-h4-dp-secondary dp-hdg-i-cp-brdr-h5-dp-secondary dp-hdg-i-brdr-h2-4 dp-hdg-i-brdr-h5-4 dp-hdg-i-brdr-h6-4 dp-hdg-i-cp-brdr-h6-dp-secondary dp-hdg-txt-h2-dp-primary dp-hdg-txt-h3-dp-primary dp-hdg-i-styl-h3-brdr-b dp-hdg-i-brdr-h3-2 dp-hdg-b-h2-brdr-b dp-hdg-brdr-h2-1 dp-hdg-cp-brdr-h2-dp-gray dp-hdg-b-h3-brdr-b dp-hdg-cp-brdr-h3-dp-gray dp-hdg-i-bg-h3-dp-primary dp-hdg-i-sz-h4-in dp-hdg-b-h4-brdr-b dp-hdg-cp-brdr-h4-dp-gray dp-hdg-i-styl-h4-brdr-b dp-hdg-i-brdr-h4-4" data-header-class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+<header class="dp-header dp-badge"></header>
+<header class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+<h2 class="dp-heading dp-has-icon"><i class="dp-icon fas fa-palette" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span class="dp-header-title">Week 11: Diffusion Models and the Evolution of Text-to-Image Generation</span></h2>
+</header>
+<div class="dp-column-container container-fluid">
+<div class="row">
+<div class="col-12">
+<div style="float: right; width: 35%; min-width: 280px; margin-left: 20px; margin-bottom: 20px;">
+<div class="dp-card card dp-shadow-b6 cp-bg-dp-primary">
+<h4 class="dp-has-icon dp-locked"><i class="dp-icon fas fa-bullseye cp-bg-dp-primary" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span style="color: #ffffff;"><strong>Unit Objectives</strong></span></h4>
+<div class="card-body">
+<ul>
+<li>Contrast diffusion models with Generative Adversarial Networks (GANs) and Variational Autoencoders (VAEs).</li>
+<li>Dissect the mathematical mechanics of Forward Diffusion (noise addition) and Reverse Diffusion (iterative denoising).</li>
+<li>Examine Latent Diffusion Models (LDMs) and the computational role of the VAE latent space.</li>
+<li>Analyze cross-attention text conditioning using vision-language embeddings (CLIP/T5).</li>
+<li>Evaluate advanced image manipulation techniques: Inpainting, Outpainting, and Classifier-Free Guidance (CFG).</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-link" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Required Reading &amp; Slide Deck</span></strong></h3>
+<p><a class="instructure_file_link inline_disabled" href="$IMS-CC-FILEBASE$/slides/[Slides]%20Week%2011%20-%20GAI%20Notes.pdf?canvas_=1&amp;canvas_qs_wrap=1" target="_blank"><strong>Briefing Slide Deck &amp; Speaker Notes: Week 11 Diffusion Models and Image Synthesis</strong></a></p>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">The Problem Statement</span></strong></h3>
+<p>Early generative computer vision was dominated by Generative Adversarial Networks (GANs). While capable of generating sharp images, GANs suffered from notorious training instability, hyperparameter sensitivity, and mode collapse (generating only a narrow subset of training data). Furthermore, conditioning GANs on complex, nuanced natural language descriptions proved brittle. Diffusion models solved these foundational challenges by reformulating image synthesis as a continuous physical process of iterative denoising, establishing a new paradigm for high-fidelity, controllable multimodal generation.</p>
+<hr class="dp-hr-color-dp-primary w-100 dp-hr-pill">
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Theoretical Framework</span></strong></h3>
+<p><strong>The Denoising Diffusion Framework (DDPM):</strong> Diffusion models operate across two mirrored processes:</p>
+<ul>
+<li><strong>Forward Process (q):</strong> A fixed Markov chain that gradually corrupts a clean image x_0 by adding Gaussian noise over T discrete timesteps according to a variance schedule beta_1, ..., beta_T. At timestep T, the image is indistinguishable from isotropic Gaussian noise.</li>
+<li><strong>Reverse Process (p_theta):</strong> A learned neural network (traditionally a U-Net with attention layers, or a Diffusion Transformer / DiT) trained to predict the exact noise vector added at timestep t, allowing the algorithm to subtract the noise and reconstruct a clean sample.</li>
+</ul>
+<p><strong>Latent Diffusion Models (LDMs):</strong> Running diffusion directly in high-resolution pixel space (e.g. 1024x1024x3 = 3.1 million values) requires immense computational power. Stable Diffusion revolutionized the field by first training a Variational Autoencoder (VAE) to compress images 8x into a compact latent space (128x128x4), performing the iterative diffusion process entirely within this lower-dimensional manifold, and decoding the final latent back into pixels.</p>
+<p><strong>Text Conditioning via Cross-Attention:</strong> A pre-trained text encoder (such as CLIP ViT-L or T5) converts text prompts into embedding vectors. Inside the diffusion U-Net, cross-attention layers allow intermediate visual latent features to attend to text tokens, steering the generated content to match the text prompt.</p>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-laptop-code" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Implementation Guide</span></strong></h3>
+<p>Key parameters and workflows when generating and editing images via diffusion:</p>
+<ol>
+<li><strong>Classifier-Free Guidance (CFG Scale):</strong> Balances prompt adherence against image diversity. Low CFG (3-5) produces creative, diverse images; moderate CFG (7-9) balances quality and prompt adherence; high CFG (15+) creates oversaturated, hyper-literal renders.</li>
+<li><strong>Denoising Sampling Schedulers:</strong> Algorithms like DDIM, Euler Ancestral, and DPM++ Solve the reverse diffusion differential equations in 20-30 steps rather than 1,000 steps, cutting generation latency by 97%.</li>
+<li><strong>Inpainting & Outpainting:</strong> By masking specific pixels in latent space and conditioning the reverse process on unmasked boundaries, models can seamlessly fill in missing elements or expand canvas boundaries.</li>
+<li><strong>Negative Prompting:</strong> Implemented by calculating guidance away from unwanted terms during classifier-free guidance, suppressing artifacts, blurry details, and undesirable visual motifs.</li>
+</ol>
+<hr class="dp-hr-color-dp-primary w-100 dp-hr-pill">
+
+<div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100">
+<div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i></div>
+<div class="card-body">
+<h4 class="card-title dp-font-oswald">Conceptual Exercises &amp; Applications</h4>
+<hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px;">
+<p>To deepen your comprehension of this unit's concepts and prepare for the weekly discussion board and hands-on lab, reflect on the following exploratory challenges:</p>
+<ul>
+<li>Explain why adding Gaussian noise in the forward process can be computed analytically in a single step at any arbitrary timestep t without calculating all preceding steps.</li>
+<li>Compare the computational footprint of pixel-space diffusion vs. latent-space diffusion for generating a 1024x1024 image.</li>
+<li>Analyze the ethical and copyright implications of training vision-language models on web-scraped artwork without artist attribution.</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

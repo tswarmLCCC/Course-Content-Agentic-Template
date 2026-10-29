@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Reading - LLM Alignment and the Responsible Use of Generative AI</title>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+<meta name="editor_type" content="rce"/>
+</head>
+<body>
+<div id="dp-wrapper" class="dp-wrapper dp-hdg-txt-h4-dp-primary dp-hdg-txt-h5-dp-primary dp-hdg-txt-h6-dp-primary dp-hdg-brdr-h3-1 dp-hdg-brdr-h5-1 dp-hdg-brdr-h6-1 dp-hdg-i-txt-h5-dp-primary dp-hdg-i-txt-h6-dp-primary dp-hdg-i-txt-h4-dp-primary dp-hdg-d-h4-table-l dp-hdg-d-h5-table-l dp-hdg-d-h6-table-l dp-hdg-i-bg-h2-dp-primary dp-hdg-i-sz-h2-in dp-hdg-i-sz-h3-in dp-hdg-i-sz-h5-in dp-hdg-i-sz-h6-in dp-hdg-i-styl-h2-brdr-b dp-hdg-i-cp-brdr-h2-dp-secondary dp-hdg-i-cp-brdr-h3-dp-secondary dp-hdg-i-cp-brdr-h4-dp-secondary dp-hdg-i-cp-brdr-h5-dp-secondary dp-hdg-i-brdr-h2-4 dp-hdg-i-brdr-h5-4 dp-hdg-i-brdr-h6-4 dp-hdg-i-cp-brdr-h6-dp-secondary dp-hdg-txt-h2-dp-primary dp-hdg-txt-h3-dp-primary dp-hdg-i-styl-h3-brdr-b dp-hdg-i-brdr-h3-2 dp-hdg-b-h2-brdr-b dp-hdg-brdr-h2-1 dp-hdg-cp-brdr-h2-dp-gray dp-hdg-b-h3-brdr-b dp-hdg-cp-brdr-h3-dp-gray dp-hdg-i-bg-h3-dp-primary dp-hdg-i-sz-h4-in dp-hdg-b-h4-brdr-b dp-hdg-cp-brdr-h4-dp-gray dp-hdg-i-styl-h4-brdr-b dp-hdg-i-brdr-h4-4" data-header-class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+<header class="dp-header dp-badge"></header>
+<header class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+<h2 class="dp-heading dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span class="dp-header-title">Week 16: LLM Alignment and the Responsible Use of Generative AI</span></h2>
+</header>
+<div class="dp-column-container container-fluid">
+<div class="row">
+<div class="col-12">
+<div style="float: right; width: 35%; min-width: 280px; margin-left: 20px; margin-bottom: 20px;">
+<div class="dp-card card dp-shadow-b6 cp-bg-dp-primary">
+<h4 class="dp-has-icon dp-locked"><i class="dp-icon fas fa-bullseye cp-bg-dp-primary" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span style="color: #ffffff;"><strong>Unit Objectives</strong></span></h4>
+<div class="card-body">
+<ul>
+<li>Define the Alignment Problem and analyze the tensions within the Helpful, Harmless, and Honest (HHH) framework.</li>
+<li>Examine Reinforcement Learning from Human Feedback (RLHF) and Proximal Policy Optimization (PPO).</li>
+<li>Understand Constitutional AI (RLAIF) and automated self-critique mechanisms.</li>
+<li>Analyze Direct Preference Optimization (DPO) and reference-free preference modeling.</li>
+<li>Examine adversarial vulnerabilities: prompt injection, jailbreaking, data poisoning, and enterprise red teaming.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-link" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Required Reading &amp; Slide Deck</span></strong></h3>
+<p><a class="instructure_file_link inline_disabled" href="$IMS-CC-FILEBASE$/slides/[Slides]%20Week%2016%20-%20GAI%20Notes.pdf?canvas_=1&amp;canvas_qs_wrap=1" target="_blank"><strong>Briefing Slide Deck &amp; Speaker Notes: Week 16 LLM Alignment and Responsible AI</strong></a></p>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">The Problem Statement</span></strong></h3>
+<p>Pre-training language models on raw internet text teaches them to predict human language, including hate speech, biological weapon synthesis, malicious code, and deceptive propaganda. An unaligned model has raw capability without human values. As AI systems become more autonomous and integrated into critical infrastructure, technical alignment and responsible deployment frameworks are essential to ensure models remain beneficial, trustworthy, safe, and accountable to human society.</p>
+<hr class="dp-hr-color-dp-primary w-100 dp-hr-pill">
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Theoretical Framework</span></strong></h3>
+<p><strong>The Alignment Problem & The HHH Taxonomy:</strong> Alignment is the technical discipline of ensuring an AI's behavior conforms to intended human objectives and ethical standards. The industry standard framework evaluates three axes:</p>
+<ul>
+<li><strong>Helpful:</strong> The model accurately understands and fulfills user instructions.</li>
+<li><strong>Harmless:</strong> The model refuses to generate illegal, dangerous, hateful, or abusive content.</li>
+<li><strong>Honest:</strong> The model conveys accurate information and expresses calibrated confidence, avoiding deception and hallucination.</li>
+</ul>
+<p><strong>The Alignment Methodology Continuum:</strong></p>
+<ol>
+<li><strong>Reinforcement Learning from Human Feedback (RLHF):</strong> Human annotators rank candidate model completions. A reward model is trained on these pairwise preferences. Then, Proximal Policy Optimization (PPO) fine-tunes the generative policy to maximize predicted reward while penalizing drift from the base model via KL-divergence.</li>
+<li><strong>Constitutional AI (RLAIF):</strong> Replaces human preference labeling with AI self-critique guided by a written 'constitution' of safety and fairness principles.</li>
+<li><strong>Direct Preference Optimization (DPO):</strong> Solves the RLHF objective directly using cross-entropy loss over preferred vs dispreferred completions, eliminating the complexity and instability of training separate reward models and RL policy networks.</li>
+</ol>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-laptop-code" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Implementation Guide</span></strong></h3>
+<p>Enterprise guardrails and responsible deployment protocols:</p>
+<ol>
+<li><strong>Structured Red Teaming:</strong> Systematically subject models to adversarial attacks (hypothetical framing, roleplay jailbreaks, encoding obfuscation) before public release.</li>
+<li><strong>Input and Output Guardrails:</strong> Deploy lightweight secondary classifiers (e.g., Llama-Guard, NeMo Guardrails) to scan user queries and model outputs for policy violations in real time.</li>
+<li><strong>Calibrated Refusals:</strong> Train models to refuse harmful requests neutrally without preachiness, patronizing tone, or false positives on benign educational queries.</li>
+<li><strong>Socio-Technical Governance:</strong> Pair technical alignment with institutional governance: human auditing, transparent model cards, and clear escalation pathways for automated mistakes.</li>
+</ol>
+<hr class="dp-hr-color-dp-primary w-100 dp-hr-pill">
+
+<div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100">
+<div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i></div>
+<div class="card-body">
+<h4 class="card-title dp-font-oswald">Conceptual Exercises &amp; Applications</h4>
+<hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px;">
+<p>To deepen your comprehension of this unit's concepts and prepare for the weekly discussion board and hands-on lab, reflect on the following exploratory challenges:</p>
+<ul>
+<li>Analyze a refusal dilemma where being helpful directly conflicts with being harmless, and formulate the model&#x27;s ideal response.</li>
+<li>Compare the operational complexity, cost, and bias profiles of RLHF with human annotators versus Constitutional AI with model self-critique.</li>
+<li>Design a 5-point red teaming test suite targeting demographic bias in an automated hiring screening assistant.</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

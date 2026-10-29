@@ -1,0 +1,80 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Reading - Prompt Engineering I</title>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+<meta name="editor_type" content="rce"/>
+</head>
+<body>
+<div id="dp-wrapper" class="dp-wrapper dp-hdg-txt-h4-dp-primary dp-hdg-txt-h5-dp-primary dp-hdg-txt-h6-dp-primary dp-hdg-brdr-h3-1 dp-hdg-brdr-h5-1 dp-hdg-brdr-h6-1 dp-hdg-i-txt-h5-dp-primary dp-hdg-i-txt-h6-dp-primary dp-hdg-i-txt-h4-dp-primary dp-hdg-d-h4-table-l dp-hdg-d-h5-table-l dp-hdg-d-h6-table-l dp-hdg-i-bg-h2-dp-primary dp-hdg-i-sz-h2-in dp-hdg-i-sz-h3-in dp-hdg-i-sz-h5-in dp-hdg-i-sz-h6-in dp-hdg-i-styl-h2-brdr-b dp-hdg-i-cp-brdr-h2-dp-secondary dp-hdg-i-cp-brdr-h3-dp-secondary dp-hdg-i-cp-brdr-h4-dp-secondary dp-hdg-i-cp-brdr-h5-dp-secondary dp-hdg-i-brdr-h2-4 dp-hdg-i-brdr-h5-4 dp-hdg-i-brdr-h6-4 dp-hdg-i-cp-brdr-h6-dp-secondary dp-hdg-txt-h2-dp-primary dp-hdg-txt-h3-dp-primary dp-hdg-i-styl-h3-brdr-b dp-hdg-i-brdr-h3-2 dp-hdg-b-h2-brdr-b dp-hdg-brdr-h2-1 dp-hdg-cp-brdr-h2-dp-gray dp-hdg-b-h3-brdr-b dp-hdg-cp-brdr-h3-dp-gray dp-hdg-i-bg-h3-dp-primary dp-hdg-i-sz-h4-in dp-hdg-b-h4-brdr-b dp-hdg-cp-brdr-h4-dp-gray dp-hdg-i-styl-h4-brdr-b dp-hdg-i-brdr-h4-4" data-header-class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+<header class="dp-header dp-badge"></header>
+<header class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+<h2 class="dp-heading dp-has-icon"><i class="dp-icon fas fa-terminal" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span class="dp-header-title">Week 03: Foundations of Prompt Engineering</span></h2>
+</header>
+<div class="dp-column-container container-fluid">
+<div class="row">
+<div class="col-12">
+<div style="float: right; width: 35%; min-width: 280px; margin-left: 20px; margin-bottom: 20px;">
+<div class="dp-card card dp-shadow-b6 cp-bg-dp-primary">
+<h4 class="dp-has-icon dp-locked"><i class="dp-icon fas fa-bullseye cp-bg-dp-primary" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span style="color: #ffffff;"><strong>Unit Objectives</strong></span></h4>
+<div class="card-body">
+<ul>
+<li>Explain the technical mechanisms of in-context learning and probabilistic token prediction.</li>
+<li>Master the Role-Goal-Context (RGC) framework to steer foundation model outputs.</li>
+<li>Distinguish between Zero-Shot, One-Shot, and Few-Shot prompting paradigms.</li>
+<li>Implement structural delimiters and explicit output constraints (JSON, Markdown) to eliminate formatting drift.</li>
+<li>Identify common prompting anti-patterns and apply defensive constraints against ambiguity.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-link" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Required Reading &amp; Slide Deck</span></strong></h3>
+<p><a class="instructure_file_link inline_disabled" href="$IMS-CC-FILEBASE$/slides/[Slides]%20Week%203%20-%20GAI%20Prompt%201.pdf?canvas_=1&amp;canvas_qs_wrap=1" target="_blank"><strong>Briefing Slide Deck &amp; Speaker Notes: Week 03 Prompt Engineering I</strong></a></p>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">The Problem Statement</span></strong></h3>
+<p>Pre-trained foundation models contain vast latent representations of human knowledge and language, but raw generation without structural steering produces verbose, unfocused, or hallucinated responses. Traditional software developers often struggle with the non-deterministic nature of language models. Prompt engineering provides the systematic discipline, architectural frameworks, and syntactic controls required to transform frozen neural networks into reliable, deterministic software components for production applications.</p>
+<hr class="dp-hr-color-dp-primary w-100 dp-hr-pill">
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Theoretical Framework</span></strong></h3>
+<p><strong>Probabilistic Token Prediction & In-Context Steering:</strong> Transformers compute conditional probability distributions P(w_t | w_1, ..., w_{t-1}). Every word in a prompt actively shifts the attention weights across the model's layers. Prompt engineering is the practice of shaping the context window so that the highest-probability continuation tokens coincide with the user's intended objective.</p>
+<p><strong>The RGC Operational Framework:</strong></p>
+<ul>
+<li><strong>Role (Persona & Tone):</strong> Establishes domain authority and vocabulary constraints (e.g., 'Act as an expert data architect specializing in Apache Spark performance tuning').</li>
+<li><strong>Goal (Task & Schema):</strong> Clearly specifies the exact deliverable, operational bounds, and output structure (e.g., 'Extract all date entities and format them as an ISO-8601 JSON array').</li>
+<li><strong>Context (Grounding & Boundary):</strong> Provides the necessary source documentation, operational constraints, and edge-case instructions to minimize speculation.</li>
+</ul>
+<p><strong>In-Context Learning Spectrum:</strong> Zero-shot prompts test the model's generalized pre-trained distribution. Few-shot prompts introduce demonstration examples into the prompt, creating strong in-context attentional priors that guide both format and reasoning style without updating weights.</p>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-laptop-code" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Implementation Guide</span></strong></h3>
+<p>Follow these industry best practices when crafting production-grade prompts:</p>
+<ol>
+<li><strong>Use Explicit Structural Delimiters:</strong> Wrap source text and instructions in triple backticks (```), XML tags (&lt;context&gt;...&lt;/context&gt;), or Markdown headers to separate data from instructions and mitigate prompt injection.</li>
+<li><strong>State What to Do (Avoid Negative Only):</strong> LLMs attend strongly to concepts mentioned in prompts. Positive instructions ('Write in active voice using under 100 words') outperform negative prohibitions ('Do not write long text').</li>
+<li><strong>Enforce Schema Contracts:</strong> When integrating with APIs, demand JSON schemas and specify fallback values for missing entities.</li>
+<li><strong>Iterative Prompt Refinement:</strong> Treat prompts like code: version control prompt templates, benchmark across diverse test cases, and evaluate error variance.</li>
+</ol>
+<hr class="dp-hr-color-dp-primary w-100 dp-hr-pill">
+
+<div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100">
+<div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i></div>
+<div class="card-body">
+<h4 class="card-title dp-font-oswald">Conceptual Exercises &amp; Applications</h4>
+<hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px;">
+<p>To deepen your comprehension of this unit's concepts and prepare for the weekly discussion board and hands-on lab, reflect on the following exploratory challenges:</p>
+<ul>
+<li>Take an unstructured customer support email and write an RGC prompt that extracts customer name, issue category, sentiment, and recommended routing queue into JSON.</li>
+<li>Construct a 3-shot few-shot prompt that teaches a model an invented company acronym taxonomy.</li>
+<li>Benchmark the consistency of zero-shot versus few-shot outputs across 10 temperature variations.</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

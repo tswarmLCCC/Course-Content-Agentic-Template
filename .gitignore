@@ -45,4 +45,11 @@ Thumbs.db
 
 # Canvas Common Cartridge Build Staging
 _cartridge_build/
+_qti_build/
+
+# Heavy Raw Reference Curricula & Unstructured Intake
+ref/AIML 1010 Update/
+
+# Vendor Curricula Slide Decks (Intel)
+modules/aiml-1010-generative-ai-update/units/*/slides/
 

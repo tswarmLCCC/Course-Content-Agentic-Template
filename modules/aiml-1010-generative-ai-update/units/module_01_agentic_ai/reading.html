@@ -1,0 +1,82 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Reading - Demystifying Agentic AI</title>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+<meta name="editor_type" content="rce"/>
+</head>
+<body>
+<div id="dp-wrapper" class="dp-wrapper dp-hdg-txt-h4-dp-primary dp-hdg-txt-h5-dp-primary dp-hdg-txt-h6-dp-primary dp-hdg-brdr-h3-1 dp-hdg-brdr-h5-1 dp-hdg-brdr-h6-1 dp-hdg-i-txt-h5-dp-primary dp-hdg-i-txt-h6-dp-primary dp-hdg-i-txt-h4-dp-primary dp-hdg-d-h4-table-l dp-hdg-d-h5-table-l dp-hdg-d-h6-table-l dp-hdg-i-bg-h2-dp-primary dp-hdg-i-sz-h2-in dp-hdg-i-sz-h3-in dp-hdg-i-sz-h5-in dp-hdg-i-sz-h6-in dp-hdg-i-styl-h2-brdr-b dp-hdg-i-cp-brdr-h2-dp-secondary dp-hdg-i-cp-brdr-h3-dp-secondary dp-hdg-i-cp-brdr-h4-dp-secondary dp-hdg-i-cp-brdr-h5-dp-secondary dp-hdg-i-brdr-h2-4 dp-hdg-i-brdr-h5-4 dp-hdg-i-brdr-h6-4 dp-hdg-i-cp-brdr-h6-dp-secondary dp-hdg-txt-h2-dp-primary dp-hdg-txt-h3-dp-primary dp-hdg-i-styl-h3-brdr-b dp-hdg-i-brdr-h3-2 dp-hdg-b-h2-brdr-b dp-hdg-brdr-h2-1 dp-hdg-cp-brdr-h2-dp-gray dp-hdg-b-h3-brdr-b dp-hdg-cp-brdr-h3-dp-gray dp-hdg-i-bg-h3-dp-primary dp-hdg-i-sz-h4-in dp-hdg-b-h4-brdr-b dp-hdg-cp-brdr-h4-dp-gray dp-hdg-i-styl-h4-brdr-b dp-hdg-i-brdr-h4-4" data-header-class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+<header class="dp-header dp-badge"></header>
+<header class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+<h2 class="dp-heading dp-has-icon"><i class="dp-icon fas fa-robot" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span class="dp-header-title">Module 01: Demystifying Agentic AI</span></h2>
+</header>
+<div class="dp-column-container container-fluid">
+<div class="row">
+<div class="col-12">
+<div style="float: right; width: 35%; min-width: 280px; margin-left: 20px; margin-bottom: 20px;">
+<div class="dp-card card dp-shadow-b6 cp-bg-dp-primary">
+<h4 class="dp-has-icon dp-locked"><i class="dp-icon fas fa-bullseye cp-bg-dp-primary" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span style="color: #ffffff;"><strong>Unit Objectives</strong></span></h4>
+<div class="card-body">
+<ul>
+<li>Define Agentic AI and distinguish it from automation, conventional AI, and standalone Generative AI.</li>
+<li>Identify and explain the core perception-action loop and traits of autonomous agent systems.</li>
+<li>Differentiate between Simple Reflex, Model-based, Goal-based, and Utility-based agent architectures.</li>
+<li>Analyze the strategic value and implementation patterns of tool use and function calling.</li>
+<li>Understand the emerging paradigm of Human-in-the-Loop (HITL) collaboration in modern workplaces.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-link" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Required Reading &amp; Slide Deck</span></strong></h3>
+<p><a class="instructure_file_link inline_disabled" href="$IMS-CC-FILEBASE$/slides/[Slides]%20Module%2001%20-%20Agentic%20AI%20Notes.pdf?canvas_=1&amp;canvas_qs_wrap=1" target="_blank"><strong>Briefing Slide Deck &amp; Speaker Notes: Module 01 Demystifying Agentic AI</strong></a></p>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">The Problem Statement</span></strong></h3>
+<p>Traditional software and script automation follow rigid, deterministic decision trees. While early machine learning allowed computers to make statistical predictions, traditional large language models remain passive conversationalists waiting for single-turn user prompts. They cannot interact with live databases, dynamically recover from tool errors, or independently execute complex multi-step objectives. Agentic AI bridges this fundamental gap by enabling software entities to perceive dynamic environments, formulate multi-step plans, invoke external tools, reflect on intermediate outputs, and autonomously iterate until a goal is achieved.</p>
+<hr class="dp-hr-color-dp-primary w-100 dp-hr-pill">
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Theoretical Framework</span></strong></h3>
+<p><strong>The Evolution toward Agentic Autonomy:</strong> In classical artificial intelligence, agents are defined by their capacity to perceive an environment through sensors, reason internally, and act upon the environment through actuators. Agentic AI combines this foundational perception-action cycle with the rich semantic reasoning and world knowledge of Large Language Models.</p>
+<p><strong>Agent Architectural Taxonomy:</strong></p>
+<ul>
+<li><strong>Simple Reflex Agents:</strong> Select actions based solely on current percepts using hardcoded condition-action rules. They fail in partially observable environments.</li>
+<li><strong>Model-Based Reflex Agents:</strong> Maintain an internal state to track unobserved aspects of the world, allowing them to make informed decisions despite incomplete information.</li>
+<li><strong>Goal-Based Agents:</strong> Combine state tracking with explicit goal representations, evaluating how candidate actions bring the system closer to a target state.</li>
+<li><strong>Utility-Based Agents:</strong> Use a continuous utility function to evaluate trade-offs between competing outcomes, enabling optimal decision-making under uncertainty.</li>
+</ul>
+<p><strong>The Anatomy of Modern Agentic Systems:</strong> A modern agent comprises four core modules: (1) <em>Planning</em> (decomposing goals into sub-tasks and reflecting on intermediate errors), (2) <em>Memory</em> (short-term context window buffer and long-term vector database persistence), (3) <em>Tools</em> (REST APIs, calculators, code interpreters, and file systems), and (4) <em>Action Execution</em> (generating structured function calls and ingesting environment observations).</p>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-laptop-code" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Implementation Guide</span></strong></h3>
+<p>To implement an effective agentic workflow in enterprise software, developers adhere to a standard five-phase execution loop:</p>
+<ol>
+<li><strong>Perception & Ingestion:</strong> The agent receives an input percept (user objective, webhook, or system event) and parses it into structured context.</li>
+<li><strong>Decomposition & Planning:</strong> The agent outlines a sequence of necessary operations, assessing tool requirements and prerequisite dependencies.</li>
+<li><strong>Tool Invocation (Acting):</strong> The agent outputs a structured JSON schema function call to query an external service or execute an operation.</li>
+<li><strong>Observation & Evaluation:</strong> The agent receives the tool output, checks for errors or rate limits, and validates the response against its sub-goal.</li>
+<li><strong>Reflection & Iteration:</strong> The agent updates its internal trajectory. If errors occurred, it re-plans; if the goal is satisfied, it delivers the finalized synthesis to the user.</li>
+</ol>
+<hr class="dp-hr-color-dp-primary w-100 dp-hr-pill">
+
+<div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100">
+<div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i></div>
+<div class="card-body">
+<h4 class="card-title dp-font-oswald">Conceptual Exercises &amp; Applications</h4>
+<hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px;">
+<p>To deepen your comprehension of this unit's concepts and prepare for the weekly discussion board and hands-on lab, reflect on the following exploratory challenges:</p>
+<ul>
+<li>Map an existing multi-step administrative or data pipeline in your organization into an Agentic Perception-Action loop.</li>
+<li>Contrast the failure modes of a Simple Reflex agent versus a Goal-Based agent in handling sudden API downtime.</li>
+<li>Draft a Human-in-the-Loop (HITL) approval policy specifying which agent actions require manual human sign-off.</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

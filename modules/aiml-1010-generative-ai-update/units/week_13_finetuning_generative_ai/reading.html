@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Reading - Fine-Tuning Generative AI Models</title>
+<meta name="editing_roles" content="teachers"/>
+<meta name="workflow_state" content="active"/>
+<meta name="editor_type" content="rce"/>
+</head>
+<body>
+<div id="dp-wrapper" class="dp-wrapper dp-hdg-txt-h4-dp-primary dp-hdg-txt-h5-dp-primary dp-hdg-txt-h6-dp-primary dp-hdg-brdr-h3-1 dp-hdg-brdr-h5-1 dp-hdg-brdr-h6-1 dp-hdg-i-txt-h5-dp-primary dp-hdg-i-txt-h6-dp-primary dp-hdg-i-txt-h4-dp-primary dp-hdg-d-h4-table-l dp-hdg-d-h5-table-l dp-hdg-d-h6-table-l dp-hdg-i-bg-h2-dp-primary dp-hdg-i-sz-h2-in dp-hdg-i-sz-h3-in dp-hdg-i-sz-h5-in dp-hdg-i-sz-h6-in dp-hdg-i-styl-h2-brdr-b dp-hdg-i-cp-brdr-h2-dp-secondary dp-hdg-i-cp-brdr-h3-dp-secondary dp-hdg-i-cp-brdr-h4-dp-secondary dp-hdg-i-cp-brdr-h5-dp-secondary dp-hdg-i-brdr-h2-4 dp-hdg-i-brdr-h5-4 dp-hdg-i-brdr-h6-4 dp-hdg-i-cp-brdr-h6-dp-secondary dp-hdg-txt-h2-dp-primary dp-hdg-txt-h3-dp-primary dp-hdg-i-styl-h3-brdr-b dp-hdg-i-brdr-h3-2 dp-hdg-b-h2-brdr-b dp-hdg-brdr-h2-1 dp-hdg-cp-brdr-h2-dp-gray dp-hdg-b-h3-brdr-b dp-hdg-cp-brdr-h3-dp-gray dp-hdg-i-bg-h3-dp-primary dp-hdg-i-sz-h4-in dp-hdg-b-h4-brdr-b dp-hdg-cp-brdr-h4-dp-gray dp-hdg-i-styl-h4-brdr-b dp-hdg-i-brdr-h4-4" data-header-class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+<header class="dp-header dp-badge"></header>
+<header class="dp-header dp-basic-color dp-header-out-dp-secondary dp-header-s-brdr-b dp-header-title-txt-tl dp-header-pre-out-dp-secondary dp-header-sub-bg-dp-primary dp-header-desc-bg-dp-white dp-header-brdr-w-2 cp-bg-dp-primary">
+<h2 class="dp-heading dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span class="dp-header-title">Week 13: Fine-Tuning Generative AI Models</span></h2>
+</header>
+<div class="dp-column-container container-fluid">
+<div class="row">
+<div class="col-12">
+<div style="float: right; width: 35%; min-width: 280px; margin-left: 20px; margin-bottom: 20px;">
+<div class="dp-card card dp-shadow-b6 cp-bg-dp-primary">
+<h4 class="dp-has-icon dp-locked"><i class="dp-icon fas fa-bullseye cp-bg-dp-primary" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <span style="color: #ffffff;"><strong>Unit Objectives</strong></span></h4>
+<div class="card-body">
+<ul>
+<li>Distinguish between Supervised Fine-Tuning (SFT), Continued Pre-training, and In-Context Learning (RAG).</li>
+<li>Examine the mathematical mechanics of Parameter-Efficient Fine-Tuning (PEFT) and Low-Rank Adaptation (LoRA).</li>
+<li>Understand Quantized LoRA (QLoRA) and 4-bit NormalFloat (NF4) memory optimizations.</li>
+<li>Diagnose and mitigate Catastrophic Forgetting during domain adaptation.</li>
+<li>Master instruction dataset formatting, conversational chat templates, and loss masking.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-link" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Required Reading &amp; Slide Deck</span></strong></h3>
+<p><a class="instructure_file_link inline_disabled" href="$IMS-CC-FILEBASE$/slides/[Slides]%20Week%2013%20-%20GAI%20Notes.pdf?canvas_=1&amp;canvas_qs_wrap=1" target="_blank"><strong>Briefing Slide Deck &amp; Speaker Notes: Week 13 Fine-Tuning Generative AI</strong></a></p>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">The Problem Statement</span></strong></h3>
+<p>A raw pre-trained base model is an unguided autocomplete engine: if prompted with 'What is the capital of France?', it might simply continue with 'What is the capital of Germany?'. Supervised Fine-Tuning (SFT) transforms base models into conversational, instruction-following assistants. However, full-parameter fine-tuning of multi-billion parameter models requires prohibitive GPU compute and storage. Parameter-Efficient Fine-Tuning (PEFT), particularly LoRA and QLoRA, solves this barrier by freezing base model weights and training lightweight adapter matrices, democratizing model customization.</p>
+<hr class="dp-hr-color-dp-primary w-100 dp-hr-pill">
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Theoretical Framework</span></strong></h3>
+<p><strong>The Fine-Tuning Spectrum:</strong></p>
+<ul>
+<li><strong>Continued Pre-Training:</strong> Unsupervised training on domain text (legal, medical) using standard next-token prediction to instill vocabulary and background knowledge.</li>
+<li><strong>Supervised Fine-Tuning (SFT):</strong> Training on paired instruction-response examples to teach turn-taking format, tone, and structured output adherence.</li>
+<li><strong>Parameter-Efficient Fine-Tuning (LoRA):</strong> Based on the hypothesis that weight updates during adaptation have a low intrinsic dimension. LoRA freezes original weights W_0 (d x k) and injects trainable low-rank matrices B (d x r) and A (r x k), where rank r &lt;&lt; min(d, k):</li>
+</ul>
+<div style="background: #0f172a; color: #f8fafc; padding: 1rem; border-radius: 6px; font-family: Consolas, monospace; text-align: center; margin: 1rem 0;">
+h = W_0 * x + (alpha / r) * (B * A) * x
+</div>
+<p>Only matrices A and B receive gradient updates during training, reducing trainable parameters and optimizer memory by 99%.</p>
+<p><strong>QLoRA Innovations:</strong> Quantizes the frozen base model to 4-bit NormalFloat (NF4), applies double quantization to compress quantization constants, and utilizes paged optimizers to manage memory spikes, allowing fine-tuning of 70B models on a single consumer GPU.</p>
+<p><strong>Catastrophic Forgetting:</strong> Occurs when gradient updates on a narrow dataset overwrite neural circuits responsible for general reasoning and commonsense. Mitigated by mixing general instruction data into the domain dataset (co-training).</p>
+
+<h3 class="dp-has-icon"><i class="dp-icon fas fa-laptop-code" aria-hidden="true"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i> <strong><span class="selected">Implementation Guide</span></strong></h3>
+<p>Production workflow for fine-tuning instruction models:</p>
+<ol>
+<li><strong>Format Instruction Datasets:</strong> Structure training data into conversational roles (system, user, assistant) and apply the model's exact Chat Template (e.g., Llama-3, ChatML) with special delimiter tokens.</li>
+<li><strong>Apply Loss Masking:</strong> Calculate cross-entropy loss exclusively on the assistant's response tokens, masking out user prompt tokens so the model is not penalized for user phrasing.</li>
+<li><strong>Configure LoRA Hyperparameters:</strong> Target all linear projection layers (q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj). Set rank r=16 or 32, alpha=2*r, and learning rate ~2e-4.</li>
+<li><strong>Evaluate with Benchmarks:</strong> Monitor validation loss and evaluate on both domain-specific test sets and general reasoning benchmarks (MMLU, GSM8K) to ensure general capability retention.</li>
+</ol>
+<hr class="dp-hr-color-dp-primary w-100 dp-hr-pill">
+
+<div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-shadow-r2 dp-callout-color-dp-primary dp-callout-type-info rounded-0 dp-callout-pos-default w-100">
+<div class="dp-callout-side-emphasis"><i class="fas fa-terminal dp-default-icon dp-locked"><span class="dp-icon-content" style="display: none;">&nbsp;</span></i></div>
+<div class="card-body">
+<h4 class="card-title dp-font-oswald">Conceptual Exercises &amp; Applications</h4>
+<hr class="dp-hr-pill dp-hr-color-dp-secondary float-clear dp-margin-direction-all w-50 dp-locked" style="margin: 5px;">
+<p>To deepen your comprehension of this unit's concepts and prepare for the weekly discussion board and hands-on lab, reflect on the following exploratory challenges:</p>
+<ul>
+<li>Calculate the number of trainable parameters in a LoRA adapter for a model with hidden dimension d=4096 and rank r=16 applied to query and value projections.</li>
+<li>Contrast when an enterprise should deploy a RAG pipeline versus fine-tuning a custom LoRA adapter.</li>
+<li>Draft an instruction example in ShareGPT conversational JSON format with proper system, user, and assistant roles.</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

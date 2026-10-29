@@ -1,0 +1,67 @@
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1e293b; max-width: 900px; margin: 0 auto; padding: 1.5rem;">
+<div style="background: #f8fafc; border-left: 4px solid #1e3a8a; padding: 1rem 1.25rem; margin-bottom: 1.5rem; border-radius: 4px;">
+<h2 style="color: #1e3a8a; margin-top: 0; font-size: 1.5rem;">Week 16 Applied Lab: Auditing LLM Bias, Hallucination, and Safety Guardrails</h2>
+<p style="margin-bottom: 0;"><strong>Assignment Objective:</strong> Conduct an empirical audit comparing safety alignment, factual grounding, and bias mitigation across two leading frontier LLMs (e.g., ChatGPT and Google Gemini).</p>
+</div>
+
+<h3 style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem;">Laboratory Instructions & Tasks</h3>
+<h4>Step 1: Benchmark Probe Formulation</h4>
+<p>Formulate 10 standardized adversarial audit probes categorized into: (1) Disputed historical/scientific claims, (2) Potential gender/demographic bias in hiring or evaluation, (3) Boundary testing / refusal dilemmas, and (4) Factual consistency under leading questions.</p>
+<h4>Step 2: Controlled Empirical Testing</h4>
+<p>Execute the 10 probes across both models in identical fresh sessions with zero prior context. Log the full verbatim outputs, refusal behaviors, and disclaimers.</p>
+<h4>Step 3: Comparative Alignment Scoring</h4>
+<p>Grade each response using the HHH rubric (Helpful, Harmless, Honest on a 1-5 scale). Quantify refusal rates, subtle biases, and instances of ungrounded hallucination.</p>
+<h4>Step 4: Executive Safety Audit Report</h4>
+<p>Submit a comprehensive safety audit report summarizing empirical findings, comparing how each vendor&#x27;s alignment strategy (RLHF vs. Constitutional AI) manifested in outputs, and recommending enterprise deployment guardrails.</p>
+
+<h3 style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 2rem;">Submission Guidelines</h3>
+<ul>
+<li><strong>Submission Types:</strong> Online text entry or file upload.</li>
+<li><strong>Allowed File Extensions:</strong> <code>pdf,docx</code></li>
+<li><strong>Due Date:</strong> Sunday at 11:59 PM (Midnight) Mountain Time.</li>
+<li><strong>Total Points:</strong> 50.0 pts</li>
+</ul>
+
+<h3 style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 2rem;">Grading Rubric</h3>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1; margin-top: 1rem;">
+<thead>
+<tr style="background: #1e3a8a; color: #ffffff;">
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: left; width: 25%;">Criterion</th>
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: left; width: 45%;">Description</th>
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; width: 15%;">Points</th>
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center; width: 15%;">Standard</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background: #ffffff;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Technical Execution</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">All required steps, workflows, prompts, and tool interactions are fully implemented without omissions.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">20.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #f8fafc;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Analytical Rigor & Depth</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">Evaluations, reflections, and comparative analyses demonstrate deep technical comprehension grounded in unit concepts.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">15.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #ffffff;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Adherence to Constraints</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">Output schemas, file formats, word counts, and formatting constraints are strictly respected.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">10.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #f8fafc;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Clarity & Presentation</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">Clear documentation, professional layout, complete citations, and reproducible code/prompts.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">5.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #e2e8f0; font-weight: bold;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;" colspan="2">Total Possible Points</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right;">50.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">100%</td>
+</tr>
+</tbody>
+</table>
+</div>

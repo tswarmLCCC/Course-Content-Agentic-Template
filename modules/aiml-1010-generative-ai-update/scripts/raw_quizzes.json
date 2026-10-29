@@ -1,0 +1,934 @@
+{
+  "Agentic AI Module 1": {
+    "file": "[Quiz] Module 01 - Agentic AI.xlsx",
+    "rows": [
+      {
+        "B": "Module 01 - Quiz"
+      },
+      {
+        "B": "Question",
+        "D": "Option 1",
+        "E": "Option 2",
+        "F": "Option 3",
+        "G": "Option 4",
+        "I": "Actual answer"
+      },
+      {
+        "A": "1",
+        "B": "What is the most fundamental characteristic that defines any AI Agent?",
+        "D": "Operates in a fully observable, deterministic, and static environment",
+        "E": "Involves a Large Language Model (LLM)",
+        "F": "Possess human-level intelligence and consciousness",
+        "G": "Monitors its environment and executes actions autonomously involving LLMs and tools",
+        "I": "Option 4"
+      },
+      {
+        "A": "2",
+        "B": "What is the primary advantage of a Model-based Reflex Agent over a Simple Reflex Agent?",
+        "D": "Evaluate sequences of actions based on a utility function",
+        "E": "Maintain an internal model to track unobserved aspects of the environment",
+        "F": "Always select the optimal action by considering all future possibilities",
+        "G": "Immediately current observations to actions using condition-action rules",
+        "I": "Option 2"
+      },
+      {
+        "A": "3",
+        "B": "What is the key differentiator between Agentic AI and AI Agents?",
+        "D": "Agentic AI focuses on creating human-like conversation, while AI Agents focus on automation",
+        "E": "Agentic AI and AI Agents refer to the same concept used interchangeably",
+        "F": "Agentic AI emphasizes autonomy and goal-directed behavior across systems, while AI Agents are the individual entities performing tasks within that framework",
+        "G": "Agentic AI focuses only on data processing, while AI Agents focus on decision-making",
+        "I": "Option 3"
+      },
+      {
+        "A": "4",
+        "B": "In the context of Agentic AI, what does the 'Tooling' or 'Function Calling' module primarily enable the agent to do?",
+        "D": "Store and retrieve past experiences for long-term memory",
+        "E": "Evaluate the success of its actions against a utility function",
+        "F": "Process continuous, analog sensor data from the environment",
+        "G": "Interact with external systems, APIs, or tools to perform actions beyond its internal reasoning",
+        "I": "Option 4"
+      },
+      {
+        "A": "5",
+        "B": "What is the primary focus of the Reflection phase in the Agentic workflow?",
+        "D": "Review the outcome of its last action or plan and adjust its internal strategy for the next step",
+        "E": "Convert the observed input into a textual percept that the LLM can understand",
+        "F": "Generate random alternative responses",
+        "G": "None of the above",
+        "I": "Option 1"
+      },
+      {
+        "A": "6",
+        "B": "Which two factors should a Goal-based Agent primarily consider when selecting an action?",
+        "D": "The current state and available memory",
+        "E": "The goal and the possible outcomes of actions",
+        "F": "The environment type and agent architecture",
+        "G": "None of the above",
+        "I": "Option 3"
+      },
+      {
+        "A": "7",
+        "B": "Which characteristic best defines a Utility-based Agent?",
+        "D": "It selects actions only to achieve a specific goal, ignoring preferences or trade-offs",
+        "E": "It reacts directly to the environment without an internal knowledge base",
+        "F": "It follows a fixed set of predefined rules to determine its behavior",
+        "G": "It evaluates each possible desireable outcome and then chooses the most optimal action",
+        "I": "Option 4"
+      },
+      {
+        "A": "8",
+        "B": "Which of the following is a key capability that differentiates Agentic AI from traditional LLMs?",
+        "D": "Ability to generate text responses and take actions",
+        "E": "Ability to execute actions using external tools autonomously",
+        "F": "Ability to initiate an action only when there is a user prompt",
+        "G": "None of the above",
+        "I": "Option 2"
+      },
+      {
+        "A": "9",
+        "B": "In Agentic AI systems, a \u201ctool\u201d can best be defined as __________.",
+        "D": "A pre-trained language model",
+        "E": "The dataset used for training",
+        "F": "The internal reward function of the agent",
+        "G": "A function call to invoke an external resource ",
+        "I": "Option 4"
+      },
+      {
+        "A": "10",
+        "B": "Which of the following best explains the concept of human-AI collaboration in Agentic AI?",
+        "D": "Humans act as passive observers",
+        "E": "AI and humans work together, leveraging AI\u2019s speed and human judgment",
+        "F": "Humans design the AI and then step aside",
+        "G": "None of the above",
+        "I": "Option 2"
+      }
+    ]
+  },
+  "Week 03 - Prompt Engineering I": {
+    "file": "[Quiz] Week 3 - GAI.xlsx",
+    "rows": [
+      {
+        "B": "Week 3 Quiz"
+      },
+      {
+        "B": "Question",
+        "D": "Option 1",
+        "E": "Option 2",
+        "F": "Option 3",
+        "G": "Option 4",
+        "I": "Actual answer"
+      },
+      {
+        "A": "1",
+        "B": "What is the primary focus of prompt engineering?",
+        "D": "Model Training",
+        "E": "Task-Specific Optimization",
+        "F": "Dataset Generation",
+        "G": "Feature Extraction",
+        "I": "2"
+      },
+      {
+        "A": "2",
+        "B": "Which technique is recommended for adjusting the randomness in token selection during model response generation?",
+        "D": "Frequency Penalty",
+        "E": "Temperature",
+        "F": "Top_p",
+        "G": "Presence Penalty",
+        "I": "2"
+      },
+      {
+        "A": "3",
+        "B": "In few-shot prompting, what purpose do exemplars serve?",
+        "D": " Provide Context",
+        "E": "Inhibit Model Response",
+        "F": "Enhance Model Understanding",
+        "G": "Increase Token Repetition",
+        "I": "3"
+      },
+      {
+        "A": "4",
+        "B": "What is the primary role of temperature in decoding model responses?",
+        "D": "Controls Determinism",
+        "E": "Manages Response Length",
+        "F": "Reduces Token Repetition",
+        "G": "Guides Model Training",
+        "I": "1"
+      },
+      {
+        "A": "5",
+        "B": "Which parameter is crucial for managing the number of tokens generated by a language model?",
+        "D": "Temperature",
+        "E": "Top_p",
+        "F": "Max length",
+        "G": "Frequency penalty",
+        "I": "3"
+      },
+      {
+        "A": "6",
+        "B": "What is the maximum token limit for prompts in the largest model of GPT-3?",
+        "D": "2048 tokens",
+        "E": "4096 tokens",
+        "F": "1024 tokens",
+        "G": "8192 tokens",
+        "I": "2"
+      },
+      {
+        "A": "7",
+        "B": "Which aspect of prompt engineering is particularly challenging due to the inherent nature of language?",
+        "D": "Eliminating length constraints",
+        "E": "Avoiding ambiguity",
+        "F": "Ensuring computational efficiency",
+        "G": "Maximizing token use",
+        "I": "2"
+      },
+      {
+        "A": "8",
+        "B": "What challenge does the \"context window\" pose in generative AI models for prompt engineering?",
+        "D": "Limits theme variety in responses.",
+        "E": "Restricts continuity in longer outputs.",
+        "F": "Slows down response generation.",
+        "G": "Impedes non-textual content generation.",
+        "I": "2"
+      },
+      {
+        "A": "9",
+        "B": "Why is evaluating the effectiveness of prompts in large language models challenging?",
+        "D": "Because the responses are always correct.",
+        "E": "Because of the subjective nature and lack of clear assessment criteria.",
+        "F": "Because it does not require much time or resources.",
+        "G": "Because language models fully understand the context.",
+        "I": "2"
+      },
+      {
+        "A": "10",
+        "B": "Which of the following best describes the impact of a presence penalty in prompt engineering?",
+        "D": "It increases the repetition of words for emphasis.",
+        "E": "It decreases the model's reliance on context.",
+        "F": "It discourages the repeated use of tokens to enhance diversity.",
+        "G": "It encourages the model to ignore the prompt instructions.",
+        "I": "3"
+      }
+    ]
+  },
+  "Week 04 - Prompt Engineering II": {
+    "file": "[Quiz] Week 4 - GAI.xlsx",
+    "rows": [
+      {
+        "B": "Week 4 Quiz"
+      },
+      {
+        "B": "Question",
+        "D": "Option 1",
+        "E": "Option 2",
+        "F": "Option 3",
+        "G": "Option 4",
+        "I": "Actual answer"
+      },
+      {
+        "A": "1",
+        "B": "What is the Chain of Thoughts (CoT) prompting method best suited for?",
+        "D": "Long texts with multiple topics",
+        "E": "Short, contextually relevant text spans",
+        "F": "Generating artistic images",
+        "G": "Audio content creation",
+        "I": "2"
+      },
+      {
+        "A": "2",
+        "B": "In multimodal prompting, what is crucial for creating effective visual prompts?",
+        "D": "Detailed descriptions of the subject and style",
+        "E": "Specifying the number of characters",
+        "F": "Choosing the right programming language",
+        "G": "Using the highest resolution for images",
+        "I": "1"
+      },
+      {
+        "A": "3",
+        "B": "In few-shot prompting, what purpose do exemplars serve?",
+        "D": " Provide Context",
+        "E": "Inhibit Model Response",
+        "F": "Enhance Model Understanding",
+        "G": "Increase Token Repetition",
+        "I": "3"
+      },
+      {
+        "A": "4",
+        "B": "In audio prompting, what is the purpose of voice specification?",
+        "D": "To ignore the tonal quality of the AI",
+        "E": "To influence the text-to-speech output with attributes like tone and accent",
+        "F": "To standardize all voice outputs",
+        "G": "To create visual effects",
+        "I": "2"
+      },
+      {
+        "A": "5",
+        "B": "What aspect of AI prompting does storyboarding assist with?",
+        "D": "Planning visual prompts for video creation/editing",
+        "E": "Generating random story ideas",
+        "F": "Creating audio files",
+        "G": "Writing poetry",
+        "I": "1"
+      },
+      {
+        "A": "6",
+        "B": "When designing a prompt for generating a video sequence using Generative AI, what technique ensures the AI maintains thematic consistency throughout the video?",
+        "D": " Utilizing a single, detailed prompt for the entire video",
+        "E": "Applying unique prompts for each scene without thematic linkage",
+        "F": "Sequentially chaining prompts with overlapping elements",
+        "G": "Randomizing prompts to enhance creativity",
+        "I": "3"
+      },
+      {
+        "A": "7",
+        "B": "Which of the following is a common challenge in image prompting?",
+        "D": "Limited creativity in image outputs",
+        "E": "Difficulty in controlling the level of detail",
+        "F": "The inability to generate colored images",
+        "G": "The dependence on predefined image datasets",
+        "I": "2"
+      },
+      {
+        "A": "8",
+        "B": "When using image prompting, how can developers ensure a balance between creative diversity and adherence to specific instructions in image outputs?",
+        "D": "By solely relying on predefined color palettes",
+        "E": "By adjusting the \"Temperature\" parameter",
+        "F": "By avoiding textual prompts",
+        "G": "By excluding any textual descriptions",
+        "I": "2"
+      },
+      {
+        "A": "9",
+        "B": "What challenges might arise in image prompting when the textual prompt lacks specificity or detail?",
+        "D": "The model produces highly detailed images",
+        "E": "The model struggles to generate coherent images",
+        "F": "The model becomes excessively creative",
+        "G": "The model disregards the prompt and generates random images",
+        "I": "2"
+      },
+      {
+        "A": "10",
+        "B": "What is a potential limitation of image prompting in terms of generating highly specific or intricate images?",
+        "D": "The model lacks the ability to generate detailed images",
+        "E": "The model is highly sensitive to prompt variations",
+        "F": "The model may struggle with overly complex instructions",
+        "G": "Image prompting is not suitable for detailed visual tasks",
+        "I": "3"
+      }
+    ]
+  },
+  "Week 10 - Transformers and Evolution of Large Language Models": {
+    "file": "[Quiz] Week 10 - GAI.xlsx",
+    "rows": [
+      {
+        "B": "Week 10 Quiz"
+      },
+      {
+        "B": "Question",
+        "D": "Option 1",
+        "E": "Option 2",
+        "F": "Option 3",
+        "G": "Option 4",
+        "I": "Actual answer"
+      },
+      {
+        "A": "1",
+        "B": "Fine-tuning involves training on a task-specific dataset, allowing the model to refine its capabilities for that particular objective.",
+        "D": "TRUE ",
+        "E": "0",
+        "I": "1"
+      },
+      {
+        "A": "2",
+        "B": "What is the key innovation of Transformer models compared to traditional recurrent neural networks like LSTM?",
+        "D": "Attention mechanism",
+        "E": "Increased parameter size",
+        "F": "Bi-directional processing",
+        "G": "Gated recurrent units",
+        "I": "Attention mechanism"
+      },
+      {
+        "A": "3",
+        "B": "Layers in the encoder are --------------------------",
+        "D": "Self Attention",
+        "E": "Feed forward",
+        "F": "Both of the above ",
+        "G": "None of the above ",
+        "I": "Both of the above "
+      },
+      {
+        "A": "4",
+        "B": "Activation function used after decoder network in transformer  is -------------------",
+        "D": "ReLU",
+        "E": "Sigmoid",
+        "F": "SoftMax",
+        "G": "tanh",
+        "I": "Softmax"
+      },
+      {
+        "A": "5",
+        "B": "Word embedding algorithms are used to convert words to vectors",
+        "D": "TRUE ",
+        "E": "0",
+        "I": "1"
+      },
+      {
+        "A": "6",
+        "B": "Which among the following is a type of transformer? ",
+        "D": "Encoder only model",
+        "E": "Decoder only model",
+        "F": "Encoder-Decoder model",
+        "G": "All of the above ",
+        "I": "All of the above "
+      },
+      {
+        "A": "7",
+        "B": "Text transalation is an usecase of transfomers.",
+        "D": "TRUE ",
+        "E": "0",
+        "I": "1"
+      },
+      {
+        "A": "9",
+        "B": "In transformer architecture the first step is ------------.",
+        "D": "Tokenizer",
+        "E": "Enocder ",
+        "F": "Decoder",
+        "G": "Softmax",
+        "I": "Tokenizer"
+      },
+      {
+        "A": "9",
+        "B": "BERT is an autoregressive model.",
+        "D": "TRUE ",
+        "E": "0",
+        "I": "0"
+      },
+      {
+        "A": "10",
+        "B": "Training process of an LLM involves ---------",
+        "D": "Fine tuning ",
+        "E": "Pre-training ",
+        "F": "Both ",
+        "I": "Both "
+      }
+    ]
+  },
+  "Week 11 - Diffusion Models and the\u00a0Evolution of Text-to-Image Generation": {
+    "file": "[Quiz] Week 11 - GAI.xlsx",
+    "rows": [
+      {
+        "B": "Week 11 Quiz"
+      },
+      {
+        "B": "Question",
+        "D": "Option 1",
+        "E": "Option 2",
+        "F": "Option 3",
+        "G": "Option 4",
+        "I": "Actual answer"
+      },
+      {
+        "A": "1",
+        "B": "What is a primary advantage of diffusion models over VAEs?",
+        "D": "Lower data needs",
+        "E": "More efficient computation",
+        "F": "Handling complex distributions",
+        "G": "Faster image generation",
+        "I": "Handling complex distributions"
+      },
+      {
+        "A": "2",
+        "B": "What is a unique feature of Flow-based Models for image generation?",
+        "D": "Adversarial training",
+        "E": "Exact likelihood computation",
+        "F": "Stable training",
+        "G": "Latent space manipulation",
+        "I": "Exact likelihood computation"
+      },
+      {
+        "A": "3",
+        "B": "Vision Transformers (ViTs) treat images as a sequence of what?",
+        "D": "Pixels",
+        "E": "Convolutional filters",
+        "F": "Patches",
+        "G": "Gradients",
+        "I": "Patches"
+      },
+      {
+        "A": "4",
+        "B": "What marked the beginning of the modern era of image generation models?",
+        "D": "The development of GANs",
+        "E": "The invention of convolutional neural networks",
+        "F": "The introduction of variational autoencoders",
+        "G": "The publication of the ImageNet classification with deep convolutional neural networks",
+        "I": "The publication of the ImageNet classification with deep convolutional neural networks"
+      },
+      {
+        "A": "5",
+        "B": "Diffusion models are generally more stable during training than GANs and do not suffer from mode collapse.",
+        "D": "1",
+        "E": "0",
+        "I": "1"
+      },
+      {
+        "A": "6",
+        "B": "One limitation of diffusion models is that they cannot be conditioned on text inputs to generate specific images.",
+        "D": "1",
+        "E": "0",
+        "I": "0"
+      },
+      {
+        "A": "7",
+        "B": "In the context of Intel OpenVino's image generation notebooks, what feature does the Inpainting Notebook highlight?",
+        "D": "Image classification",
+        "E": "Image colorization",
+        "F": "Filling in missing parts of an image",
+        "G": "Image segmentation",
+        "I": "Filling in missing parts of an image"
+      },
+      {
+        "A": "8",
+        "B": "The process of a Vision Transformer understanding an image includes:",
+        "D": "Ignoring the spatial relationships between patches.",
+        "E": "Focusing on local features before global comprehension.",
+        "F": "Processing patches individually without considering the whole image.",
+        "G": "Utilizing self-attention mechanisms to consider the whole image globally.",
+        "I": "Utilizing self-attention mechanisms to consider the whole image globally."
+      },
+      {
+        "A": "9",
+        "B": "Vision Language Models (VLMs) are only capable of processing static images and cannot handle video data.",
+        "D": "1",
+        "E": "0",
+        "I": "0"
+      },
+      {
+        "A": "10",
+        "B": "A key advantage of diffusion models over other generative models is their inherent capability to perform infinite zoom in generated images.",
+        "D": "1",
+        "E": "0",
+        "I": "0"
+      }
+    ]
+  },
+  "Week 12 - Pre-Training Generative AI Models": {
+    "file": "[Quiz] Week 12 - GAI.xlsx",
+    "rows": [
+      {
+        "B": "Week 12 Quiz"
+      },
+      {
+        "B": "Question",
+        "D": "Option 1",
+        "E": "Option 2",
+        "F": "Option 3",
+        "G": "Option 4",
+        "I": "Actual answer"
+      },
+      {
+        "A": "1",
+        "B": "Which pre-training method is best suited for teaching an LLM to generate coherent, multi-sentence text?",
+        "D": "Masked Language Modeling",
+        "E": "Next Sentence Prediction (NSP)",
+        "F": "Contrastive Learning",
+        "G": "Denoising Autoencoders",
+        "I": "Next Sentence Prediction (NSP)"
+      },
+      {
+        "A": "2",
+        "B": "A company wants to pre-train an LLM on customer support chat logs. The main challenges they're likely to face include:",
+        "D": "Lack of powerful enough computational hardware",
+        "E": "Difficulty obtaining a large enough dataset",
+        "F": "Dealing with informal language, misspellings, and biases in the data",
+        "G": "Selecting the most suitable pre-training method for the task",
+        "I": "Dealing with informal language, misspellings, and biases in the data"
+      },
+      {
+        "A": "3",
+        "B": "What is the key difference between pre-training and fine-tuning an LLM?",
+        "D": "Pre-training teaches the LLM general language skills, fine-tuning specializes it.",
+        "E": "Fine-tuning is computationally expensive, pre-training is cheap.",
+        "F": "Pre-training requires labeled data, fine-tuning does not.",
+        "G": "Fine-tuning happens before pre-training to improve results.",
+        "I": "Pre-training teaches the LLM general language skills, fine-tuning specializes it."
+      },
+      {
+        "A": "4",
+        "B": "A researcher pre-trains an LLM on scientific articles. They then fine-tune it on a smaller dataset of patent applications. This is an example of:",
+        "D": "Poor transfer learning, as the domains are dissimilar.",
+        "E": "Successful domain adaptation, as both involve technical language.",
+        "F": "Overfitting, because the LLM is exposed to too much specialized text.",
+        "G": "A waste of resources, as they should have pre-trained on patents directly.",
+        "I": "Successful domain adaptation, as both involve technical language."
+      },
+      {
+        "A": "5",
+        "B": "Which of the following is NOT a primary benefit of using open-source LLMs?",
+        "D": "Transparency into the model's workings",
+        "E": "Guaranteed superior performance compared to closed-source models",
+        "F": "Potential cost savings",
+        "G": "The ability to customize the model",
+        "I": "Guaranteed superior performance compared to closed-source models"
+      },
+      {
+        "A": "6",
+        "B": "On Hugging Face, you find two LLMs suitable for your project.  To make the final decision, you should consider",
+        "D": "Only the number of parameters each model has",
+        "E": "Benchmarks on tasks similar to yours, license terms, & community support",
+        "F": "Whether the model was pre-trained on code or natural language",
+        "G": "If the model is based on a Transformer architecture",
+        "I": "Benchmarks on tasks similar to yours, license terms, & community support"
+      },
+      {
+        "A": "7",
+        "B": "Consider this partially masked sentence: \"The cat sat on the [MASK].\"  Which pre-training method is best exemplified here?",
+        "D": "Next Sentence Prediction",
+        "E": "Causal Language Modeling",
+        "F": "Masked Language Modeling",
+        "G": "Contrastive Learning ",
+        "I": "Masked Language Modeling"
+      },
+      {
+        "A": "8",
+        "B": "You're pre-training an LLM, but performance plateaus. Which optimization is LEAST likely to help directly?",
+        "D": "Increasing the number of training epochs",
+        "E": "Cleaning and expanding your dataset",
+        "F": "Experimenting with different pre-training task combinations",
+        "G": "Reducing the model's number of parameters",
+        "I": "Reducing the model's number of parameters"
+      },
+      {
+        "A": "9",
+        "B": "Which scenario is unlikely to benefit from domain adaptation?",
+        "D": "Customizing a chatbot for a bank's website",
+        "E": "Summarizing legal contracts with an existing LLM",
+        "F": "Translating casual conversations with a general-purpose LLM",
+        "G": "Analyzing sentiment in social media posts about a specific industry",
+        "I": "Translating casual conversations with a general-purpose LLM"
+      },
+      {
+        "A": "10",
+        "B": "A project requires heavy LLM customization, but your company disallows open-source code in its products.  Which is the WORST option?",
+        "D": "Use an open-source LLM as a starting point, heavily modifying it in-house.",
+        "E": "Negotiate with the creators of an open-source LLM for a commercial license.",
+        "F": "Build your own LLM from scratch, inspired by open-source architectures.",
+        "G": "Restrict usage to open-source LLMs with permissive licenses.",
+        "I": "This likely violates most open-source license terms."
+      }
+    ]
+  },
+  "Week 13 - Fine-Tuning Generative AI Models": {
+    "file": "[Quiz] Week 13 - GAI.xlsx",
+    "rows": [
+      {
+        "B": "Week 13 Quiz"
+      },
+      {
+        "B": "Question",
+        "D": "Option 1",
+        "E": "Option 2",
+        "F": "Option 3",
+        "G": "Option 4",
+        "I": "Actual answer"
+      },
+      {
+        "A": "1",
+        "B": "In LLMs, what does a 'billion parameters' typically refer to?",
+        "D": " The size of the training dataset",
+        "E": "The number of trainable weights in a neural network",
+        "F": "The amount of GPU memory required",
+        "G": "The cost of training a model",
+        "I": "The number of trainable weights in a neural network"
+      },
+      {
+        "A": "2",
+        "B": "What does \"regularization\" aim to prevent during the fine-tuning of LLMs?",
+        "D": "Overfitting to the training data",
+        "E": "Underfitting to the training data",
+        "F": "Catastrophic forgetting",
+        "G": "Model convergence issues",
+        "I": "Overfitting to the training data\n"
+      },
+      {
+        "A": "3",
+        "B": "Which factor can make fine-tuning larger language models on a single task more challenging and resource-intensive?",
+        "D": "Increased model accuracy",
+        "E": "Catastrophic forgetting",
+        "F": "Efficient parameter utilization",
+        "G": "Smaller base model size",
+        "I": "Catastrophic forgetting"
+      },
+      {
+        "A": "4",
+        "B": "What is the primary benefit of instruction fine-tuning over traditional fine-tuning methods in LLMs?",
+        "D": "Faster model training",
+        "E": "Improved model size reduction",
+        "F": "Precise control over the model's behavior",
+        "G": "Reduced data requirements",
+        "I": "Precise control over the model's behavior"
+      },
+      {
+        "A": "5",
+        "B": "In the context of fine-tuning, what does \"knowledge distillation\" involve?",
+        "D": "Transferring knowledge from a newer model to an older model",
+        "E": "Transferring knowledge from a teacher model to a student model",
+        "F": "Extracting knowledge from external sources and injecting it into the model",
+        "G": "Disseminating knowledge to the model's training data",
+        "I": "Transferring knowledge from a teacher model to a student model"
+      },
+      {
+        "A": "6",
+        "B": "Which PEFT approach modifies only bias terms in a model?",
+        "D": "Soft prompting methods",
+        "E": "Adapter methods",
+        "F": "BitFit method",
+        "G": "Low-rank adaptation",
+        "I": "BitFit method"
+      },
+      {
+        "A": "7",
+        "B": "Which strategy is NOT used to mitigate catastrophic forgetting in LLMs?",
+        "D": "Regularization",
+        "E": "Knowledge distillation",
+        "F": "Adaptive learning rates",
+        "G": "Weight decay",
+        "I": "Adaptive learning rates"
+      },
+      {
+        "B": "Which technique transfers knowledge from an older model to a newer one to minimize forgetting during fine-tuning?",
+        "D": "Progressive learning",
+        "E": "Weight decay",
+        "F": "Elastic Weight Consolidation (EWC)",
+        "G": "Multi-task training",
+        "I": "Elastic Weight Consolidation (EWC)"
+      },
+      {
+        "A": "9",
+        "B": "Which approach is commonly used to minimize the loss of knowledge when fine-tuning LLMs on new tasks?",
+        "D": "Regularization techniques",
+        "E": "Data augmentation",
+        "F": "Multi-task training",
+        "G": "Reduced learning rates",
+        "I": "Regularization techniques"
+      },
+      {
+        "A": "10",
+        "B": "Which method is known for adding small, fully-connected layers within Transformer architectures?",
+        "D": "Re-parameterization",
+        "E": "Adapter methods",
+        "F": "Soft prompting",
+        "G": "Selective methods",
+        "I": "Adapter methods"
+      }
+    ]
+  },
+  "Week 15 - Prototyping Generative AI Applications": {
+    "file": "[Quiz] Week 15 - GAI.xlsx",
+    "rows": [
+      {
+        "B": "Week 15 Quiz"
+      },
+      {
+        "B": "Question",
+        "D": "Option 1",
+        "E": "Option 2",
+        "F": "Option 3",
+        "G": "Option 4",
+        "I": "Actual answer"
+      },
+      {
+        "A": "1",
+        "B": "What is the role of LangChain in Generative AI development?",
+        "D": "Database optimization",
+        "E": "Framework for large language models",
+        "F": "Visualizing model training",
+        "G": "Code versioning",
+        "I": "Framework for large language models"
+      },
+      {
+        "A": "2",
+        "B": "Which tool is known for offering advanced AI models for developers, including GPT models and DALL-E models?",
+        "D": "LangChain",
+        "E": "Weights & Biases",
+        "F": "OpenAI",
+        "G": "BentoML",
+        "I": "OpenAI"
+      },
+      {
+        "A": "3",
+        "B": "What is the primary purpose of Pinecone in the context of Generative AI?",
+        "D": "Model deployment",
+        "E": "Vector database for high-dimensional data",
+        "F": "Experiment tracking",
+        "G": "AI-powered applications",
+        "I": "Vector database for high-dimensional data"
+      },
+      {
+        "A": "4",
+        "B": "Which framework is designed to simplify LLM operations, deployment, and fine-tuning, supporting various state-of-the-art LLMs?",
+        "D": "Gradio",
+        "E": "BentoML",
+        "F": "Replit's Ghostwriter",
+        "G": "OpenLLM",
+        "I": "OpenLLM"
+      },
+      {
+        "A": "5",
+        "B": "What is the primary function of Copilot, GitHub's AI companion for developers?",
+        "D": "Generating graphical assets",
+        "E": "Suggesting code during development",
+        "F": "Debugging existing code",
+        "G": "Analyzing user interfaces",
+        "I": "Suggesting code during development"
+      },
+      {
+        "A": "6",
+        "B": "Weights & Biases offers a platform primarily for:",
+        "D": "Code generation",
+        "E": "Experiment tracking and visualization",
+        "F": " Data preprocessing",
+        "G": "Model deployment",
+        "I": "Experiment tracking and visualization"
+      },
+      {
+        "A": "7",
+        "B": "What does LLMOps stand for in the context of Generative AI?",
+        "D": "Large Language Model Operations",
+        "E": "Long Lifecycle Management of Operations",
+        "F": "Low-Level Model Operations",
+        "G": "Learning Language Model Operations",
+        "I": "Large Language Model Operations"
+      },
+      {
+        "A": "8",
+        "B": "In Retrieval Augmented Generation (RAG), what is the primary purpose of the retrieval component?",
+        "D": "To fine-tune language models",
+        "E": "To search and retrieve relevant information",
+        "F": "To enhance tokenization",
+        "G": "To optimize LLMOps",
+        "I": "To search and retrieve relevant information"
+      },
+      {
+        "A": "9",
+        "B": "What is a key advantage of Retrieval Augmented Generation (RAG) over traditional language models?",
+        "D": "RAG is less computationally intensive.",
+        "E": "RAG eliminates the need for LLMOps.",
+        "F": "RAG allows models to incorporate external knowledge during generation.",
+        "G": "RAG restricts the model's access to external data.",
+        "I": "RAG allows models to incorporate external knowledge during generation."
+      },
+      {
+        "A": "10",
+        "B": "When considering the applications of Fine-tuning in Language Models (LLMs), what is a critical consideration for achieving optimal results?",
+        "D": "Minimizing the model's exposure to real-world data",
+        "E": "Utilizing only pre-trained models without additional training",
+        "F": "Carefully selecting and curating relevant datasets for fine-tuning",
+        "G": "Disregarding the need for context injection during the fine-tuning process",
+        "I": "Carefully selecting and curating relevant datasets for fine-tuning."
+      }
+    ]
+  },
+  "Week 16 - LLM Alignment and the Responsible Use of Generative AI": {
+    "file": "[Quiz] Week 16 - GAI.xlsx",
+    "rows": [
+      {
+        "B": "Week 16 Quiz"
+      },
+      {
+        "B": "Question",
+        "D": "Option 1",
+        "E": "Option 2",
+        "F": "Option 3",
+        "G": "Option 4",
+        "I": "Actual answer"
+      },
+      {
+        "A": "1",
+        "B": "Which of the following is a key challenge for LLM alignment?",
+        "D": "The subjectivity of human values",
+        "E": "LLMs' ability to access the real world",
+        "F": "The lack of computational resources",
+        "G": "LLMs always learning perfectly from feedback",
+        "I": "The subjectivity of human values"
+      },
+      {
+        "A": "2",
+        "B": "Constitutional AI aims to:",
+        "D": "Provide safety nets to catch misaligned LLM output",
+        "E": "Embed core principles directly into an LLM's decision-making",
+        "F": "Train LLMs exclusively on data about constitutions and laws",
+        "G": "Replace human governance with AI decision-making",
+        "I": "Embed core principles directly into an LLM's decision-making"
+      },
+      {
+        "A": "3",
+        "B": "Proximal Policy Optimization (PPO), within LLM alignment, primarily helps with:",
+        "D": "Defining what good alignment looks like",
+        "E": "Making LLM training more stable and preventing sudden failures",
+        "F": "Gathering large amounts of human feedback more efficiently",
+        "G": "Replacing the need for human judgement entirely",
+        "I": "Making LLM training more stable and preventing sudden failures"
+      },
+      {
+        "A": "4",
+        "B": "Which technique is most focused on making LLMs more cautious about potentially harmful outputs?",
+        "D": "Reinforcement Learning with Human Feedback (RLHF)",
+        "E": "Direct Preference Optimization (DPO)",
+        "F": "Kahneman-Tversky Optimization (KTO)",
+        "G": "Proximal Policy Optimization (PPO)",
+        "I": "Kahneman-Tversky Optimization (KTO)"
+      },
+      {
+        "A": "5",
+        "B": "An autonomous agent that can take physical actions, learn from experience, and has its own internal goals is likely\u2026",
+        "D": "A Narrow AI",
+        "E": "A Goal-Based Agent",
+        "F": "Perfectly Aligned",
+        "G": "A simple reflex agent",
+        "I": "A Goal-Based Agent"
+      },
+      {
+        "A": "6",
+        "B": "AI alignment is primarily a technical problem, separate from issues of values or societal impacts.",
+        "D": "1",
+        "E": "0",
+        "I": "0"
+      },
+      {
+        "A": "7",
+        "B": "LLMs can still be misaligned even if they are incredibly good at:",
+        "D": "Passing the Turing Test (fooling humans)",
+        "E": "Summarizing factual information accurately",
+        "F": "Generating different creative text formats",
+        "G": "All of the above",
+        "I": "All of the above"
+      },
+      {
+        "A": "8",
+        "B": "A potential limitation of the HHH framework (Helpful, Harmless, Honest) is that:",
+        "D": "It doesn't account for AI creativity.",
+        "E": "These concepts might contradict each other in specific situations.",
+        "F": "Only humans, not LLMs, can be truly helpful.",
+        "G": " It doesn't define what \"harm\" an AI system might cause.",
+        "I": "These concepts might contradict each other in specific situations."
+      },
+      {
+        "A": "9",
+        "B": "Which alignment technique is likely to be most data-efficient?",
+        "D": "Reinforcement Learning with Human Feedback (RLHF)",
+        "E": "Reinforcement Learning with AI Feedback (RLAIF)",
+        "F": "Direct Preference Optimization (DPO)",
+        "G": "Constitutional AI",
+        "I": "Direct Preference Optimization (DPO)"
+      },
+      {
+        "A": "10",
+        "B": "A perfectly aligned LLM is guaranteed to be completely safe and beneficial, regardless of the environment it is deployed in.",
+        "D": "1",
+        "E": "0",
+        "I": "0"
+      }
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1e293b; max-width: 900px; margin: 0 auto; padding: 1.5rem;">
+<div style="background: #f8fafc; border-left: 4px solid #1e3a8a; padding: 1rem 1.25rem; margin-bottom: 1.5rem; border-radius: 4px;">
+<h2 style="color: #1e3a8a; margin-top: 0; font-size: 1.5rem;">Week 03 Applied Lab: Controlled Generation with the RGC Framework</h2>
+<p style="margin-bottom: 0;"><strong>Assignment Objective:</strong> Apply the Role-Goal-Context (RGC) framework, delimiters, and few-shot formatting constraints to engineer robust, deterministic outputs from generative language models.</p>
+</div>
+
+<h3 style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem;">Laboratory Instructions & Tasks</h3>
+<h4>Step 1: Baseline Prompt Formulation</h4>
+<p>Draft a baseline, unconstrained prompt for a specific professional task (e.g., extracting action items from meeting notes, draft incident response email, or customer inquiry triage). Run the baseline across 3 distinct queries and record output variance.</p>
+<h4>Step 2: Applying the RGC Architecture</h4>
+<p>Re-engineer your prompt incorporating explicit Role definition, granular Goal specifications with strict output schema (e.g., Markdown table or JSON), and realistic Context constraints (e.g., tone, word count ceilings, forbidden terminology).</p>
+<h4>Step 3: Few-Shot In-Context Grounding</h4>
+<p>Incorporate at least two diverse input-output demonstration pairs into the context window. Test how few-shot conditioning enforces schema adherence and eliminates hallucinated formatting.</p>
+<h4>Step 4: Comparative Audit &amp; Submission</h4>
+<p>Compile a structured laboratory report showing side-by-side prompt iterations, model outputs, a breakdown of how each RGC component altered model latent steering, and your finalized master prompt template.</p>
+
+<h3 style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 2rem;">Submission Guidelines</h3>
+<ul>
+<li><strong>Submission Types:</strong> Online text entry or file upload.</li>
+<li><strong>Allowed File Extensions:</strong> <code>pdf,docx,txt</code></li>
+<li><strong>Due Date:</strong> Sunday at 11:59 PM (Midnight) Mountain Time.</li>
+<li><strong>Total Points:</strong> 50.0 pts</li>
+</ul>
+
+<h3 style="color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 2rem;">Grading Rubric</h3>
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1; margin-top: 1rem;">
+<thead>
+<tr style="background: #1e3a8a; color: #ffffff;">
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: left; width: 25%;">Criterion</th>
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: left; width: 45%;">Description</th>
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; width: 15%;">Points</th>
+<th style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center; width: 15%;">Standard</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background: #ffffff;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Technical Execution</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">All required steps, workflows, prompts, and tool interactions are fully implemented without omissions.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">20.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #f8fafc;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Analytical Rigor & Depth</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">Evaluations, reflections, and comparative analyses demonstrate deep technical comprehension grounded in unit concepts.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">15.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #ffffff;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Adherence to Constraints</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">Output schemas, file formats, word counts, and formatting constraints are strictly respected.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">10.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #f8fafc;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; font-weight: 600;">Clarity & Presentation</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;">Clear documentation, professional layout, complete citations, and reproducible code/prompts.</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right; font-weight: 600;">5.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">Exemplary</td>
+</tr>
+<tr style="background: #e2e8f0; font-weight: bold;">
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1;" colspan="2">Total Possible Points</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: right;">50.0 pts</td>
+<td style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; text-align: center;">100%</td>
+</tr>
+</tbody>
+</table>
+</div>

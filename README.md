@@ -227,8 +227,9 @@ Located in [`specs/_templates/`](file:///c:/dev/Course-Content-Agentic-Template/
 ### Standalone Modular Bundles (`modules/`)
 | Module ID | Module Title | Units | Active Stage | Directory |
 |---|---|---|---|---|
+| `aiml-1010-generative-ai-update` | AIML 1010: Generative AI & Agentic Curriculum Update | 9 Modules (36 Canvas Items) | **Production Ready Canvas Cartridge (`.imscc`)** (9 Notes Slide PDFs, 9 QTI 1.2 Quizzes, 9 DesignPLUS Reading Pages, 9 Assignments w/ Rubrics, 9 Discussions) | [modules/aiml-1010-generative-ai-update/](file:///c:/dev/Course-Content-Agentic-Template/modules/aiml-1010-generative-ai-update/README.md) |
 | `agentic-ai-introduction` | Introduction to Agentic AI & Autonomous Tools | 1 Unit + Capstone Project | **Production Ready** (Unit 01 Canvas Cartridge + Dual-Backend Gemini/Ollama Blog Pipeline Project) | [modules/agentic-ai-introduction/](file:///c:/dev/Course-Content-Agentic-Template/modules/agentic-ai-introduction/README.md) |
-| `agentic-software-engineering` | Agentic Software Engineering & The New SDLC | 3 Units | **Stage 1: Specification & Design** (The 10/90 Harness, Spec-Driven Development, Context Engineering, FastMCP & Multi-Agent CI/CD) | [modules/agentic-software-engineering/](file:///c:/dev/Course-Content-Agentic-Template/modules/agentic-software-engineering/README.md) |
+| `agentic-software-engineering` | Agentic Software Engineering & The New SDLC | 3 Units | **Stage 4: Completed & Verified** (The 10/90 Harness, Spec-Driven Development, Context Engineering, FastMCP & Multi-Agent CI/CD) | [modules/agentic-software-engineering/](file:///c:/dev/Course-Content-Agentic-Template/modules/agentic-software-engineering/README.md) |
 
 
 ---
