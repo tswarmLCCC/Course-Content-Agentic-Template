@@ -1,0 +1,91 @@
+{
+  "course_code": "AIML 2050",
+  "course_title": "AI in the Workforce",
+  "term": "Spring 2027",
+  "institution": "Laramie County Community College",
+  "domain": "lccc-wy.instructure.com",
+  "credits": "3.0 Credit Hours (8-Week Accelerated Block, 6.0 Contact Hours/Week)",
+  "description": "Comprehensive, hands-on instruction in enterprise AI workforce integration, agentic workflow automation, no-code and code-based tool orchestration, human-in-the-loop governance, and sovereign local AI deployment across production workplace environments.",
+  "contact_hours_per_week": 6.0,
+  "total_weeks": 8,
+  "total_contact_hours": 48.0,
+  "assignment_groups": [
+    { "key": "projects", "name": "Weekly Applied Workplace Projects", "weight": 40.0 },
+    { "key": "capstone", "name": "Workforce AI Capstone Project & Live Defense", "weight": 30.0 },
+    { "key": "quizzes", "name": "Weekly Knowledge Checks", "weight": 20.0 },
+    { "key": "drills", "name": "Asynchronous AI Drills & Interactive Debriefs", "weight": 10.0 }
+  ],
+  "learning_outcomes": [
+    "CLO 1: Analyze enterprise business workflows to quantify ROI, labor impact, and feasibility for agentic AI automation.",
+    "CLO 2: Formulate enterprise governance charters applying NIST AI RMF and human-in-the-loop escalation gates to autonomous systems.",
+    "CLO 3: Rapidly prototype conversational and task-oriented agents using modern workplace platforms connected to live data sources.",
+    "CLO 4: Architect multi-step no-code and low-code workflows (n8n/Relay/Zapier) that combine LLM reasoning with deterministic APIs and automated error recovery.",
+    "CLO 5: Implement programmatic tool-calling agents in Python using robust Pydantic schemas, HTTP/API data contracts, and automated validation tests.",
+    "CLO 6: Build persistent, stateful multi-turn agents using LangGraph and SQLite checkpoints with supervisor approval gates.",
+    "CLO 7: Instrument agent execution telemetry with LangSmith to evaluate accuracy, drift, latency, and prompt injection resilience.",
+    "CLO 8: Deploy and benchmark sovereign local AI models and agents on Intel PC hardware (Ollama, OpenVINO, SQLite, FAISS) ensuring zero cloud data leakage.",
+    "CLO 9: Defend an end-to-end workforce AI implementation in an executive capstone presentation demonstrating commercial viability, architecture, and risk controls."
+  ],
+  "grading_scale": "A: 90 - 100% | B: 80 - 89% | C: 70 - 79% | D: 60 - 69% | F: 0 - 59%",
+  "weekly_units": [
+    {
+      "unit_number": 1,
+      "title": "Unit 01 - Foundations of Agentic AI & The Enterprise Landscape",
+      "source_modules": ["Module 01", "Module 02", "Module 05"],
+      "weekly_project": "Enterprise Agentic Opportunity Audit & ROI Roadmap"
+    },
+    {
+      "unit_number": 2,
+      "title": "Unit 02 - Responsible AI, Ethics & Human-in-the-Loop Governance",
+      "source_modules": ["Module 03", "Module 04"],
+      "weekly_project": "Governance Charter, NIST Risk Register & Escalation Matrix"
+    },
+    {
+      "unit_number": 3,
+      "title": "Unit 03 - Workplace Productivity Tools & Rapid Prototyping",
+      "source_modules": ["Module 06", "Module 07", "Module 08"],
+      "weekly_project": "Interactive Workplace Agent Prototype & Live API Integration"
+    },
+    {
+      "unit_number": 4,
+      "title": "Unit 04 - No-Code Business Agents & Multi-Step Orchestration",
+      "source_modules": ["Module 09", "Module 10", "Module 11", "Module 12"],
+      "weekly_project": "Multi-Step No-Code Automation Workflow with Error Fallbacks"
+    },
+    {
+      "unit_number": 5,
+      "title": "Unit 05 - Code Foundations: APIs, Function Calling & LangChain",
+      "source_modules": ["Module 13"],
+      "weekly_project": "Custom Python Agent with Tool Calling & Validation Harness"
+    },
+    {
+      "unit_number": 6,
+      "title": "Unit 06 - Long-Running Agents, State Machines & LangGraph",
+      "source_modules": ["Module 14", "Module 16"],
+      "weekly_project": "Stateful Workflow Agent with Human Approval Checkpoints"
+    },
+    {
+      "unit_number": 7,
+      "title": "Unit 07 - Agent Observability, Governance & System Evaluation",
+      "source_modules": ["Module 15"],
+      "weekly_project": "Automated Evaluation Suite & Benchmark Scorecard (LangSmith)"
+    },
+    {
+      "unit_number": 8,
+      "title": "Unit 08 - Sovereign Local AI, Hardware & Capstone Defense",
+      "source_modules": ["Module 17", "Module 18", "Module 19", "Module 20"],
+      "weekly_project": "Sovereign Local Workplace Agent & Executive Video Defense"
+    }
+  ],
+  "module_taxonomy_sequence": [
+    "1. Unit X Overview: [Topic] (WikiPage, published)",
+    "2. Unit X: Required Readings, Concepts & Video Lectures (WikiPage, published, with slide range directives)",
+    "3. Unit X: Open-Source [Tool] Setup & Reference Guide (WikiPage, published, when tool used)",
+    "4. Unit X: Asynchronous Preparation & Drills (WikiPage, published)",
+    "5. Unit X: Applied Lab Guide (WikiPage, published)",
+    "6. Unit X Applied Lab Assignment (Assignment, published, 50 pts, SpeedGrader upload)",
+    "7. Unit X: Learn with AI — Supplemental Practice Drill (WikiPage, published)",
+    "8. Unit X Knowledge Check: [Topic] (Quizzes::Quiz, published, 20 pts, 3 attempts)",
+    "9. [Instructor Guide] Unit X Teaching Notes & Solutions (WikiPage, unpublished)"
+  ]
+}

@@ -43,6 +43,12 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Machine-Specific Local Configuration
+local_config.json
+*.local.json
+.env
+.env.local
+
 # Canvas Common Cartridge Build Staging
 _cartridge_build/
 _qti_build/

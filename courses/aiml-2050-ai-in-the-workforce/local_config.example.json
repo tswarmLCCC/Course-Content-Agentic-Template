@@ -1,0 +1,4 @@
+{
+  "_comment": "Copy this file to local_config.json to point to downloaded materials without copying them into the repo.",
+  "intel_materials_path": "C:/path/to/your/downloaded/intel_materials"
+}

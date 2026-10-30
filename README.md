@@ -222,6 +222,7 @@ Located in [`specs/_templates/`](file:///c:/dev/Course-Content-Agentic-Template/
 ### Full Semester Courses (`courses/`)
 | Course ID | Course Code & Title | Units | Active Stage | Directory |
 |---|---|---|---|---|
+| `aiml-2050-ai-in-the-workforce` | AIML 2050: AI in the Workforce | 8 Units (8-Wk Accelerated, 6h/wk) | **Stage 1: Curriculum Intake & Synthesis Active** (Awaiting Intel agentic curriculum drop to fold ~16 units @ 4h into 8 structured project units @ 6h) | [courses/aiml-2050-ai-in-the-workforce/](file:///c:/dev/Course-Content-Agentic-Template/courses/aiml-2050-ai-in-the-workforce/README.md) |
 | `cosc-2060-data-engineering` | COSC 2060: Modern Data Engineering & AI Infrastructure | 8 Units (16 Wks) | **Production Canvas Cartridge (.imscc) Compiled** (Readings, Labs, 80 QTI Quizzes, 8 DS-to-DE Transition Notebooks, 8 Coding Clinic PPTX Decks & Word Syllabus) | [courses/cosc-2060-data-engineering/](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/README.md) |
 
 ### Standalone Modular Bundles (`modules/`)

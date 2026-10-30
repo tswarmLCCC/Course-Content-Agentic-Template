@@ -1,12 +1,12 @@
 # Workspace State & Active Target Pointer
 
 ## Active Workspace Target
-- **Active Target Type**: `Modular Import Bundle`
-- **Active Target**: `modules/aiml-1010-generative-ai-update`
-- **Target Title**: AIML 1010: Generative AI & Agentic Curriculum Update
-- **Target Path**: `modules/aiml-1010-generative-ai-update/`
-- **Active Iteration**: `specs/001-module-specification-and-scaffold` (Stage 4: Completed & Verified)
-- **Status**: Production-ready 9-unit modular Canvas Common Cartridge (`AIML_1010_Generative_AI_Update_Modules_Import.imscc`, 28.6 MB) compiled with 0 XML errors. Includes all 9 notes-pages slide PDFs, 9 audited QTI 1.2 quizzes, 9 DesignPLUS reading pages, 9 native assignments with rubrics, and 9 imsdt_xmlv1p1 discussion topics. 100% PASS on all 14 EARS requirements.
+- **Active Target Type**: `Full 8-Week Accelerated Course`
+- **Active Target**: `courses/aiml-2050-ai-in-the-workforce`
+- **Target Title**: AIML 2050: AI in the Workforce
+- **Target Path**: `courses/aiml-2050-ai-in-the-workforce/`
+- **Active Iteration**: `specs/001-course-scaffold-and-intake` (Stage 2: Plan In Review — Awaiting Approval)
+- **Status**: Intel curriculum ingested (20 modules & 5 projects, 2,100+ slides). 20-to-8 synthesis recommendation revised with explicit slide reading lists and standalone open-source guides. Awaiting user review and formal approval before task execution.
 
 ---
 
@@ -15,6 +15,7 @@
 ### Full Semester Courses (`courses/`)
 | Course ID | Course Title | Completed Slices | Active Stage | Directory |
 |---|---|---|---|---|
+| `aiml-2050-ai-in-the-workforce` | AIML 2050: AI in the Workforce | Initial 8-week accelerated scaffold, intake dropzone, course config, and backward-design iteration specification | Active Stage 1 (Curriculum Intake & Synthesis) | [courses/aiml-2050-ai-in-the-workforce/](file:///c:/dev/Course-Content-Agentic-Template/courses/aiml-2050-ai-in-the-workforce/README.md) |
 | `cosc-2060-data-engineering` | COSC 2060: Modern Data Engineering & AI Infrastructure | Complete 8-Unit Ecosystem (4-Chapter OER & Video Reading Pages, Labs, Starters, Guides, 80 QTI Quizzes & Fully Verified Native `.imscc` Cartridge with Front Page & Accordions) | Production Ready for Canvas Import & Deployment | [courses/cosc-2060-data-engineering/](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/README.md) |
 
 ### Standalone Module Bundles & Modular Imports (`modules/`)
