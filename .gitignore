@@ -42,6 +42,7 @@ scratch/
 Thumbs.db
 .idea/
 .vscode/
+~$*
 
 # Machine-Specific Local Configuration
 local_config.json
