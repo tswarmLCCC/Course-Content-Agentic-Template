@@ -57,8 +57,10 @@
   7. `self_check_drills.md`: Formative self-assessment questions and syntax traces before class.
   *(Plus a starter `Dockerfile` in `unit_08_capstone_defense_and_production/`).*
 
-### E. Student-Facing Root `README.md`
-- `REQ-010`: **Always**: The sandbox root `README.md` **shall** mirror the clarity of `CMAP-1815-Student-Sandbox/README.md`, featuring a 1-Click GitHub Codespaces launch badge (`https://codespaces.new/tswarmLCCC/COSC-2060-Student-Sandbox?quickstart=1`), terminal vs. Jupyter Notebook execution guides, `./reset_sandbox.sh` disaster recovery instructions, full repository tree map, and weekly Canvas submission workflow.
+### E. Student-Facing Root `README.md` & Auto-Personalizing Template Workflow
+- `REQ-10`: **Always**: The sandbox root `README.md` **shall** guide students through a 2-step **GitHub Template Repository** onboarding flow:
+  1. **Step 1**: Create their own personal repository from the template via a 1-click GitHub Template instantiation badge (`https://github.com/new?template_owner=tswarmLCCC&template_name=COSC-2060-Student-Sandbox...`) or **"Use this template" $\rightarrow$ "Create a new repository"**.
+  2. **Step 2**: Launch their Codespace on **their own repository** via **`<> Code` $\rightarrow$ `Codespaces` $\rightarrow$ `Create codespace on main`** OR via the auto-personalized Codespaces badge rewritten by `.github/workflows/personalize_template.yml` upon template instantiation.
 
 ---
 

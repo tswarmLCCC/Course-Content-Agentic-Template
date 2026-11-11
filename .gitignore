@@ -42,6 +42,8 @@ scratch/
 Thumbs.db
 .idea/
 .vscode/
+!courses/**/student_sandbox_template/.vscode/
+!courses/**/student_sandbox_template/.vscode/**
 ~$*
 
 # Machine-Specific Local Configuration

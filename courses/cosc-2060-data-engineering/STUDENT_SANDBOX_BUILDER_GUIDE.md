@@ -33,6 +33,9 @@ COSC-2060-Student-Sandbox/
 ├── .devcontainer/
 │   ├── devcontainer.json          # Python 3.11 Bookworm + docker-in-docker + VS Code extensions
 │   └── setup_sandbox.sh           # Runs pip install, seeds datasets, & pre-warms MiniLM-L6-v2
+├── .github/
+│   └── workflows/
+│       └── personalize_template.yml # Auto-rewrites README Codespaces badge for student template copies
 ├── .vscode/
 │   ├── extensions.json            # Python, Pylance, Jupyter, Ruff, Rainbow CSV, Parquet Viewer, Docker
 │   └── settings.json              # Pre-wires /usr/local/bin/python interpreter & pytest
@@ -127,20 +130,30 @@ By enabling **Codespaces Prebuilds**, GitHub runs `.devcontainer/setup_sandbox.s
 
 ---
 
-## 5. Embedding the Sandbox in Canvas LMS
+## 5. How the Template Repo & Auto-Personalizing Badge Work in Canvas
 
-### 1. The 1-Click Launch URL
-Use this exact URL in your Canvas Course Orientation page and weekly Lab Assignment descriptions:
+### Why Hardcoded Codespaces Badges Fail on Template Repositories
+If a student creates their own repository (`<student-username>/COSC-2060-Student-Sandbox`) from a template repository, a static badge pointing to `https://codespaces.new/tswarmLCCC/COSC-2060-Student-Sandbox` would launch a Codespace attached to **your upstream instructor repo** instead of the student's new repository.
+
+### Our 2-Part Solution Built into `student_sandbox_template/`
+1. **2-Step Student Onboarding in `README.md`**:
+   - **Step 1** provides a 1-Click **"Create Your Personal Sandbox Repo"** button pointing to GitHub's template instantiation endpoint:
+     ```markdown
+     [![Use This Template](https://img.shields.io/badge/Step_1-Create_Your_Personal_Sandbox_Repo-2ea44f?style=for-the-badge&logo=github)](https://github.com/new?template_owner=tswarmLCCC&template_name=COSC-2060-Student-Sandbox&owner=%40me&name=COSC-2060-Student-Sandbox&description=My+COSC+2060+Data+Engineering+Sandbox&visibility=private)
+     ```
+   - **Step 2** shows students both how to launch via the green **`<> Code` $\rightarrow$ `Codespaces` $\rightarrow$ `Create codespace on main`** button on their new repo AND via their auto-personalized badge.
+2. **Automated Badge Rewrite Action (`.github/workflows/personalize_template.yml`)**:
+   - The moment a student creates their repository from your template, GitHub Actions runs `.github/workflows/personalize_template.yml` (guarded by `if: github.repository != 'tswarmLCCC/COSC-2060-Student-Sandbox'` so it **never** alters your upstream template).
+   - Within ~15 seconds, the Action replaces `tswarmLCCC/COSC-2060-Student-Sandbox` with `${GITHUB_REPOSITORY}` (`<student-username>/COSC-2060-Student-Sandbox`) inside the student's `README.md` and adds a green confirmation banner (`✅ Personal Sandbox Initialized for <student-username>/COSC-2060-Student-Sandbox!`).
+
+### What Link to Put in Canvas LMS
+In your **Canvas Course Orientation** page, embed the **Step 1 Template Generator Link** (or link directly to `https://github.com/tswarmLCCC/COSC-2060-Student-Sandbox` where students follow Step 1 & Step 2):
 ```markdown
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/tswarmLCCC/COSC-2060-Student-Sandbox?quickstart=1)
+[![Create Your COSC 2060 Sandbox Repo](https://img.shields.io/badge/Step_1-Create_Your_COSC_2060_Sandbox_Repo-2ea44f?style=for-the-badge&logo=github)](https://github.com/new?template_owner=tswarmLCCC&template_name=COSC-2060-Student-Sandbox&owner=%40me&name=COSC-2060-Student-Sandbox&description=My+COSC+2060+Data+Engineering+Sandbox&visibility=private)
 ```
-* Note the `?quickstart=1` query parameter: it allows students to resume an existing Codespace in 1 click if they already launched one in an earlier week, preventing duplicate container sprawl!
 
-### 2. Student Submission Workflow
-Students never need to configure `git push` credentials or SSH keys to submit their work:
-1. They edit `units/unit_0N_.../lab{N}_starter.py` directly in their browser Codespace.
-2. They run `python lab{N}_starter.py` in the integrated terminal until all defensive `assert` checks print `PASS`.
-3. They rename or save a copy as `lab{N}_{lastname}.py`, right-click the file in the VS Code Explorer sidebar, click **Download...**, and upload the `.py` file to Canvas SpeedGrader.
+### 3. Student Submission Workflow
+Because each student works inside their own repository (`<student-username>/COSC-2060-Student-Sandbox`), they have full write permissions to `git commit` and `git push` their work, and can also download `lab{N}_{lastname}.py` from the VS Code Explorer sidebar (**Right-click $\rightarrow$ Download...**) to upload directly to Canvas SpeedGrader.
 
 ---
 
