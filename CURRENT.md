@@ -5,8 +5,8 @@
 - **Active Target**: `courses/cosc-2060-data-engineering`
 - **Target Title**: COSC 2060: Modern Data Engineering & AI Infrastructure
 - **Target Path**: `courses/cosc-2060-data-engineering/`
-- **Active Iteration**: `Student Sandbox Template Repo Guide & Planning` (Stage 1: Specify / Advise)
-- **Status**: Complete 8-Unit Ecosystem (4-Chapter OER & Video Reading Pages, Labs, Starters, Guides, 80 QTI Quizzes & Fully Verified Native `.imscc` Cartridge with Front Page & Accordions). Now designing the companion GitHub Codespaces Student Sandbox template repository (`COSC-2060-Student-Sandbox`).
+- **Active Iteration**: `specs/008-student-sandbox-template-repo` (Stage 4: Completed & Verified — Production Ready)
+- **Status**: Complete 8-Unit Ecosystem (`COSC_2060_Complete.imscc`) + Assembled GitHub Codespaces Student Sandbox Template (`courses/cosc-2060-data-engineering/student_sandbox_template/`) and Builder's Guide (`STUDENT_SANDBOX_BUILDER_GUIDE.md`).
 
 ---
 

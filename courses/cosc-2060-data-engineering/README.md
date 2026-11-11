@@ -33,8 +33,11 @@ By the end of week 16, students will have built a functional, production-ready A
 
 ---
 
-## Lab Hardware & Local Environment
-- **Runtime**: Local Python 3.10+ virtual environment (`venv` or `conda`).
+## Lab Hardware, Local Environment, & GitHub Codespaces Student Sandbox
+- **Runtime**: Local Python 3.10+ virtual environment (`venv` or `conda`) OR 1-Click Cloud **GitHub Codespaces** (Python 3.11 + Docker-in-Docker).
 - **Engines**: DuckDB (in-process OLAP), Polars (Rust DataFrame), FastAPI, Sentence-Transformers.
 - **Local AI**: Ollama running small parameter instruction models (e.g. `qwen2.5:0.5b` or `qwen2.5:1.5b` or `llama3.2:1b/3b`).
+- **Student Sandbox Template Repository**:
+  - **Builder's & Deployment Guide**: [STUDENT_SANDBOX_BUILDER_GUIDE.md](STUDENT_SANDBOX_BUILDER_GUIDE.md)
+  - **Assembled Template Directory**: [student_sandbox_template/](student_sandbox_template/README.md) (Ready to push to `https://github.com/tswarmLCCC/COSC-2060-Student-Sandbox`)
 
