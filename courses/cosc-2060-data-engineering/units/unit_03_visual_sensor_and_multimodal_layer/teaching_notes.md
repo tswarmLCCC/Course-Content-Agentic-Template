@@ -40,7 +40,7 @@ Students complete these materials independently before the first live classroom 
    - [Unit 3 Reading: The Visual Sensor Layer](../../content/readings/unit_03_visual_sensor_layer.md)
 2. **Curated Outside Readings** (20 min):
    - *You Only Look Once: Unified, Real-Time Object Detection* (Redmon et al., CVPR): Section 2 on unified detection and grid cell coordinate normalization.
-   - *OpenCV Image Processing Architecture*: Official documentation on image storage in NumPy arrays and BGR channel order. ([OpenCV Docs](https://docs.opencv.org/))
+   - *OpenCV Image Processing Architecture*: Official documentation on image storage in NumPy arrays and BGR channel order. ([OpenCV Docs](https://github.com/opencv/opencv-python))
    - *Letterbox Resizing in Modern Object Detectors* (Ultralytics / YOLOv8 Architecture Guide): Explanation of why squashing aspect ratio harms convolutional feature extraction.
 3. **Curated Outside Video** (10 min):
    - *How Computers Understand Images* (Computerphile / Roboflow, 12 min): Watch for how pixel tensors are translated into spatial feature maps.

@@ -13,7 +13,7 @@
   - **Description**: Rewrite `courses/cosc-2060-data-engineering/units/unit_01_relational_foundations/reading.md` (and copy to `courses/cosc-2060-data-engineering/content/readings/unit_01_relational_foundation.md`) to embody the 4-chapter structure:
     - Chapter 1: Instructor Lecture & Conceptual Deep Dive (The $10M Delivery Delay, Row Filing vs. Columnar Straws, step-by-step query construction, guided practice, FAQ).
     - Chapter 2: Required Readings & Authoritative Tutorial Guides (DuckDB ASOF JOIN, DuckDB Blog, Apache Arrow, Parquet overview, DuckDB Window Functions).
-    - Chapter 3: Required Micro-Video Lectures (Fireship DuckDB `uHm6FEb2Re4`, CMU Andy Pavlo `5gXn5fLkbM0`, Bill Wallis ASOF join `zy89zKipsQg`, Feature Engineering `T1dJfh1KlYA`).
+    - Chapter 3: Required Micro-Video Lectures (Fireship DuckDB `uHm6FEb2Re4`, CMU Andy Pavlo `VGdMembUCC0`, Bill Wallis ASOF join `zWY36adlP_c`, Feature Engineering `cApPa55X2JU`).
     - Chapter 4: Institutional Video Lecture Embeds.
   - **Check**: Verify the markdown file contains exact headers for each of the 4 chapters and valid URLs for all external documentation and video IDs.
 

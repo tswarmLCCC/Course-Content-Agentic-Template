@@ -41,10 +41,10 @@ Author an instructional synthesis that builds *on top of* the external readings 
 ### Chapter 2: Required Readings & Authoritative Tutorial Guides
 Curate 5 verified, authoritative external documentation guides:
 1. **DuckDB `ASOF JOIN` Official Documentation**
-   - URL: `https://duckdb.org/docs/sql/query_syntax/asof_join`
+   - URL: `https://duckdb.org/docs/guides/sql_features/asof_join`
    - Description: Definitive reference for syntax, `ON` vs. `USING` clauses, tie-breaking rules, and NULL handling.
 2. **DuckDB Engineering Blog: Fuzzy Temporal Lookups**
-   - URL: `https://duckdb.org/2023/09/15/asof-join-fuzzy-temporal-lookups.html`
+   - URL: `https://duckdb.org/2023/09/15/asof-joins-fuzzy-temporal-lookups.html`
    - Description: Detailed breakdown of the merge-join pipeline and why ASOF join avoids expensive Cartesian products.
 3. **Apache Arrow Columnar In-Memory Architecture**
    - URL: `https://arrow.apache.org/overview/`
@@ -63,15 +63,15 @@ Embed 4 verified YouTube micro-lectures with 16:9 responsive wrappers, lazy load
    - Duration / Start: Full (0:00)
    - Focus: High-velocity architectural overview of DuckDB and in-process OLAP.
 2. **CMU Database Group (Prof. Andy Pavlo): Storage Models & Database Compression**
-   - Video ID: `5gXn5fLkbM0`
+   - Video ID: `VGdMembUCC0`
    - Duration / Start: Starts at 15:20 (`?start=920`)
    - Focus: Deep dive into NSM (Row Stores) vs. DSM (Column Stores), memory bandwidth, and analytical query execution.
 3. **Bill Wallis: SQL ASOF Join in DuckDB & Snowflake**
-   - Video ID: `zy89zKipsQg`
+   - Video ID: `zWY36adlP_c`
    - Duration / Start: Full (0:00)
    - Focus: Live code demonstration of temporal timestamp alignment using ASOF join.
 4. **Feature Engineering: Point-in-Time Correctness & Avoiding Data Leakage**
-   - Video ID: `T1dJfh1KlYA`
+   - Video ID: `cApPa55X2JU`
    - Duration / Start: Full (0:00)
    - Focus: Why machine learning models fail when feature pipelines leak future event state.
 

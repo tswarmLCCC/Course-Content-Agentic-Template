@@ -42,8 +42,8 @@ The user mandate requires:
 
 ### Chapter 2: Required Readings & Authoritative Tutorial Guides
 - **EARS-006 (Ubiquitous)**: Chapter 2 shall link directly to at least five verified, authoritative external OER/documentation resources:
-  1. DuckDB Official `ASOF JOIN` Query Syntax Reference (`https://duckdb.org/docs/sql/query_syntax/asof_join`).
-  2. DuckDB Engineering Blog: Fuzzy Temporal Lookups (`https://duckdb.org/2023/09/15/asof-join-fuzzy-temporal-lookups.html`).
+  1. DuckDB Official `ASOF JOIN` Query Syntax Reference (`https://duckdb.org/docs/guides/sql_features/asof_join`).
+  2. DuckDB Engineering Blog: Fuzzy Temporal Lookups (`https://duckdb.org/2023/09/15/asof-joins-fuzzy-temporal-lookups.html`).
   3. Apache Arrow Columnar In-Memory Architecture (`https://arrow.apache.org/overview/`).
   4. DuckDB Parquet Ingestion & Pushdown Optimization (`https://duckdb.org/docs/data/parquet/overview`).
   5. DuckDB Window Functions Specification (`https://duckdb.org/docs/sql/window_functions`).
@@ -52,9 +52,9 @@ The user mandate requires:
 ### Chapter 3: Required Micro-Video Lectures (Embedded)
 - **EARS-008 (Ubiquitous)**: Chapter 3 shall embed responsive 16:9 YouTube iframes (`class="dp-embed-wrapper"`, `padding-bottom: 56.25%`, `loading="lazy"`) with title attributes and accessible direct watch links:
   1. Fireship: *DuckDB in 100 Seconds* (`uHm6FEb2Re4`).
-  2. CMU Database Group (Prof. Andy Pavlo): *Storage Models & Database Compression (NSM vs. DSM)* (`5gXn5fLkbM0`, starting at 15:20).
-  3. Bill Wallis: *SQL ASOF Join in DuckDB & Snowflake* (`zy89zKipsQg`).
-  4. *Feature Engineering: Point-in-Time Correctness & Avoiding Data Leakage* (`T1dJfh1KlYA`).
+  2. CMU Database Group (Prof. Andy Pavlo): *Storage Models & Database Compression (NSM vs. DSM)* (`VGdMembUCC0`, starting at 15:20).
+  3. Bill Wallis: *SQL ASOF Join in DuckDB & Snowflake* (`zWY36adlP_c`).
+  4. *Feature Engineering: Point-in-Time Correctness & Avoiding Data Leakage* (`cApPa55X2JU`).
 - **EARS-009 (Ubiquitous)**: Each video item shall display a prominent title, timestamp annotation, iframe container, and fallback external hyperlink opening in a new tab (`target="_blank" rel="noopener"`).
 
 ### Chapter 4: Institutional Video Lecture Embeds
