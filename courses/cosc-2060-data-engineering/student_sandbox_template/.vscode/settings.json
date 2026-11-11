@@ -1,5 +1,4 @@
 {
-  "python.defaultInterpreterPath": "/usr/local/bin/python",
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,
   "jupyter.askForKernelRestart": false,
@@ -7,4 +6,3 @@
   "files.eol": "\n",
   "editor.rulers": [100]
 }
-
