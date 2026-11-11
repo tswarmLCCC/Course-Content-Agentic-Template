@@ -1,0 +1,10 @@
+The syllabus page is not in the right place or format (have it refer to the way 1815 did it)
+
+Unit 1 -     
+    Needs a getting started with the lab page - after we build that
+    Reading p- have it refer to the way 1815 did it
+        Has $X$ types of typos
+        has typos like - In your introductory machine learning coursework
+        the first paragrahs is solid, but then it goes right into data leakage -
+            this is ok eventually, but we need to first introduce feature engineering and the overall practics of buildign these datasets first!
+            

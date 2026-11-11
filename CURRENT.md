@@ -1,12 +1,12 @@
 # Workspace State & Active Target Pointer
 
 ## Active Workspace Target
-- **Active Target Type**: `Full 8-Week Accelerated Course`
-- **Active Target**: `courses/aiml-2050-ai-in-the-workforce`
-- **Target Title**: AIML 2050: AI in the Workforce
-- **Target Path**: `courses/aiml-2050-ai-in-the-workforce/`
-- **Active Iteration**: `specs/001-course-scaffold-and-intake` (Stage 4: Completed & Verified — Production Ready)
-- **Status**: Complete 8-week accelerated Canvas course package compiled into `AIML_2050_Complete.imscc` (102 files, 38 XML verified, 0.67 MB). Bundles DesignPLUS module accordion front page, Getting Started orientation module, Master Syllabus (.docx & HTML), hero banner, 8 weekly unit packages with curated Intel slide directives, open-source tool guides, SpeedGrader rubrics, and 80 QTI quiz questions.
+- **Active Target Type**: `Full Semester Course`
+- **Active Target**: `courses/cosc-2060-data-engineering`
+- **Target Title**: COSC 2060: Modern Data Engineering & AI Infrastructure
+- **Target Path**: `courses/cosc-2060-data-engineering/`
+- **Active Iteration**: `Student Sandbox Template Repo Guide & Planning` (Stage 1: Specify / Advise)
+- **Status**: Complete 8-Unit Ecosystem (4-Chapter OER & Video Reading Pages, Labs, Starters, Guides, 80 QTI Quizzes & Fully Verified Native `.imscc` Cartridge with Front Page & Accordions). Now designing the companion GitHub Codespaces Student Sandbox template repository (`COSC-2060-Student-Sandbox`).
 
 ---
 
