@@ -103,3 +103,9 @@ Inside **each unit folder**, you will find:
 5. Save a copy of your completed file as `lab{N}_{yourlastname}.py` (e.g., `lab1_smith.py`).
 6. Download/export your `lab{N}_{yourlastname}.py` file from VS Code (Right-click file $\rightarrow$ **Download...**) and upload it to the corresponding **Applied Lab Assignment in Canvas**.
 
+cd "c:\dev\Course-Content-Agentic-Template\courses\cosc-2060-data-engineering\student_sandbox_template"
+git init -b main
+git add .
+git commit -m "Initial release: COSC 2060 Student Lab Sandbox"
+git remote add origin https://github.com/tswarmLCCC/COSC-2060-Student-Sandbox.git
+git push -u origin main
