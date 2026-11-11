@@ -14,7 +14,7 @@ In **COSC 2060 (Modern Data Engineering & AI Infrastructure)**, students progres
 
 | Architectural Dimension | `CMAP-1815-Student-Sandbox` (SQL) | `COSC-2060-Student-Sandbox` (Data Eng & AI) | Engineering Rationale for COSC 2060 |
 | :--- | :--- | :--- | :--- |
-| **Container Topology** | 2-Container `docker-compose.yml` (`workspace` + `postgres:16`) | Single-Container `devcontainer.json` (`python:1-3.11-bookworm` + `docker-in-docker`) | DuckDB, Polars, and FastAPI `TestClient` run **in-process**. Eliminating the second container saves ~400 MB RAM for 1M-row Polars & embedding models and halves Codespace boot time. |
+| **Container Topology** | 2-Container `docker-compose.yml` (`workspace` + `postgres:16`) | Single-Container `devcontainer.json` (`mcr.microsoft.com/devcontainers/python:1-3.11-bookworm`) | DuckDB, Polars, and FastAPI `TestClient` run **in-process**. Using the pre-cached official Python 3.11 image with zero custom `features` or `onCreateCommand` blocks guarantees instant spin-up and prevents GitHub Codespaces from ever falling back to the `base:alpine` recovery container. |
 | **Database & Storage** | Client-Server `postgres:16` over port `5432` | In-Process `DuckDB` (`apex_logistics.duckdb`) + `Apache Parquet` (`fuel_transactions.parquet`) | Zero network socket overhead; operates directly on Arrow/Parquet memory buffers. |
 | **PyTorch / Embedding Footprint** | N/A | CPU-Only PyTorch (`--extra-index-url https://download.pytorch.org/whl/cpu`) | Default `pip install sentence-transformers` on Linux pulls **2.5 GB of NVIDIA CUDA** libraries on CPU-only Codespaces. CPU-only index shrinks the container by ~2 GB and speeds up installation 4x. |
 | **Computer Vision Runtime** | N/A | `opencv-python-headless` | Standard `opencv-python` crashes inside headless Linux containers with `ImportError: libGL.so.1: cannot open shared object file`. |
@@ -172,11 +172,7 @@ git pull origin main
    - **Prevention Built-In**: We included [`.gitattributes`](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/student_sandbox_template/.gitattributes) with `*.sh text eol=lf`, ensuring Git always stores and checks out `.sh` files with Unix `LF` line endings.
 2. **`FileNotFoundError: Missing data/fuel_transactions.parquet` in Unit 2**:
    - **Prevention Built-In**: Both `datasets/seed_all_datasets.py` and `units/unit_02_anomaly_detection_engines/lab2_starter.py` automatically resolve `fuel_transactions.parquet` whether the student runs the script from the workspace root (`/workspaces/COSC-2060-Student-Sandbox`) or after running `cd units/unit_02_anomaly_detection_engines`.
-3. **Testing Unit 8 `Dockerfile` Inside Codespaces**:
-   - Because `.devcontainer/devcontainer.json` includes `"ghcr.io/devcontainers/features/docker-in-docker:2"`, the `docker` daemon runs automatically inside the student's Codespace. Students can verify their Unit 8 Capstone container via:
-     ```bash
-     cd units/unit_08_capstone_defense_and_production
-     docker build -t apex-capstone:v1 .
-     docker run --rm apex-capstone:v1
-     ```
+3. **Why We Avoid `features` (`docker-in-docker`) and `onCreateCommand` (`apt-get update`) in `devcontainer.json`**:
+   - In GitHub Codespaces, if any Devcontainer Feature (like `docker-in-docker`) or blocking `onCreateCommand` exits with a non-zero status code during container creation, Codespaces aborts the build and drops the user into **`mcr.microsoft.com/devcontainers/base:alpine` (Recovery Mode)** — which lacks `apt-get`, `pip`, and `/usr/local/python`.
+   - Keeping `.devcontainer/devcontainer.json` strictly on the pre-cached `mcr.microsoft.com/devcontainers/python:1-3.11-bookworm` image with `postCreateCommand: "bash .devcontainer/setup_sandbox.sh"` guarantees 100% reliable container startup. For Unit 8, `lab8_starter.py` validates the multi-stage `Dockerfile` and executes the blind evaluation batch directly in Python.
 
