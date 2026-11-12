@@ -242,23 +242,33 @@ def parse_markdown_sections(md: str) -> Tuple[str, str, List[Tuple[str, str]]]:
     current_section_lines = []
 
     in_lead = True
+    in_code_block = False
 
     for line in lines:
         stripped = line.strip()
-        h1_match = re.match(r"^#\s+(.*)$", stripped)
-        h2_match = re.match(r"^##\s+(.*)$", stripped)
-
-        if h1_match and not title:
-            title = h1_match.group(1).strip()
+        if stripped.startswith("```"):
+            in_code_block = not in_code_block
+            if in_lead:
+                lead_lines.append(line)
+            else:
+                current_section_lines.append(line)
             continue
 
-        if h2_match:
-            in_lead = False
-            if current_section_title:
-                sections.append((current_section_title, "\n".join(current_section_lines)))
-            current_section_title = h2_match.group(1).strip()
-            current_section_lines = []
-            continue
+        if not in_code_block:
+            h1_match = re.match(r"^#\s+(.*)$", stripped)
+            h2_match = re.match(r"^##\s+(.*)$", stripped)
+
+            if h1_match and not title:
+                title = h1_match.group(1).strip()
+                continue
+
+            if h2_match:
+                in_lead = False
+                if current_section_title:
+                    sections.append((current_section_title, "\n".join(current_section_lines)))
+                current_section_title = h2_match.group(1).strip()
+                current_section_lines = []
+                continue
 
         if in_lead:
             # Skip horizontal rules in lead
