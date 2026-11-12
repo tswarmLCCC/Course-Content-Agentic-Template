@@ -61,6 +61,11 @@ Now, complete the capstone challenge: assemble all units into a cohesive system,
 
 ## 2. 100-Point Graded Challenges
 
+#### Part 0: Basics Warm-Up — Pre-Flight Inspection of the Blind Batch
+Before executing the full Capstone Defense verification suite, run `part0_basics_warmup()` in `lab8_starter.py` to inspect and count the incoming records across all three modalities in `BLIND_TEST_BATCH`.
+
+
+
 You will complete four progressive challenges inside `lab8_starter.py`.
 
 ```
@@ -108,6 +113,21 @@ BLIND_TEST_BATCH = {
         {"truck_id": "TRUCK-101", "wo": "WO-9902", "notes": "Wiper blade replacement completed."}
     ]
 }
+
+
+# =========================================================================
+# PART 0: BASICS WARM-UP — CAPSTONE PRE-FLIGHT SANITY CHECK
+# =========================================================================
+def part0_basics_warmup() -> Dict[str, int]:
+    """
+    PART 0: Basics Warm-Up (Pre-Flight Inspection of the Blind Test Batch)
+    Counts the incoming records across all three modalities in BLIND_TEST_BATCH
+    before executing the full Capstone Defense verification suite.
+    """
+    print("--- Part 0: Basics Warm-Up (Inspecting Blind Batch Counts) ---")
+    counts = {k: len(v) for k, v in BLIND_TEST_BATCH.items()}
+    print("Incoming Blind Batch Modality Counts:", counts)
+    return counts
 
 
 # =========================================================================
@@ -208,6 +228,7 @@ if __name__ == "__main__":
     print("COSC 2060 CAPSTONE TECHNICAL DEFENSE: LIVE SIMULATION")
     print("================================================================================")
     
+    part0_basics_warmup()
     defense = CapstoneDefenseSystem()
 
     # Step 1: Ingesting Blind Batch

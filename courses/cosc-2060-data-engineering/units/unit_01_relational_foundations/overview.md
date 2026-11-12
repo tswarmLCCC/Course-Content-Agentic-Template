@@ -1,6 +1,8 @@
 # Unit 01 Overview: Relational Foundations & Vectorized Ingestion
 
-Welcome to Unit 01 of **COSC 2060: Modern Data Engineering & AI Infrastructure**. This week establishes the bedrock of analytical data engineering: understanding why row-oriented databases crawl under analytical workloads and how vectorized columnar execution engines (DuckDB and Polars) achieve sub-second query performance on gigabyte-scale datasets without cluster overhead.
+Welcome to Unit 01 of **COSC 2060: Modern Data Engineering & AI Infrastructure**. This week builds directly on the SQL and Python fundamentals you learned in CMAP 1815: we move from writing database reports for human managers to building leak-free, flat feature tables for machine learning models using DuckDB and Apache Parquet.
+
+> **First Time in the Lab Sandbox?** Before starting this unit's code examples or lab, make sure you have set up your personal GitHub Codespaces workspace using the **Getting Started with the Lab Environment** guide in the *Getting Started - Course Orientation* module (`getting-started-lab-sandbox.html`), and keep **The Shapes of AI Data: A Companion Guide** (`ai-data-shapes-guide.html`) handy as your reference for dataset formats.
 
 ---
 

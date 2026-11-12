@@ -57,13 +57,13 @@ ORDER BY r.dep_time ASC;
 5. Because of `LEFT JOIN ... ON true`, if a route departed before the earliest weather observation, the weather columns return `NULL` instead of dropping the route.
 
 ### Mandatory Performance Index:
-Without an index, this query performs an **$O(N \times M)$ Nested Loop Sequential Scan**, which will lock up your database on large tables! To make this fast, create a **composite B-Tree index**:
+Without an index, this query performs an **`O(N * M)` Nested Loop Sequential Scan**, which will lock up your database on large tables! To make this fast, create a **composite B-Tree index**:
 
 ```sql
 CREATE INDEX idx_weather_city_time 
 ON weather_observations (city, obs_time DESC);
 ```
-With this composite index, PostgreSQL converts the subquery from a full table scan into an instant **Index Scan (Backward)**, finding the exact single row in logarithmic time $O(N \log M)$.
+With this composite index, PostgreSQL converts the subquery from a full table scan into an instant **Index Scan (Backward)**, finding the exact single row in logarithmic time `O(N log M)`.
 
 ---
 

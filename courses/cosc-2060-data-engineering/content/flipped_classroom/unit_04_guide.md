@@ -40,7 +40,7 @@ Students complete these materials independently before the first live classroom 
    - [Unit 4 Reading: Unstructured Text & Vector Search](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/readings/unit_04_unstructured_text_rag.md)
 2. **Curated Outside Readings** (20 min):
    - *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks* (Lewis et al., Meta AI / NeurIPS): The foundational paper establishing RAG architecture.
-   - *Lost in the Middle: How Language Models Use Long Contexts* (Liu et al., Stanford / UC Berkeley): Demonstrating why retrieving too many chunks ($k > 10$) causes LLMs to ignore critical facts placed in the center of prompts.
+   - *Lost in the Middle: How Language Models Use Long Contexts* (Liu et al., Stanford / UC Berkeley): Demonstrating why retrieving too many chunks (`k > 10`) causes LLMs to ignore critical facts placed in the center of prompts.
    - *Sentence-Transformers Documentation* (Nils Reimers, UKP Lab): Overview of the `all-MiniLM-L6-v2` architecture and cosine similarity metrics.
 3. **Curated Outside Video** (10 min):
    - *Vector Embeddings and Semantic Space Explained Visually* (StatQuest / 3Blue1Brown, 15 min): Watch for how continuous vectors place synonyms in geometric proximity.
@@ -59,9 +59,9 @@ Students complete these materials independently before the first live classroom 
 - **00:15 – 00:35 | Whiteboard Sparring: The Geometry of Meaning**:
   - Draw a 2D projection of a unit circle hypersphere on the board.
   - Plot three vectors:
-    - $\vec{u}$: `"whistling sound at 1800 rpm"` ($\theta = 0^\circ$)
-    - $\vec{v}$: `"high-pitched turbine whine"` ($\theta = 15^\circ$, $\cos\theta = 0.96$)
-    - $\vec{w}$: `"replaced windshield wiper blade"` ($\theta = 88^\circ$, $\cos\theta = 0.03$)
+    - `u`: `"whistling sound at 1800 rpm"` (`angle = 0 deg`)
+    - `v`: `"high-pitched turbine whine"` (`angle = 15 deg`, `costheta = 0.96`)
+    - `w`: `"replaced windshield wiper blade"` (`theta = 88^circ`, `costheta = 0.03`)
   - Demonstrate why dot product equals cosine similarity when vector lengths are normalized to $1.0$.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
   - **Presentation Deck**: [Unit 4 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_04_coding_clinic.pptx)
@@ -159,7 +159,7 @@ Each dimension captures an abstract latent semantic feature: acoustic properties
 Every embedding is normalized so its length is exactly 1.0. That means all our document chunks live on the surface of a 384-dimensional unit sphere.
 
 When we want to compare two concepts, we compute their **Cosine Similarity**—which is simply the dot product of the two vectors:
-$$\cos(\theta) = \vec{u} \cdot \vec{v}$$
+`cos(theta) = u cdot v`
 
 When we compare 'turbocharger whining noise' with 'loud whistling sound near 1800 revs', their vectors point in nearly the exact same direction. The cosine similarity is 0.75! 
 Even though they share almost zero identical words, the mathematical geometry proves they mean the same thing."
@@ -236,8 +236,8 @@ self.embeddings = raw_vecs / norms
 ```
 Why do we divide by `norms`?
 Because cosine similarity is defined as:
-$$\text{CosSim}(\vec{u}, \vec{v}) = \frac{\vec{u} \cdot \vec{v}}{\|\vec{u}\| \|\vec{v}\|}$$
-If we pre-normalize all our vectors so that $\|\vec{u}\| = 1$ and $\|\vec{v}\| = 1$, then the denominator is simply $1 \times 1 = 1$!
+`CosSim(u, v) = frac{u cdot v{|u| |v|`
+If we pre-normalize all our vectors so that `|u| = 1` and `|v| = 1`, then the denominator is simply $1 \times 1 = 1$!
 Cosine similarity reduces to a fast dot product:
 `similarities = np.dot(self.embeddings, query_vec.T)`
 This runs in sub-millisecond time on a standard CPU."

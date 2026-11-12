@@ -59,7 +59,7 @@ Students complete these materials independently before the first live classroom 
   - Open with Global Freightways' accidental purging of 42,000 active manifests. Ask students: *"Why did the AI delete real shipments when the dispatcher only asked to clear demo records?"*
 - **00:15 – 00:35 | Whiteboard Sparring: The JSON-RPC Sandbox**:
   - Contrast raw SQL access with the MCP sandwich:
-    - User $\to$ LLM $\to$ JSON-RPC `tools/call` $\to$ MCP Server Firewall $\to$ Python Function $\to$ Read-Only Data Store.
+    - User -> LLM -> JSON-RPC `tools/call` -> MCP Server Firewall -> Python Function -> Read-Only Data Store.
   - Show why the LLM can never execute `DELETE` or `DROP` because those functions do not exist in the tool manifest.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
   - **Presentation Deck**: [Unit 6 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_06_coding_clinic.pptx)

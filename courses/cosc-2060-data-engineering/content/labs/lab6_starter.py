@@ -1,11 +1,16 @@
 """
 COSC 2060 — Unit 6 Lab: Model Context Protocol (MCP) Interface
+Name: [Your Name]
+Date: [Current Date]
 """
 
 import json
 import re
 from typing import Dict, Any, Callable
 
+# =========================================================================
+# MOCK ENTERPRISE BACKENDS (Simulating Unit 1, 3, and 4 Data Stores)
+# =========================================================================
 FLEET_TELEMETRY = {
     "TRUCK-101": {"avg_speed_mph": 58.4, "fuel_mpg": 6.8, "status": "OPERATIONAL"},
     "TRUCK-219": {"avg_speed_mph": 52.1, "fuel_mpg": 5.1, "status": "REQUIRES_INSPECTION"}
@@ -21,12 +26,36 @@ MAINTENANCE_RAG = {
     "TRUCK-101": "Work Order WO-09921: Standard oil filter change. All fluids topped off."
 }
 
+
+# =========================================================================
+# PART 0: BASICS WARM-UP — JSON-RPC 2.0 MESSAGE FORMAT
+# =========================================================================
+def part0_basics_warmup() -> Dict[str, Any]:
+    """
+    PART 0: Basics Warm-Up (Ground-Up JSON-RPC 2.0 Structure)
+    Constructs a minimal JSON-RPC 2.0 response envelope before registering
+    and invoking multi-modal MCP tools.
+    """
+    print("=== Part 0: Basics Warm-Up (JSON-RPC 2.0 Envelope Structure) ===")
+    rpc_response = {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {"content": [{"type": "text", "text": json.dumps({"status": "READY"})}]}
+    }
+    print("Sample JSON-RPC Response:", json.dumps(rpc_response))
+    return rpc_response
+
+
+# =========================================================================
+# CHALLENGE 1: MCP Tool Registry & Schema Introspection (25 pts)
+# =========================================================================
 class MCPLogisticsServer:
     def __init__(self, server_name: str = "Logistics-MCP-Core"):
         self.server_name = server_name
         self.tools: Dict[str, Dict[str, Any]] = {}
 
     def register_tool(self, name: str, description: str, parameters_schema: Dict[str, Any]):
+        """Registers a function as an MCP tool with explicit schema definition."""
         def decorator(func: Callable):
             self.tools[name] = {
                 "name": name,
@@ -38,6 +67,7 @@ class MCPLogisticsServer:
         return decorator
 
     def list_tools(self) -> Dict[str, Any]:
+        """Returns JSON-RPC compliant tools/list response."""
         tool_manifests = []
         for name, meta in self.tools.items():
             tool_manifests.append({
@@ -47,9 +77,14 @@ class MCPLogisticsServer:
             })
         return {"tools": tool_manifests}
 
+
 server = MCPLogisticsServer()
 
+# =========================================================================
+# CHALLENGE 2: Defensive Input Validation & Least-Privilege Sandboxing (25 pts)
+# =========================================================================
 def sanitize_truck_id(truck_id: str) -> str:
+    """Enforces strict format checking to prevent SQL or script injection."""
     if not isinstance(truck_id, str):
         raise ValueError("truck_id must be a string")
     clean = truck_id.strip().upper()
@@ -57,6 +92,10 @@ def sanitize_truck_id(truck_id: str) -> str:
         raise ValueError(f"Invalid truck identifier '{truck_id}'. Must match pattern TRUCK-XXX.")
     return clean
 
+
+# =========================================================================
+# CHALLENGE 3: Multimodal Fleet Safety Diagnostic Tool (25 pts)
+# =========================================================================
 @server.register_tool(
     name="get_truck_telemetry",
     description="Retrieves live operational telemetry including average speed, fuel efficiency, and status.",
@@ -72,6 +111,7 @@ def get_truck_telemetry(truck_id: str) -> Dict[str, Any]:
         return {"status": "NOT_FOUND", "message": f"Truck {clean_id} not registered."}
     return {"status": "SUCCESS", "data": FLEET_TELEMETRY[clean_id]}
 
+
 @server.register_tool(
     name="evaluate_fleet_safety_clearance",
     description="Performs multimodal safety clearance combining computer vision defects and maintenance RAG records.",
@@ -82,6 +122,12 @@ def get_truck_telemetry(truck_id: str) -> Dict[str, Any]:
     }
 )
 def evaluate_fleet_safety_clearance(truck_id: str) -> Dict[str, Any]:
+    """
+    Multimodal Diagnostic Logic:
+      - If vision detects 'sidewall_crack' OR maintenance notes mention 'turbo recall':
+        Return clearance = 'GROUNDED' with CRITICAL severity.
+      - Otherwise: Return clearance = 'CLEARED'.
+    """
     clean_id = sanitize_truck_id(truck_id)
     defects = VISION_DEFECTS.get(clean_id, [])
     rag_notes = MAINTENANCE_RAG.get(clean_id, "")
@@ -109,7 +155,15 @@ def evaluate_fleet_safety_clearance(truck_id: str) -> Dict[str, Any]:
             "findings": ["All vision and maintenance checks passed."]
         }
 
+
+# =========================================================================
+# CHALLENGE 4: Agentic JSON-RPC Tool Execution Simulation (25 pts)
+# =========================================================================
 def execute_agent_call(rpc_request: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Simulates the MCP Client dispatch loop:
+      Parses a JSON-RPC 'tools/call' request and routes it to the registered handler.
+    """
     req_id = rpc_request.get("id", 1)
     params = rpc_request.get("params", {})
     tool_name = params.get("name")
@@ -139,10 +193,15 @@ def execute_agent_call(rpc_request: Dict[str, Any]) -> Dict[str, Any]:
             "error": {"code": -32000, "message": str(e)}
         }
 
+
+# =========================================================================
+# VERIFICATION SUITE (Do not modify)
+# =========================================================================
 if __name__ == "__main__":
-    print("=== Step 1: Verifying Tool Manifest Registration ===")
+    part0_basics_warmup()
+    print("\n=== Step 1: Verifying Tool Manifest Registration ===")
     tools_list = server.list_tools()
-    assert len(tools_list["tools"]) >= 2
+    assert len(tools_list["tools"]) >= 2, f"Expected at least 2 tools, got {len(tools_list['tools'])}"
     tool_names = [t["name"] for t in tools_list["tools"]]
     assert "get_truck_telemetry" in tool_names
     assert "evaluate_fleet_safety_clearance" in tool_names

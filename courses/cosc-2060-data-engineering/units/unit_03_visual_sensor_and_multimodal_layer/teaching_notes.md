@@ -59,9 +59,9 @@ Students complete these materials independently before the first live classroom 
 - **00:15 – 00:35 | Whiteboard Sparring: Deriving Letterbox Math**:
   - Draw a wide $16:9$ rectangle ($1920 \times 1080$) inside a square $640 \times 640$ canvas.
   - Derive the scaling factor together:
-    $$\text{scale} = \min\left(\frac{640}{1920}, \frac{640}{1080}\right) = \min(0.3333, 0.5925) = 0.3333$$
-  - Calculate the new dimensions: $W = 640, H = 360$.
-  - Calculate vertical padding: $\text{pad\_y} = (640 - 360) / 2 = 140$ pixels.
+    `scale = min(640 / 1920, 640 / 1080) = min(0.3333, 0.5925) = 0.3333`
+  - Calculate the new dimensions: `W = 640, H = 360`.
+  - Calculate vertical padding: `pad_y = (640 - 360) / 2 = 140` pixels.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
   - **Presentation Deck**: [Unit 3 Coding Clinic Slides (.pptx)](../../content/slides/unit_03_coding_clinic.pptx)
   - **Interactive Companion**: Open [Unit 3 Transition Notebook: `unit_03_ds_to_engine.ipynb`](../../content/notebooks/unit_03_ds_to_engine.ipynb)
@@ -92,7 +92,7 @@ Students complete pre-lab tasks before entering the live hack session:
   - Students implement Challenges 2, 3, and 4 in `lab3_starter.py`.
   - Instructor provides roaming support for coordinate clamping and batch directory iteration.
 - **00:55 – 01:10 | Peer Coordinate Boundary Audit**:
-  - Students exchange manifests and run automated sanity tests: checking that $x_c + w/2 \le 1.0$ and that no bounding boxes have negative widths or heights.
+  - Students exchange manifests and run automated sanity tests: checking that `x_c + w/2 <= 1.0` and that no bounding boxes have negative widths or heights.
 - **01:10 – 01:15 | Automated Verification Pass & Unit 4 Teaser**:
   - Verification checkoff. Preview Unit 4: Ingesting unstructured text and mechanic shop notes with Sentence-Transformers and RAG.
 
@@ -164,7 +164,7 @@ Every bounding box annotation in your database was drawn on the ORIGINAL image c
 
 If a crack was located at pixel coordinates `(100, 100)` to `(300, 300)` on a 1920x1080 photo, where is it located on the new 640x640 letterboxed image?
 You must scale the bounding box by the same factor and shift it by the padding offset:
-$$\text{new\_x} = (x \times \text{scale}) + \text{pad\_x}$$
+`new_x = (x * scale) + pad_x`
 
 And finally, you must convert it into the YOLO standard: normalized center coordinates `(x_center, y_center, width, height)` between 0.0 and 1.0.
 

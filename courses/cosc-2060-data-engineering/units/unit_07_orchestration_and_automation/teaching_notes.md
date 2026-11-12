@@ -60,7 +60,7 @@ Students complete these materials independently before the first live classroom 
 - **00:15 – 00:35 | Whiteboard Sparring: Topological Sorting & Cycles**:
   - Draw a 5-node DAG on the board with two parallel branches.
   - Walk through Kahn's algorithm step-by-step: tracking `in_degree` counts and queueing zero-degree nodes.
-  - Introduce a circular dependency (Node A $\to$ Node B $\to$ Node A) and demonstrate how Kahn's algorithm detects the cycle when `len(order) != len(nodes)`.
+  - Introduce a circular dependency (Node A -> Node B -> Node A) and demonstrate how Kahn's algorithm detects the cycle when `len(order) != len(nodes)`.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
   - **Presentation Deck**: [Unit 7 Coding Clinic Slides (.pptx)](../../content/slides/unit_07_coding_clinic.pptx)
   - **Interactive Companion**: Open [Unit 7 Transition Notebook: `unit_07_ds_to_engine.ipynb`](../../content/notebooks/unit_07_ds_to_engine.ipynb)

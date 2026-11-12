@@ -24,7 +24,7 @@ What is the semantic difference between the HTTP `GET` and `POST` methods accord
 ### Question 4
 Why is "cursor-based pagination" preferred over "offset-limit pagination" (`OFFSET 100000 LIMIT 50`) when querying multi-million-row analytical tables?
 * A) Cursor-based pagination sorts strings alphabetically faster.
-* B) `OFFSET N` forces the database engine to scan and discard the first $N$ rows, resulting in severe O(N) performance degradation; cursor pagination uses indexed inequalities in O(1).
+* B) `OFFSET N` forces the database engine to scan and discard the first `N` rows, resulting in severe O(N) performance degradation; cursor pagination uses indexed inequalities in O(1).
 * C) Cursor-based pagination only works with SQLite.
 * D) Offset pagination is forbidden by the HTTP 1.1 protocol specification.
 

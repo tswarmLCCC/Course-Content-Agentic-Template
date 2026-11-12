@@ -58,8 +58,8 @@ Students complete these materials independently before the first live classroom 
   - Open with the $1.2M contract cancellation. Ask students: *"Why did missing `libGL.so.1` and hardcoded local file paths destroy four months of great machine learning engineering?"*
 - **00:15 – 00:35 | Whiteboard Sparring: Multi-Stage Docker Builds**:
   - Draw the multi-stage build pattern on the board:
-    - Stage 1 (Builder): Base image + compiler + pip dependencies $\to$ wheel cache.
-    - Stage 2 (Runtime): Clean minimal slim image $\to$ copy only installed wheels $\to$ copy app source.
+    - Stage 1 (Builder): Base image + compiler + pip dependencies -> wheel cache.
+    - Stage 2 (Runtime): Clean minimal slim image -> copy only installed wheels -> copy app source.
   - Show how image size shrinks from 1.8GB down to 180MB!
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
   - **Presentation Deck**: [Unit 8 Coding Clinic Slides (.pptx)](file:///c:/dev/Course-Content-Agentic-Template/courses/cosc-2060-data-engineering/content/slides/unit_08_coding_clinic.pptx)
@@ -246,7 +246,7 @@ TX-902 triggers `self.active_alerts.append({'alert_type': 'FUEL_FRAUD'})`.
 Clean transactions update the feature store. 
 
 In Challenge 3, look at `evaluate_operational_clearance`:
-It inspects vision defects for `sidewall_crack` with confidence $\ge 0.80$. 
+It inspects vision defects for `sidewall_crack` with confidence >= 0.80. 
 It inspects RAG notes for `recall` or `whistling`. 
 
 If found:

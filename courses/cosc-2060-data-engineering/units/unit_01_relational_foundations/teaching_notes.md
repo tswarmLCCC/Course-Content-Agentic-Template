@@ -3,7 +3,7 @@
 
 > **Course**: COSC 2060 — Modern Data Engineering & AI Infrastructure  
 > **Unit Duration**: 2 Weeks | 4 Slots @ 75 Minutes Each (Flipped Classroom Model)  
-> **Prerequisites**: Introductory SQL (Relational Selects/Joins) & Intro ML (Supervised Learning Targets $X, y$)  
+> **Prerequisites**: Introductory SQL (Relational Selects/Joins) & Intro ML (Supervised Learning Targets (X, y))  
 > **Core Toolchain**: DuckDB, Advanced SQL (Window Functions & Point-in-Time Joins), Python 3.10+
 
 ---
@@ -12,7 +12,7 @@
 In modern AI engineering, tabular models do not fail because of weak hyperparameters—they fail because upstream data engineering inadvertently leaked future state into the training matrix. In Unit 1, students bridge the gap between simple SQL queries and defensive, production-grade feature pipelines.
 
 ### Terminal Competencies
-- **Eliminate Look-Ahead Bias**: Construct temporal joins that guarantee feature states are evaluated strictly at $t \le t_{\text{cutoff}}$.
+- **Eliminate Look-Ahead Bias**: Construct temporal joins that guarantee feature states are evaluated strictly at `t <= t_cutoff`.
 - **In-Process Analytical Processing**: Leverage DuckDB's vectorized columnar engine to execute complex analytical window functions on local hardware without cloud database overhead.
 - **Export Immutable Artifacts**: Serialize flat, leakage-free feature matrices into columnar Parquet format ready for Scikit-Learn training.
 
@@ -56,9 +56,9 @@ Students complete these materials independently before the first live classroom 
 - **00:00 – 00:15 | Incident Retrospective & The $2.4M Failure**:
   - Open with the Midwest Logistics $2.4M delivery delay disaster. Ask students: *"Why did the model score 96% accuracy in testing but fail completely on day one of live operations?"*
 - **00:15 – 00:35 | Whiteboard Sparring: Visualizing Temporal Joins**:
-  - Draw a timeline on the whiteboard with $t_{\text{departure}} = \text{14:00}$.
-  - Plot three maintenance events: $E_1$ (10:00), $E_2$ (13:30), $E_3$ (15:45).
-  - Walk through student proposals on how to prevent $E_3$ from entering the training row.
+  - Draw a timeline on the whiteboard with `t_departure = 14:00`.
+  - Plot three maintenance events: `E_1` (10:00), `E_2` (13:30), `E_3` (15:45).
+  - Walk through student proposals on how to prevent `E_3` from entering the training row.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
   - **Presentation Deck**: [Unit 1 Coding Clinic Slides (.pptx)](../../content/slides/unit_01_coding_clinic.pptx)
   - **Interactive Companion**: Open [Unit 1 Transition Notebook: `unit_01_ds_to_engine.ipynb`](../../content/notebooks/unit_01_ds_to_engine.ipynb)
@@ -106,7 +106,7 @@ Students complete pre-lab tasks before entering the live hack session:
 [CAMERA ON INSTRUCTOR]
 "Welcome to COSC 2060: Modern Data Engineering and AI Infrastructure. I'm excited to have you in the course. 
 
-If you've taken an introductory machine learning class, you've probably spent most of your time loading neat, clean CSV files from Kaggle, splitting them into train and test sets, and tweaking hyperparameters in Scikit-Learn. 
+If you've taken an CMAP 1815 SQL & Python class, you've probably spent most of your time loading neat, clean CSV files from Kaggle, splitting them into train and test sets, and tweaking hyperparameters in Scikit-Learn. 
 
 Here is the hard truth that nobody tells you in introductory AI: In the real world, nobody hands you a clean feature matrix. In fact, if you use standard, textbook SQL queries to prepare your data, you will accidentally commit the number one sin of machine learning: Look-Ahead Bias. And it can cost your company millions of dollars. Today, we're going to fix that."
 

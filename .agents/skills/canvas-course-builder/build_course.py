@@ -120,10 +120,14 @@ def compile_course(
     # 3. Native Syllabus Page & Word Document (Full Course Mode Only)
     if not modular:
         syllabus_md_file = find_file(os.path.dirname(config_path), ["syllabus\\.md"])
-        syllabus_body = "<p>Welcome to modern online coursework.</p>"
+        syl_lead_html = "<p>Welcome to modern online coursework.</p>"
+        syl_sections = []
         if syllabus_md_file:
             with open(syllabus_md_file, "r", encoding="utf-8") as sf:
-                syllabus_body = parse_markdown_to_html(sf.read())
+                syl_raw_md = sf.read()
+            _, syl_lead_parsed, syl_sections = parse_markdown_sections(syl_raw_md)
+            if syl_lead_parsed:
+                syl_lead_html = syl_lead_parsed
 
         # Build Word Syllabus .docx
         docx_filename = f"{c_code.replace(' ', '_')}_Master_Syllabus.docx"
@@ -146,21 +150,29 @@ def compile_course(
         except Exception as e:
             print(f"  [!] Note: docx syllabus generation skipped: {e}")
 
-        # Build Native Syllabus HTML
+        # Build Native Syllabus HTML (DesignPLUS Header + Lead Info + Download Box + Accordion Panels)
         docx_rel = os.path.relpath(docx_path, builder.web_res_dir).replace(os.sep, "/")
-        syllabus_html = f"""<div id="dp-wrapper_1" class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary">
-  <header class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary dp-header-pre-s-brdr-r dp-header-pre-font-sm dp-header-pre-out-dp-secondary dp-header-sub-brdr-w-0 dp-header-desc-txt-dp-primary dp-header-desc-out-dp-primary dp-header-sub-bg-dp-white dp-header-sub-txt-dp-primary dp-header-sub-out-dp-primary">
-    <h2 class="dp-heading dp-locked"><span class="dp-header-title">{html.escape(c_code)}: {html.escape(c_title)} Course Syllabus</span></h2>
-  </header>
-</div>
-<div style="background: #eff6ff; border-left: 4px solid #2563eb; padding: 1rem 1.25rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0;">
-  <p style="margin: 0; font-weight: 600;">Download Official Word Document Syllabus:</p>
+        docx_download_box = f"""<div style="background: #eff6ff; border-left: 4px solid #2563eb; padding: 1rem 1.25rem; margin: 1.25rem 0; border-radius: 0 4px 4px 0;">
+  <p style="margin: 0; font-weight: 600;">Download Official Word Document Syllabus (.docx):</p>
   <p style="margin: 0.25rem 0 0 0;"><a class="instructure_file_link" title="{docx_filename}" href="$IMS-CC-FILEBASE$/{docx_rel}?canvas_=1&amp;canvas_qs_wrap=1" target="_blank" rel="noopener" style="color: #2563eb; font-weight: 600; text-decoration: underline;">&#128196; {docx_filename}</a></p>
-</div>
-{syllabus_body}
-"""
+</div>"""
+        combined_syl_lead = docx_download_box + "\n" + syl_lead_html
+        if not syl_sections:
+            syl_sections = [("Course Overview & Policies", syl_lead_html)]
+
+        p_orient_syl_id = make_canvas_id("page_orient_syllabus")
+        full_syllabus_page_html = render_designplus_html(
+            f"{c_code}: {c_title} Course Syllabus",
+            combined_syl_lead,
+            syl_sections,
+            p_orient_syl_id,
+            header_subtitle="Course Information, Schedule & Institutional Policies"
+        )
+        # Extract inner <div id="dp-wrapper"...>...</div> for course_settings/syllabus.html
+        body_m = re.search(r"<body>\s*(.*)\s*</body>", full_syllabus_page_html, flags=re.DOTALL)
+        syllabus_inner_html = body_m.group(1) if body_m else full_syllabus_page_html
         with open(os.path.join(builder.settings_dir, "syllabus.html"), "w", encoding="utf-8") as f:
-            f.write(syllabus_html)
+            f.write(syllabus_inner_html)
     else:
         print("  [*] Modular Mode: Skipped Institutional Syllabus generation.")
 
@@ -323,12 +335,38 @@ def compile_course(
         builder.add_wiki_page(p_start_here_id, "start-here.html", "Start Here: Course Overview & Orientation", start_here_html)
         orient_items.append({"type": "WikiPage", "title": "Start Here: Course Overview & Orientation", "ref": p_start_here_id, "indent": 0, "state": "active"})
 
+        # Optional Page: Getting Started with the Lab Environment (if content/getting_started_lab.md exists)
+        lab_setup_md = os.path.join(course_root, "content", "getting_started_lab.md")
+        if os.path.exists(lab_setup_md):
+            p_lab_setup_id = make_canvas_id("page_orient_lab_setup")
+            with open(lab_setup_md, "r", encoding="utf-8") as lsf:
+                ls_raw_md = lsf.read()
+            ls_title, ls_lead, ls_sections = parse_markdown_sections(ls_raw_md)
+            ls_html = render_designplus_html(
+                ls_title or "Getting Started with the Lab Environment",
+                ls_lead or "<p>Follow these step-by-step instructions to create your personal GitHub Codespaces sandbox.</p>",
+                ls_sections,
+                p_lab_setup_id,
+                header_subtitle="GitHub Codespaces Setup & Workspace Guide"
+            )
+            builder.add_wiki_page(p_lab_setup_id, "getting-started-lab-sandbox.html", "Getting Started with the Lab Environment", ls_html)
+            orient_items.append({"type": "WikiPage", "title": "Getting Started with the Lab Environment", "ref": p_lab_setup_id, "indent": 1, "state": "active"})
+
+        # Optional Page: The Shapes of AI Data Companion Guide (if content/ai_data_shapes_guide.html exists)
+        shapes_html_file = os.path.join(course_root, "content", "ai_data_shapes_guide.html")
+        if os.path.exists(shapes_html_file):
+            p_shapes_id = make_canvas_id("page_orient_ai_data_shapes")
+            with open(shapes_html_file, "r", encoding="utf-8") as shf:
+                shapes_body = shf.read()
+            builder.add_wiki_page(p_shapes_id, "ai-data-shapes-guide.html", "The Shapes of AI Data: A Companion Guide", shapes_body)
+            orient_items.append({"type": "WikiPage", "title": "The Shapes of AI Data: A Companion Guide", "ref": p_shapes_id, "indent": 1, "state": "active"})
+
         # Page: Orientation - Learn with AI Guidelines
         p_orient_ai_id = make_canvas_id("page_orient_learn_with_ai")
         orient_ai_panels = [
             ("The AI Pair Programmer Philosophy",
              """<p>In this course, Artificial Intelligence is treated as an interactive technical co-pilot, code reviewer, and Socratic sparring partner—<strong>not a shortcut to bypass critical engineering reasoning</strong>.</p>
-<p>Blindly copying and pasting unverified AI code into production pipelines causes silent data corruption, security breaches, and catastrophic performance degradation. In this course, you will practice <strong>Active Socratic Learning with AI</strong>: assigning AI models specialized reviewer roles to challenge your architecture and uncover edge cases.</p>"""),
+<p>Blindly copying and pasting unverified AI code into production pipelines causes silent data corruption, security breaches, and performance issues. In this course, you will practice <strong>Active Socratic Learning with AI</strong>: assigning AI models specialized reviewer roles to challenge your architecture and uncover edge cases.</p>"""),
             ("The Big Four 100% Free AI Platforms",
              """<p>Every AI exercise in this course is designed for <strong>100% free web chat tiers</strong>. You do NOT need paid subscriptions or private API keys:</p>
 <ul>
@@ -353,41 +391,13 @@ def compile_course(
         builder.add_wiki_page(p_orient_ai_id, "orientation-learn-with-ai.html", "Orientation: Learn with AI — Course Guidelines & Free Tools", orient_ai_html)
         orient_items.append({"type": "WikiPage", "title": "Orientation: Learn with AI — Course Guidelines & Free Tools", "ref": p_orient_ai_id, "indent": 1, "state": "active"})
 
-        # Page: Course Syllabus & Policies Page
-        p_orient_syl_id = make_canvas_id("page_orient_syllabus")
-        orient_syl_panels = [
-            ("Institutional Master Syllabus (.docx)",
-             f"""<p>Review the full institutional syllabus including course outcomes, ADA compliance, and grading scale:</p>
-<p><a class="instructure_file_link" title="{docx_filename}" href="$IMS-CC-FILEBASE$/{docx_rel}?canvas_=1&amp;canvas_qs_wrap=1" target="_blank" rel="noopener" style="color: #2563eb; font-weight: 600; text-decoration: underline;">&#128196; Download {docx_filename}</a></p>"""),
-            ("Gradebook Weights & Evaluation Criteria",
-             """<table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1; font-size: 0.95em;">
-  <thead>
-    <tr style="background: #1e3a8a; color: #ffffff;">
-      <th style="padding: 10px 14px; text-align: left; border: 1px solid #94a3b8;">Evaluation Category</th>
-      <th style="padding: 10px 14px; text-align: center; border: 1px solid #94a3b8; width: 140px;">Percentage</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style="background: #ffffff;"><td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Hands-on Applied Labs</td><td style="padding: 8px 14px; border: 1px solid #cbd5e1; text-align: center; font-weight: 600;">40%</td></tr>
-    <tr style="background: #f8fafc;"><td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Unit Knowledge Checks &amp; Quizzes</td><td style="padding: 8px 14px; border: 1px solid #cbd5e1; text-align: center; font-weight: 600;">20%</td></tr>
-    <tr style="background: #ffffff;"><td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Asynchronous Preparation &amp; Drills</td><td style="padding: 8px 14px; border: 1px solid #cbd5e1; text-align: center; font-weight: 600;">10%</td></tr>
-    <tr style="background: #f8fafc;"><td style="padding: 8px 14px; border: 1px solid #cbd5e1;">Comprehensive Course Capstone</td><td style="padding: 8px 14px; border: 1px solid #cbd5e1; text-align: center; font-weight: 600;">30%</td></tr>
-  </tbody>
-</table>""")
-        ]
-        orient_syl_html = render_designplus_html(
-            "Course Syllabus & Institutional Policies",
-            "<p>Review institutional course expectations, contact hours, and grading policies.</p>",
-            orient_syl_panels,
-            p_orient_syl_id,
-            header_subtitle="Policies, Grading Scale & Master Document Download"
-        )
-        builder.add_wiki_page(p_orient_syl_id, "course-orientation-and-syllabus.html", "Course Syllabus & Institutional Policies", orient_syl_html)
+        # Page: Course Syllabus & Institutional Policies (Full LCCC DesignPLUS Syllabus)
+        builder.add_wiki_page(p_orient_syl_id, "course-orientation-and-syllabus.html", "Course Syllabus & Institutional Policies", full_syllabus_page_html)
         orient_items.append({"type": "WikiPage", "title": "Course Syllabus & Institutional Policies", "ref": p_orient_syl_id, "indent": 1, "state": "active"})
 
         # Register Orientation Module
         builder.add_module(mod_orient_id, "Getting Started - Course Orientation", orient_items)
-        print("  [+] Generated Getting Started - Course Orientation Module (3 Native Pages)")
+        print(f"  [+] Generated Getting Started - Course Orientation Module ({len(orient_items)} Native Pages)")
     else:
         print("  [*] Modular Mode: Skipped Home Page and Course Orientation Module.")
 

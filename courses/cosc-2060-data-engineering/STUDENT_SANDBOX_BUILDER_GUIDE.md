@@ -20,7 +20,7 @@ In **COSC 2060 (Modern Data Engineering & AI Infrastructure)**, students progres
 | **Computer Vision Runtime** | N/A | `opencv-python-headless` | Standard `opencv-python` crashes inside headless Linux containers with `ImportError: libGL.so.1: cannot open shared object file`. |
 | **Capstone Container Support** | N/A | `ghcr.io/devcontainers/features/docker-in-docker:2` | Allows students to run `docker build` and `docker run` inside their Codespace during the **Unit 8 Capstone Defense**. |
 | **Disaster Recovery** | `./reset_database.sh` (runs `psql -f setup_chap1.sql`) | `./reset_sandbox.sh` (runs `python datasets/seed_all_datasets.py` & cleans `output/`) | Regenerates `apex_logistics.duckdb`, 1M fuel rows, synthetic inspection images, and maintenance logs while leaving student `.py` and `.ipynb` files untouched. |
-| **Unit Folder Contents** | `.sql` starter, `.sql` lecture code, `.md` guides | `ds_to_engine.ipynb` + `coding_clinic.py` + `labN_starter.py` + `.md` guides | Supports both interactive Jupyter visual transitions ("DS Prototype $\rightarrow$ DE Engine") and standalone terminal pipeline execution. |
+| **Unit Folder Contents** | `.sql` starter, `.sql` lecture code, `.md` guides | `ds_to_engine.ipynb` + `coding_clinic.py` + `labN_starter.py` + `.md` guides | Supports both interactive Jupyter visual transitions ("DS Prototype -> DE Engine") and standalone terminal pipeline execution. |
 
 ---
 
@@ -141,7 +141,7 @@ If a student creates their own repository (`<student-username>/COSC-2060-Student
      ```markdown
      [![Use This Template](https://img.shields.io/badge/Step_1-Create_Your_Personal_Sandbox_Repo-2ea44f?style=for-the-badge&logo=github)](https://github.com/new?template_owner=tswarmLCCC&template_name=COSC-2060-Student-Sandbox&owner=%40me&name=COSC-2060-Student-Sandbox&description=My+COSC+2060+Data+Engineering+Sandbox&visibility=private)
      ```
-   - **Step 2** shows students both how to launch via the green **`<> Code` $\rightarrow$ `Codespaces` $\rightarrow$ `Create codespace on main`** button on their new repo AND via their auto-personalized badge.
+   - **Step 2** shows students both how to launch via the green **`<> Code` -> `Codespaces` -> `Create codespace on main`** button on their new repo AND via their auto-personalized badge.
 2. **Automated Badge Rewrite Action (`.github/workflows/personalize_template.yml`)**:
    - The moment a student creates their repository from your template, GitHub Actions runs `.github/workflows/personalize_template.yml` (guarded by `if: github.repository != 'tswarmLCCC/COSC-2060-Student-Sandbox'` so it **never** alters your upstream template).
    - Within ~15 seconds, the Action replaces `tswarmLCCC/COSC-2060-Student-Sandbox` with `${GITHUB_REPOSITORY}` (`<student-username>/COSC-2060-Student-Sandbox`) inside the student's `README.md` and adds a green confirmation banner (`✅ Personal Sandbox Initialized for <student-username>/COSC-2060-Student-Sandbox!`).
@@ -153,7 +153,7 @@ In your **Canvas Course Orientation** page, embed the **Step 1 Template Generato
 ```
 
 ### 3. Student Submission Workflow
-Because each student works inside their own repository (`<student-username>/COSC-2060-Student-Sandbox`), they have full write permissions to `git commit` and `git push` their work, and can also download `lab{N}_{lastname}.py` from the VS Code Explorer sidebar (**Right-click $\rightarrow$ Download...**) to upload directly to Canvas SpeedGrader.
+Because each student works inside their own repository (`<student-username>/COSC-2060-Student-Sandbox`), they have full write permissions to `git commit` and `git push` their work, and can also download `lab{N}_{lastname}.py` from the VS Code Explorer sidebar (**Right-click -> Download...**) to upload directly to Canvas SpeedGrader.
 
 ---
 

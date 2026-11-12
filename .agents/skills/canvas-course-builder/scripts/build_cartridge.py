@@ -317,6 +317,7 @@ class CanvasCourseBuilder:
         resources_xml = []
         
         # 1. Primary Canvas Native Course Settings & Sentinel Resource (CRITICAL for Canvas native import)
+        syllabus_file_tag = "\n      <file href=\"course_settings/syllabus.html\"/>" if os.path.exists(os.path.join(self.settings_dir, "syllabus.html")) else ""
         if os.path.exists(os.path.join(self.settings_dir, "syllabus.html")):
             resources_xml.append(f"""    <resource identifier="{self.course_id}_syllabus" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="course_settings/syllabus.html" intendeduse="syllabus">
       <file href="course_settings/syllabus.html"/>
@@ -327,7 +328,7 @@ class CanvasCourseBuilder:
       <file href="course_settings/assignment_groups.xml"/>
       <file href="course_settings/context.xml"/>
       <file href="course_settings/canvas_export.txt"/>
-      <file href="course_settings/files_meta.xml"/>
+      <file href="course_settings/files_meta.xml"/>{syllabus_file_tag}
     </resource>""")
 
         for filename, title, page_id in self.pages_manifest:

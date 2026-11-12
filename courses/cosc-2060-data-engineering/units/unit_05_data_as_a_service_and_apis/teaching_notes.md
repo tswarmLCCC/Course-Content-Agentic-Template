@@ -59,7 +59,7 @@ Students complete these materials independently before the first live classroom 
   - Open with the Midwest Logistics dashboard crash. Ask students: *"Why did sharing CSV files over a shared network drive fail the moment a data engineer cleaned up missing values?"*
 - **00:15 – 00:35 | Whiteboard Sparring: The Pydantic Firewall**:
   - Draw the HTTP request boundary on the board:
-    - Raw JSON Payload $\to$ Pydantic Input Validator $\to$ Internal Engine $\to$ Pydantic Output Model.
+    - Raw JSON Payload -> Pydantic Input Validator -> Internal Engine -> Pydantic Output Model.
   - Demonstrate how Pydantic protects backend code from `KeyError` and `TypeError`.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
   - **Presentation Deck**: [Unit 5 Coding Clinic Slides (.pptx)](../../content/slides/unit_05_coding_clinic.pptx)

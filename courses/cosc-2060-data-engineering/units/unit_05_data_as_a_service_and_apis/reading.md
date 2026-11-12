@@ -2,7 +2,7 @@
 
 Welcome to the core instructional lecture and study hub for **Unit 5: Data as a Service (DaaS) & The API Layer**. This page organizes all weekly learning materials into four structured chapters:
 
-1. **Instructor Lecture & Conceptual Deep Dive:** Master decoupled microservices, the "Death of the CSV" operational postmortem, HTTP REST semantics, strict Pydantic v2 data validation schemas, and asynchronous ASGI concurrency.
+1. **Instructor Lecture & Conceptual Deep Dive:** Master the target JSON API contract shapes, operational DaaS source systems, decoupled microservices, the "Death of the CSV" operational postmortem, HTTP REST semantics, strict Pydantic v2 data validation schemas, and asynchronous FastAPI endpoints.
 2. **Required Readings & Authoritative Tutorial Guides:** Study curated official documentation from FastAPI, Pydantic v2, Starlette, and Uvicorn.
 3. **Required Micro-Video Lectures (Embedded):** Watch high-definition video chapters with verified timestamp navigation to observe RESTful endpoints and real-time schema validation in live Python environments.
 4. **Institutional Video Lecture Embeds:** Access campus-specific video recordings and announcements uploaded by your instructor.
@@ -17,10 +17,10 @@ Welcome to the core instructional lecture and study hub for **Unit 5: Data as a 
 
 #### 1. Unit Overview & Objectives
 In Units 1 through 4, we built specialized engines for every modern data modality:
-* **Unit 1**: Relational feature matrices in DuckDB.
-* **Unit 2**: Real-time anomaly detection in Polars.
-* **Unit 3**: Computer vision preprocessing manifests in OpenCV.
-* **Unit 4**: Semantic vector search and RAG indexing in Sentence-Transformers.
+* **Unit 1:** Relational feature matrices in DuckDB.
+* **Unit 2:** Real-time anomaly detection in Polars.
+* **Unit 3:** Computer vision preprocessing manifests in OpenCV.
+* **Unit 4:** Semantic vector search and RAG indexing in Sentence-Transformers.
 
 Each of these systems generated static artifacts: a `.parquet` file, a `.csv` dump, a `.json` manifest, or an in-memory vector array.
 
@@ -37,13 +37,71 @@ To make data accessible, secure, and resilient, we must treat **Data as a Servic
 **Measurable Learning Objectives:**
 * **Explain** the architectural risks of file-based data sharing (the "Death of the CSV") versus decoupled, contract-enforced REST APIs.
 * **Design and Implement** RESTful endpoints utilizing standard HTTP verbs (`GET`, `POST`), status codes (`200 OK`, `400 Bad Request`, `404 Not Found`, `422 Unprocessable Entity`), and path/query parameters.
-* **Construct** defensive Pydantic v2 models that validate input payloads and guarantee output schemas, rejecting malformed or out-of-bounds data before processing.
+* **Construct** defensive Pydantic v2 models (`BaseModel` and `Field`) that validate input payloads and guarantee output schemas, rejecting malformed or out-of-bounds data before processing.
 * **Unify** multimodal data sources (relational Parquet, tabular anomaly models, visual manifests, and vector retrieval) into a cohesive microservice.
-* **Test and Verify** API endpoints using automated Python client testing (`TestClient` / `httpx`) and interactive OpenAPI documentation (`/docs`).
+* **Test and Verify** API endpoints programmatically using automated Python client testing (`TestClient` / `httpx`) and interactive OpenAPI documentation (`/docs`).
 
 ---
 
-#### 2. The Narrative of Data: The $380,000 Monday Morning Outage
+#### 2. What Our Output Looks Like and Where the Data Comes From
+
+##### The Purpose
+Our goal in Unit 5 is to build a **Validated Fleet Data Microservice** (`app = FastAPI()`) enforced by **Pydantic v2 Request and Response Schemas**. When a client application requests route delay predictions or submits a new fuel transaction for anomaly scoring, our service validates every field, queries the underlying Parquet/DuckDB store, and returns a guaranteed JSON response.
+
+##### Why Downstream Systems Need a Strict JSON Contract
+When two software systems communicate over a network (for example, a dispatch web dashboard talking to your Python data pipeline), they exchange **JSON (JavaScript Object Notation)** payloads over HTTP.
+
+If your Python service returns `"delay_mins": 15` on Monday, `"delay_mins": "15 minutes"` on Tuesday, and renames the key to `"route_delay": null` on Wednesday, the web dashboard will crash. A **Data Contract** (written as a Pydantic `BaseModel`) acts as a strict gatekeeper on both sides:
+1. **Inbound Request Validation:** If a client sends negative gallons (`gallons: -50.0`) or text where a number belongs (`driver_id: "unknown"`), Pydantic blocks the request immediately and returns HTTP `422 Unprocessable Entity` before bad data can touch your database or model.
+2. **Outbound Response Guarantee:** Every successful HTTP `200 OK` response is verified against a response schema (`response_model=...`) so downstream apps can trust every field name and data type 100% of the time.
+
+##### Where the Raw Data Comes From (Source Systems)
+Our Unit 5 FastAPI service sits between live operational clients and the curated Parquet/vector datasets we built in Units 1–4:
+1. **Curated Parquet & Vector Stores (`feature_matrix.parquet`, `anomaly_features.parquet`, `rag_chunks.jsonl`):** Queried in milliseconds by DuckDB or Polars inside the API route handler.
+2. **Inbound Client HTTP Requests (Dispatch Web UI, Driver Mobile App, Terminal Scanners):** Send live JSON payloads over `GET` and `POST` requests asking for driver history lookups or real-time transaction evaluations.
+
+##### Sample Output Dataset (The Target API Contract Shape)
+When a client interacts with our API, the exchange follows these exact HTTP + JSON contracts:
+
+**Inbound HTTP `POST /v1/evaluate-anomaly` Request Body:**
+```json
+{
+  "trans_id": 1002,
+  "driver_id": 42,
+  "gallons": 380.0,
+  "amount_usd": 1444.0,
+  "implied_speed_mph": 185.0
+}
+```
+
+**Verified Outbound HTTP `200 OK` JSON Response Body:**
+```json
+{
+  "trans_id": 1002,
+  "is_anomaly": true,
+  "risk_score": 0.95,
+  "rejection_reason": "Tank overflow violation (>300 gallons pumped)"
+}
+```
+
+**Verified Outbound HTTP `422 Unprocessable Entity` (When Invalid Data Is Sent, e.g., `gallons: -10.0`):**
+```json
+{
+  "detail": [
+    {
+      "type": "greater_than",
+      "loc": ["body", "gallons"],
+      "msg": "Input should be greater than 0",
+      "input": -10.0
+    }
+  ]
+}
+```
+
+---
+
+#### 3. The \$380,000 Monday Morning Outage (The Death of the CSV)
+
 To appreciate why production data engineering abandoned CSV handoffs, consider an authentic incident at a national freight logistics firm.
 
 Midwest Logistics operated a real-time dispatch dashboard used by 120 dispatchers to monitor delivery delays across 1,200 trucks. Every morning at 6:00 AM, an automated script exported an updated machine learning prediction table from the data science repository to a shared network drive:
@@ -68,7 +126,7 @@ KeyError: 'truck_id' not found in DataFrame columns
 
 The application restarted, attempted to re-read the CSV, failed, and entered a crash loop. Dispatchers across four terminals were unable to view route assignments, delivery deadlines, or high-risk delays.
 
-For four hours during peak morning operations, freight sat idle on loading docks. Cross-country teams scrambled. The company missed contracted delivery windows, resulting in **$380,000 in liquidated damages** and lost logistics contracts.
+For four hours during peak morning operations, freight sat idle on loading docks. Cross-country teams scrambled. The company missed contracted delivery windows, resulting in **\$380,000 in liquidated damages** and lost logistics contracts.
 
 ##### The Architectural Diagnosis: The Death of the CSV
 Why did this disaster occur?
@@ -80,16 +138,17 @@ Why did this disaster occur?
 
 ---
 
-#### 3. The Mental Model: "The Restaurant Waiter" & API Contracts
+#### 4. "The Restaurant Waiter" & API Contracts
+
 To understand how APIs decouple systems, consider a restaurant dining room:
 
-* **The Kitchen (The Data Engine):** The kitchen contains industrial stoves, walk-in freezers, raw meat, and sharp knives. Customers do not walk into the kitchen, open the freezer, and cook their own steaks. That would be chaotic, dangerous, and unhygienic.
+* **The Kitchen (The Data Engine):** The kitchen contains industrial stoves, walk-in freezers, raw meat, and sharp knives (your `.parquet` files and DuckDB/Polars engines). Customers do not walk into the kitchen, open the freezer, and cook their own steaks. That would be chaotic, dangerous, and unhygienic.
 * **The Customer (The Client Application):** The customer wants a specific meal cooked to their specifications.
 * **The Menu (The API Contract / OpenAPI Spec):** The menu lists exactly what dishes are available, what ingredients they contain, and what customizations are permitted.
 * **The Waiter (FastAPI):** The customer gives an order to the waiter. The waiter validates the order (*"I'm sorry, you cannot order a negative number of steaks"*). If valid, the waiter delivers the order to the kitchen, receives the prepared dish, and serves it on a clean plate.
 
 ```
-CLIENT (Customer) ──[HTTP GET /v1/routes/101]──> FASTAAPI (Waiter) ──> DUCKDB (Kitchen)
+CLIENT (Customer) ──[HTTP GET /v1/routes/101]──> FASTAPI (Waiter) ──> DUCKDB (Kitchen)
                                                        │
                                             PYDANTIC CONTRACT
                                         (Validates Schema & Types)
@@ -97,10 +156,17 @@ CLIENT (Customer) ──[HTTP GET /v1/routes/101]──> FASTAAPI (Waiter) ─�
 
 By placing FastAPI between clients and your raw databases, you can upgrade DuckDB, refactor Polars, or change disk paths without breaking a single external application.
 
+##### Essential HTTP Status Codes
+When a client talks to your FastAPI server, the server replies with a 3-digit **HTTP status code** so the client knows immediately what happened:
+* **`200 OK`:** The request succeeded and the validated JSON response is attached.
+* **`404 Not Found`:** The request was formatted properly, but the specific ID requested (such as `route_id = 99999`) does not exist in the database.
+* **`422 Unprocessable Entity`:** The client sent invalid data that violated your Pydantic contract (such as a negative number of gallons or a missing required field).
+
 ---
 
-#### 4. The Power of Pydantic v2: Zero-Cost Rust Data Contracts
-In Python, types are normally dynamic and unenforced. Pydantic v2 changes this by rewriting Python type validation in **Rust**.
+#### 5. The Power of Pydantic v2: Zero-Cost Rust Data Contracts
+
+In Python, types are normally dynamic and unenforced. Pydantic v2 changes this by executing Python type validation in compiled **Rust**.
 
 When you declare a schema:
 ```python
@@ -113,14 +179,65 @@ class PredictionRequest(BaseModel):
 ```
 
 Pydantic automatically:
-1. **Validates Types:** Rejects `"N/A"` or strings when an integer is required.
-2. **Enforces Domain Constraints:** Blocks negative truck IDs or physically impossible distances ($> 4000$ miles).
+1. **Validates Types:** Rejects `"N/A"` or arbitrary strings when a number is required.
+2. **Enforces Domain Constraints:** Blocks negative truck IDs (`gt=0`) or physically impossible distances (`lt=4000.0`).
 3. **Generates OpenAPI Documentation:** Instantly populates interactive Swagger UI documentation at `/docs`.
 4. **Executes in Rust:** Validates 100,000 payloads per second with microsecond latency.
 
 ---
 
-#### 5. Guided Implementation Walkthrough: Production FastAPI Microservice
+#### 6. Step-by-Step Code Ramp-Up & Guided Implementation Walkthrough (Pydantic + FastAPI)
+
+Let's build up the Python syntax for Pydantic v2 and FastAPI step by step from the ground up, and then examine the complete production microservice and `TestClient` verification harness.
+
+##### Step 1: Creating and Testing a Pydantic `BaseModel` Contract
+When a Python class inherits from `BaseModel`, Pydantic validates every field the moment an instance is created. Common `Field(...)` constraints include:
+* `gt=0`: strictly **g**reater **t**han `0`
+* `ge=0`: **g**reater than or **e**qual to `0`
+* `le=450`: **l**ess than or **e**qual to `450`
+* `min_length=2`, `max_length=50`: string length bounds
+
+```python
+from pydantic import BaseModel, Field, ValidationError
+
+class RouteLookupContract(BaseModel):
+    route_id: int = Field(gt=0)
+    origin_city: str = Field(min_length=2, max_length=50)
+    distance_miles: float = Field(gt=0.0, le=4000.0)
+
+# 1. Valid record passes cleanly and exports to a dict via .model_dump():
+valid_route = RouteLookupContract(route_id=101, origin_city="Cheyenne", distance_miles=102.5)
+print("Validated dict:", valid_route.model_dump())
+
+# 2. Invalid record (negative distance) raises a ValidationError automatically:
+try:
+    bad_route = RouteLookupContract(route_id=102, origin_city="Cheyenne", distance_miles=-50.0)
+except ValidationError as err:
+    print("Blocked invalid payload:", err.errors()[0]["msg"])
+```
+
+##### Step 2: Creating `GET` Endpoints and Raising `HTTPException(status_code=404)`
+A `@app.get("/path")` decorator registers a function to handle HTTP `GET` requests. If a requested ID is missing from your database, raise `HTTPException(status_code=404, detail="...")`:
+
+```python
+from fastapi import FastAPI, HTTPException
+
+app = FastAPI(title="Fleet Data Service")
+
+ROUTES_DB = {
+    101: {"route_id": 101, "origin_city": "Cheyenne", "distance_miles": 102.5, "target_delay_mins": 15},
+    102: {"route_id": 102, "origin_city": "Denver", "distance_miles": 345.0, "target_delay_mins": 0},
+}
+
+@app.get("/v1/routes/{route_id}")
+async def get_route_by_id(route_id: int):
+    if route_id not in ROUTES_DB:
+        raise HTTPException(status_code=404, detail=f"Route {route_id} not found")
+    return ROUTES_DB[route_id]
+```
+
+##### Step 3: Guided Implementation Walkthrough — Production FastAPI Microservice
+Here is how we combine `GET` and `POST` routes with strict Pydantic request (`FuelTransactionPayload`) and response (`AnomalyEvaluationResponse`) contracts in a production microservice:
 
 ```python
 from fastapi import FastAPI, HTTPException, status
@@ -135,7 +252,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# 2. Define strict Pydantic v2 data contract
+# 2. Define strict Pydantic v2 data contracts
 class FuelTransactionPayload(BaseModel):
     trans_id: int = Field(gt=0, description="Unique transaction ID")
     driver_id: int = Field(gt=0)
@@ -187,15 +304,62 @@ async def health_check():
     return {"status": "healthy", "service": "fleet-data-api"}
 ```
 
+##### Step 4: Testing Endpoints Programmatically with `TestClient`
+To verify your API inside a Python script or automated test suite without needing a browser, use `fastapi.testclient.TestClient`:
+
+```python
+from fastapi.testclient import TestClient
+
+client = TestClient(app)
+
+# 1. Verify GET /health returns 200 OK
+resp_health = client.get("/health")
+assert resp_health.status_code == 200
+print("Health check:", resp_health.json())
+
+# 2. Verify valid anomalous transaction returns 200 OK with is_anomaly=True
+resp_ok = client.post("/v1/evaluate-anomaly", json={
+    "trans_id": 1002,
+    "driver_id": 42,
+    "gallons": 380.0,
+    "amount_usd": 1444.0,
+    "implied_speed_mph": 62.0
+})
+assert resp_ok.status_code == 200
+print("Valid POST response:", resp_ok.json())
+
+# 3. Verify out-of-bounds payload (negative gallons) is rejected with 422 Unprocessable Entity
+resp_bad = client.post("/v1/evaluate-anomaly", json={
+    "trans_id": 1003,
+    "driver_id": 42,
+    "gallons": -25.0,
+    "amount_usd": 100.0,
+    "implied_speed_mph": 55.0
+})
+assert resp_bad.status_code == 422
+print("Invalid POST blocked with status code:", resp_bad.status_code)
+```
+
 ---
 
-#### 6. Common Traps & Formative Self-Check FAQ
+#### 7. Practice Exercises & Formative Self-Check FAQ
+
+Try these three exercises in your GitHub Codespaces sandbox (`units/unit_05_data_as_a_service_and_apis/`) before starting the graded lab:
+
+1. **Exercise 1 (Testing Field Boundaries):** In Python, instantiate `FuelTransactionPayload` with `implied_speed_mph=950.0` (violating `le=120.0`). Inspect the `ValidationError` message produced by Pydantic.
+2. **Exercise 2 (404 Not Found Verification):** Using `TestClient(app)`, call `client.get("/v1/routes/9999")` for a route ID that does not exist and verify that `response.status_code == 404`.
+3. **Exercise 3 (Querying DuckDB Inside an Endpoint):** Inside a FastAPI `GET` route handler, run a one-line DuckDB query on `datasets/unit_01_routes.parquet` and return `.df().to_dict(orient="records")`.
+
+##### Common Traps & Formative Self-Check FAQ
 
 * **Question 1: What is the difference between synchronous (`def`) and asynchronous (`async def`) endpoints?**  
-  *Answer:* An `async def` endpoint allows Python's event loop to pause execution during I/O operations (like querying a database or reading a file) and process other incoming HTTP requests concurrently. Use `async def` whenever your endpoint calls non-blocking async drivers.
+  *Answer:* An `async def` endpoint allows Python's event loop to pause execution during I/O operations (like querying a remote database or waiting on a network socket) and process other incoming HTTP requests concurrently.
 
 * **Question 2: What happens when a client sends invalid JSON to a FastAPI endpoint?**  
   *Answer:* FastAPI intercepts the malformed payload, prevents it from touching your database or model code, and automatically responds with an HTTP `422 Unprocessable Entity` containing exact details on which field failed validation.
+
+* **Question 3: In Pydantic v2, should I use `.dict()` or `.model_dump()` to convert a model instance into a Python dictionary?**  
+  *Answer:* In Pydantic v2, `.model_dump()` is the standard method (replacing `.dict()` from Pydantic v1). Similarly, `.model_validate()` is the Pydantic v2 method for validating a dictionary.
 
 ---
 

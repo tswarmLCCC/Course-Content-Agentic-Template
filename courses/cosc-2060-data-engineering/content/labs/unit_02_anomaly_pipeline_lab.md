@@ -8,26 +8,15 @@
 
 ---
 
-## 1. Lecture Walkthroughs & Coding Clinic (Gradual Release: "Try First, Then Watch")
+## 1. Coding Clinic: "I Do, We Do, You Do"
 
-These practice challenges follow the **Gradual Release of Responsibility** model ("I Do, We Do, You Do"). Before watching the instructor walkthrough, attempt each query in your interactive Python environment or notebook. Then watch the recording to compare your Polars expression logic, examine query plans, and review common beginner pitfalls!
+### "I Do" — The Instructor Demonstration: Declarative Null Imputation & Physical Boundary Flags
+In high-throughput telemetry pipelines, imperative Python `for` loops or pandas `.apply()` calls create massive memory bottlenecks. The data engineering standard is **vectorized Polars expressions**, which compile into parallel Rust execution trees:
 
 ```python
-"""
-====================================================================
-COSC 2060 - Unit 2: Coding Clinic Practice
-Gradual Release: "Try First, Then Watch"
-====================================================================
-Instructions:
-1. Ensure your virtual environment is active with polars installed.
-2. Initialize an in-memory LazyFrame with the clinic records below.
-3. Complete each challenge using declarative Polars expressions.
-4. Compare your syntax against the instructor walkthrough recording!
-====================================================================
-"""
 import polars as pl
 
-# In-memory clinic sample
+# In-memory telemetry LazyFrame
 clinic_data = pl.LazyFrame({
     "driver_id": [101, 101, 102, 102],
     "city": ["Cheyenne", "Denver", "Dallas", "Houston"],
@@ -36,37 +25,40 @@ clinic_data = pl.LazyFrame({
     "odometer": [250000, 250100, 400000, 400240]
 })
 
-# ==================================================================
-# CHALLENGE 1: Declarative Null Imputation
-# ==================================================================
-# Write a Polars expression that imputes missing 'gallons' with the median,
-# and imputes missing 'fuel_type' with the string 'UNKNOWN'.
-#
-# [YOUR EXPRESSION HERE]
+# Declarative expression pipeline:
+# 1. Fill null gallons with median
+# 2. Fill null fuel_type with 'UNKNOWN'
+# 3. Add physical tank overfill flag (> 300 gallons)
+cleaned_lazy = clinic_data.with_columns([
+    pl.col("gallons").fill_null(pl.col("gallons").median()).alias("gallons_imputed"),
+    pl.col("fuel_type").fill_null("UNKNOWN").alias("fuel_type_imputed"),
+    (pl.col("gallons") > 300.0).alias("is_tank_overflow")
+])
 
-
-
-
-# ==================================================================
-# CHALLENGE 2: Physical Tank Violation Flag
-# ==================================================================
-# Add a boolean column 'is_tank_overflow' that evaluates to True
-# if gallons > 300.0, otherwise False.
-#
-# [YOUR EXPRESSION HERE]
-
-
-
-
-# ==================================================================
-# CHALLENGE 3: Vectorized Min-Max Normalization
-# ==================================================================
-# Normalize the 'odometer' column strictly between [0.0, 1.0] using:
-#   (col - col.min()) / (col.max() - col.min())
-# Alias the result as 'norm_odometer'.
-#
-# [YOUR EXPRESSION HERE]
+print("Polars Cleaned Plan Execution:")
+print(cleaned_lazy.collect())
 ```
+
+---
+
+### "We Do" — Guided Class Practice: Vectorized Min-Max Normalization
+Machine learning algorithms like Isolation Forests require numerical features scaled into comparable ranges. We compute min-max scaling declaratively in a single expression pass without loading data into memory:
+
+```python
+# Scale odometer strictly to [0.0, 1.0]
+normalized_lazy = cleaned_lazy.with_columns([
+    ((pl.col("odometer") - pl.col("odometer").min()) / 
+     (pl.col("odometer").max() - pl.col("odometer").min())).alias("norm_odometer")
+])
+
+print("Normalized Telemetry Features:")
+print(normalized_lazy.select(["driver_id", "odometer", "norm_odometer"]).collect())
+```
+
+---
+
+### "You Do" — Independent Application: Connecting to the 1-Million Row Fraud Pipeline
+Now apply these expressions at scale across 1,000,000 real fuel transactions in Section 2 below!
 
 ---
 
@@ -98,6 +90,9 @@ Your mission is to construct a production-ready, multithreaded data pipeline (`l
 
 ### Graded Challenges
 
+#### Part 0: Basics Warm-Up — Polars Expressions from Scratch
+Before scanning the 1,000,000-row Parquet file, run `part0_basics_warmup()` in `lab2_starter.py` on a 4-row in-memory `pl.DataFrame` to practice filtering out negative sensor glitches (`.filter(pl.col('gallons_pumped') > 0)`) and computing a derived `price_per_gal` column with `.with_columns()`.
+
 #### Part 1: High-Throughput Ingestion & Null Imputation (20 Points)
 1. **Lazy Ingestion**: Ingest `data/fuel_transactions.parquet` using `pl.scan_parquet()`. The pipeline must remain lazy throughout all intermediate transformations.
 2. **Programmatic Imputation**:
@@ -114,12 +109,12 @@ Your mission is to construct a production-ready, multithreaded data pipeline (`l
      pl.col("timestamp").diff().over("driver_id").dt.total_seconds() / 3600.0
      ```
    - Calculate coordinate distance in miles using the Euclidean distance approximation between consecutive stations:
-     $$\text{dist\_miles} \approx \sqrt{(\Delta \text{lat})^2 + (\Delta \text{lon})^2} \times 69.0$$
+     `dist_miles = sqrt((delta_lat ** 2) + (delta_lon ** 2)) * 69.0`
    - Compute `implied_speed_mph = dist_miles / hours_delta`. (Clip lower bound of `hours_delta` to `0.01` to prevent division by zero).
 2. **Physical Boundary Features**:
    - Create `tank_overfill_ratio = pl.col("gallons_pumped") / 300.0` (where ratio $> 1.0$ indicates an overfill).
 3. **Vectorized Feature Normalization**:
-   - Normalize continuous features (`norm_gallons`, `norm_odometer`, `norm_speed`, `norm_amount`) strictly to $[0.0, 1.0]$ using Min-Max scaling expressions in Polars.
+   - Normalize continuous features (`norm_gallons`, `norm_odometer`, `norm_speed`, `norm_amount`) strictly to `[0.0, 1.0]` using Min-Max scaling expressions in Polars.
 4. **Categorical Encoding**:
    - One-hot encode `fuel_type` and `station_state`.
 
@@ -129,10 +124,10 @@ Your mission is to construct a production-ready, multithreaded data pipeline (`l
 2. **Isolation Forest Baseline**:
    - Extract the feature columns into a NumPy array or Scikit-Learn matrix.
    - Fit an `IsolationForest(n_estimators=100, contamination=0.01, random_state=42, n_jobs=-1)`.
-   - Predict anomaly scores: negative scores ($< 0$) indicate detected outliers.
+   - Predict anomaly scores: negative scores (<code>&lt; 0</code>) indicate detected outliers.
 3. **Automated Defensive Evaluation**:
    - Join model predictions back against the ground truth (`is_fraud_ground_truth`).
-   - Assert that your pipeline achieves a **Detection Precision $\ge 75\%$** and **Recall $\ge 70\%$** on the top 1% flagged anomalies.
+   - Assert that your pipeline achieves a **Detection Precision &ge; 75%** and **Recall &ge; 70%** on the top 1% flagged anomalies.
 
 ---
 
@@ -155,13 +150,48 @@ import time
 import polars as pl
 from sklearn.ensemble import IsolationForest
 
+def part0_basics_warmup():
+    """
+    PART 0: Basics Warm-Up (Ground-Up Polars Expressions)
+    Practices creating a small Polars DataFrame, filtering out negative sensor glitches,
+    and adding a basic arithmetic column before running the 1,000,000-row LazyFrame pipeline.
+    """
+    print("\n--- Part 0: Basics Warm-Up (Polars Expressions from Scratch) ---")
+    sample_df = pl.DataFrame({
+        "trans_id": [1, 2, 3, 4],
+        "driver_id": [101, 101, 102, 102],
+        "gallons_pumped": [120.0, -10.0, 150.0, 360.0],
+        "transaction_amount": [456.0, -38.0, 570.0, 1368.0],
+    })
+    cleaned = (
+        sample_df
+        .filter(pl.col("gallons_pumped") > 0)
+        .with_columns([
+            (pl.col("transaction_amount") / pl.col("gallons_pumped")).round(2).alias("price_per_gal"),
+            (pl.col("gallons_pumped") > 300.0).alias("flag_tank_overflow"),
+        ])
+    )
+    print(cleaned)
+    return cleaned
+
+
 def build_anomaly_pipeline(parquet_path="data/fuel_transactions.parquet"):
     """
     Constructs a Polars LazyFrame transformation graph that ingests 1,000,000 records,
     imputes nulls, derives physical velocity features, and normalizes feature columns.
     """
-    if not os.path.exists(parquet_path):
-        raise FileNotFoundError(f"Missing {parquet_path}. Run generate_fuel_data.py first!")
+    candidate_paths = [
+        parquet_path,
+        "datasets/fuel_transactions.parquet",
+        "../../datasets/fuel_transactions.parquet",
+        "../../data/fuel_transactions.parquet",
+    ]
+    resolved_path = next((p for p in candidate_paths if os.path.exists(p)), None)
+    if resolved_path is None:
+        raise FileNotFoundError(
+            f"Missing {parquet_path}. Run 'python datasets/seed_all_datasets.py' or './reset_sandbox.sh' from the repo root!"
+        )
+    parquet_path = resolved_path
     
     print(f"Scanning {parquet_path} as LazyFrame...")
     lazy_df = pl.scan_parquet(parquet_path)
@@ -264,6 +294,7 @@ def run_isolation_forest(pipeline):
 
 def main():
     print("Apex Logistics Unsupervised Anomaly Engine (Unit 2)")
+    part0_basics_warmup()
     pipeline = build_anomaly_pipeline()
     run_isolation_forest(pipeline)
 

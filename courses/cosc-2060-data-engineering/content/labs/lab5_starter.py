@@ -1,24 +1,52 @@
 """
 COSC 2060 — Unit 5 Lab: Data as a Service (DaaS) Unified API
+Name: [Your Name]
+Date: [Current Date]
 """
 
 from typing import List, Optional
 from fastapi import FastAPI, HTTPException, status
 from fastapi.testclient import TestClient
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
+# -------------------------------------------------------------------------
+# FASTAPI APPLICATION INSTANCE
+# -------------------------------------------------------------------------
 app = FastAPI(
     title="Midwest Logistics Unified Data Service",
     description="Production REST API serving multimodal feature matrices, anomaly scoring, vision manifests, and RAG retrieval.",
     version="1.0.0"
 )
 
+# =========================================================================
+# PART 0: BASICS WARM-UP — PYDANTIC MODEL DUMP & VALIDATION ERROR
+# =========================================================================
+def part0_basics_warmup() -> dict:
+    """
+    PART 0: Basics Warm-Up (Ground-Up Pydantic Validation)
+    Practices creating a simple 2-field Pydantic BaseModel, dumping a valid record
+    to a dict, and catching a ValidationError before testing the full FastAPI service.
+    """
+    print("=== Part 0: Basics Warm-Up (Pydantic BaseModel & Field Bounds) ===")
+    class SimpleRoutePing(BaseModel):
+        route_id: int = Field(gt=0)
+        origin_city: str = Field(min_length=2)
+
+    valid_ping = SimpleRoutePing(route_id=101, origin_city="Cheyenne")
+    print("Validated ping:", valid_ping.model_dump())
+    return valid_ping.model_dump()
+
+
+# =========================================================================
+# CHALLENGE 1: Defensive Pydantic v2 Data Contracts (25 pts)
+# =========================================================================
 class FuelEvaluationRequest(BaseModel):
     transaction_id: str = Field(..., description="Unique transaction ID (e.g. TX-99012)")
     truck_id: str = Field(..., pattern=r"^TRUCK-\d{3}$", description="Must follow format TRUCK-XXX")
     gallons_pumped: float = Field(..., gt=0.0, le=350.0, description="Gallons pumped (cannot exceed tank capacity)")
     price_per_gal: float = Field(..., gt=1.0, lt=10.0)
     fuel_station_state: str = Field(..., min_length=2, max_length=2, description="2-letter US State abbreviation")
+
 
 class FuelEvaluationResponse(BaseModel):
     transaction_id: str
@@ -27,6 +55,7 @@ class FuelEvaluationResponse(BaseModel):
     risk_level: str = Field(..., pattern="^(NORMAL|SUSPICIOUS|FRAUD_ALERT)$")
     reason: str
 
+
 class FeatureMatrixResponse(BaseModel):
     truck_id: str
     avg_speed_mph: float
@@ -34,10 +63,12 @@ class FeatureMatrixResponse(BaseModel):
     fuel_efficiency_mpg: float
     maintenance_status: str
 
+
 class RAGSearchRequest(BaseModel):
     query: str = Field(..., min_length=3, description="Search query string")
     truck_id_filter: Optional[str] = None
     top_k: int = Field(default=3, ge=1, le=10)
+
 
 class RAGSearchResult(BaseModel):
     work_order: str
@@ -45,6 +76,10 @@ class RAGSearchResult(BaseModel):
     text_snippet: str
     relevance_score: float
 
+
+# =========================================================================
+# MOCK IN-MEMORY DATA STORES (Simulating Upstream Storage Engines)
+# =========================================================================
 FEATURE_STORE = {
     "TRUCK-101": FeatureMatrixResponse(
         truck_id="TRUCK-101", avg_speed_mph=58.4, total_trips=142, fuel_efficiency_mpg=6.8, maintenance_status="OPERATIONAL"
@@ -66,12 +101,19 @@ MAINTENANCE_LOGS = [
     {"work_order": "WO-10088", "truck_id": "TRUCK-302", "text": "Alternator voltage regulator replaced under heavy load.", "score": 0.42}
 ]
 
+
+# =========================================================================
+# CHALLENGE 2: Core Feature & Anomaly REST Endpoints (25 pts)
+# =========================================================================
 @app.get("/v1/health")
 def health_check():
+    """Health check endpoint for container orchestrators."""
     return {"status": "HEALTHY", "service": "midwest-logistics-daas"}
+
 
 @app.get("/v1/features/{truck_id}", response_model=FeatureMatrixResponse)
 def get_truck_features(truck_id: str):
+    """Retrieves pre-computed feature matrix record for a specific truck."""
     if truck_id not in FEATURE_STORE:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -79,8 +121,15 @@ def get_truck_features(truck_id: str):
         )
     return FEATURE_STORE[truck_id]
 
+
 @app.post("/v1/anomalies/fuel-check", response_model=FuelEvaluationResponse)
 def evaluate_fuel_transaction(payload: FuelEvaluationRequest):
+    """
+    Evaluates real-time fuel transaction against physical threshold logic:
+      - If gallons > 200 and state != 'OH' (home terminal): Flag as SUSPICIOUS
+      - If gallons > 300: Flag as FRAUD_ALERT (tank capacity exceeded)
+      - Otherwise: NORMAL
+    """
     if payload.gallons_pumped > 300.0:
         return FuelEvaluationResponse(
             transaction_id=payload.transaction_id,
@@ -106,8 +155,13 @@ def evaluate_fuel_transaction(payload: FuelEvaluationRequest):
             reason="Transaction within standard operational thresholds."
         )
 
+
+# =========================================================================
+# CHALLENGE 3: Multimodal Vision & Vector RAG Endpoint Integration (25 pts)
+# =========================================================================
 @app.get("/v1/vision/manifest/{truck_id}")
 def get_vision_manifest(truck_id: str):
+    """Returns detected visual anomalies and YOLO bounding box metadata."""
     if truck_id not in VISION_MANIFEST_STORE:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -118,8 +172,10 @@ def get_vision_manifest(truck_id: str):
         "inspection_records": VISION_MANIFEST_STORE[truck_id]
     }
 
+
 @app.post("/v1/maintenance/search", response_model=List[RAGSearchResult])
 def search_maintenance_logs(request: RAGSearchRequest):
+    """Performs semantic search across historical mechanic notes."""
     results = []
     for item in MAINTENANCE_LOGS:
         if request.truck_id_filter and item["truck_id"] != request.truck_id_filter:
@@ -132,15 +188,22 @@ def search_maintenance_logs(request: RAGSearchRequest):
         ))
     return results[:request.top_k]
 
+
+# =========================================================================
+# CHALLENGE 4: Automated Verification Suite with TestClient (25 pts)
+# =========================================================================
 if __name__ == "__main__":
-    print("Running Automated API Test Suite...")
+    part0_basics_warmup()
+    print("\nRunning Automated API Test Suite...")
     client = TestClient(app)
 
+    # Test 1: Health Check (200 OK)
     res_health = client.get("/v1/health")
     assert res_health.status_code == 200
     assert res_health.json()["status"] == "HEALTHY"
-    print("[PASS] Test 1: Health check passed.")
+    print("[PASS] Test 1: Health check endpoint passed.")
 
+    # Test 2: Feature Retrieval (200 OK & 404 Not Found)
     res_feat = client.get("/v1/features/TRUCK-219")
     assert res_feat.status_code == 200
     assert res_feat.json()["maintenance_status"] == "REQUIRES_INSPECTION"
@@ -149,6 +212,7 @@ if __name__ == "__main__":
     assert res_feat_404.status_code == 404
     print("[PASS] Test 2: Feature retrieval and 404 handling passed.")
 
+    # Test 3: Contract Validation & Anomaly Detection (200 OK & 422 Unprocessable Entity)
     valid_tx = {
         "transaction_id": "TX-10492",
         "truck_id": "TRUCK-219",
@@ -160,17 +224,19 @@ if __name__ == "__main__":
     assert res_anomaly.status_code == 200
     assert res_anomaly.json()["risk_level"] == "FRAUD_ALERT"
 
+    # Malformed Request (Negative gallons should trigger 422 Unprocessable Entity):
     invalid_tx = {
         "transaction_id": "TX-10493",
         "truck_id": "TRUCK-219",
-        "gallons_pumped": -50.0,
+        "gallons_pumped": -50.0,  # Fails gt=0.0 constraint
         "price_per_gal": 3.89,
         "fuel_station_state": "IN"
     }
     res_invalid = client.post("/v1/anomalies/fuel-check", json=invalid_tx)
     assert res_invalid.status_code == 422
-    print("[PASS] Test 3: Anomaly scoring and Pydantic 422 validation passed.")
+    print("[PASS] Test 3: Anomaly scoring and Pydantic 422 contract validation passed.")
 
+    # Test 4: Multimodal Endpoints (Vision Manifest & RAG Search)
     res_vision = client.get("/v1/vision/manifest/TRUCK-219")
     assert res_vision.status_code == 200
     assert len(res_vision.json()["inspection_records"]) == 2

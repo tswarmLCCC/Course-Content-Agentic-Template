@@ -3,7 +3,7 @@
 
 > **Course**: COSC 2060 — Modern Data Engineering & AI Infrastructure  
 > **Unit Duration**: 2 Weeks | 4 Slots @ 75 Minutes Each (Flipped Classroom Model)  
-> **Prerequisites**: Unit 1 (Relational Foundations), Python 3.10+, Introductory Machine Learning  
+> **Prerequisites**: Unit 1 (Relational Foundations), Python 3.10+, CMAP 1815 SQL & Python  
 > **Core Toolchain**: Polars (Rust DataFrame Engine), Scikit-Learn (Isolation Forest), Local Synthetic Parquet
 
 ---
@@ -246,7 +246,7 @@ Notice our evaluation metric. We do NOT evaluate simple raw accuracy.
 Why? Because fraud represents only 1% of the data! If a model simply predicted 'no fraud' on every row, it would have 99% accuracy while letting all the thieves get away!
 
 Instead, we evaluate **Lift Over Random Guessing**:
-$$\text{Lift} = \frac{\text{Precision of Anomaly Detector}}{\text{Base Rate of Contamination}}$$
+`Lift = (Precision of Anomaly Detector) / (Base Rate of Contamination)`
 
 If the baseline fraud rate is 1%, and our top-scoring outliers contain 25% true fraud, our model achieved a **25x Lift**! That is a massive operational victory for the fraud investigation team."
 

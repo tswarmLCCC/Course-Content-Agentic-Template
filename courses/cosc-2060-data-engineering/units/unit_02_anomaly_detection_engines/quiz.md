@@ -15,7 +15,7 @@ In stream processing, what is the fundamental difference between a "tumbling win
 * D) Sliding windows can only be executed on GPU clusters.
 
 ### Question 3
-What statistical assumption must hold true for standard Z-score anomaly detection ($Z = \frac{x - \mu}{\sigma}$) to accurately identify outliers without excessive false positives?
+What statistical assumption must hold true for standard Z-score anomaly detection (`Z = (x - mean) / std`) to accurately identify outliers without excessive false positives?
 * A) The underlying data distribution must be approximately normal (Gaussian).
 * B) The dataset must contain exactly zero missing or null values.
 * C) The data points must all be strictly positive integers.
@@ -76,7 +76,7 @@ When calculating rolling metrics over a streaming telemetry window, what is "eve
 | **1** | **B** | Pydantic validates types, ranges, and constraints at runtime, raising ValidationError on bad input rather than passing dirty data downstream. |
 | **2** | **B** | Tumbling windows segment time into non-overlapping blocks; sliding windows advance incrementally and overlap, smoothing rolling trends. |
 | **3** | **A** | Z-score assumes a Gaussian distribution; in skewed or bimodal distributions, standard deviation is inflated, resulting in high false alarm rates. |
-| **4** | **B** | The median and IQR ($Q3 - Q1$) are non-parametric and resistant to extreme values, whereas mean and standard deviation are easily skewed by outliers. |
+| **4** | **B** | The median and IQR (`Q3 - Q1`) are non-parametric and resistant to extreme values, whereas mean and standard deviation are easily skewed by outliers. |
 | **5** | **B** | Dead-letter queues prevent bad records from crashing streaming pipelines while preserving the payload and error logs for debugging and replay. |
 | **6** | **B** | Declarative constraints like ge/le guard against physically impossible sensor readings (e.g. negative fuel volume or temperature above 5000 degrees). |
 | **7** | **B** | Naive datetimes assume local system time, causing catastrophic ordering and temporal join errors across daylight savings changes or multiple timezones. |
