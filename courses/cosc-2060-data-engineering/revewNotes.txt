@@ -8,8 +8,9 @@ Unit 1 -
         the first paragrahs is solid, but then it goes right into data leakage -
             this is ok eventually, but we need to first introduce feature engineering and the overall practics of buildign these datasets first!
 
-So overall, the code seems to be far above what a student would understand (and the techniques) - where do we teach them this stuff from the bottom up?
+I want to make sure that we start at the beginning.  The unit 1 goes to a great place and I want to keep all of that, but first let's talk about building features from sql like, at all, and then go into ideas like supervised learning and the as of join.
 
 Triple check everything in the whole course with a student learner mindset and make sure that everything is taught and built up before asking them to use it!
 
 
+let's talk about the code ramp up - So overall, the code seems to start far above what a student might understand (and the techniques) - where do we teach them this stuff from the bottom up?  We might want to review the basics moving into the labs.  Note - as I've read the first week reading, that is a really nice scaffolding, but it sort of jumps in the middle.
