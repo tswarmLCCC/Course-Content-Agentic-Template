@@ -125,12 +125,11 @@ Every unit of curriculum (a reading guide, a lab assignment, a quiz bank, an int
 
 ## 4. Quality Standards & Golden Rules
 
-- **Rigor Benchmark**: All course readings must match the pedagogical depth modeled in [ref/unit_reading_example.html](file:///c:/dev/Course-Content-Agentic-Template/ref/unit_reading_example.html). This means:
-  - Deep narrative framing of real-world industry friction (why naive approaches fail).
-  - Concrete mental models and conceptual metaphors.
-  - Complete, syntactically verified code snippets with line-by-line annotations.
-  - Guided student hands-on terminal/CLI practice.
-  - Frequently Asked Questions and exact quoted error messages with explanations.
+- **Rigor & Bottom-Up Reading Benchmark**: All course readings must match the **Unit 1 Gold Standard** (12 collapsible DesignPLUS Accordion Ribbon Slices: `1`, `2a`–`2h`, `3`, `4`, `5`) and the pedagogical depth modeled in [ref/unit_reading_example.html](file:///c:/dev/Course-Content-Agentic-Template/ref/unit_reading_example.html). This means:
+  - Starting with the exact **Target Output Shape & Operational Source Systems** (`2a`) and **Ground-Up Mechanics** (`2b`) before introducing advanced pipeline code or assuming prior ML/AI/DevOps coursework (`2c`).
+  - Deep narrative framing of real-world industry failure case studies (`2d`), sticky physical-world mental models (`2e`), and 3-step defensive pipeline evolution (`2f`).
+  - Incremental, syntactically verified step-by-step code ramp-ups with verified console outputs (`2g`).
+  - Guided student hands-on terminal/CLI practice and 4 common traps/FAQs (`2h`), using clean HTML math (zero raw `$...$` LaTeX) and direct human headers (no two-part colon AI-clichés).
 - **Human-Review First**: Initial drafts are generated in clean, semantic Markdown. Visual styling or complex HTML formatting is deferred until the pedagogical content is verified.
 - **Accessibility by Default**: Under **[ADR-001](file:///c:/dev/Course-Content-Agentic-Template/docs/ADRs/ADR-001-accessibility.md)**, everything created must target WCAG 2.2 AA (minimum WCAG 2.1 AA).
 - **Prompt Curation**: High-performing prompts used during authoring are refined and permanently stored in **[prompts/course_authoring_prompts.md](file:///c:/dev/Course-Content-Agentic-Template/prompts/course_authoring_prompts.md)** so they can be reused or converted into Antigravity IDE skills.
@@ -151,7 +150,7 @@ This repository includes a portable, modular automation toolchain located under 
 ### The 8-Item Standard Canvas Module Sequence
 Every weekly unit produced by `canvas-course-builder` follows a battle-tested sequence inside Canvas LMS:
 1. `Unit X Overview: [Topic]` (`WikiPage` - Published) — DesignPLUS banner ribbon, interactive accordions for Objectives, Roadmap, and Contact Hours.
-2. `Unit X: Required Readings & Video Lectures` (`WikiPage` - Published) — Clean standard layout or DesignPLUS multi-ribbon chapters.
+2. `Unit X: Required Readings, Concepts & Video Lectures` (`WikiPage` - Published) — 12-slice DesignPLUS Accordion reading hub (`1`, `2a`–`2h`, `3`, `4`, `5`) with bottom-up scaffolding, curated docs, and 16:9 video chapters.
 3. `Unit X: Asynchronous Preparation & Drills` (`WikiPage` - Published) — Conceptual focus questions with interactive `<details>/<summary>` self-check answer keys.
 4. `Unit X: Applied Lab Guide` (`WikiPage` - Published) — Scenario instructions, defensive engineering edge cases, and native HTML rubric tables.
 5. `Unit X Applied Lab Assignment` (`Assignment` - Published) — Native 50-pt Canvas Assignment for SpeedGrader file upload or text entry.

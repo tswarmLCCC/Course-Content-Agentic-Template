@@ -15,34 +15,40 @@ Target Unit: [UNIT NUMBER: UNIT TITLE]
 Target Audience: [STUDENT PREREQUISITES & BACKGROUND]
 Core Toolchain: [TOOLS & RUNTIMES, e.g., DuckDB, Polars, FastAPI]
 
-Author a deep, rigorous, and engaging instructional text formatted in clean Markdown for human review. Do not summarize or provide high-level bullet points—write out the complete, rich explanatory narrative.
+Author a deep, rigorous, bottom-up instructional text formatted in clean Markdown for human review and Canvas DesignPLUS Accordion rendering (`12` top-level `## ` Ribbon Slices: `1`, `2a`–`2h`, `3`, `4`, `5`). Do not summarize or skip foundational steps, do not assume unstated ML/AI/DevOps coursework, avoid formulaic two-part colon AI-cliché headers (use `—` instead of `:` inside `## ` headings), and use clean HTML math (`<i>X</i>`, `<sub>1</sub>`, `&mu;`, `&sigma;`) instead of raw `$...$` or `\[...\]` LaTeX.
 
-Your reading guide must include these 6 core pedagogical sections:
+Your reading guide must include these 12 collapsible Ribbon Slices:
 
-1. Unit Overview & Measurable Objectives:
-   - Provide learning objectives anchored in active verbs (Analyze, Construct, Implement, Audit, Mitigate).
-   - State the target weekly time commitment and prerequisite concepts.
+1. `## 1. Unit Overview & Objectives`
+   - Bridge explicitly from prerequisite coursework, state the real-world gap, and list active-verb Bloom's objectives.
 
-2. The Narrative of the Problem (Real-World Friction):
-   - Open with an authentic industry operational failure (e.g., temporal data leakage ruining a $10M prediction model, out-of-memory crashes on Pandas, unauthenticated APIs leaking customer data).
-   - Contrast fragile naive solutions with defensive engineering solutions.
+2. `## 2a. What Our Output Looks Like and Where the Data Comes From`
+   - Define the exact target output format/schema, explain why downstream consumers require it, list the operational source systems, and show a concrete sample dataset.
 
-3. The Mental Model / Conceptual Metaphor:
-   - Establish an intuitive, sticky mental model or visual metaphor (e.g., the "flashlight" projection, "assembly line" lazy evaluation, "water plumbing" pipeline).
-   - Deconstruct the underlying computer science or mathematics (e.g., query planner cost, columnar memory layouts, vector dot-products).
+3. `## 2b. [Topic] from the Ground Up`
+   - Teach foundational syntax, data structures, and building blocks line-by-line before introducing complex pipelines.
 
-4. Technical Deep Dive & Implementation:
-   - Provide complete, syntactically verified code snippets (SQL, Python, YAML).
-   - Highlight subtle syntax gotchas, execution order vs. declarative syntax, and memory implications.
-   - Use descriptive snake_case aliases and production-ready formatting.
+4. `## 2c. How [Downstream System] Uses [Output]`
+   - Explain in plain English how the downstream model, API, or agent consumes the artifact, ending with a bold core engineering rule.
 
-5. Guided Student Practice (Hands-on CLI/Terminal):
-   - Detail numbered step-by-step commands to run in their local environment (e.g. DuckDB CLI, Python script, or local server).
-   - Provide concrete sample data tables, expected output schemas, and multi-step progressive challenges.
+5. `## 2d. Why the [Real-World Case] Failed (Failure Case Study)`
+   - Open with an authentic industry operational failure with concrete numbers, timeline/ASCII diagram, and root-cause diagnosis.
 
-6. Frequently Asked Questions & Gotchas:
-   - Address the top 4-5 real errors students encounter (e.g. trailing comma syntax errors, As-Of join timestamp mismatches, null handling).
-   - Quote the exact error message text and explain the underlying engine behavior causing it.
+6. `## 2e. [Visual Analogy & Core Intuition]`
+   - Establish a sticky physical-world mental model and deconstruct the underlying computer science or mathematics using clean HTML entities.
+
+7. `## 2f. Defensive [Pipeline/Query] Evolution`
+   - Trace the 3-step engineering progression from naive/broken code -> intermediate workaround -> production-grade pattern.
+
+8. `## 2g. Step-by-Step Code Ramp-Up & Guided Implementation Walkthrough`
+   - Provide incremental, syntactically verified code steps culminating in a complete end-to-end walkthrough with verified console output.
+
+9. `## 2h. Practice Exercises & Formative Self-Check FAQ`
+   - Provide 3 hands-on sandbox exercises and 4 common traps/FAQs quoting exact error behaviors.
+
+10. `## 3. Required Readings & Authoritative Tutorial Guides` (5 verified official documentation links)
+11. `## 4. Required Micro-Video Lectures (Embedded)` (16:9 YouTube embeds + fallback links)
+12. `## 5. Institutional Video Lecture Embeds` (campus faculty recording slot)
 ```
 
 ---

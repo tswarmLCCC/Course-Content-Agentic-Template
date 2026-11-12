@@ -37,13 +37,34 @@ Every weekly unit follows this strict, proven sequence inside Canvas Modules:
 | Seq | Item Title Convention | Canvas Item Type | State | Pedagogical Role |
 | :---: | :--- | :--- | :---: | :--- |
 | **1** | `Unit X Overview: [Topic]` | `WikiPage` | Published | Roadmap, contact-hour budget (150m study / 150m lab), learning outcomes. Uses DesignPLUS ribbon. |
-| **2** | `Unit X: Required Readings, Concepts & Video Lectures` | `WikiPage` | Published | Curated instructor lecture deep-dive, official documentation links, 16:9 embedded video chapters, and campus video slot. |
+| **2** | `Unit X: Required Readings, Concepts & Video Lectures` | `WikiPage` | Published | 12-slice DesignPLUS Accordion reading hub (`1`, `2a`–`2h`, `3`, `4`, `5`): bottom-up lecture slices, target output & source systems, code ramp-up, docs, 16:9 videos, and campus video slot. |
 | **3** | `Unit X: Asynchronous Preparation & Drills` | `WikiPage` | Published | Conceptual focus questions and formative self-check drills with interactive `<details>/<summary>` answer keys. |
 | **4** | `Unit X: Applied Lab Guide` | `WikiPage` | Published | Business scenario, step-by-step challenges, and full native HTML grading rubric table. |
 | **5** | `Unit X Applied Lab Assignment` | `Assignment` | Published | Native Canvas Assignment (50 pts) for SpeedGrader file upload (`.sql`, `.py`, `.txt`), official deadline, and rubric. |
 | **6** | `Unit X: Learn with AI — Supplemental Practice Drill` | `WikiPage` | Published | Socratic roleplay scenario, free tools guide, copy-paste master prompt, and weekly discussion debrief task. |
 | **7** | `Unit X Knowledge Check: [Topic]` | `Quizzes::Quiz` | Published | Native QTI 1.2 assessment (15 questions, 30 pts, 3 attempts, highest score kept). |
 | **8** | `[Instructor Guide] Unit X Teaching Notes & Solutions` | `WikiPage` | **Unpublished** | Hidden from students. Synchronous delivery agenda, lecture notes, demo contingency runbooks, and solution keys. |
+
+---
+
+## 2B. Unit Reading Page 12-Slice Architecture & Bottom-Up Standard
+
+Never pack an entire 500-line lecture into a single giant accordion panel. Instead, structure every unit's `reading.md` into **12 collapsible DesignPLUS Accordion Ribbon Slices** (`## ` top-level headings rendered as `<h2 class="dp-panel-heading">`):
+
+1. **`## 1. Unit Overview & Objectives`** — Bridge from prerequisite coursework with zero assumed ML/AI/DevOps background; state measurable Bloom's objectives.
+2. **`## 2a. What Our Output Looks Like and Where the Data Comes From`** — Show the exact target output format/schema, explain why downstream consumers require it, list the operational source systems, and display a concrete sample dataset.
+3. **`## 2b. [Topic] from the Ground Up`** — Teach foundational syntax and mechanics line-by-line before introducing complex pipelines.
+4. **`## 2c. How [Downstream System] Uses [Output]`** — Plain-English explanation of how the downstream consumer uses the artifact, ending with a bold core engineering rule.
+5. **`## 2d. Why the [Real-World Case] Failed (Failure Case Study)`** — Authentic industry failure postmortem with concrete numbers and root-cause diagnosis.
+6. **`## 2e. [Visual Analogy & Core Intuition]`** — Sticky physical-world mental model + mathematical/architectural mechanics (using clean HTML entities/tags—never raw `$...$` or `\[...\]` LaTeX).
+7. **`## 2f. Defensive [Pipeline/Query] Evolution`** — 3-step progression from naive/broken code &rarr; intermediate workaround &rarr; production-grade pattern.
+8. **`## 2g. Step-by-Step Code Ramp-Up & Guided Implementation Walkthrough`** — Incremental runnable code steps culminating in a complete end-to-end walkthrough with verified console output.
+9. **`## 2h. Practice Exercises & Formative Self-Check FAQ`** — 3 hands-on sandbox exercises + 4 common traps/FAQs explaining exact error causes.
+10. **`## 3. Required Readings & Authoritative Tutorial Guides`** — 5 curated, verified official documentation links.
+11. **`## 4. Required Micro-Video Lectures (Embedded)`** — Responsive 16:9 embedded YouTube chapters.
+12. **`## 5. Institutional Video Lecture Embeds`** — Designated campus faculty recording slot.
+
+> **Formatting & Tone Invariants:** Use direct, human instructor headings without formulaic two-part colon AI-clichés (use `—` instead of `:` inside `## ` headings so DesignPLUS accordion scripts never truncate titles). Never emit raw LaTeX (`$X$`, `\[...\]`) or leave unclosed ` ``` ` code fences.
 
 ---
 

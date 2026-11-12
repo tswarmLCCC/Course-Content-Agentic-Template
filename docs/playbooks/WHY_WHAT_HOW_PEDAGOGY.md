@@ -96,7 +96,24 @@ Why? Because students need 100% of their cognitive bandwidth to:
 
 ---
 
-## 6. Key Takeaways
+## 6. Bottom-Up Reading Scaffolding (`1`, `2a`–`2h`, `3`, `4`, `5` Ribbon Slices)
+
+When authoring asynchronous `reading.md` pages, never jump straight into advanced pipeline code or assume unstated prerequisites (such as prior machine learning, NLP, or DevOps coursework). Structure every unit reading into **12 collapsible DesignPLUS Ribbon Slices** that build from the ground up:
+
+1. **`1. Unit Overview & Objectives`** — Bridge explicitly from what students already know.
+2. **`2a. What Our Output Looks Like and Where the Data Comes From`** — Show the concrete target output shape/schema, why downstream consumers require it, and the real-world source systems *before* writing code.
+3. **`2b. [Topic] from the Ground Up`** — Teach the foundational syntax and data structures step by step.
+4. **`2c. How [Downstream System] Uses [Output]`** — Explain in plain English how the downstream model, API, or agent consumes the engineered artifact.
+5. **`2d.` Failure Case Study** — Present the authentic industry breakdown (the *Why*).
+6. **`2e.` Visual Analogy & Core Intuition** — Anchor the concept with a sticky physical-world metaphor (the *What*).
+7. **`2f.` Defensive Pipeline Evolution** — Contrast naive/broken code against intermediate workarounds and the production-grade pattern.
+8. **`2g.` Step-by-Step Code Ramp-Up & Guided Implementation Walkthrough** — Incremental runnable code steps with verified output (the *How*).
+9. **`2h.` Practice Exercises & Formative Self-Check FAQ** — 3 live sandbox exercises + 4 common error traps.
+10. **`3. Required Readings`**, **`4. Micro-Video Lectures`**, **`5. Institutional Video Embeds`**.
+
+---
+
+## 7. Key Takeaways
 
 1. **Start with the pain.** If students don't feel the pain of the old way, they will never appreciate the elegance of the new way.
 2. **Bifurcate knowledge from deliverables.** Ensure students know what they must understand and what they must build.

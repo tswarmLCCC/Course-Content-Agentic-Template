@@ -61,14 +61,37 @@ Each weekly unit follows a strict, proven **8-Item Sequence** inside Canvas Modu
   - Lead card callouts (`<div style="background: #f8fafc; border-left: 4px solid #1e3a8a; ...">`)
   - Avoid heavy, repetitive banner ribbons on subpages.
 
-### B. Markdown-to-HTML Translation Rules
+### B. Unit Reading Page Standard (12-Slice DesignPLUS Accordion & Bottom-Up Scaffolding)
+Every `reading.md` page must be authored to the **Unit 1 Gold Standard**—starting from ground-up fundamentals, showing the exact target output shape and source systems before any advanced pipeline code, and breaking the lecture into **12 collapsible DesignPLUS Accordion Ribbon Slices** (`## ` top-level headings) using major/sub-letter numbering:
+
+| Slice Heading (`## `) | Pedagogical Role |
+| :--- | :--- |
+| **`## 1. Unit Overview & Objectives`** | Bridge from prerequisite coursework (zero assumed ML/AI/DevOps background), state the problem, and list measurable Bloom's objectives. |
+| **`## 2a. What Our Output Looks Like and Where the Data Comes From`** | Show the exact target output format/schema, explain why downstream consumers require it, list the operational source systems, and include a concrete sample dataset. |
+| **`## 2b. [Topic] from the Ground Up`** | Teach foundational syntax, data structures, and building blocks line-by-line (e.g., basic SQL expressions, `.select()`/`.filter()`, 3D array indexing, regex cleaning, `BaseModel`, parameter guards) before complex pipelines. |
+| **`## 2c. How [Downstream System] Uses [Output]`** | Plain-English explanation of how the downstream AI/ML/service consumer uses the engineered artifact + a bold core engineering rule. |
+| **`## 2d. Why the [Real-World Case] Failed (Failure Case Study)`** | Authentic industry failure postmortem with concrete numbers, timeline/ASCII diagram, and root-cause diagnosis. |
+| **`## 2e. [Visual Analogy & Core Intuition]`** | Sticky physical-world mental model + mathematical/architectural mechanics (using clean HTML entities/tags—never raw `$...$` or `\[...\]` LaTeX). |
+| **`## 2f. Defensive [Pipeline/Query] Evolution`** | 3-step engineering progression from naive/broken code &rarr; intermediate workaround &rarr; production-grade pattern. |
+| **`## 2g. Step-by-Step Code Ramp-Up & Guided Implementation Walkthrough`** | Incremental runnable code steps culminating in a complete end-to-end walkthrough with verified console output. |
+| **`## 2h. Practice Exercises & Formative Self-Check FAQ`** | 3 hands-on sandbox exercises + 4 common traps/FAQs explaining exact error causes. |
+| **`## 3. Required Readings & Authoritative Tutorial Guides`** | 5 curated, verified official documentation links with descriptions. |
+| **`## 4. Required Micro-Video Lectures (Embedded)`** | Responsive 16:9 embedded YouTube chapters with fallback links. |
+| **`## 5. Institutional Video Lecture Embeds`** | Designated campus faculty recording slot. |
+
+**Strict Authoring Rules for `reading.md`:**
+- **No AI-Cliché Headers:** Write direct, human instructor headings; avoid formulaic two-part colon titles (`Topic: The Subtitle`). Use em-dashes (`—`) inside `## ` headings so DesignPLUS accordion scripts never split or truncate titles on colons (`:`).
+- **Clean HTML Math Only:** Never emit raw LaTeX (`$X$`, `$\mu$`, `\[...\]`). Use `<i>X</i>`, `<sub>1</sub>`, `&mu;`, `&sigma;`, `&radic;`, `&minus;`, `&times;`.
+- **Code-Fence Safety:** Never leave unclosed ` ``` ` code fences; `html_styler.py`'s `parse_markdown_sections()` ignores `#` comments inside code fences when splitting `## ` headings into `<h2 class="dp-panel-heading">` accordion slices.
+
+### C. Markdown-to-HTML Translation Rules
 Never dump raw markdown or large `<pre><code>` blocks on student-facing pages:
 1. **Rubrics & Tables:** Convert `| Col 1 | Col 2 |` into styled `<table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1;">` with navy blue headers (`#1e3a8a`), cell borders, and alternating zebra rows (`#f8fafc`).
 2. **Code Blocks:** Wrap in styled dark syntax boxes: `<div style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; font-family: Consolas, Monaco, monospace;"><pre><code>...</code></pre></div>`.
 3. **Interactive Drills:** Convert `<details><summary>` into styled accordion cards with borders and hover cursor.
 4. **Inline Syntax:** Convert `` `code` `` into `<code style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-weight: 600;">`.
 
-### C. Institutional DesignPLUS Theme Fidelity (ADR-003)
+### D. Institutional DesignPLUS Theme Fidelity (ADR-003)
 * **Pure DesignPLUS CSS Classes (Zero Conflicting Inline Styles):**
   Never hand-code inline background colors, borders, or padding onto DesignPLUS components (`dp-header`, `dp-link-grid`, `dp-module-list`, `dp-panel-group`, `dp-panel-heading`, `dp-panel-content`).
   - **Banner Ribbons:** Use `<header class="dp-header dp-basic-bar dp-header-s-brdr-l dp-header-brdr-w-4 dp-header-out-dp-secondary ...">` without inline background or border overrides. DesignPLUS applies the institutional theme colors (`dp-primary` navy and `dp-secondary` gold) naturally.
@@ -77,13 +100,13 @@ Never dump raw markdown or large `<pre><code>` blocks on student-facing pages:
     `<div class="dp-banner-image" style="text-align: center; margin: 1rem 0;"><img role="presentation" src="$IMS-CC-FILEBASE$/images/course_banner.jpg" width="1100" height="220" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);" loading="lazy"></div>`.
   - **Module Accordion List:** Use clean `<div class="dp-module-list dp-module-list-flag-completed dp-module-list-show-locked dp-quick-links-panels-accordion-plus dp-auto-update dp-panel-color-dp-primary dp-panel-active-color-dp-accent dp-panel-hover-color-dp-accent dp-quick-links-all dp-module-list-current-none"><nav class="dp-module-list-item-group"><ul class="fa-ul list-group">...</ul></nav></div>`. Never insert custom header divs or custom inline styles.
 
-### D. Hyphenated Module Titles (No Colons)
+### E. Hyphenated Module Titles (No Colons)
 * **Never use a colon (`:`) in unit module titles:**
   - **Correct:** `Unit 01 - Relational Foundations & Vectorized Ingestion`
   - **Forbidden:** `Unit 01: Relational Foundations & Vectorized Ingestion`
   - **Reason:** DesignPLUS's client-side accordion widget splits on colons (`:`) and strips everything after it, causing the accordion to display only `Unit 01` without its title. Hyphens (` - `) preserve the full title.
 
-### E. Mandatory Native WikiPage `<head>` Contract
+### F. Mandatory Native WikiPage `<head>` Contract
 * **To prevent Canvas from importing HTML pages as static file downloads in an iframe with a "Download" banner**, every file in `wiki_content/` must contain:
   ```html
   <head>
