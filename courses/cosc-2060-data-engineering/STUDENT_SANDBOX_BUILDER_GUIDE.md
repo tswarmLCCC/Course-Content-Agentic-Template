@@ -153,7 +153,7 @@ In your **Canvas Course Orientation** page, embed the **Step 1 Template Generato
 ```
 
 ### 3. Student Submission Workflow
-Because each student works inside their own repository (`<student-username>/COSC-2060-Student-Sandbox`), they have full write permissions to `git commit` and `git push` their work, and can also download `lab{N}_{lastname}.py` from the VS Code Explorer sidebar (**Right-click -> Download...**) to upload directly to Canvas SpeedGrader.
+Because each student works inside their own repository (`<student-username>/COSC-2060-Student-Sandbox-yourname`), they have full write permissions to `git commit` and `git push` their work, and submit their GitHub repository URL + list of changed files directly in Canvas.
 
 ---
 

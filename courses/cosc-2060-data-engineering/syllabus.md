@@ -84,7 +84,7 @@ Your final grade in this course is determined by four weighted assignment catego
 
 | Assignment Category | Weight | What It Covers |
 | :--- | :---: | :--- |
-| **Hands-on Data Engineering Labs** | **40%** | 8 applied Python/SQL labs completed in your GitHub Codespaces sandbox and submitted via Canvas SpeedGrader |
+| **Hands-on Data Engineering Labs** | **40%** | 8 applied Python/SQL labs completed in your personal GitHub Codespaces sandbox and submitted via GitHub repo link + changed files list in Canvas |
 | **Comprehensive Capstone Defense** | **30%** | End-to-end containerized pipeline build and stakeholder architecture defense in Unit 8 |
 | **Unit Knowledge Checks & Quizzes** | **20%** | 8 multiple-choice unit quizzes in Canvas (3 attempts allowed per quiz; highest score kept) |
 | **Asynchronous Preparation & Drills** | **10%** | Weekly self-check drills, coding clinic practice, and Socratic AI review exercises |
@@ -103,21 +103,22 @@ Your final grade in this course is determined by four weighted assignment catego
 
 ---
 
-## 6. Course Academic Integrity & AI Policy
+## 6. Course Academic Integrity, Classroom Behavior & AI Policy
 
-- **Academic Integrity (LCCC Administrative Procedure 3.16P):** Help from the instructor or classmates to understand a concept or debug an error is encouraged, provided you write and submit your own original work. Sharing completed solution files or submitting another person's code as your own is prohibited.
-- **How We Use AI in This Course:** Each unit includes a **Learn with AI** activity where you use free conversational AI tools (ChatGPT, Claude, Gemini, or Copilot) as a Socratic tutor and code reviewer. However, you are responsible for understanding, running, and verifying every line of code you submit in your GitHub Codespace. Never copy and paste unverified AI output into a lab submission.
+- **Academic Integrity (LCCC Administrative Procedures 3.15P & 3.16P):** Academic integrity involves creating and expressing your own ideas in coursework, acknowledging all sources, completing assignments independently or acknowledging collaboration, and accurately reporting lab results. Cheating—including submitting another person's code, sharing completed solution files, or using unauthorized aids—is prohibited under LCCC Administrative Procedures 3.15P and 3.16P.
+- **Artificial Intelligence Policy:** LCCC requires all students to uphold academic integrity, including the use of AI. In COSC 2060, each unit includes a **Learn with AI** activity where you may use conversational AI tools (ChatGPT, Claude, Gemini, or Copilot) as a Socratic tutor and code reviewer. However, you are responsible for understanding, running, and verifying every line of code you push to your GitHub sandbox, and **you are ultimately responsible for any inaccuracies stemming from AI tools**. Never copy and paste unverified AI output into a lab submission.
+- **Behavior in the Classroom:** All LCCC students are expected to display appropriate conduct (as defined in LCCC Administrative Procedure 3.15P) while on campus, in live synchronous sessions, or in online Canvas discussions.
 
 ---
 
 ## 7. LCCC Institutional Syllabus Addendum
 
-- **Incomplete Grades:** The LCCC Catalog identifies the conditions under which a grade of `I` can be assigned based on attendance, course progress, prior assignment success, and instructor consent.
-- **Student Rights and Responsibilities:** Students are expected to review and comply with the LCCC Student Handbook and college policies available on the [LCCC Official Website](https://www.lccc.wy.edu/).
-- **Accommodations (Office of Student Accommodations — OSA):** Any student with a documented disability, Title IX issue (including pregnancy and breastfeeding needs), or Veteran disability is welcome to contact the Office of Student Accommodations (OSA) at any time in the semester.
+- **Incomplete Grades:** The LCCC Catalog identifies the conditions under which a grade of `I` can be assigned based on attendance, course progress, prior assignment success, and instructor consent. Students can confirm eligibility by consulting the LCCC Catalog.
+- **Student Rights and Responsibilities:** Students are expected to review and comply with the student rights and responsibilities outlined in the [LCCC Student Handbook](https://www.lccc.wy.edu/life/handbook/) and [LCCC College Policies](https://policies.lccc.wy.edu/).
+- **Accommodations (Office of Student Accommodations — OSA):** Any student with a documented disability, Title IX issue (including pregnancy and breastfeeding needs), or Veteran disability is welcome to contact the Office of Student Accommodations (OSA) at any time in the semester. Please note that accommodations cannot be provided retroactively by law, so seeking accommodation as soon as it is needed is recommended.
   - **Cheyenne Campus & Online Students:** Pathfinder 207, call `(307) 778-1223`, or email `aclubb@lccc.wy.edu`.
-  - **Laramie Campus:** Call `(307) 778-1223` or email `aclubb@lccc.wy.edu`.
+  - **Laramie Campus:** Call `(307) 778-1223` or email `aclubb@lccc.wy.edu` (OSA staff are present on the Laramie Campus routinely).
 - **Free Academic Tutoring:** All academic tutoring and resources are free and open to current LCCC students:
   - **Cheyenne Campus Learning Commons:** Visit LIB 137, call `(307) 778-4315`, or email `tutors@lccc.wy.edu`.
-  - **Laramie Campus Library:** Visit Room 202A, call `(307) 772-4263`, or email `lctutors@lccc.wy.edu`.
-  - **Online 24/7 Tutoring:** Schedule appointments through the **Navigate** app in myLCCC or access 24/7 online tutoring via **NetTutor** in the Canvas navigation menu.
+  - **Laramie Campus Library:** Visit Room 202A, call `(307) 772-4263` or `(307) 721-5138 ext. 4263`, or email `lctutors@lccc.wy.edu`.
+  - **Online 24/7 Tutoring:** Schedule appointments through the **Navigate** app in myLCCC (select *Appointments → Schedule an Appointment → Learning Commons*) or access 24/7 online tutoring via **NetTutor** in the Canvas navigation menu.

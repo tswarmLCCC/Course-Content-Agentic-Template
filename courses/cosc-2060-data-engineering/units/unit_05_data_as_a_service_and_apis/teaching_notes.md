@@ -38,7 +38,7 @@ flowchart LR
 Students complete these materials independently before the first live classroom meeting:
 
 1. **Assigned Primary Reading** (35 min):
-   - [Unit 5 Reading: Data as a Service (DaaS)](../../content/readings/unit_05_data_as_a_service.md)
+   - **Unit 5 Reading: Data as a Service (DaaS)** (content/readings/unit_05_data_as_a_service.md)
 2. **Curated Outside Readings** (20 min):
    - *Designing Robust Web APIs* by Stripe Engineering: Foundational principles of schema contracts, idempotency keys, and backward compatibility.
    - *FastAPI Documentation: Request Body & Field Validations* by Sebastián Ramírez ([fastapi.tiangolo.com](https://fastapi.tiangolo.com/tutorial/body-fields/)).
@@ -62,8 +62,8 @@ Students complete these materials independently before the first live classroom 
     - Raw JSON Payload -> Pydantic Input Validator -> Internal Engine -> Pydantic Output Model.
   - Demonstrate how Pydantic protects backend code from `KeyError` and `TypeError`.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
-  - **Presentation Deck**: [Unit 5 Coding Clinic Slides (.pptx)](../../content/slides/unit_05_coding_clinic.pptx)
-  - **Interactive Companion**: Open [Unit 5 Transition Notebook: `unit_05_ds_to_engine.ipynb`](../../content/notebooks/unit_05_ds_to_engine.ipynb)
+  - **Presentation Deck**: **Unit 5 Coding Clinic Slides (.pptx)** (content/slides/unit_05_coding_clinic.pptx)
+  - **Interactive Companion**: Open **Unit 5 Transition Notebook: `unit_05_ds_to_engine.ipynb`** (content/notebooks/unit_05_ds_to_engine.ipynb)
   - **"I Do" (15m)**: Inspect Dr. Leo Chen's freight pricing prototype loading a static pickled DataFrame with an unvalidated Python function. Inject negative miles and string weights to observe silent corruptions and unhandled crashes.
   - **"We Do" (15m)**: Live code-along refactoring into an asynchronous **FastAPI** service with strict **Pydantic v2** `Field(gt=0)` validation. Use `TestClient` to verify sub-3ms responses on valid inputs and automatic HTTP 422 protection against bad data!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
@@ -75,7 +75,7 @@ Students complete these materials independently before the first live classroom 
 Students complete pre-lab tasks before entering the live hack session:
 
 1. **Assigned Lab Reading** (25 min):
-   - [Unit 5 Lab Guide: Logistics Unified Data Service Lab](../../content/labs/unit_05_logistics_api_lab.md)
+   - **Unit 5 Lab Guide: Logistics Unified Data Service Lab** (content/labs/unit_05_logistics_api_lab.md)
 2. **Instructor Lab Walkthrough Video** (15 min):
    - Watch **Instructor Video 2** (Recorded using Script 2 below).
 3. **Local Setup & Challenge 1 Scaffolding** (35 min):

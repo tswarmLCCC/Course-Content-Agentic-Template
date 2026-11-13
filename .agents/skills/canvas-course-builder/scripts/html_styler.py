@@ -16,11 +16,18 @@ Features:
 
 import re
 import html
+import textwrap
 from typing import List, Tuple, Optional
 
 
 def format_inline(s: str) -> str:
     """Formats inline markdown syntax to HTML."""
+    s = s.replace(r"\$", "$")
+    s = re.sub(
+        r"``\s*(.+?)\s*``",
+        lambda m: f'<code style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace; font-weight: 600;">{html.escape(m.group(1))}</code>',
+        s
+    )
     s = re.sub(
         r"`([^`]+)`",
         r'<code style="background: #f1f5f9; color: #0369a1; padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; font-family: Consolas, monospace; font-weight: 600;">\1</code>',
@@ -46,12 +53,17 @@ def parse_markdown_to_html(md: str) -> str:
         code_html = (
             f'<div style="background: #0f172a; color: #f8fafc; padding: 1rem 1.25rem; border-radius: 6px; '
             f'overflow-x: auto; margin: 1.25rem 0; font-family: Consolas, Monaco, monospace; font-size: 0.9em; '
-            f'line-height: 1.5;"><pre style="margin: 0; background: transparent; color: inherit;"><code>{html.escape(code.strip())}</code></pre></div>'
+            f'line-height: 1.5;"><pre style="margin: 0; background: transparent; color: inherit;"><code>{html.escape(textwrap.dedent(code).strip())}</code></pre></div>'
         )
         code_blocks.append(code_html)
         return f"__CODE_BLOCK_{idx}__"
 
-    text = re.sub(r"```([a-zA-Z0-9_-]*)\r?\n(.*?)\r?\n```", code_block_sub, md, flags=re.DOTALL)
+    text = re.sub(
+        r"^[ \t]*```([a-zA-Z0-9_-]*)[ \t]*\r?\n(.*?)\r?\n[ \t]*```[ \t]*$",
+        code_block_sub,
+        md,
+        flags=re.DOTALL | re.MULTILINE,
+    )
 
     lines = text.splitlines()
     output = []

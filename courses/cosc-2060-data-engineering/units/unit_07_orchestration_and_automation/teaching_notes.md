@@ -14,7 +14,7 @@ In Units 1 through 6, students engineered all components of an enterprise AI inf
 ### Terminal Competencies
 - **The Failure of Cron**: Explain why time-based triggering lacks dependency awareness and causes cascading corruption when upstream network glitches occur.
 - **Topological Graph Sorting**: Construct DAG dependency graphs and resolve valid execution sequences using topological sorting while detecting circular dependencies.
-- **Fault-Tolerant Exponential Retries**: Configure automated retry policies with exponential backoff ($2^{\text{attempt}-1} \times \text{base}$) to recover from transient outages.
+- **Fault-Tolerant Exponential Retries**: Configure automated retry policies with exponential backoff (`2^(attempt - 1) × base`) to recover from transient outages.
 - **Poison-Pill Quarantine (DLQ)**: Implement Dead-Letter Queue patterns that isolate corrupted or out-of-bounds records with error traces while allowing valid transactional batches to process.
 - **Idempotent Partitioning**: Design idempotent state commits that allow pipelines to be re-run indefinitely on the same partition without creating duplicate records.
 
@@ -38,7 +38,7 @@ flowchart LR
 Students complete these materials independently before the first live classroom meeting:
 
 1. **Assigned Primary Reading** (35 min):
-   - [Unit 7 Reading: Orchestration & Automation](../../content/readings/unit_07_orchestration_automation.md)
+   - **Unit 7 Reading: Orchestration & Automation** (content/readings/unit_07_orchestration_automation.md)
 2. **Curated Outside Readings** (20 min):
    - *Software-Defined Assets: A Declarative Approach to Data Orchestration* by Nick Schrock (Founder of Dagster Labs): Explaining why asset dependencies beat task-based crons.
    - *Idempotency in Data Pipelines* by Maxime Beauchemin (Creator of Apache Airflow): Architectural patterns for idempotent writes and safe backfills.
@@ -62,8 +62,8 @@ Students complete these materials independently before the first live classroom 
   - Walk through Kahn's algorithm step-by-step: tracking `in_degree` counts and queueing zero-degree nodes.
   - Introduce a circular dependency (Node A -> Node B -> Node A) and demonstrate how Kahn's algorithm detects the cycle when `len(order) != len(nodes)`.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
-  - **Presentation Deck**: [Unit 7 Coding Clinic Slides (.pptx)](../../content/slides/unit_07_coding_clinic.pptx)
-  - **Interactive Companion**: Open [Unit 7 Transition Notebook: `unit_07_ds_to_engine.ipynb`](../../content/notebooks/unit_07_ds_to_engine.ipynb)
+  - **Presentation Deck**: **Unit 7 Coding Clinic Slides (.pptx)** (content/slides/unit_07_coding_clinic.pptx)
+  - **Interactive Companion**: Open **Unit 7 Transition Notebook: `unit_07_ds_to_engine.ipynb`** (content/notebooks/unit_07_ds_to_engine.ipynb)
   - **"I Do" (15m)**: Inspect Kevin Patel's monolithic linear Jupyter Notebook. Inject an error midway to show how linear cell execution destroys all in-memory state and forces redundant re-running of expensive upstream extracts.
   - **"We Do" (15m)**: Live code-along refactoring into a **Software-Defined Asset DAG** with in-degree topological sorting. Run the materialization suite to verify failure isolation, node retries, and automatic cache-hits on subsequent runs!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
@@ -75,7 +75,7 @@ Students complete these materials independently before the first live classroom 
 Students complete pre-lab tasks before entering the live hack session:
 
 1. **Assigned Lab Reading** (25 min):
-   - [Unit 7 Lab Guide: The Unsleeping Pipeline Lab](../../content/labs/unit_07_unsleeping_pipeline_lab.md)
+   - **Unit 7 Lab Guide: The Unsleeping Pipeline Lab** (content/labs/unit_07_unsleeping_pipeline_lab.md)
 2. **Instructor Lab Walkthrough Video** (15 min):
    - Watch **Instructor Video 2** (Recorded using Script 2 below).
 3. **Local Setup & Challenge 1 Scaffolding** (35 min):

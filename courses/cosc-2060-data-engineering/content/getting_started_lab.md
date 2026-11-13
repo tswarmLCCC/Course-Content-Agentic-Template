@@ -51,7 +51,7 @@ COSC-2060-Student-Sandbox/
 │   ├── unit_01_relational_foundations/            # Unit 1 workspace folder
 │   │   ├── study_guide.md                         # Reading notes & self-check questions
 │   │   ├── ds_to_engine.ipynb                     # Interactive Jupyter Notebook walkthrough
-│   │   ├── coding_clinic.py                       # Follow-along practice script (Part 0 to Part 3)
+│   │   ├── coding_clinic.ipynb                    # Interactive notebook exercises (Part 0 to Part 3)
 │   │   └── lab1_starter.py                        # Graded Lab 1 starter script
 │   ├── unit_02_anomaly_detection_engines/         # Unit 2 workspace folder
 │   ...
@@ -65,8 +65,8 @@ Every unit folder inside `units/` contains the exact same four file types so you
 | :--- | :--- | :---: |
 | **`study_guide.md`** | Your unit reading guide, documentation links, and self-check practice questions with expandable answer keys. | Practice |
 | **`ds_to_engine.ipynb`** | An interactive Jupyter Notebook that steps through the unit's concepts and code one cell at a time. | Practice |
-| **`coding_clinic.py`** | A runnable Python script with warm-up exercises and guided challenges ("Part 0: Warm-Up" through "Part 3: You Do"). | Practice |
-| **`labN_starter.py`** | The starter file for your graded lab assignment. You will complete the `TODO` sections in this file and submit it to Canvas. | **Graded (Lab)** |
+| **`coding_clinic.ipynb`** | An interactive Jupyter Notebook with warm-up exercises and guided challenges ("Part 0: Warm-Up" through "Part 3: You Do") that you can run one cell at a time. | Practice |
+| **`labN_starter.py`** | The starter file for your graded lab assignment. You will complete the `TODO` sections in this file, push to GitHub, and submit your repo link + changed files list in Canvas. | **Graded (Lab)** |
 
 ---
 
@@ -76,33 +76,34 @@ You will use two main ways to run code inside your Codespace:
 
 ### A. Running `.py` Scripts in the Terminal
 1. Open the integrated terminal at the bottom of VS Code (press `` Ctrl + ` `` or use the top menu: **Terminal &rarr; New Terminal**).
-2. Run any script using the `python` command. For example, to run the Unit 1 Coding Clinic:
-   ```bash
-   python units/unit_01_relational_foundations/coding_clinic.py
-   ```
-3. To test your Unit 1 Lab Starter script as you work on it:
+2. Test your Unit 1 Lab Starter script as you work on it (you can also click **Run Cell** above any `# %%` marker in VS Code to test one section at a time):
    ```bash
    python units/unit_01_relational_foundations/lab1_starter.py
    ```
 
-### B. Running Interactive Cells in `ds_to_engine.ipynb`
-1. Click `units/unit_01_relational_foundations/ds_to_engine.ipynb` in the left file Explorer.
+### B. Running Interactive Cells in `.ipynb` Notebooks (`coding_clinic.ipynb` & `ds_to_engine.ipynb`)
+1. Click `units/unit_01_relational_foundations/coding_clinic.ipynb` or `ds_to_engine.ipynb` in the left file Explorer.
 2. Each notebook is pre-configured to use the **`Python 3.11 (COSC 2060 Sandbox)`** kernel.
 3. Click the **Play (`▷`)** button next to any code cell (or press **`Shift + Enter`**) to execute that cell and inspect the output table right below it.
 
 ---
 
-## 5. Submitting Your Lab and Resetting Your Sandbox
+## 5. Submitting Your Lab via GitHub and Resetting Your Sandbox
 
-### How to Submit Your Completed Lab to Canvas
-1. After you finish editing and testing `lab1_starter.py` (and confirm it runs with zero errors in the terminal), right-click `lab1_starter.py` in the left VS Code Explorer sidebar and click **"Download..."**.
-2. Save the file to your computer and upload it to the **Unit Applied Lab Assignment** page in Canvas.
-3. **Save a Backup to Your GitHub Repo:** In the terminal, run these three commands at the end of each work session so your work is safely backed up to your private GitHub repository:
+### How to Submit Your Completed Lab (GitHub-Only Workflow)
+You will use **one single personal GitHub repository** (`COSC-2060-Student-Sandbox-yourname`) for the entire semester—**do not download or upload `.py` files to Canvas**.
+
+1. **Test Your Code:** Finish editing your unit lab file (for example, `units/unit_01_relational_foundations/lab1_starter.py`) and confirm it runs cleanly in the terminal with zero errors.
+2. **Check What Changed:** Run `git status` in the terminal so you know the exact files you modified or created.
+3. **Commit and Push to Your GitHub Repository:**
    ```bash
    git add -A
-   git commit -m "Save lab progress"
+   git commit -m "Complete Unit 1 Lab"
    git push
    ```
+4. **Submit in Canvas:** Open the **Unit Applied Lab Assignment** in Canvas and submit:
+   - The **URL** to your personal GitHub repository (`https://github.com/<username>/COSC-2060-Student-Sandbox-yourname`).
+   - A **short list of the files you changed** (for example: `units/unit_01_relational_foundations/lab1_starter.py`).
 
 ### How to Reset Your Datasets if Something Breaks
 If you ever accidentally overwrite or delete a file in the `datasets/` folder, you can regenerate all original course datasets in 5 seconds by running this command in the terminal:

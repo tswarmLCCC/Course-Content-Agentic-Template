@@ -21,15 +21,15 @@ In **Unit 2**, we pivot to **unsupervised learning targets** and **scale**.
 
 In enterprise industry, the vast majority of raw operational data does **not** arrive with ground-truth answer labels. Nobody sits at a desk tagging fraudulent credit card transactions, failing wind turbine bearings, or network intrusions in real time. Instead, data engineers must construct high-throughput pipelines that clean, normalize, and transform millions of raw event logs into high-dimensional feature spaces where **unsupervised anomaly detection algorithms** (such as Isolation Forests) can mathematically isolate outliers.
 
-Furthermore, we confront the performance limits of traditional Python tools. When working on small datasets (10,000 to 50,000 rows), **Pandas** functions adequately. But when an enterprise pipeline ingests **1,000,000 transactions a day**, Pandas consumes massive amounts of RAM, locks up CPU cores with Python's Global Interpreter Lock (GIL), and crashes with Out-Of-Memory (OOM) errors.
+Furthermore, we confront the performance limits of traditional Python tools. When working on small datasets (10,000 to 50,000 rows), **Pandas** functions adequately. But when an enterprise pipeline ingests **1,000,000 transactions a day**, Pandas consumes massive amounts of RAM, uses only one CPU core at a time (because of Python's Global Interpreter Lock, or GIL—a rule in standard Python that prevents multiple threads from running Python code simultaneously), and crashes with Out-Of-Memory (OOM) errors.
 
-In this unit, you will learn how to build high-speed pipelines with **Polars**—a blazing-fast, multithreaded DataFrame library written in Rust and built natively on the Apache Arrow columnar memory model. We will start by examining the exact output table we are building and the source systems that feed it, then explore a real-world fuel fraud case, why feature scaling matters, and how to write Polars expressions from the ground up.
+In this unit, you will learn how to build high-speed pipelines with **Polars**—a blazing-fast, multithreaded DataFrame library written in Rust and built natively on the **Apache Arrow** columnar memory model (which stores each column's values side-by-side in memory instead of scattering Python objects around RAM). We will start by examining the exact output table we are building and the source systems that feed it, then explore a real-world fuel fraud case, why feature scaling matters, and how to write Polars expressions from the ground up.
 
 **Measurable Learning Objectives:**
 * **Explain** the difference between supervised learning (with a target column <b><i>y</i></b>) and unsupervised anomaly detection (finding outliers across feature columns <b><i>X</i></b> without historical labels).
 * **Analyze** the mathematical mechanics of distance metrics (Euclidean, Manhattan) and articulate why unscaled numerical features distort unsupervised anomaly detection models.
 * **Implement** robust data normalization techniques (Min-Max scaling and Z-Score standardization) natively using vectorized Polars expressions after scrubbing corrupted sensor glitches.
-* **Differentiate** between Pandas' eager object-pointer memory model and Polars' multithreaded Apache Arrow columnar execution architecture.
+* **Differentiate** between how Pandas stores row-by-row Python objects in RAM and how Polars processes columns in parallel across CPU cores using Apache Arrow.
 * **Construct** declarative, leak-free transformation pipelines step by step using Polars **LazyFrames** (`pl.scan_parquet`, `.filter()`, `.with_columns()`, `.over()`, and `.collect()`).
 * **Ingest and Clean** commercial fuel transaction records to isolate physical anomalies and feed an unsupervised Isolation Forest baseline.
 
@@ -129,7 +129,7 @@ velocity_tx = (
 )
 ```
 
-Look at what happens on each row for Driver 42:
+Look at what happens on each row for Driver 42 *(you can run this exact cell-by-cell example in `units/unit_02_anomaly_detection_engines/coding_clinic.ipynb` under Part 3)*:
 * On Driver 42's **first swipe**, there is no previous swipe, so `.shift(1)` returns `null` and `.fill_null(0.0)` safely sets `implied_speed_mph` to `0.0`.
 * On Driver 42's **second swipe** (45 minutes later, 950 miles away), Polars divides `950.0 miles / 0.75 hours` and populates `implied_speed_mph = 1266.67`—instantly exposing a cloned fuel card!
 
@@ -469,7 +469,7 @@ final_df.write_parquet("output/anomaly_features.parquet")
 Try these three short exercises in your GitHub Codespaces sandbox (`units/unit_02_anomaly_detection_engines/`) before starting the graded lab:
 
 1. **Exercise 1 (Inspecting the Query Plan):** In Python, create a `LazyFrame` with `.lazy()`, add a `.filter()` and `.with_columns()`, and print `lazy_pipeline.explain()`. Observe how Polars shows you the optimized query plan before reading the data.
-2. **Exercise 2 (Seeing the Effect of Sensor Glitches on Z-Scores):** In `coding_clinic.py`, check what happens to `z_gallons` if you compute the Z-score *before* filtering out negative or `99999.0` sensor error rows versus *after* filtering them out.
+2. **Exercise 2 (Seeing the Effect of Sensor Glitches on Z-Scores):** In `coding_clinic.ipynb`, check what happens to `z_gallons` if you compute the Z-score *before* filtering out negative or `99999.0` sensor error rows versus *after* filtering them out.
 3. **Exercise 3 (Group Window Practice):** Using `.over("driver_id")`, add a column that calculates the maximum `gallons` each driver has ever pumped (`pl.col("gallons").max().over("driver_id")`).
 
 ### Common Traps & Formative Self-Check FAQ

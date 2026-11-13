@@ -24,7 +24,7 @@ How does a multimodal model like CLIP (Contrastive Language-Image Pre-training) 
 ### Question 4
 When comparing two normalized embedding vectors `u` and `v`, why is cosine similarity mathematically equivalent to their dot product?
 * A) Because the cosine of zero is always zero.
-* B) Because cosine similarity is $\frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\| \|\mathbf{v}\|}$, and when both vectors are unit-normalized (length 1), the denominator equals 1.
+* B) Because cosine similarity is (u · v) / (‖u‖ × ‖v‖), and when both vectors are unit-normalized (length 1), the denominator equals 1.
 * C) Because dot products can only be calculated on 2-dimensional vectors.
 * D) Because neural networks only output vectors with values of 0 or 1.
 

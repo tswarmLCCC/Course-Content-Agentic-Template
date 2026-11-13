@@ -36,7 +36,7 @@ flowchart LR
 Students complete these materials independently before the first live classroom meeting:
 
 1. **Assigned Primary Reading** (35 min):
-   - [Unit 1 Reading: The Relational Foundation](../../content/readings/unit_01_relational_foundation.md)
+   - **Unit 1 Reading: The Relational Foundation** (content/readings/unit_01_relational_foundation.md)
 2. **Curated Outside Readings** (20 min):
    - *DuckDB: An In-Process Analytical Database Management System* (Raasveldt & Mühleisen, CWI): Explains columnar vectorization and why DuckDB outperforms traditional row stores like SQLite or PostgreSQL for analytical scans. ([Read Online](https://duckdb.org/why_duckdb))
    - *Designing Data-Intensive Applications: Chapter 11 (Stream & Temporal Processing)* by Martin Kleppmann: Section on event time versus processing time.
@@ -60,8 +60,8 @@ Students complete these materials independently before the first live classroom 
   - Plot three maintenance events: `E_1` (10:00), `E_2` (13:30), `E_3` (15:45).
   - Walk through student proposals on how to prevent `E_3` from entering the training row.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
-  - **Presentation Deck**: [Unit 1 Coding Clinic Slides (.pptx)](../../content/slides/unit_01_coding_clinic.pptx)
-  - **Interactive Companion**: Open [Unit 1 Transition Notebook: `unit_01_ds_to_engine.ipynb`](../../content/notebooks/unit_01_ds_to_engine.ipynb)
+  - **Presentation Deck**: **Unit 1 Coding Clinic Slides (.pptx)** (content/slides/unit_01_coding_clinic.pptx)
+  - **Interactive Companion**: Open **Unit 1 Transition Notebook: `unit_01_ds_to_engine.ipynb`** (content/notebooks/unit_01_ds_to_engine.ipynb)
   - **"I Do" (15m)**: Inspect Dr. Elena Rostova's data science prototype (`pd.merge_asof`). Run the scale stress-test against 300,000 records to expose the single-threaded sorting bottleneck and memory bloat.
   - **"We Do" (15m)**: Live code-along refactoring the logic into native **DuckDB SQL (`ASOF LEFT JOIN`)** on compressed Parquet with projection pushdown. Run the quality gate asserting 100% mathematical parity and execute the benchmark proving the 4.4x speedup!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
@@ -73,7 +73,7 @@ Students complete these materials independently before the first live classroom 
 Students complete pre-lab tasks before entering the live hack session:
 
 1. **Assigned Lab Reading** (25 min):
-   - [Unit 1 Lab Guide: Feature Matrix Pipeline](../../content/labs/unit_01_feature_matrix_lab.md)
+   - **Unit 1 Lab Guide: Feature Matrix Pipeline** (content/labs/unit_01_feature_matrix_lab.md)
 2. **Instructor Lab Walkthrough Video** (15 min):
    - Watch **Instructor Video 2** (Recorded using Script 2 below).
 3. **Hands-On Setup & Challenge 1 Scaffolding** (35 min):

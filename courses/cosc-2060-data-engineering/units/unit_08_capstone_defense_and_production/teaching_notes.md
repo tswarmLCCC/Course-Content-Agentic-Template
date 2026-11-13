@@ -37,7 +37,7 @@ flowchart LR
 Students complete these materials independently before the first live classroom meeting:
 
 1. **Assigned Primary Reading** (35 min):
-   - [Unit 8 Reading: Capstone Defense & Production Handoff](../../content/readings/unit_08_capstone_defense.md)
+   - **Unit 8 Reading: Capstone Defense & Production Handoff** (content/readings/unit_08_capstone_defense.md)
 2. **Curated Outside Readings** (20 min):
    - *Docker Multi-Stage Build Best Practices* (Official Docker Documentation): How to separate heavy compilation toolchains from the lean production runtime.
    - *Google Cloud: Production Readiness Review (PRR) Guide*: Industry criteria for deploying critical data infrastructure into enterprise production.
@@ -62,8 +62,8 @@ Students complete these materials independently before the first live classroom 
     - Stage 2 (Runtime): Clean minimal slim image -> copy only installed wheels -> copy app source.
   - Show how image size shrinks from 1.8GB down to 180MB!
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
-  - **Presentation Deck**: [Unit 8 Coding Clinic Slides (.pptx)](../../content/slides/unit_08_coding_clinic.pptx)
-  - **Interactive Companion**: Open [Unit 8 Transition Notebook: `unit_08_ds_to_engine.ipynb`](../../content/notebooks/unit_08_ds_to_engine.ipynb)
+  - **Presentation Deck**: **Unit 8 Coding Clinic Slides (.pptx)** (content/slides/unit_08_coding_clinic.pptx)
+  - **Interactive Companion**: Open **Unit 8 Transition Notebook: `unit_08_ds_to_engine.ipynb`** (content/notebooks/unit_08_ds_to_engine.ipynb)
   - **"I Do" (15m)**: Inspect Dr. Anton Weber's capstone prototype with hardcoded local paths and unpinned dependencies ('works on my machine'). Run it on a blind evaluation batch to witness fatal deployment crashes and dirty data poisoning.
   - **"We Do" (15m)**: Live code-along refactoring into an immutable **Docker container** with a defensive **Pytest** data contract validation suite. Verify 100% test pass on Dead-Letter Queue isolation, fraud alerting, and multimodal grounding!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
@@ -75,7 +75,7 @@ Students complete these materials independently before the first live classroom 
 Students complete pre-lab tasks before entering the live hack session:
 
 1. **Assigned Lab Reading** (25 min):
-   - [Unit 8 Lab Guide: Capstone Defense & Blind Batch Verification](../../content/labs/unit_08_capstone_defense_lab.md)
+   - **Unit 8 Lab Guide: Capstone Defense & Blind Batch Verification** (content/labs/unit_08_capstone_defense_lab.md)
 2. **Instructor Lab Walkthrough Video** (15 min):
    - Watch **Instructor Video 2** (Recorded using Script 2 below).
 3. **Local Setup & Challenge 1 Scaffolding** (35 min):

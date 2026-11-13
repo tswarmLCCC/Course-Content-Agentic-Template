@@ -23,7 +23,7 @@ An AI model by itself is simply a next-token predictor. It cannot check current 
 
 Historically, every company invented its own ad-hoc, proprietary framework to connect LLMs to databases. This led to dangerous security vulnerabilities, brittle integrations, and massive code duplication.
 
-In 2024, the industry converged around an open standard: the **Model Context Protocol (MCP)**. Developed by Anthropic and adopted across the AI ecosystem, MCP is the **"USB-C standard for AI applications"**. It establishes an open, standardized, secure client-server protocol where AI models discover and invoke backend data tools through structured JSON-RPC messages.
+In 2024, the industry converged around an open standard: the **Model Context Protocol (MCP)**. Developed by Anthropic and adopted across the AI ecosystem, MCP is the **"USB-C standard for AI applications"**. It establishes an open, standardized, secure client-server protocol where AI models discover and invoke backend data tools through structured **JSON-RPC** messages (Remote Procedure Call formatted as JSON—a simple standard for calling a named function and passing arguments over text).
 
 ```
 HUMAN OPERATOR ──> LLM AGENT ──(JSON-RPC Request)──> MCP SERVER ──> DAAS BACKEND (DuckDB / Polars / RAG)
@@ -442,7 +442,7 @@ MCP Server Response: {"jsonrpc": "2.0", "id": 1, "result": {"content": [{"type":
 
 Try these three exercises in your GitHub Codespaces sandbox (`units/unit_06_agentic_interfaces_and_mcp/`) before starting the graded lab:
 
-1. **Exercise 1 (Inspecting Tool Schemas):** Run `coding_clinic.py` and inspect the output of `tools/list`. Check how every required parameter is listed in both `properties` and `required`.
+1. **Exercise 1 (Inspecting Tool Schemas):** Run `coding_clinic.ipynb` and inspect the output of `tools/list`. Check how every required parameter is listed in both `properties` and `required`.
 2. **Exercise 2 (Testing SQL Injection Rejection):** Try passing `"219; DROP TABLE routes;"` as the `truck_id` argument in a `tools/call` request. Confirm that our integer type validation rejects the string immediately before any database query can run.
 3. **Exercise 3 (Adding a Cap to `limit`):** Write a tool function `get_recent_anomalies(limit: int = 5)` that rejects `limit < 1` or `limit > 25`, ensuring an agent can never accidentally dump 1,000,000 rows in a single call.
 

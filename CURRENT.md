@@ -5,8 +5,8 @@
 - **Active Target**: `courses/cosc-2060-data-engineering`
 - **Target Title**: COSC 2060: Modern Data Engineering & AI Infrastructure
 - **Target Path**: `courses/cosc-2060-data-engineering/`
-- **Active Iteration**: `specs/009-pedagogical-scaffolding-and-syllabus-alignment` (Stage 4: Completed & Verified)
-- **Status**: Complete 8-Unit Ecosystem (`COSC_2060_Complete.imscc`) with LCCC `.docx` & DesignPLUS Syllabus Alignment, Orientation Lab Onboarding & AI Data Shapes Guide, Bottom-Up Pedagogical Scaffolding (`Part 0` Warm-Ups, Target Data Shapes, Source Systems, Ground-Up Code Ramp-Up), and Synchronized GitHub Codespaces Student Sandbox (`https://github.com/tswarmLCCC/COSC-2060-Student-Sandbox.git`).
+- **Active Iteration**: `specs/011-sophomore-readability-and-pdf-spotcheck` (Stage 4: Completed & Verified)
+- **Status**: Complete 8-Unit Ecosystem (`COSC_2060_Complete.imscc` + `COSC_2060_Course_Book.pdf`) with GitHub-Only Lab Submissions, LCCC `.docx` & DesignPLUS Syllabus Alignment, Audited Orientation A & B Guides, Zero-Leak HTML/PDF Code-Block & LaTeX Rendering, Hybrid `.ipynb` Coding Clinics + `# %%` `.py` Lab Starters, Sophomore Readability Polish across Units 2–8, and Synchronized GitHub Codespaces Student Sandbox (`https://github.com/tswarmLCCC/COSC-2060-Student-Sandbox.git`, commit `3fdc27a`).
 
 ---
 

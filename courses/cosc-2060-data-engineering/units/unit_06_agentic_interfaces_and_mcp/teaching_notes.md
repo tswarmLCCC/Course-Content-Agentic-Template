@@ -38,7 +38,7 @@ flowchart LR
 Students complete these materials independently before the first live classroom meeting:
 
 1. **Assigned Primary Reading** (35 min):
-   - [Unit 6 Reading: The Agentic Interface (MCP)](../../content/readings/unit_06_agentic_interface_mcp.md)
+   - **Unit 6 Reading: The Agentic Interface (MCP)** (content/readings/unit_06_agentic_interface_mcp.md)
 2. **Curated Outside Readings** (20 min):
    - *Model Context Protocol Official Specification* (Anthropic / ModelContextProtocol.io): Focus on the `tools/list` and `tools/call` JSON-RPC message structures.
    - *OWASP Top 10 for LLM Applications: LLM08 (Excessive Agency)*: Why granting autonomous systems unconstrained database write access violates basic security principles.
@@ -62,8 +62,8 @@ Students complete these materials independently before the first live classroom 
     - User -> LLM -> JSON-RPC `tools/call` -> MCP Server Firewall -> Python Function -> Read-Only Data Store.
   - Show why the LLM can never execute `DELETE` or `DROP` because those functions do not exist in the tool manifest.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
-  - **Presentation Deck**: [Unit 6 Coding Clinic Slides (.pptx)](../../content/slides/unit_06_coding_clinic.pptx)
-  - **Interactive Companion**: Open [Unit 6 Transition Notebook: `unit_06_ds_to_engine.ipynb`](../../content/notebooks/unit_06_ds_to_engine.ipynb)
+  - **Presentation Deck**: **Unit 6 Coding Clinic Slides (.pptx)** (content/slides/unit_06_coding_clinic.pptx)
+  - **Interactive Companion**: Open **Unit 6 Transition Notebook: `unit_06_ds_to_engine.ipynb`** (content/notebooks/unit_06_ds_to_engine.ipynb)
   - **"I Do" (15m)**: Inspect Dr. Samantha Reed's manual prompt formatting script. Demonstrate why autonomous AI agents (Claude, Cursor, custom agents) cannot parse free-form text or interact without an RPC interface.
   - **"We Do" (15m)**: Live code-along refactoring into a **Model Context Protocol (MCP)** JSON-RPC 2.0 server using `@server.register_tool()`. Simulate an autonomous agent calling `tools/list` and executing `tools/call` at 140,000+ dispatches per second!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
@@ -75,7 +75,7 @@ Students complete these materials independently before the first live classroom 
 Students complete pre-lab tasks before entering the live hack session:
 
 1. **Assigned Lab Reading** (25 min):
-   - [Unit 6 Lab Guide: Building a Secure Logistics MCP Server](../../content/labs/unit_06_mcp_server_lab.md)
+   - **Unit 6 Lab Guide: Building a Secure Logistics MCP Server** (content/labs/unit_06_mcp_server_lab.md)
 2. **Instructor Lab Walkthrough Video** (15 min):
    - Watch **Instructor Video 2** (Recorded using Script 2 below).
 3. **Local Setup & Challenge 1 Scaffolding** (35 min):

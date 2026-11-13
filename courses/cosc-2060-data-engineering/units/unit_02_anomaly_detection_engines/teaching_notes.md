@@ -36,11 +36,11 @@ flowchart LR
 Students complete these materials independently before the first live classroom meeting:
 
 1. **Assigned Primary Reading** (35 min):
-   - [Unit 2 Reading: The Anomaly Engine](../../content/readings/unit_02_anomaly_engine.md)
+   - **Unit 2 Reading: The Anomaly Engine** (content/readings/unit_02_anomaly_engine.md)
 2. **Curated Outside Readings** (20 min):
    - *Polars: Blazingly Fast DataFrames in Rust & Python* by Ritchie Vink ([pola.rs](https://pola.rs)): Focus on how Apache Arrow contiguous memory buffers prevent Python object overhead.
    - *Isolation Forest: Fast Anomaly Detection for Complex Datasets* (Liu, Ting, Zhou, IEEE): Foundational whitepaper explaining why path length in random trees isolates outliers faster than distance metrics.
-   - [Reference Benchmark: Pandas vs. Polars Memory Footprint](../../content/reference/pandas_vs_polars_memory_benchmark.md): Local experimental evidence comparing RAM allocation on 1,000,000 records.
+   - **Reference Benchmark: Pandas vs. Polars Memory Footprint** (content/reference/pandas_vs_polars_memory_benchmark.md): Local experimental evidence comparing RAM allocation on 1,000,000 records.
 3. **Curated Outside Video** (10 min):
    - *Ritchie Vink: Why Polars is Fast* (PyData Global, 15 min clip): Watch for how Polars parallelizes operations across all CPU cores without Python Global Interpreter Lock (GIL) contention.
 4. **Instructor Concept Video** (10 min):
@@ -61,8 +61,8 @@ Students complete these materials independently before the first live classroom 
     - Polars: Lazy query plan tree optimization (predicate pushdown, projection pruning).
   - Walk through how Polars only loads the required columns into memory.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
-  - **Presentation Deck**: [Unit 2 Coding Clinic Slides (.pptx)](../../content/slides/unit_02_coding_clinic.pptx)
-  - **Interactive Companion**: Open [Unit 2 Transition Notebook: `unit_02_ds_to_engine.ipynb`](../../content/notebooks/unit_02_ds_to_engine.ipynb)
+  - **Presentation Deck**: **Unit 2 Coding Clinic Slides (.pptx)** (content/slides/unit_02_coding_clinic.pptx)
+  - **Interactive Companion**: Open **Unit 2 Transition Notebook: `unit_02_ds_to_engine.ipynb`** (content/notebooks/unit_02_ds_to_engine.ipynb)
   - **"I Do" (15m)**: Inspect Dr. Marcus Vance's data science prototype using Pandas `df.groupby('vehicle_id').apply(...)`. Run the scale test on 600,000 telemetry rows to witness the Python GIL peg a single CPU core and inflate memory.
   - **"We Do" (15m)**: Live code-along refactoring the pipeline into **Polars LazyFrame expressions** with `.over('vehicle_id')`. Run the quality gate confirming identical anomaly flags and execute the benchmark demonstrating an 18.9x multi-threaded speedup!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Prep**:
@@ -74,7 +74,7 @@ Students complete these materials independently before the first live classroom 
 Students complete pre-lab tasks before entering the live hack session:
 
 1. **Assigned Lab Reading** (25 min):
-   - [Unit 2 Lab Guide: Anomaly Pipeline Lab](../../content/labs/unit_02_anomaly_pipeline_lab.md)
+   - **Unit 2 Lab Guide: Anomaly Pipeline Lab** (content/labs/unit_02_anomaly_pipeline_lab.md)
 2. **Instructor Lab Walkthrough Video** (15 min):
    - Watch **Instructor Video 2** (Recorded using Script 2 below).
 3. **Dataset Generation & Challenge 1 Scaffolding** (35 min):

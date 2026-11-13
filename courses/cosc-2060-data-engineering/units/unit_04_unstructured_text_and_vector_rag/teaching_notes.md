@@ -37,7 +37,7 @@ flowchart LR
 Students complete these materials independently before the first live classroom meeting:
 
 1. **Assigned Primary Reading** (35 min):
-   - [Unit 4 Reading: Unstructured Text & Vector Search](../../content/readings/unit_04_unstructured_text_rag.md)
+   - **Unit 4 Reading: Unstructured Text & Vector Search** (content/readings/unit_04_unstructured_text_rag.md)
 2. **Curated Outside Readings** (20 min):
    - *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks* (Lewis et al., Meta AI / NeurIPS): The foundational paper establishing RAG architecture.
    - *Lost in the Middle: How Language Models Use Long Contexts* (Liu et al., Stanford / UC Berkeley): Demonstrating why retrieving too many chunks (`k > 10`) causes LLMs to ignore critical facts placed in the center of prompts.
@@ -64,8 +64,8 @@ Students complete these materials independently before the first live classroom 
     - `w`: `"replaced windshield wiper blade"` (`theta = 88^circ`, `costheta = 0.03`)
   - Demonstrate why dot product equals cosine similarity when vector lengths are normalized to $1.0$.
 - **00:35 – 01:05 | Coding Clinic: "I Do, We Do" (DS-to-DE Transition Notebook)**:
-  - **Presentation Deck**: [Unit 4 Coding Clinic Slides (.pptx)](../../content/slides/unit_04_coding_clinic.pptx)
-  - **Interactive Companion**: Open [Unit 4 Transition Notebook: `unit_04_ds_to_engine.ipynb`](../../content/notebooks/unit_04_ds_to_engine.ipynb)
+  - **Presentation Deck**: **Unit 4 Coding Clinic Slides (.pptx)** (content/slides/unit_04_coding_clinic.pptx)
+  - **Interactive Companion**: Open **Unit 4 Transition Notebook: `unit_04_ds_to_engine.ipynb`** (content/notebooks/unit_04_ds_to_engine.ipynb)
   - **"I Do" (15m)**: Inspect Dr. Maya Lin's maintenance search prototype using Scikit-Learn `TfidfVectorizer` and cosine similarity. Demonstrate the catastrophic lexical mismatch where searching 'coolant leak' gives score 0.00 to an overheating ticket.
   - **"We Do" (15m)**: Live code-along refactoring into **ChromaDB** with dense neural embeddings and metadata filtering. Run the semantic recall assertion proving the synonym ticket surfaces as Rank #1 while enforcing the `zone='rockies'` constraint!
 - **01:05 – 01:15 | Exit Ticket & Slot 3 Roadmap**:
@@ -77,7 +77,7 @@ Students complete these materials independently before the first live classroom 
 Students complete pre-lab tasks before entering the live hack session:
 
 1. **Assigned Lab Reading** (25 min):
-   - [Unit 4 Lab Guide: Maintenance RAG Ingestion Pipeline](../../content/labs/unit_04_maintenance_rag_lab.md)
+   - **Unit 4 Lab Guide: Maintenance RAG Ingestion Pipeline** (content/labs/unit_04_maintenance_rag_lab.md)
 2. **Instructor Lab Walkthrough Video** (15 min):
    - Watch **Instructor Video 2** (Recorded using Script 2 below).
 3. **Local Setup & Challenge 1 Scaffolding** (35 min):
@@ -237,7 +237,7 @@ self.embeddings = raw_vecs / norms
 Why do we divide by `norms`?
 Because cosine similarity is defined as:
 `CosSim(u, v) = frac{u cdot v{|u| |v|`
-If we pre-normalize all our vectors so that `|u| = 1` and `|v| = 1`, then the denominator is simply $1 \times 1 = 1$!
+If we pre-normalize all our vectors so that `|u| = 1` and `|v| = 1`, then the denominator is simply $11 × 1 = 1!
 Cosine similarity reduces to a fast dot product:
 `similarities = np.dot(self.embeddings, query_vec.T)`
 This runs in sub-millisecond time on a standard CPU."
